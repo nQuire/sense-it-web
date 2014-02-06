@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+
+<div class="header">
+    <h1>Projects</h1>
+</div>
+<div class="content">
+
+    <div class="pure-g-r">
+        <div ng-repeat="project in projects" class="pure-u-1 pure-u-1-3">
+            <div class="project-list-item">
+                <div class="project-list-item-header">
+                    <h2>{{project.title}}</h2>
+
+                    <div>Sense-it</div>
+                </div>
+                <ul class="project-list-item-rows">
+                    <li>3 members</li>
+                    <li>
+                        <button class="pure-button pure-button-primary" ui-sref="project-view({projectId: project.id})">View</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+</div>

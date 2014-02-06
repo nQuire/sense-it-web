@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+
+<div class="header">
+    <h1>Create new project</h1>
+</div>
+<div class="content">
+    <p>You can create your own projects in this page, and make them available so that other users can join and
+        contribute.</p>
+
+    <p>Please note that in order to protect the users of this website, projects with offensive content will be removed;
+        their creators may be banned from the site. </p>
+
+    <p>All projects need to be reviewed by an admin before they are made public. Therefore, it may take some time for
+        your project to be public. </p>
+
+
+    <form class="pure-form pure-form-stacked">
+        <fieldset>
+            <label for="iunderstand">
+                <input id="iunderstand" type="checkbox" ng-model="iunderstand"> I understand the rules.
+            </label>
+        </fieldset>
+
+        <fieldset ng-if="iunderstand">
+
+            <label for="type">Project type</label>
+            <select id="type" ng-model="form.values.type">
+                <option value>Select project type</option>
+                <option value="senseit">Sense-it project</option>
+            </select>
+
+            <div ng-switch="form.values.type">
+                <div ng-switch-when="senseit">
+                    <label for="title">Project title</label>
+                    <input id="title" type="text" placeholder="Title" ng-model="form.values.title">
+
+                    <label for="description">Project description</label>
+                    <textarea id="description" placeholder="description" ng-model="form.values.description"></textarea>
+
+                    <button class="pure-button pure-button-primary" ng-disabled="form.okButtonDisabled()"
+                            ng-click="form.save()">Create project
+                    </button>
+                    <button class="pure-button pure-button-primary" ng-disabled="form.resetButtonDisabled()"
+                            ng-click="form.reset()">Reset
+                    </button>
+
+                </div>
+                <div ng-switch-default></div>
+            </div>
+        </fieldset>
+    </form>
+
+</div>
