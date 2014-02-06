@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.greengin.senseitweb.entities.Project;
 import org.greengin.senseitweb.persistence.EMF;
-import org.greengin.senseitweb.rs.requestdata.ProjectMetadata;
+import org.greengin.senseitweb.rs.requestdata.ProjectCreation;
 
 @Path("/projects")
 public class ProjectListService {
@@ -25,18 +25,18 @@ public class ProjectListService {
 		EntityManager em = EMF.get().createEntityManager();
 		Query query = em.createQuery(String.format("select from %s", Project.class.getName()));
 		return (List<Project>) query.getResultList();
-		
 	}
 	
 	@POST
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Long create(ProjectMetadata projectMetadata) {
+	public String create(ProjectCreation projectData) {
 		EntityManager em = EMF.get().createEntityManager();
 		Project project = new Project();
-		projectMetadata.updateProject(project);
+		projectData.initProject(project);
+		
 		em.persist(project);
-		em.close();		
+		em.refresh(project);
 		return project.getId();
 	}
 	

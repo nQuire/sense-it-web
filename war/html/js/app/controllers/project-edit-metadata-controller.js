@@ -2,8 +2,10 @@
 
 
 angular.module('senseItWeb', null, null).controller('ProjectEditMetadataCtrl', function ($scope, $state, ProjectService) {
-    $scope.form = new siwFormManager($scope.data.project, ['title', 'description'], function() {
-        ProjectService.saveMetadata($scope.data.project);
+    $scope.form = new siwFormManager($scope.project, ['title', 'description'], function() {
+        ProjectService.saveMetadata($scope.project.id).then(function(response) {
+            console.log('updated: ' + response.data);
+        });
     });
 
 });

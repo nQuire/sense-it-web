@@ -1,7 +1,7 @@
 
 
 
-angular.module('senseItWeb', null, null).controller('CreateCtrl', function ($scope, $state, RestService) {
+angular.module('senseItWeb', null, null).controller('CreateCtrl', function ($scope, $state, ProjectService) {
     $scope.iunderstand = false;
 
     $scope.form = {
@@ -10,8 +10,7 @@ angular.module('senseItWeb', null, null).controller('CreateCtrl', function ($sco
             this.isOpen = false;
         },
         save: function() {
-            RestService.post('api/projects', this.values).then(function(response) {
-                var id = response.data;
+            ProjectService.createProject(this.values).then(function(id) {
                 $state.go('project-edit', { projectId: id });
             });
         },

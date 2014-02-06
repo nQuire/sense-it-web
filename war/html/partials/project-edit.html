@@ -2,13 +2,18 @@
 
 <div ng-if="data.ready">
     <div class="header">
-        <h1>Edit project: {{data.project.title}}</h1>
+        <h1>Edit project: {{project.title}}</h1>
     </div>
     <div class="content">
         <h2 class="content-subhead">Project description</h2>
 
         <div ng-include src="'html/partials/project-edit-metadata.html'" ng-controller="ProjectEditMetadataCtrl"></div>
 
+        <div ng-switch="project.type">
+            <div ng-switch-when="senseit">
+                <div ng-include="'html/partials/project-edit-senseit.html'" ng-controller="ProjectEditSenseItCtrl"></div>
+            </div>
+        </div>
     </div>
 
 </div>

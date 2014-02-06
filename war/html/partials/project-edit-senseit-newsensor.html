@@ -4,15 +4,12 @@
 <div ng-if="form.isOpen()">
     <form class="pure-form pure-form-stacked">
         <fieldset>
-            <label for="title">Project title</label>
-            <input id="title" type="text" placeholder="Title" ng-model="form.values.title">
-
-            <label for="description">Project description</label>
-            <textarea id="description" placeholder="description" ng-model="form.values.description"></textarea>
+            <label for="title">Select sensor type to be recorded</label>
+            <input id="title" type="text" placeholder="Title" ng-model="form.values.sensor">
 
             <button class="pure-button pure-button-primary pure-button-small" ng-disabled="form.okButtonDisabled()"
                     ng-click="form.save()">
-                Save
+                Create
             </button>
             <button class="pure-button pure-button-primary pure-button-small" ng-disabled="form.resetButtonDisabled()"
                     ng-click="form.cancel()">
@@ -22,9 +19,6 @@
     </form>
 </div>
 <div ng-if="!form.isOpen()">
-    <p>Title: {{project.title}}</p>
-
-    <p>Description: {{project.description}}</p>
-    <button class="pure-button pure-button-primary pure-button-small" ng-click="form.open()">Edit</button>
+    <button class="pure-button pure-button-primary pure-button-small" ng-click="form.open()">Add sensor input</button>
 </div>
 

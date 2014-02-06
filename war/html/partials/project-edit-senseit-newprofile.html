@@ -4,15 +4,12 @@
 <div ng-if="form.isOpen()">
     <form class="pure-form pure-form-stacked">
         <fieldset>
-            <label for="title">Project title</label>
+            <label for="title">New data logging profile title</label>
             <input id="title" type="text" placeholder="Title" ng-model="form.values.title">
-
-            <label for="description">Project description</label>
-            <textarea id="description" placeholder="description" ng-model="form.values.description"></textarea>
 
             <button class="pure-button pure-button-primary pure-button-small" ng-disabled="form.okButtonDisabled()"
                     ng-click="form.save()">
-                Save
+                Create
             </button>
             <button class="pure-button pure-button-primary pure-button-small" ng-disabled="form.resetButtonDisabled()"
                     ng-click="form.cancel()">
@@ -22,9 +19,6 @@
     </form>
 </div>
 <div ng-if="!form.isOpen()">
-    <p>Title: {{project.title}}</p>
-
-    <p>Description: {{project.description}}</p>
-    <button class="pure-button pure-button-primary pure-button-small" ng-click="form.open()">Edit</button>
+    <button class="pure-button pure-button-primary pure-button-small" ng-click="form.open()">Add profile</button>
 </div>
 

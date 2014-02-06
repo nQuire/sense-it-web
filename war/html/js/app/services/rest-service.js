@@ -8,6 +8,9 @@ angular.module('senseItServices', null, null).factory('RestService', ['$http', f
         },
         post: function(path, data) {
             return $http.post(path, data);
+        },
+        put: function(path, data) {
+            return $http.put(path, data);
         }
     };
 
