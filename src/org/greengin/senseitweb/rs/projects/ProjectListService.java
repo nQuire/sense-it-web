@@ -1,4 +1,4 @@
-package org.greengin.senseitweb.rs;
+package org.greengin.senseitweb.rs.projects;
 
 import java.util.List;
 
@@ -11,9 +11,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.greengin.senseitweb.entities.Project;
+import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.persistence.EMF;
-import org.greengin.senseitweb.rs.requestdata.ProjectCreation;
 
 @Path("/projects")
 public class ProjectListService {
@@ -30,7 +29,7 @@ public class ProjectListService {
 	@POST
 	@Consumes("application/json")
 	@Produces("application/json")
-	public String create(ProjectCreation projectData) {
+	public String create(ProjectCreationRequest projectData) {
 		EntityManager em = EMF.get().createEntityManager();
 		Project project = new Project();
 		projectData.initProject(project);

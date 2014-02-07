@@ -7,6 +7,10 @@ var siwFormManager = function(object, keys, saveCallback) {
     this.saveCallback = saveCallback;
 };
 
+siwFormManager.prototype.setObject = function(object) {
+    this.object = object;
+};
+
 
 siwFormManager.prototype._copyValues = function(from, to) {
     for (var i = 0; i < this.keys.length; i++) {

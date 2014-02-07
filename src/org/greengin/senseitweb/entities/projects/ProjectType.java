@@ -1,4 +1,4 @@
-package org.greengin.senseitweb.entities;
+package org.greengin.senseitweb.entities.projects;
 
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonValue;
@@ -6,7 +6,8 @@ import org.codehaus.jackson.annotate.JsonValue;
 
 
 public enum ProjectType {
-	SENSEIT;
+	SENSEIT,
+	CHALLENGE;
 	
 	@JsonValue
     public String getValue() { return this.name().toLowerCase(); }
@@ -19,6 +20,6 @@ public enum ProjectType {
                 return unit;
             }
         }
-        return SENSEIT;
+        return CHALLENGE;
     }
 }

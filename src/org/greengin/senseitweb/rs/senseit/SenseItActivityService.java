@@ -1,4 +1,4 @@
-package org.greengin.senseitweb.rs;
+package org.greengin.senseitweb.rs.senseit;
 
 import javax.persistence.EntityManager;
 import javax.ws.rs.Consumes;
@@ -9,14 +9,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-import org.greengin.senseitweb.entities.Project;
-import org.greengin.senseitweb.entities.ProjectType;
-import org.greengin.senseitweb.entities.senseit.Profile;
-import org.greengin.senseitweb.entities.senseit.SenseItActivity;
-import org.greengin.senseitweb.entities.senseit.SensorInput;
+import org.greengin.senseitweb.entities.activities.senseit.SenseItProfile;
+import org.greengin.senseitweb.entities.activities.senseit.SenseItActivity;
+import org.greengin.senseitweb.entities.activities.senseit.SensorInput;
+import org.greengin.senseitweb.entities.projects.Project;
+import org.greengin.senseitweb.entities.projects.ProjectType;
 import org.greengin.senseitweb.persistence.EMF;
-import org.greengin.senseitweb.rs.requestdata.ProfileData;
-import org.greengin.senseitweb.rs.requestdata.SensorInputData;
 
 @Path("/project/{projectId}/senseit")
 public class SenseItActivityService {
@@ -25,14 +23,14 @@ public class SenseItActivityService {
 	@POST
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Project create(@PathParam("projectId") String projectId, ProfileData profileData) {
+	public Project create(@PathParam("projectId") String projectId, SenseItProfileRequest profileData) {
 		EntityManager em = EMF.get().createEntityManager();
 		Project project = em.find(Project.class, projectId);
 		if (project.getType() == ProjectType.SENSEIT && project.getActivity() instanceof SenseItActivity) {
 			SenseItActivity activity = (SenseItActivity) project.getActivity();
 
 			em.getTransaction().begin();
-			Profile profile = new Profile();
+			SenseItProfile profile = new SenseItProfile();
 			profileData.updateProfile(profile);
 			activity.getProfiles().add(profile);
 			em.persist(profile);
@@ -49,10 +47,10 @@ public class SenseItActivityService {
 	@PUT
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Project update(@PathParam("projectId") String projectId, @PathParam("profileId") String profileId, ProfileData profileData) {
+	public Project update(@PathParam("projectId") String projectId, @PathParam("profileId") String profileId, SenseItProfileRequest profileData) {
 		EntityManager em = EMF.get().createEntityManager();
 
-		Profile profile = em.find(Profile.class, profileId);
+		SenseItProfile profile = em.find(SenseItProfile.class, profileId);
 
 		em.getTransaction().begin();
 		profileData.updateProfile(profile);
@@ -69,7 +67,7 @@ public class SenseItActivityService {
 	public Project delete(@PathParam("projectId") String projectId, @PathParam("profileId") String profileId) {
 		EntityManager em = EMF.get().createEntityManager();
 
-		Profile profile = em.find(Profile.class, profileId);
+		SenseItProfile profile = em.find(SenseItProfile.class, profileId);
 
 		em.getTransaction().begin();
 		em.remove(profile);
@@ -85,10 +83,10 @@ public class SenseItActivityService {
 	@POST
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Project create(@PathParam("projectId") String projectId, @PathParam("profileId") String profileId, SensorInputData inputData) {
+	public Project create(@PathParam("projectId") String projectId, @PathParam("profileId") String profileId, SensorInputRequest inputData) {
 		EntityManager em = EMF.get().createEntityManager();
 
-		Profile profile = em.find(Profile.class, profileId);
+		SenseItProfile profile = em.find(SenseItProfile.class, profileId);
 		SensorInput input = new SensorInput();
 		
 		em.getTransaction().begin();
@@ -105,7 +103,7 @@ public class SenseItActivityService {
 	@PUT
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Project update(@PathParam("projectId") String projectId, @PathParam("profileId") String profileId, @PathParam("inputId") String inputId, SensorInputData inputData) {
+	public Project update(@PathParam("projectId") String projectId, @PathParam("profileId") String profileId, @PathParam("inputId") String inputId, SensorInputRequest inputData) {
 		EntityManager em = EMF.get().createEntityManager();
 
 		SensorInput input = em.find(SensorInput.class, inputId);

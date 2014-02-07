@@ -37,8 +37,19 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
         });
     };
 
-    service._updateProjectAction = function(projectId, method, url, data) {
-        return RestService[method](url, data).then(function(response) {
+    /**
+     *
+     * @param {string} projectId
+     * @param {string} method
+     * @param {object} url
+     * @param {object} [data=null]
+     * @returns {object}
+     * @private
+     */
+    service._updateProjectAction = function (projectId, method, url, data) {
+        var promise = data ? RestService[method](url, data) : RestService[method](url);
+        return promise.then(function (response) {
+            console.log(response.data.title);
             service._projectData[projectId].project = response.data;
             return true;
         });

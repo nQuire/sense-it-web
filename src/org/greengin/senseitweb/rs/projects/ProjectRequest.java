@@ -1,8 +1,8 @@
-package org.greengin.senseitweb.rs.requestdata;
+package org.greengin.senseitweb.rs.projects;
 
-import org.greengin.senseitweb.entities.Project;
+import org.greengin.senseitweb.entities.projects.Project;
 
-public class ProjectData {
+public class ProjectRequest {
 	String title;
 	String description;
 	

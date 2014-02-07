@@ -1,4 +1,4 @@
-package org.greengin.senseitweb.entities.senseit;
+package org.greengin.senseitweb.entities.activities.senseit;
 
 import java.util.Collection;
 
@@ -14,7 +14,7 @@ import javax.persistence.OneToMany;
 import org.datanucleus.jpa.annotations.Extension;
 
 @Entity
-public class Profile {
+public class SenseItProfile {
 
 	@Id
 	@Column(nullable = false)

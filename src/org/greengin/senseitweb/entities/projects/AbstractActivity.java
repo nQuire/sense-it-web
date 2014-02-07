@@ -1,4 +1,4 @@
-package org.greengin.senseitweb.entities;
+package org.greengin.senseitweb.entities.projects;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;

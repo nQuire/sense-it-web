@@ -31,7 +31,12 @@ angular.module('senseItWeb', ['senseItServices', 'ui.router'], null).config([
                 url: '/project/{projectId}/edit',
                 templateUrl: 'html/partials/project-edit.html',
                 controller: 'ProjectEditCtrl'
-            });
+            })
+        .state('profile', {
+            url: '/profile',
+            templateUrl: 'html/partials/profile.html',
+            controller: 'ProfileCtrl'
+        });
 
         $urlRouterProvider.otherwise('/home');
     }

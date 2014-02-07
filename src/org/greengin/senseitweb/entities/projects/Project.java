@@ -1,4 +1,4 @@
-package org.greengin.senseitweb.entities;
+package org.greengin.senseitweb.entities.projects;
 
 
 import javax.persistence.Basic;
@@ -14,8 +14,7 @@ import org.datanucleus.jpa.annotations.Extension;
 
 
 @Entity
-public class Project {
-	
+public class Project {	
 
 	public Project() {
 		this.activity = null;

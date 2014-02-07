@@ -1,4 +1,4 @@
-package org.greengin.senseitweb.rs;
+package org.greengin.senseitweb.rs.projects;
 
 
 import javax.persistence.EntityManager;
@@ -11,9 +11,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.greengin.senseitweb.entities.Project;
+import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.persistence.EMF;
-import org.greengin.senseitweb.rs.requestdata.ProjectData;
 
 @Path("/project/{projectId}")
 public class ProjectService {
@@ -42,7 +41,7 @@ public class ProjectService {
 	@PUT
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Project create(@PathParam("projectId") String projectId, ProjectData projectData) {
+	public Project create(@PathParam("projectId") String projectId, ProjectRequest projectData) {
 		EntityManager em = EMF.get().createEntityManager();
 		Project project = em.find(Project.class, projectId);
 		
@@ -50,7 +49,7 @@ public class ProjectService {
 		projectData.updateProject(project);
 		em.getTransaction().commit();
 		
-		return project;
+		return em.find(Project.class, projectId);
 	}
 	
 	

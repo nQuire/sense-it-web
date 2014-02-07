@@ -16,6 +16,21 @@ angular.module('senseItWeb', null, null).controller('ProjectListCtrl', function 
         });
     };
 
+    $scope.projectClass = function(project) {
+        return 'project-' + project.type;
+    };
+
+    $scope.projectTypeLabel = function(project) {
+        switch (project.type) {
+            case 'senseit':
+                return 'Sense-it';
+            case 'challenge':
+                return 'Challenge';
+            default:
+                return 'Other';
+        }
+    };
+
     $scope._update();
 });
 

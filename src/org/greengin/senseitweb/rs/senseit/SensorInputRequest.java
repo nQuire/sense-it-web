@@ -1,8 +1,8 @@
-package org.greengin.senseitweb.rs.requestdata;
+package org.greengin.senseitweb.rs.senseit;
 
-import org.greengin.senseitweb.entities.senseit.SensorInput;
+import org.greengin.senseitweb.entities.activities.senseit.SensorInput;
 
-public class SensorInputData {
+public class SensorInputRequest {
 	String sensor;
 	float rate;
 	

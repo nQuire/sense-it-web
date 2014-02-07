@@ -1,4 +1,4 @@
-package org.greengin.senseitweb.entities.senseit;
+package org.greengin.senseitweb.entities.activities.senseit;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
