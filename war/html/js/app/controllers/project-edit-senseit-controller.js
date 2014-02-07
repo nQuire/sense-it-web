@@ -1,7 +1,7 @@
 
 
 
-angular.module('senseItWeb', null, null).controller('ProjectEditSenseItCtrl', function ($scope, $state, ProjectService) {
+angular.module('senseItWeb', null, null).controller('ProjectEditSenseItCtrl', function ($scope) {
     console.log('senseit create controller');
 
     $scope.$watch('project', function() {

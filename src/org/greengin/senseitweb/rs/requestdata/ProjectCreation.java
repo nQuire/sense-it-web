@@ -4,7 +4,7 @@ import org.greengin.senseitweb.entities.Project;
 import org.greengin.senseitweb.entities.ProjectType;
 import org.greengin.senseitweb.entities.senseit.SenseItActivity;
 
-public class ProjectCreation extends ProjectMetadata {
+public class ProjectCreation extends ProjectData {
 	ProjectType type;
 
 	public ProjectType getType() {

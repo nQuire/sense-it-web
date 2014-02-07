@@ -4,8 +4,15 @@
 <div ng-if="form.isOpen()">
     <form class="pure-form pure-form-stacked">
         <fieldset>
-            <label for="title">Select sensor type to be recorded</label>
-            <input id="title" type="text" placeholder="Title" ng-model="form.values.sensor">
+
+            <select id="sensor" ng-model="form.values.sensor">
+                <option value>Select project type</option>
+                <option value="acc">Accelerometer</option>
+                <option value="snd">Sound</option>
+            </select>
+
+            <label for="rate">Sampling rate</label>
+            <input id="rate" type="number" step="any" placeholder="Sampling rate" ng-model="form.values.rate">
 
             <button class="pure-button pure-button-primary pure-button-small" ng-disabled="form.okButtonDisabled()"
                     ng-click="form.save()">

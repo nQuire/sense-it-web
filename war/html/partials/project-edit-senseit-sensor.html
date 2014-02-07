@@ -4,12 +4,14 @@
 <div ng-if="form.isOpen()">
     <form class="pure-form pure-form-stacked">
         <fieldset>
-            <label for="title">Project title</label>
-            <input id="title" type="text" placeholder="Title" ng-model="form.values.title">
+            <select id="sensor" ng-model="form.values.sensor">
+                <option value>Select sensor type</option>
+                <option value="acc">Accelerometer</option>
+                <option value="snd">Sound</option>
+            </select>
 
-            <label for="description">Project description</label>
-            <textarea id="description" placeholder="description" ng-model="form.values.description"></textarea>
-
+            <label for="rate">Sampling rate (samples/second)</label>
+            <input id="rate" type="number" step="any" placeholder="Sampling rate" ng-model="form.values.rate">
             <button class="pure-button pure-button-primary pure-button-small" ng-disabled="form.okButtonDisabled()"
                     ng-click="form.save()">
                 Save
@@ -22,10 +24,9 @@
     </form>
 </div>
 <div ng-if="!form.isOpen()">
-    <p>Title: {{project.title}}</p>
-
-    <p>Description: {{project.description}}</p>
+    <p>Sensor: {{sensorInput.sensor}}</p>
+    <p>Sampling rate: {{sensorInput.rate}} samples/second</p>
     <button class="pure-button pure-button-primary pure-button-small" ng-click="form.open()">Edit</button>
-    <button class="pure-button pure-button-primary pure-button-small" ng-click="deleteProject()">Delete project</button>
+    <button class="pure-button pure-button-primary pure-button-small" ng-click="deleteInput()">Delete sensor input</button>
 </div>
 

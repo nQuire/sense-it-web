@@ -2,7 +2,7 @@ package org.greengin.senseitweb.rs.requestdata;
 
 import org.greengin.senseitweb.entities.Project;
 
-public class ProjectMetadata {
+public class ProjectData {
 	String title;
 	String description;
 	

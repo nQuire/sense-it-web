@@ -5,7 +5,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,7 +36,7 @@ public class Project {
 	@Basic
 	ProjectType type;
 	
-	@OneToOne(fetch = FetchType.EAGER, optional=false, cascade=CascadeType.PERSIST)
+	@OneToOne(cascade=CascadeType.ALL)
 	AbstractActivity activity;
 	
 	public String getId() {

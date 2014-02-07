@@ -11,6 +11,9 @@ angular.module('senseItServices', null, null).factory('RestService', ['$http', f
         },
         put: function(path, data) {
             return $http.put(path, data);
+        },
+        delete: function(path) {
+            return $http.delete(path);
         }
     };
 

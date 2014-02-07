@@ -1,4 +1,4 @@
-angular.module('senseItWeb', null, null).controller('ProjectEditSenseItProfileCtrl', function ($scope, $state, ProjectService) {
+angular.module('senseItWeb', null, null).controller('ProjectEditSenseItProfileCtrl', function ($scope, ProjectSenseItService) {
     $scope.isNew = typeof $scope.profile === 'undefined';
     if ($scope.isNew) {
         $scope.profile = {};
@@ -6,8 +6,12 @@ angular.module('senseItWeb', null, null).controller('ProjectEditSenseItProfileCt
 
     $scope.form = new siwFormManager($scope.profile, ['title'], function () {
         var method = $scope.isNew ? 'createProfile' : 'updateProfile';
-        ProjectService[method]($scope.project.id, $scope.profile);
+        ProjectSenseItService[method]($scope.project.id, $scope.profile);
     });
+
+    $scope.deleteProfile = function() {
+        ProjectSenseItService.deleteProfile($scope.project.id, $scope.profile.id);
+    };
 
 
 });

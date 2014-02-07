@@ -2,7 +2,7 @@ package org.greengin.senseitweb.rs.requestdata;
 
 import org.greengin.senseitweb.entities.senseit.Profile;
 
-public class ProfileMetadata {
+public class ProfileData {
 	String title;
 	
 	public String getTitle() {

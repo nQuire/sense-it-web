@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('senseItServices', null, null).factory('ProjectService', ['$rootScope', 'RestService', function ($rootScope, RestService) {
+angular.module('senseItServices', null, null).factory('ProjectService', ['RestService', function (RestService) {
 
     var service = {
         _projectData: {}
@@ -31,6 +31,12 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['$rootS
         });
     };
 
+    service.deleteProject = function(projectId) {
+        return RestService.delete('api/project/' + projectId).then(function (response) {
+            return response.data;
+        });
+    };
+
     service._updateProjectAction = function(projectId, method, url, data) {
         return RestService[method](url, data).then(function(response) {
             service._projectData[projectId].project = response.data;
@@ -44,18 +50,6 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['$rootS
         return service._updateProjectAction(projectId, 'put', 'api/project/' + projectId + '/metadata', {
             title: project.title,
             description: project.description
-        });
-    };
-
-    service.createProfile = function (projectId, profile) {
-        return service._updateProjectAction(projectId, 'post', 'api/project/' + projectId + '/senseit/profiles', {
-            title: profile.title
-        });
-    };
-
-    service.updateProfile = function (projectId, profile) {
-        return service._updateProjectAction(projectId, 'put', 'api/project/' + projectId + '/senseit/profile/' + profile.id, {
-            title: profile.title
         });
     };
 
