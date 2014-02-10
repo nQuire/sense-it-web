@@ -1,3 +1,0 @@
-
-angular.module('senseItServices', [], null);
-
