@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+
+<div ng-if="form.isOpen()">
+    <form class="pure-form pure-form-stacked">
+        <fieldset>
+            <label for="title">New data logging profile title</label>
+            <input id="title" type="text" placeholder="Title" ng-model="form.values.title">
+
+            <button class="pure-button pure-button-primary pure-button-small" ng-disabled="form.okButtonDisabled()"
+                    ng-click="form.save()">
+                Create
+            </button>
+            <button class="pure-button pure-button-primary pure-button-small" ng-disabled="form.resetButtonDisabled()"
+                    ng-click="form.cancel()">
+                Cancel
+            </button>
+        </fieldset>
+    </form>
+</div>
+<div ng-if="!form.isOpen()">
+    <button class="pure-button pure-button-primary pure-button-small" ng-click="form.open()">Add profile</button>
+</div>
+

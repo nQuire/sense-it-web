@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+<div ng-if="data.ready">
+    <div class="header">
+        <h1>{{data.project.title}}</h1>
+    </div>
+    <div class="content">
+        <h2 class="content-subhead">Project description</h2>
+
+        <p>{{data.project.description}}</p>
+
+        <button class="pure-button pure-button-primary" ui-sref="project-edit({projectId: data.project.id})">Edit</button>
+    </div>
+
+</div>
+<div ng-if="!data.ready">
+    <div class="header">
+        <div class="throbber"></div>
+        <h2>Loading...</h2>
+    </div>
+</div>

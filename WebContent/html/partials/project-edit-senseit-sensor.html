@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+
+<div ng-if="form.isOpen()">
+    <form class="pure-form pure-form-stacked">
+        <fieldset>
+            <select id="sensor" ng-model="form.values.sensor">
+                <option value>Select sensor type</option>
+                <option value="acc">Accelerometer</option>
+                <option value="snd">Sound</option>
+            </select>
+
+            <label for="rate">Sampling rate (samples/second)</label>
+            <input id="rate" type="number" step="any" placeholder="Sampling rate" ng-model="form.values.rate">
+            <button class="pure-button pure-button-primary pure-button-small" ng-disabled="form.okButtonDisabled()"
+                    ng-click="form.save()">
+                Save
+            </button>
+            <button class="pure-button pure-button-primary pure-button-small" ng-disabled="form.resetButtonDisabled()"
+                    ng-click="form.cancel()">
+                Cancel
+            </button>
+        </fieldset>
+    </form>
+</div>
+<div ng-if="!form.isOpen()">
+    <p>Sensor: {{sensorInput.sensor}}</p>
+    <p>Sampling rate: {{sensorInput.rate}} samples/second</p>
+    <button class="pure-button pure-button-primary pure-button-small" ng-click="form.open()">Edit</button>
+    <button class="pure-button pure-button-primary pure-button-small" ng-click="deleteInput()">Delete sensor input</button>
+</div>
+
