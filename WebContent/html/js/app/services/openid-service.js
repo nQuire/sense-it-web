@@ -17,12 +17,19 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
     
 
     service.update = function() {
-    	return service._request('api/openid/status');
+    	return service._request('api/openid/profile');
     };
     
     service.logout = function() {
     	return service._request('api/openid/logout');
     };
+    
+    service.saveProfile = function() {
+    	return RestService.put('api/openid/profile', {
+    		name: service.status.profile.name
+    	});
+    };
+    
     
     
     service.update();

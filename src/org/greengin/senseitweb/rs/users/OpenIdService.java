@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -27,7 +28,7 @@ public class OpenIdService {
 	@GET
 	@Produces("application/json")
 	public StatusResponse logout(@PathParam("provider") String provider, @Context HttpServletRequest request) {
-		OpenId.instance().logout(request);
+		OpenIdManager.instance().logout(request);
 
 		StatusResponse response = new StatusResponse();
 		response.setLogged(false);
@@ -37,11 +38,11 @@ public class OpenIdService {
 		return response;
 	}
 
-	@Path("/status")
+	@Path("/profile")
 	@GET
 	@Produces("application/json")
-	public StatusResponse status(@PathParam("provider") String provider, @Context HttpServletRequest request) {
-		String id = OpenId.instance().getId(request);
+	public StatusResponse status(@Context HttpServletRequest request) {
+		String id = OpenIdManager.instance().getId(request);
 
 		StatusResponse response = new StatusResponse();
 		if (id == null) {
@@ -64,7 +65,7 @@ public class OpenIdService {
 
 				OpenIdEntity openid = new OpenIdEntity();
 				openid.setOpenId(id);
-				openid.setEmail(OpenId.instance().getEmail(request));
+				openid.setEmail(OpenIdManager.instance().getEmail(request));
 				ids.add(openid);
 
 				profile.setOpenIds(ids);
@@ -81,5 +82,31 @@ public class OpenIdService {
 		}
 
 		return response;
+	}
+	
+	@Path("/profile")
+	@PUT
+	@Produces("application/json")
+	public Boolean update(@Context HttpServletRequest request, ProfileRequest profileData) {
+		String id = OpenIdManager.instance().getId(request);
+
+		if (id != null) {
+			EntityManager em = EMF.get().createEntityManager();
+			Query query = em.createQuery(OPENID_QUERY);
+			query.setParameter("oid", id);
+			List<?> profiles = query.getResultList();
+
+			if (profiles.size() > 0) {
+				
+				em.getTransaction().begin();
+				UserProfile profile = (UserProfile) profiles.get(0);
+				profile.setName(profileData.getName());
+				em.getTransaction().commit();
+				
+				return true;
+			} 
+		}
+
+		return false;
 	}
 }

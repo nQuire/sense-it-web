@@ -14,6 +14,7 @@
 <script>
 
 window.opener.handleOpenIdResponse();
+window.close();
 
 </script>
 

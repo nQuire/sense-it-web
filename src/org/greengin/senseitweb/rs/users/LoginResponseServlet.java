@@ -11,7 +11,7 @@ public class LoginResponseServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		OpenId.instance().updateLoginStatus(request);
+		OpenIdManager.instance().updateLoginStatus(request);
 		response.sendRedirect("status.jsp");
 	}
 }

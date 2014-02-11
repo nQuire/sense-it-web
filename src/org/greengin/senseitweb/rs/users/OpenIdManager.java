@@ -2,6 +2,9 @@ package org.greengin.senseitweb.rs.users;
 
 import java.util.List;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NameNotFoundException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -23,8 +26,10 @@ import org.openid4java.message.ParameterList;
 import org.openid4java.message.ax.AxMessage;
 import org.openid4java.message.ax.FetchRequest;
 import org.openid4java.message.ax.FetchResponse;
+import org.openid4java.util.HttpClientFactory;
+import org.openid4java.util.ProxyProperties;
 
-public class OpenId {
+public class OpenIdManager {
 
 	public enum Provider {
 		GOOGLE, YAHOO;
@@ -46,32 +51,56 @@ public class OpenId {
 		}
 	};
 
-	private static OpenId oi = new OpenId();
+	private static OpenIdManager oi = new OpenIdManager();
 
-	public static OpenId instance() {
+	public static OpenIdManager instance() {
 		return oi;
 	}
 
 	ConsumerManager manager;
-
-	private OpenId() {
-		manager = new ConsumerManager();
-		manager.setAssociations(new InMemoryConsumerAssociationStore());
-		manager.setNonceVerifier(new InMemoryNonceVerifier(5000));
-	}
+	String returnUrl;
 	
+	private OpenIdManager() {
+		try {
+			Context env = (Context) (new InitialContext().lookup("java:comp/env"));
+			this.returnUrl = (String) env.lookup("serverBasePath") + (String) env.lookup("senseItLoginReturnPath");
+			
+			try {
+				String serverHost = (String) env.lookup("serverProxyHostName");
+				int serverPort = (Integer) env.lookup("serverProxyPort");
+				
+				ProxyProperties proxyProps = new ProxyProperties();
+				proxyProps.setProxyHostName(serverHost);
+				proxyProps.setProxyPort(serverPort);
+				HttpClientFactory.setProxyProperties(proxyProps);
+				
+			} catch (NameNotFoundException e) {
+				
+			}
+			
+
+
+			manager = new ConsumerManager();
+			manager.setAssociations(new InMemoryConsumerAssociationStore());
+			manager.setNonceVerifier(new InMemoryNonceVerifier(5000));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public void logout(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		session.removeAttribute("openid");
-        session.removeAttribute("openid-claimed");
+		session.removeAttribute("openid-claimed");
 	}
-	
-	public void redirect(Provider provider, HttpServletRequest request, HttpServletResponse response, ServletContext context) {
+
+	public void redirect(Provider provider, HttpServletRequest request, HttpServletResponse response,
+			ServletContext context) {
 		HttpSession session = request.getSession();
 
 		String identity = getMeIdentity(provider);
 
-		String returnToUrl = "http://localhost/sense-it-web/login/response";
 
 		try {
 			List<?> discoveries = manager.discover(identity);
@@ -81,13 +110,13 @@ public class OpenId {
 			session.setAttribute("openid-disco", discovered);
 
 			// obtain a AuthRequest message to be sent to the OpenID provider
-			AuthRequest authReq = manager.authenticate(discovered, returnToUrl);
+			AuthRequest authReq = manager.authenticate(discovered, this.returnUrl);
 
 			// Attribute Exchange example: fetching the 'email' attribute
 			FetchRequest fetch = FetchRequest.createFetchRequest();
-			fetch.addAttribute("email", "http://schema.openid.net/contact/email", true); 
+			fetch.addAttribute("email", "http://schema.openid.net/contact/email", true);
 			authReq.addExtension(fetch);
-			
+
 			if (!discovered.isVersion2()) {
 				// Option 1: GET HTTP-redirect to the OpenID Provider endpoint
 				// The only method supported in OpenID 1.x
@@ -106,29 +135,27 @@ public class OpenId {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	public String getId(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		Object attr = session.getAttribute("openid");
-		return attr != null ? attr.toString() : null;		
-	}
-	public String getEmail(HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		return session.getAttribute("openid-email").toString();		
+		return attr != null ? attr.toString() : null;
 	}
 
+	public String getEmail(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		return session.getAttribute("openid-email").toString();
+	}
 
 	public void updateLoginStatus(HttpServletRequest request) {
 		try {
 			HttpSession session = request.getSession();
 
-			ParameterList responselist = new ParameterList(
-					request.getParameterMap());
+			ParameterList responselist = new ParameterList(request.getParameterMap());
 			// retrieve the previously stored discovery information
-			DiscoveryInformation discovered = (DiscoveryInformation) session
-					.getAttribute("openid-disco");
+			DiscoveryInformation discovered = (DiscoveryInformation) session.getAttribute("openid-disco");
 			// extract the receiving URL from the HTTP request
 			StringBuffer receivingURL = request.getRequestURL();
 			String queryString = request.getQueryString();
@@ -137,28 +164,25 @@ public class OpenId {
 
 			// verify the response; ConsumerManager needs to be the same
 			// (static) instance used to place the authentication request
-			VerificationResult verification = manager.verify(
-					receivingURL.toString(), responselist, discovered);
+			VerificationResult verification = manager.verify(receivingURL.toString(), responselist, discovered);
 
 			// examine the verification result and extract the verified
 			// identifier
 			Identifier verified = verification.getVerifiedId();
 			if (verified != null) {
-				AuthSuccess authSuccess = (AuthSuccess) verification
-						.getAuthResponse();
-				
+				AuthSuccess authSuccess = (AuthSuccess) verification.getAuthResponse();
+
 				MessageExtension ext = authSuccess.getExtension(AxMessage.OPENID_NS_AX);
-				
+
 				session.setAttribute("openid", authSuccess.getIdentity());
 				session.setAttribute("openid-claimed", authSuccess.getClaimed());
 
 				if (ext instanceof FetchResponse) {
-			        FetchResponse fetchResp = (FetchResponse) ext;
-			        String email = fetchResp.getAttributeValue("email");
+					FetchResponse fetchResp = (FetchResponse) ext;
+					String email = fetchResp.getAttributeValue("email");
 					session.setAttribute("openid-email", email);
-			    }
-				
-				
+				}
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

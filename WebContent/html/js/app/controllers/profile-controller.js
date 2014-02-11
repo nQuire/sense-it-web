@@ -12,6 +12,7 @@ angular.module('senseItWeb', null, null).controller(
 
 			$scope.form = new siwFormManager(null, [ 'name' ], function() {
 				$scope.status.newUser = false;
+				$scope.openIdService.saveProfile();
 			});
 
 			$scope.newUser = function() {
