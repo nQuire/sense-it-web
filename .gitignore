@@ -3,4 +3,5 @@
 .settings
 .buildpath
 build
+src/META-INF/persistence.xml
 

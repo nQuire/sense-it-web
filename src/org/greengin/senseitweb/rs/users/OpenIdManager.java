@@ -32,7 +32,7 @@ import org.openid4java.util.ProxyProperties;
 public class OpenIdManager {
 
 	public enum Provider {
-		GOOGLE, YAHOO;
+		FACEBOOK, GOOGLE, YAHOO;
 
 		@JsonValue
 		public String getValue() {
@@ -58,12 +58,14 @@ public class OpenIdManager {
 	}
 
 	ConsumerManager manager;
+	String realm;
 	String returnUrl;
 	
 	private OpenIdManager() {
 		try {
 			Context env = (Context) (new InitialContext().lookup("java:comp/env"));
-			this.returnUrl = (String) env.lookup("serverBasePath") + (String) env.lookup("senseItLoginReturnPath");
+			this.realm = (String) env.lookup("serverBasePath");
+			this.returnUrl = this.realm + (String) env.lookup("senseItLoginReturnPath");
 			
 			try {
 				String serverHost = (String) env.lookup("serverProxyHostName");
@@ -110,7 +112,7 @@ public class OpenIdManager {
 			session.setAttribute("openid-disco", discovered);
 
 			// obtain a AuthRequest message to be sent to the OpenID provider
-			AuthRequest authReq = manager.authenticate(discovered, this.returnUrl);
+			AuthRequest authReq = manager.authenticate(discovered, this.returnUrl, this.realm);
 
 			// Attribute Exchange example: fetching the 'email' attribute
 			FetchRequest fetch = FetchRequest.createFetchRequest();
@@ -193,6 +195,8 @@ public class OpenIdManager {
 		switch (provider) {
 		case YAHOO:
 			return "https://me.yahoo.com";
+		case FACEBOOK:
+			return "http://facebook-openid.appspot.com/";
 		case GOOGLE:
 		default:
 			return "https://www.google.com/accounts/o8/id";
