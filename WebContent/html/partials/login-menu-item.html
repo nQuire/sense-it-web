@@ -1,8 +1,3 @@
-<div ng-if="status.ready">
-    <div ng-if="status.logged">
-        <a href ng-click="open('profile')">{{menuItemNickLabel()}}</a>
-    </div>
-    <div ng-if="!status.logged">
-        <a href="{{status.url}}">Login</a>
-    </div>
+<div data-ng-if="status.ready">
+	<a href="" data-ng-click="open('profile')">{{menuItemLabel()}}</a>
 </div>

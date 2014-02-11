@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 
 
-<div ng-if="form.isOpen()">
+<div data-ng-if="form.isOpen()">
     <form class="pure-form pure-form-stacked">
         <fieldset>
             <label for="title">Data logging profile title</label>
-            <input id="title" type="text" placeholder="Title" ng-model="form.values.title">
+            <input id="title" type="text" placeholder="Title" data-ng-model="form.values.title">
 
-            <button class="pure-button pure-button-primary pure-button-small" ng-disabled="form.okButtonDisabled()"
-                    ng-click="form.save()">
+            <button class="pure-button pure-button-primary pure-button-small" data-ng-disabled="form.okButtonDisabled()"
+                    data-ng-click="form.save()">
                 Save
             </button>
-            <button class="pure-button pure-button-primary pure-button-small" ng-disabled="form.resetButtonDisabled()"
-                    ng-click="form.cancel()">
+            <button class="pure-button pure-button-primary pure-button-small" data-ng-disabled="form.resetButtonDisabled()"
+                    data-ng-click="form.cancel()">
                 Cancel
             </button>
         </fieldset>
     </form>
 </div>
-<div ng-if="!form.isOpen()">
+<div data-ng-if="!form.isOpen()">
     <p>Title: {{profile.title}}</p>
-    <button class="pure-button pure-button-primary pure-button-small" ng-click="form.open()">Edit</button>
-    <button class="pure-button pure-button-primary pure-button-small" ng-click="deleteProfile()">Delete profile</button>
+    <button class="pure-button pure-button-primary pure-button-small" data-ng-click="form.open()">Edit</button>
+    <button class="pure-button pure-button-primary pure-button-small" data-ng-click="deleteProfile()">Delete profile</button>
 </div>
 

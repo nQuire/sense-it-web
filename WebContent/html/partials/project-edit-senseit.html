@@ -8,17 +8,17 @@
     Android app.</p>
 
 <ul>
-    <li ng-repeat="profile in activity.profiles">
-        <div ng-include="'html/partials/project-edit-senseit-profile.html'" ng-controller="ProjectEditSenseItProfileCtrl"></div>
+    <li data-ng-repeat="profile in activity.profiles">
+        <div data-ng-include="'html/partials/project-edit-senseit-profile.html'" data-ng-controller="ProjectEditSenseItProfileCtrl"></div>
         <ul>
-            <li ng-repeat="sensorInput in profile.sensorInputs">
-                <div ng-include="'html/partials/project-edit-senseit-sensor.html'" ng-controller="ProjectEditSenseItSensorCtrl"></div>
+            <li data-ng-repeat="sensorInput in profile.sensorInputs">
+                <div data-ng-include="'html/partials/project-edit-senseit-sensor.html'" data-ng-controller="ProjectEditSenseItSensorCtrl"></div>
             </li>
         </ul>
-        <div ng-include="'html/partials/project-edit-senseit-newsensor.html'" ng-controller="ProjectEditSenseItSensorCtrl"></div>
+        <div data-ng-include="'html/partials/project-edit-senseit-newsensor.html'" data-ng-controller="ProjectEditSenseItSensorCtrl"></div>
     </li>
 </ul>
 
-<div ng-include="'html/partials/project-edit-senseit-newprofile.html'" ng-controller="ProjectEditSenseItProfileCtrl"></div>
+<div data-ng-include="'html/partials/project-edit-senseit-newprofile.html'" data-ng-controller="ProjectEditSenseItProfileCtrl"></div>
 
 

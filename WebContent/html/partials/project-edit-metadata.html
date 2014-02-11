@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 
 
-<div ng-if="form.isOpen()">
+<div data-ng-if="form.isOpen()">
     <form class="pure-form pure-form-stacked">
         <fieldset>
             <label for="title">Project title</label>
-            <input id="title" type="text" placeholder="Title" ng-model="form.values.title">
+            <input id="title" type="text" placeholder="Title" data-ng-model="form.values.title">
 
             <label for="description">Project description</label>
-            <textarea id="description" placeholder="description" ng-model="form.values.description"></textarea>
+            <textarea id="description" placeholder="description" data-ng-model="form.values.description"></textarea>
 
-            <button class="pure-button pure-button-primary pure-button-small" ng-disabled="form.okButtonDisabled()"
-                    ng-click="form.save()">
+            <button class="pure-button pure-button-primary pure-button-small" data-ng-disabled="form.okButtonDisabled()"
+                    data-ng-click="form.save()">
                 Save
             </button>
-            <button class="pure-button pure-button-primary pure-button-small" ng-disabled="form.resetButtonDisabled()"
-                    ng-click="form.cancel()">
+            <button class="pure-button pure-button-primary pure-button-small" data-ng-disabled="form.resetButtonDisabled()"
+                    data-ng-click="form.cancel()">
                 Cancel
             </button>
         </fieldset>
     </form>
 </div>
-<div ng-if="!form.isOpen()">
+<div data-ng-if="!form.isOpen()">
     <p>Title: {{project.title}}</p>
 
     <p>Description: {{project.description}}</p>
-    <button class="pure-button pure-button-primary pure-button-small" ng-click="form.open()">Edit</button>
-    <button class="pure-button pure-button-primary pure-button-small" ng-click="deleteProject()">Delete project</button>
+    <button class="pure-button pure-button-primary pure-button-small" data-ng-click="form.open()">Edit</button>
+    <button class="pure-button pure-button-primary pure-button-small" data-ng-click="deleteProject()">Delete project</button>
 </div>
 

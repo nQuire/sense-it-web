@@ -6,11 +6,11 @@
 <p>Challenge projects define the fields that users have to complete to prepare their proposal.</p>
 
 <ul>
-    <li ng-repeat="field in activity.fields">
-        <div ng-include="'html/partials/project-edit-challenge-field.html'" ng-controller="ProjectEditChallengeFieldCtrl"></div>
+    <li data-ng-repeat="field in activity.fields">
+        <div data-ng-include="'html/partials/project-edit-challenge-field.html'" data-ng-controller="ProjectEditChallengeFieldCtrl"></div>
     </li>
 </ul>
 
-<div ng-include="'html/partials/project-edit-challenge-newfield.html'" ng-controller="ProjectEditChallengeFieldCtrl"></div>
+<div data-ng-include="'html/partials/project-edit-challenge-newfield.html'" data-ng-controller="ProjectEditChallengeFieldCtrl"></div>
 
 

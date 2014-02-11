@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" ng-app="senseItWeb">
+<html lang="en" data-ng-app="senseItWeb">
 <head>
     <meta charset="utf-8">
     <title>Sense It</title>
@@ -36,7 +36,7 @@
 
     <script src="html/js/app/services/services-module.js"></script>
     <script src="html/js/app/services/rest-service.js"></script>
-    <script src="html/js/app/services/login-service.js"></script>
+    <script src="html/js/app/services/openid-service.js"></script>
     <script src="html/js/app/services/project-service.js"></script>
     <script src="html/js/app/services/project-senseit-service.js"></script>
     <script src="html/js/app/services/project-challenge-service.js"></script>
@@ -56,15 +56,15 @@
     <script src="html/js/app/controllers/create-controller.js"></script>
 
 </head>
-<body ng-app="senseItWeb">
+<body data-ng-app="senseItWeb">
 
 <div id="layout">
 
-    <a id="menuLink" siw-side-menu-button></a>
+    <a id="menuLink" data-siw-side-menu-button></a>
 
-    <div id="menu" siw-side-menu></div>
+    <div id="menu" data-siw-side-menu></div>
 
-    <div id="main" ui-view></div>
+    <div id="main" data-ui-view></div>
 </div>
 
 

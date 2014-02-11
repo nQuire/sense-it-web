@@ -1,11 +1,15 @@
 package org.greengin.senseitweb.entities.users;
 
+import java.util.Collection;
+
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class UserProfile {
@@ -16,17 +20,14 @@ public class UserProfile {
    	Long id;
 	
 	@Basic
-	String userId;
-	
-	@Basic
 	String name;
 	
-	public String getUserId() {
-		return userId;
-	}
+	@OneToMany(cascade=CascadeType.ALL)
+	Collection<OpenIdEntity> openIds;
+	
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public Long getId() {
+		return id;
 	}
 
 	public String getName() {
@@ -37,8 +38,12 @@ public class UserProfile {
 		this.name = name;
 	}
 
-	public Long getId() {
-		return id;
+	public Collection<OpenIdEntity> getOpenIds() {
+		return openIds;
+	}
+
+	public void setOpenIds(Collection<OpenIdEntity> openIds) {
+		this.openIds = openIds;
 	}
 
 }

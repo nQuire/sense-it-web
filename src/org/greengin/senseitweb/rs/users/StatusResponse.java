@@ -2,11 +2,10 @@ package org.greengin.senseitweb.rs.users;
 
 import org.greengin.senseitweb.entities.users.UserProfile;
 
-public class UserResponse {
+public class StatusResponse {
 	boolean logged;
 	boolean newUser;
-	UserProfile profile;	
-	String url;
+	UserProfile profile;
 	
 	
 	public boolean isLogged() {
@@ -21,13 +20,6 @@ public class UserResponse {
 	}
 	public void setProfile(UserProfile profile) {
 		this.profile = profile;
-	}
-	
-	public String getUrl() {
-		return url;
-	}
-	public void setUrl(String url) {
-		this.url = url;
 	}
 	
 	public boolean isNewUser() {

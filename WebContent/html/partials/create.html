@@ -18,31 +18,31 @@
     <form class="pure-form pure-form-stacked">
         <fieldset>
             <label for="iunderstand">
-                <input id="iunderstand" type="checkbox" ng-model="iunderstand"> I understand the rules.
+                <input id="iunderstand" type="checkbox" data-ng-model="iunderstand"> I understand the rules.
             </label>
         </fieldset>
 
-        <fieldset ng-if="iunderstand">
+        <fieldset data-ng-if="iunderstand">
 
             <label for="type">Project type</label>
-            <select id="type" ng-model="form.values.type">
-                <option value>Select project type</option>
+            <select id="type" data-ng-model="form.values.type">
+                <option value="">Select project type</option>
                 <option value="senseit">Sense-it project</option>
                 <option value="challenge">Challenge project</option>
             </select>
 
-            <div ng-if="form.values.type">
+            <div data-ng-if="form.values.type">
                 <label for="title">Project title</label>
-                <input id="title" type="text" placeholder="Title" ng-model="form.values.title">
+                <input id="title" type="text" placeholder="Title" data-ng-model="form.values.title">
 
                 <label for="description">Project description</label>
-                <textarea id="description" placeholder="description" ng-model="form.values.description"></textarea>
+                <textarea id="description" placeholder="description" data-ng-model="form.values.description"></textarea>
 
-                <button class="pure-button pure-button-primary" ng-disabled="form.okButtonDisabled()"
-                        ng-click="form.save()">Create project
+                <button class="pure-button pure-button-primary" data-ng-disabled="form.okButtonDisabled()"
+                        data-ng-click="form.save()">Create project
                 </button>
-                <button class="pure-button pure-button-primary" ng-disabled="form.resetButtonDisabled()"
-                        ng-click="form.reset()">Reset
+                <button class="pure-button pure-button-primary" data-ng-disabled="form.resetButtonDisabled()"
+                        data-ng-click="form.reset()">Reset
                 </button>
             </div>
         </fieldset>
