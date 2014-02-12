@@ -11,9 +11,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 
 import org.greengin.senseitweb.entities.projects.Project;
-import org.greengin.senseitweb.logic.projects.senseit.SenseItActivityEditor;
-import org.greengin.senseitweb.logic.projects.senseit.SenseItProfileRequest;
-import org.greengin.senseitweb.logic.projects.senseit.SensorInputRequest;
+import org.greengin.senseitweb.logic.project.senseit.SenseItActivityEditor;
+import org.greengin.senseitweb.logic.project.senseit.SenseItProfileRequest;
+import org.greengin.senseitweb.logic.project.senseit.SensorInputRequest;
 
 @Path("/project/{projectId}/senseit")
 public class SenseItActivityService {

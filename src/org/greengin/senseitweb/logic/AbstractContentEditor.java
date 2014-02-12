@@ -1,4 +1,4 @@
-package org.greengin.senseitweb.logic.projects;
+package org.greengin.senseitweb.logic;
 
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;

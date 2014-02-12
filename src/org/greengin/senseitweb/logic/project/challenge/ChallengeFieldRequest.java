@@ -1,4 +1,4 @@
-package org.greengin.senseitweb.logic.projects.challenge;
+package org.greengin.senseitweb.logic.project.challenge;
 
 import org.greengin.senseitweb.entities.activities.challenge.ChallengeField;
 import org.greengin.senseitweb.entities.activities.challenge.ChallengeFieldType;

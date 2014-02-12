@@ -1,4 +1,4 @@
-package org.greengin.senseitweb.logic.projects.senseit;
+package org.greengin.senseitweb.logic.project.senseit;
 
 import org.greengin.senseitweb.entities.activities.senseit.SenseItProfile;
 

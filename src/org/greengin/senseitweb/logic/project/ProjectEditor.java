@@ -1,8 +1,9 @@
-package org.greengin.senseitweb.logic.projects;
+package org.greengin.senseitweb.logic.project;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.greengin.senseitweb.entities.projects.Project;
+import org.greengin.senseitweb.logic.AbstractContentEditor;
 import org.greengin.senseitweb.permissions.PermissionsManager;
 
 public class ProjectEditor extends AbstractContentEditor {

@@ -15,17 +15,20 @@ import org.greengin.senseitweb.persistence.EMF;
 
 public class SubscriptionManager {
 
-	static final String SUBSCRIPTION_QUERY = String.format(
+	private static final String SUBSCRIPTION_QUERY = String.format(
 			"SELECT s FROM %s s WHERE s.project.id = :projectId AND s.user = :user", Subscription.class.getName());
 	
-	static final String USER_IS_QUERY = String.format(
+	private static final String USER_IS_QUERY = String.format(
 			"SELECT CASE WHEN (COUNT(s) > 0) THEN 1 ELSE 0 END FROM %s s WHERE s.project= :project AND s.user = :user AND s.type = :type", Subscription.class.getName());
 
-	static final String USER_QUERY = String.format(
+	private static final String USER_QUERY = String.format(
 			"SELECT u FROM %s s INNER JOIN s.user u WHERE s.project = :project AND s.type = :type",
 			Subscription.class.getName(), UserProfile.class.getName());
 
-	static final String DELETE_PROJECT_QUERY = String.format("DELETE FROM %s s WHERE s.project = :project",
+	private static final String DELETE_PROJECT_QUERY = String.format("DELETE FROM %s s WHERE s.project = :project",
+			Subscription.class.getName());
+	
+	private static final String DELETE_SUBSCRIPTION_QUERY = String.format("DELETE FROM %s s WHERE s.project = :project AND s.user = :user AND s.type = :type",
 			Subscription.class.getName());
 
 	private static SubscriptionManager sm = new SubscriptionManager();
@@ -145,5 +148,21 @@ public class SubscriptionManager {
 		return level;
 	}
 
+	public AccessLevel subscribe(EntityManager em, UserProfile user, Project project, SubscriptionType type) {
+		em.getTransaction().begin();
+		this.addSubscriptionInTransaction(em, project, user, type);
+		em.getTransaction().commit();
+		return this.getAccessLevel(em, user, project.getId());
+	}
 
+	public AccessLevel unsubscribe(EntityManager em, UserProfile user, Project project, SubscriptionType type) {
+		em.getTransaction().begin();
+		Query query = em.createQuery(DELETE_SUBSCRIPTION_QUERY);
+		query.setParameter("project", project);
+		query.setParameter("user", user);
+		query.setParameter("type", type);
+		query.executeUpdate();
+		em.getTransaction().commit();
+		return this.getAccessLevel(em, user, project.getId());
+	}
 }

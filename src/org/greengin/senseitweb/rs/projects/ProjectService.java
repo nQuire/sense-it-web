@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -13,9 +14,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import org.greengin.senseitweb.entities.projects.Project;
-import org.greengin.senseitweb.logic.projects.ProjectEditor;
-import org.greengin.senseitweb.logic.projects.ProjectRequest;
-import org.greengin.senseitweb.logic.projects.ProjectResponse;
+import org.greengin.senseitweb.logic.project.ProjectEditor;
+import org.greengin.senseitweb.logic.project.ProjectParticipant;
+import org.greengin.senseitweb.logic.project.ProjectRequest;
+import org.greengin.senseitweb.logic.project.ProjectResponse;
 import org.greengin.senseitweb.permissions.AccessLevel;
 import org.greengin.senseitweb.permissions.SubscriptionManager;
 import org.greengin.senseitweb.persistence.EMF;
@@ -49,6 +51,22 @@ public class ProjectService {
 	public Project update(@PathParam("projectId") Long projectId, ProjectRequest projectData, @Context HttpServletRequest request) {
 		ProjectEditor editor = new ProjectEditor(projectId, request);
 		return editor.updateMetadata(projectData);
+	}
+	
+	@Path("/join")
+	@POST
+	@Produces("application/json")
+	public AccessLevel join(@PathParam("projectId") Long projectId, @Context HttpServletRequest request) {
+		ProjectParticipant participant = new ProjectParticipant(projectId, request);
+		return participant.join();
+	}
+
+	@Path("/leave")
+	@POST
+	@Produces("application/json")
+	public AccessLevel leave(@PathParam("projectId") Long projectId, @Context HttpServletRequest request) {
+		ProjectParticipant participant = new ProjectParticipant(projectId, request);
+		return participant.leave();
 	}
 
 }

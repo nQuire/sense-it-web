@@ -17,7 +17,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.entities.users.UserProfile;
-import org.greengin.senseitweb.logic.projects.ProjectCreationRequest;
+import org.greengin.senseitweb.logic.project.ProjectCreationRequest;
 import org.greengin.senseitweb.permissions.AccessLevel;
 import org.greengin.senseitweb.permissions.PermissionsManager;
 import org.greengin.senseitweb.permissions.SubscriptionManager;

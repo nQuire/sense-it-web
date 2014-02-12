@@ -1,4 +1,4 @@
-package org.greengin.senseitweb.logic.projects.senseit;
+package org.greengin.senseitweb.logic.project.senseit;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -6,21 +6,12 @@ import org.greengin.senseitweb.entities.activities.senseit.SenseItActivity;
 import org.greengin.senseitweb.entities.activities.senseit.SenseItProfile;
 import org.greengin.senseitweb.entities.activities.senseit.SensorInput;
 import org.greengin.senseitweb.entities.projects.Project;
-import org.greengin.senseitweb.entities.projects.ProjectType;
-import org.greengin.senseitweb.logic.projects.ProjectEditor;
+import org.greengin.senseitweb.logic.project.AbstractActivityEditor;
 
-public class SenseItActivityEditor extends ProjectEditor {
+public class SenseItActivityEditor extends AbstractActivityEditor<SenseItActivity> {
 
-	SenseItActivity activity;
-	
 	public SenseItActivityEditor(Long projectId, HttpServletRequest request) {
-		super(projectId, request);
-		
-		if (project.getType() == ProjectType.SENSEIT && project.getActivity() instanceof SenseItActivity) {
-			activity = (SenseItActivity) project.getActivity();
-		} else {
-			hasAccess = false;
-		}
+		super(projectId, request, SenseItActivity.class);
 	}
 	
 	

@@ -1,25 +1,16 @@
-package org.greengin.senseitweb.logic.projects.challenge;
+package org.greengin.senseitweb.logic.project.challenge;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.greengin.senseitweb.entities.activities.challenge.ChallengeActivity;
 import org.greengin.senseitweb.entities.activities.challenge.ChallengeField;
 import org.greengin.senseitweb.entities.projects.Project;
-import org.greengin.senseitweb.entities.projects.ProjectType;
-import org.greengin.senseitweb.logic.projects.ProjectEditor;
+import org.greengin.senseitweb.logic.project.AbstractActivityEditor;
 
-public class ChallengeActivityEditor extends ProjectEditor {
-
-	ChallengeActivity activity;
+public class ChallengeActivityEditor extends AbstractActivityEditor<ChallengeActivity> {
 	
 	public ChallengeActivityEditor(Long projectId, HttpServletRequest request) {
-		super(projectId, request);
-		
-		if (project.getType() == ProjectType.CHALLENGE && project.getActivity() instanceof ChallengeActivity) {
-			activity = (ChallengeActivity) project.getActivity();
-		} else {
-			hasAccess = false;
-		}
+		super(projectId, request, ChallengeActivity.class);
 	}
 	
 	

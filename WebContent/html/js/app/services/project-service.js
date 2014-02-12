@@ -15,7 +15,6 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
     };
 
     service._resetAccess = function () {
-        var ids = [];
         for (var id in service._projectData) {
             for (var type in service._projectData[id].access) {
                 service._projectData[id].access[type] = false;
@@ -71,6 +70,23 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
         });
     };
 
+    service._subscriptionAction = function (projectId, action) {
+        return RestService.post('api/project/' + projectId + '/' + action).then(function (response) {
+            console.log(response.data);
+            if (response.data) {
+                service._projectData[projectId].access = response.data;
+            }
+            return true;
+        });
+    };
+
+    service.joinProject = function(projectId) {
+        return service._subscriptionAction(projectId, 'join');
+    };
+    service.leaveProject = function(projectId) {
+        return service._subscriptionAction(projectId, 'leave');
+    };
+
     /**
      *
      * @param {string} projectId
@@ -83,7 +99,6 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
     service._updateProjectAction = function (projectId, method, url, data) {
         var promise = data ? RestService[method](url, data) : RestService[method](url);
         return promise.then(function (response) {
-            console.log(response.data);
             service._projectData[projectId].project = response.data;
             return true;
         });
@@ -105,6 +120,7 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
             service._resetAccess();
         }
     });
+
 
     return service;
 }]);

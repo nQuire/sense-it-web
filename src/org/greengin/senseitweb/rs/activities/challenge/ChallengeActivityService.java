@@ -11,8 +11,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 
 import org.greengin.senseitweb.entities.projects.Project;
-import org.greengin.senseitweb.logic.projects.challenge.ChallengeActivityEditor;
-import org.greengin.senseitweb.logic.projects.challenge.ChallengeFieldRequest;
+import org.greengin.senseitweb.logic.project.challenge.ChallengeActivityEditor;
+import org.greengin.senseitweb.logic.project.challenge.ChallengeFieldRequest;
 
 @Path("/project/{projectId}/challenge")
 public class ChallengeActivityService {
