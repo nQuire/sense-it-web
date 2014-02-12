@@ -33,7 +33,7 @@ public class SenseItActivityEditor extends ProjectEditor {
 			em.persist(profile);
 			em.getTransaction().commit();
 			
-			return em.find(Project.class, projectId);			
+			return project;			
 		} else {
 			return null;
 		}
@@ -47,7 +47,7 @@ public class SenseItActivityEditor extends ProjectEditor {
 			profileData.updateProfile(profile);
 			em.getTransaction().commit();
 
-			return em.find(Project.class, projectId);
+			return project;
 		} else {
 			return null;
 		}			
@@ -61,7 +61,7 @@ public class SenseItActivityEditor extends ProjectEditor {
 			activity.getProfiles().remove(profile);
 			em.getTransaction().commit();
 			
-			return em.find(Project.class, projectId);			
+			return project;			
 		} else {
 			return null;
 		}
@@ -77,7 +77,7 @@ public class SenseItActivityEditor extends ProjectEditor {
 			profile.getSensorInputs().add(input);
 			em.getTransaction().commit();
 			
-			return em.find(Project.class, projectId);			
+			return project;			
 		} else {
 			return null;
 		}
@@ -91,7 +91,7 @@ public class SenseItActivityEditor extends ProjectEditor {
 			inputData.updateInput(input);
 			em.getTransaction().commit();
 
-			return em.find(Project.class, projectId);
+			return project;
 		} else {
 			return null;
 		}			
@@ -106,7 +106,7 @@ public class SenseItActivityEditor extends ProjectEditor {
 			profile.getSensorInputs().remove(input);
 			em.getTransaction().commit();
 			
-			return em.find(Project.class, projectId);			
+			return project;			
 		} else {
 			return null;
 		}

@@ -31,7 +31,7 @@ public class ChallengeActivityEditor extends ProjectEditor {
 			activity.getFields().add(field);
 			em.getTransaction().commit();
 
-			return em.find(Project.class, projectId);			
+			return project;		
 		} else {
 			return null;
 		}
@@ -45,7 +45,7 @@ public class ChallengeActivityEditor extends ProjectEditor {
 			fieldData.update(field);
 			em.getTransaction().commit();
 
-			return em.find(Project.class, projectId);
+			return project;		
 		} else {
 			return null;
 		}			
@@ -59,7 +59,7 @@ public class ChallengeActivityEditor extends ProjectEditor {
 			activity.getFields().remove(field);
 			em.getTransaction().commit();
 			
-			return em.find(Project.class, projectId);			
+			return project;		
 		} else {
 			return null;
 		}
