@@ -22,6 +22,7 @@ public class Project {
     @Column (name = "PROJECT_ID", nullable = false)
     @GeneratedValue (strategy = GenerationType.IDENTITY)
 	Long id;
+	
 
 	@Basic
 	String title;

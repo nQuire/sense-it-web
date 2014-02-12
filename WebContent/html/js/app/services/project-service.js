@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('senseItServices', null, null).factory('ProjectService', ['RestService', function (RestService) {
+angular.module('senseItServices', null, null).factory('ProjectService', ['RestService', 'OpenIdService', function (RestService, OpenIdService) {
 
     var service = {
         _projectData: {}
@@ -8,12 +8,37 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
 
     service._load = function (id) {
         RestService.get('api/project/' + id).then(function (response) {
-            service._projectData[id].project = response.data;
+            service._projectData[id].project = response.data.project;
+            service._projectData[id].access = response.data.access;
             service._projectData[id].ready = true;
         });
     };
 
-    service.get = function (projectId) {
+    service._resetAccess = function () {
+        var ids = [];
+        for (var id in service._projectData) {
+            for (var type in service._projectData[id].access) {
+                service._projectData[id].access[type] = false;
+            }
+        }
+    };
+
+    service._updateAccess = function () {
+        var ids = [];
+        for (var id in service._projectData) {
+            ids.push(id);
+        }
+
+        if (ids.length > 0) {
+            RestService.post('api/projects/access', ids).then(function (response) {
+                for (var id in response.data) {
+                    service._projectData[id].access = response.data[id];
+                }
+            });
+        }
+    };
+
+    service.registerGet = function (scope, projectId) {
         if (!(projectId in service._projectData)) {
             service._projectData[projectId] = {
                 ready: false,
@@ -22,7 +47,16 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
             service._load(projectId);
         }
 
-        return service._projectData[projectId];
+        scope.projectServiceData = service._projectData[projectId];
+
+        var listener = scope.$watch('projectServiceData.access', function () {
+            scope.project = scope.projectServiceData.project;
+            scope.access = scope.projectServiceData.access;
+        }, true);
+
+        scope.$on('$destroy', function () {
+            listener();
+        });
     };
 
     service.createProject = function (data) {
@@ -31,7 +65,7 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
         });
     };
 
-    service.deleteProject = function(projectId) {
+    service.deleteProject = function (projectId) {
         return RestService.delete('api/project/' + projectId).then(function (response) {
             return response.data;
         });
@@ -63,6 +97,14 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
             description: project.description
         });
     };
+
+    OpenIdService.registerListener(function (logged) {
+        if (logged) {
+            service._updateAccess();
+        } else {
+            service._resetAccess();
+        }
+    });
 
     return service;
 }]);

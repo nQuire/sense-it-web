@@ -7,7 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.greengin.senseitweb.rs.users.OpenIdManager.Provider;
+import org.greengin.senseitweb.permissions.OpenIdManager;
+import org.greengin.senseitweb.permissions.OpenIdManager.Provider;
 
 public class LoginRedirectServlet extends HttpServlet {
 	
@@ -15,6 +16,7 @@ public class LoginRedirectServlet extends HttpServlet {
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Provider provider = Provider.create(request.getParameter("p"));
-		OpenIdManager.instance().redirect(provider, request, response, getServletContext());
+		String username = request.getParameter("u");
+		OpenIdManager.instance().redirect(provider, username, request, response, getServletContext());
 	}
 }

@@ -4,7 +4,6 @@ import org.greengin.senseitweb.entities.users.UserProfile;
 
 public class StatusResponse {
 	boolean logged;
-	boolean newUser;
 	UserProfile profile;
 	
 	
@@ -20,12 +19,5 @@ public class StatusResponse {
 	}
 	public void setProfile(UserProfile profile) {
 		this.profile = profile;
-	}
-	
-	public boolean isNewUser() {
-		return newUser;
-	}
-	public void setNewUser(boolean newUser) {
-		this.newUser = newUser;
 	}
 }

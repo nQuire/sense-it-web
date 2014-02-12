@@ -1,4 +1,4 @@
-package org.greengin.senseitweb.rs.users;
+package org.greengin.senseitweb.permissions;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ import org.openid4java.util.ProxyProperties;
 public class OpenIdManager {
 
 	public enum Provider {
-		FACEBOOK, GOOGLE, YAHOO;
+		OU, GOOGLE, YAHOO;
 
 		@JsonValue
 		public String getValue() {
@@ -60,32 +60,30 @@ public class OpenIdManager {
 	ConsumerManager manager;
 	String realm;
 	String returnUrl;
-	
+
 	private OpenIdManager() {
 		try {
 			Context env = (Context) (new InitialContext().lookup("java:comp/env"));
 			this.realm = (String) env.lookup("serverBasePath");
 			this.returnUrl = this.realm + (String) env.lookup("senseItLoginReturnPath");
-			
+
 			try {
 				String serverHost = (String) env.lookup("serverProxyHostName");
 				int serverPort = (Integer) env.lookup("serverProxyPort");
-				
+
 				ProxyProperties proxyProps = new ProxyProperties();
 				proxyProps.setProxyHostName(serverHost);
 				proxyProps.setProxyPort(serverPort);
 				HttpClientFactory.setProxyProperties(proxyProps);
-				
-			} catch (NameNotFoundException e) {
-				
-			}
-			
 
+			} catch (NameNotFoundException e) {
+
+			}
 
 			manager = new ConsumerManager();
 			manager.setAssociations(new InMemoryConsumerAssociationStore());
 			manager.setNonceVerifier(new InMemoryNonceVerifier(5000));
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -99,40 +97,73 @@ public class OpenIdManager {
 
 	public void redirect(Provider provider, HttpServletRequest request, HttpServletResponse response,
 			ServletContext context) {
-		HttpSession session = request.getSession();
 
-		String identity = getMeIdentity(provider);
+	}
 
+	public void redirect(Provider provider, String username, HttpServletRequest request, HttpServletResponse response,
+			ServletContext context) {
+
+		String nextUrl;
+		boolean requireId = false;
+
+		switch (provider) {
+		case OU:
+			if (username == null) {
+				requireId = true;
+				nextUrl = "oulogin.jsp?p=ou";
+			} else {
+				nextUrl = "http://openid.open.ac.uk/oucu/" + username;
+			}
+			break;
+		case YAHOO:
+			nextUrl = "https://me.yahoo.com";
+			break;
+		case GOOGLE:
+		default:
+			nextUrl = "https://www.google.com/accounts/o8/id";
+			break;
+		}
 
 		try {
-			List<?> discoveries = manager.discover(identity);
-			DiscoveryInformation discovered = manager.associate(discoveries);
 
-			// store the discovery information in the user's session
-			session.setAttribute("openid-disco", discovered);
-
-			// obtain a AuthRequest message to be sent to the OpenID provider
-			AuthRequest authReq = manager.authenticate(discovered, this.returnUrl, this.realm);
-
-			// Attribute Exchange example: fetching the 'email' attribute
-			FetchRequest fetch = FetchRequest.createFetchRequest();
-			fetch.addAttribute("email", "http://schema.openid.net/contact/email", true);
-			authReq.addExtension(fetch);
-
-			if (!discovered.isVersion2()) {
-				// Option 1: GET HTTP-redirect to the OpenID Provider endpoint
-				// The only method supported in OpenID 1.x
-				// redirect-URL usually limited ~2048 bytes
-				response.sendRedirect(authReq.getDestinationUrl(true));
+			if (requireId) {
+				response.sendRedirect(nextUrl);
 			} else {
-				// Option 2: HTML FORM Redirection (Allows payloads >2048 bytes)
 
-				RequestDispatcher dispatcher = context.getRequestDispatcher("/login/formredirection.jsp");
-				request.setAttribute("parameterMap", request.getParameterMap());
-				request.setAttribute("message", authReq);
-				// httpReq.setAttribute("destinationUrl", httpResp
-				// .getDestinationUrl(false));
-				dispatcher.forward(request, response);
+				HttpSession session = request.getSession();
+
+				List<?> discoveries = manager.discover(nextUrl);
+				DiscoveryInformation discovered = manager.associate(discoveries);
+
+				// store the discovery information in the user's session
+				session.setAttribute("openid-disco", discovered);
+
+				// obtain a AuthRequest message to be sent to the OpenID
+				// provider
+				AuthRequest authReq = manager.authenticate(discovered, this.returnUrl, this.realm);
+
+				// Attribute Exchange example: fetching the 'email' attribute
+				FetchRequest fetch = FetchRequest.createFetchRequest();
+				fetch.addAttribute("email", "http://schema.openid.net/contact/email", true);
+				authReq.addExtension(fetch);
+
+				if (!discovered.isVersion2()) {
+					// Option 1: GET HTTP-redirect to the OpenID Provider
+					// endpoint
+					// The only method supported in OpenID 1.x
+					// redirect-URL usually limited ~2048 bytes
+					response.sendRedirect(authReq.getDestinationUrl(true));
+				} else {
+					// Option 2: HTML FORM Redirection (Allows payloads >2048
+					// bytes)
+
+					RequestDispatcher dispatcher = context.getRequestDispatcher("/login/formredirection.jsp");
+					request.setAttribute("parameterMap", request.getParameterMap());
+					request.setAttribute("message", authReq);
+					// httpReq.setAttribute("destinationUrl", httpResp
+					// .getDestinationUrl(false));
+					dispatcher.forward(request, response);
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -148,7 +179,8 @@ public class OpenIdManager {
 
 	public String getEmail(HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		return session.getAttribute("openid-email").toString();
+		
+		return (String) session.getAttribute("openid-email");
 	}
 
 	public void updateLoginStatus(HttpServletRequest request) {
@@ -174,32 +206,24 @@ public class OpenIdManager {
 			if (verified != null) {
 				AuthSuccess authSuccess = (AuthSuccess) verification.getAuthResponse();
 
-				MessageExtension ext = authSuccess.getExtension(AxMessage.OPENID_NS_AX);
-
 				session.setAttribute("openid", authSuccess.getIdentity());
 				session.setAttribute("openid-claimed", authSuccess.getClaimed());
 
-				if (ext instanceof FetchResponse) {
-					FetchResponse fetchResp = (FetchResponse) ext;
-					String email = fetchResp.getAttributeValue("email");
-					session.setAttribute("openid-email", email);
-				}
+				try {
+					MessageExtension ext = authSuccess.getExtension(AxMessage.OPENID_NS_AX);
 
+					if (ext instanceof FetchResponse) {
+						FetchResponse fetchResp = (FetchResponse) ext;
+						String email = fetchResp.getAttributeValue("email");
+						session.setAttribute("openid-email", email);
+					}
+				} catch (Exception e) {
+					session.setAttribute("openid-email", null);
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private String getMeIdentity(Provider provider) {
-		switch (provider) {
-		case YAHOO:
-			return "https://me.yahoo.com";
-		case FACEBOOK:
-			return "http://facebook-openid.appspot.com/";
-		case GOOGLE:
-		default:
-			return "https://www.google.com/accounts/o8/id";
-		}
-	}
 }

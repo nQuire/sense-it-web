@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<div data-ng-if="data.ready">
+<div data-ng-if="projectServiceData.ready">
     <div class="header">
         <h1>Edit project: {{project.title}}</h1>
     </div>
@@ -19,7 +19,7 @@
     </div>
 
 </div>
-<div data-ng-if="!data.ready">
+<div data-ng-if="!projectServiceData.ready">
     <div class="header">
         <div class="throbber"></div>
         <h2>Loading...</h2>
