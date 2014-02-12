@@ -17,6 +17,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.entities.users.UserProfile;
+import org.greengin.senseitweb.logic.projects.ProjectCreationRequest;
 import org.greengin.senseitweb.permissions.AccessLevel;
 import org.greengin.senseitweb.permissions.PermissionsManager;
 import org.greengin.senseitweb.permissions.SubscriptionManager;
@@ -39,9 +40,9 @@ public class ProjectListService {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Long create(ProjectCreationRequest projectData, @Context HttpServletRequest request) {
-		UserProfile user = PermissionsManager.get().canCreateProject(request);
+		UserProfile user = UsersManager.get().currentUser(request);
 		
-		if (user != null) {
+		if (PermissionsManager.get().canCreateProject(user)) {
 		
 			EntityManager em = EMF.get().createEntityManager();
 			

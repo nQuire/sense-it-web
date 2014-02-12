@@ -24,7 +24,7 @@ public class SenseItProfile {
 	String title;
 	
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(orphanRemoval=true, cascade = CascadeType.ALL)
 	Collection<SensorInput> sensorInputs;
 
 	public Long getId() {

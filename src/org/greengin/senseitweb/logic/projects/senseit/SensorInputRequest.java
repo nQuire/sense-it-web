@@ -1,4 +1,4 @@
-package org.greengin.senseitweb.rs.senseit;
+package org.greengin.senseitweb.logic.projects.senseit;
 
 import org.greengin.senseitweb.entities.activities.senseit.SensorInput;
 

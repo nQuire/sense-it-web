@@ -1,4 +1,4 @@
-package org.greengin.senseitweb.rs.projects;
+package org.greengin.senseitweb.logic.projects;
 
 import org.greengin.senseitweb.entities.projects.Project;
 

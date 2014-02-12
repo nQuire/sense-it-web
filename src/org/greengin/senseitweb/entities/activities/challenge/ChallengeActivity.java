@@ -11,7 +11,7 @@ import org.greengin.senseitweb.entities.projects.AbstractActivity;
 @Entity
 public class ChallengeActivity extends AbstractActivity {
 	
-	@OneToMany(cascade=CascadeType.ALL)
+	@OneToMany(orphanRemoval = true, cascade=CascadeType.ALL)
 	Collection<ChallengeField> fields;
 	
 	

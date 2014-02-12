@@ -49,7 +49,7 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
 
         scope.projectServiceData = service._projectData[projectId];
 
-        var listener = scope.$watch('projectServiceData.access', function () {
+        var listener = scope.$watch('projectServiceData', function () {
             scope.project = scope.projectServiceData.project;
             scope.access = scope.projectServiceData.access;
         }, true);
@@ -83,7 +83,7 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
     service._updateProjectAction = function (projectId, method, url, data) {
         var promise = data ? RestService[method](url, data) : RestService[method](url);
         return promise.then(function (response) {
-            console.log(response.data.title);
+            console.log(response.data);
             service._projectData[projectId].project = response.data;
             return true;
         });

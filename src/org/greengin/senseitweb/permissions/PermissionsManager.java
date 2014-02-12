@@ -1,7 +1,8 @@
 package org.greengin.senseitweb.permissions;
 
-import javax.servlet.http.HttpServletRequest;
 
+import org.greengin.senseitweb.entities.projects.Project;
+import org.greengin.senseitweb.entities.subscriptions.SubscriptionType;
 import org.greengin.senseitweb.entities.users.UserProfile;
 
 public class PermissionsManager {
@@ -18,7 +19,11 @@ public class PermissionsManager {
 	}
 
 	
-	public UserProfile canCreateProject(HttpServletRequest request) {
-		return UsersManager.get().currentUser(request);
+	public boolean canCreateProject(UserProfile user) {
+		return user != null;
+	}
+	
+	public boolean canEditProject(Project project, UserProfile user) {
+		return SubscriptionManager.get().is(SubscriptionType.ADMIN, project, user);
 	}
 }

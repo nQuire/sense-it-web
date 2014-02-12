@@ -17,6 +17,9 @@ public class SubscriptionManager {
 
 	static final String SUBSCRIPTION_QUERY = String.format(
 			"SELECT s FROM %s s WHERE s.project.id = :projectId AND s.user = :user", Subscription.class.getName());
+	
+	static final String USER_IS_QUERY = String.format(
+			"SELECT CASE WHEN (COUNT(s) > 0) THEN 1 ELSE 0 END FROM %s s WHERE s.project= :project AND s.user = :user AND s.type = :type", Subscription.class.getName());
 
 	static final String USER_QUERY = String.format(
 			"SELECT u FROM %s s INNER JOIN s.user u WHERE s.project = :project AND s.type = :type",
@@ -98,6 +101,22 @@ public class SubscriptionManager {
 		}
 
 		return level;
+	}
+	
+	public boolean is(SubscriptionType type, Project project, UserProfile user) {
+		if (project != null && user != null) {
+			EntityManager em = EMF.get().createEntityManager();
+			TypedQuery<Long> query = em.createQuery(USER_IS_QUERY, Long.class);
+			query.setParameter("project", project);
+			query.setParameter("user", user);
+			query.setParameter("type", type);
+			
+			long result = query.getSingleResult();
+			
+			return result != 0;
+		}
+
+		return false;
 	}
 	
 	public AccessLevel getAccessLevel(EntityManager em, UserProfile user, Long projectId) {

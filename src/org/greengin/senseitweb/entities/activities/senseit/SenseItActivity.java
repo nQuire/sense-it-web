@@ -11,9 +11,8 @@ import org.greengin.senseitweb.entities.projects.AbstractActivity;
 @Entity
 public class SenseItActivity extends AbstractActivity {
 	
-	@OneToMany(cascade = CascadeType.ALL)
-	Collection<SenseItProfile> profiles;
-	
+	@OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
+	Collection<SenseItProfile> profiles;	
 	
 	
 	public Collection<SenseItProfile> getProfiles() {

@@ -33,7 +33,7 @@ public class Project {
 	@Basic
 	ProjectType type;
 	
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne(orphanRemoval = true, cascade=CascadeType.ALL)
 	AbstractActivity activity;
 	
 	public Long getId() {
