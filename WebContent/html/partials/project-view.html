@@ -9,18 +9,36 @@
 
         <p>{{project.description}}</p>
 
-        <div data-ng-if="access.member">
-            <button class="pure-button pure-button-primary" data-ng-click="leaveProject()">Leave</button>
+        <div data-ng-if="status.logged">
+
+            <div data-ng-if="!access.member">
+                <button class="pure-button pure-button-primary" data-ng-click="joinProject()">Join project</button>
+            </div>
+            <div data-ng-if="access.member">
+                <button class="pure-button pure-button-primary" data-ng-click="leaveProject()">Leave project</button>
+
+                <div data-ng-switch="project.type">
+                    <div data-ng-switch-when="challenge">
+                        <div data-ng-include="'html/partials/project-view-challenge.html'"
+                             data-ng-controller="ProjectViewChallengeCtrl"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div data-ng-if="access.admin">
+                <h2 class="content-subhead">Project administration</h2>
+
+                <button class="pure-button pure-button-primary" data-ui-sref="project-edit({projectId: project.id})">
+                    Edit project
+                </button>
+            </div>
+
         </div>
-        <div data-ng-if="!access.member">
-            <button class="pure-button pure-button-primary" data-ng-click="joinProject()">Join</button>
+        <div data-ng-if="!status.logged">
+            <a ui-sref="profile">Login</a> to participate in this project.
         </div>
 
-        <div data-ng-if="access.admin">
-            <button class="pure-button pure-button-primary" data-ui-sref="project-edit({projectId: project.id})">
-                Edit
-            </button>
-        </div>
+
     </div>
 
 </div>

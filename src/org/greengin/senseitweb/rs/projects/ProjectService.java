@@ -14,12 +14,12 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import org.greengin.senseitweb.entities.projects.Project;
+import org.greengin.senseitweb.logic.permissions.AccessLevel;
+import org.greengin.senseitweb.logic.permissions.SubscriptionManager;
 import org.greengin.senseitweb.logic.project.ProjectEditor;
 import org.greengin.senseitweb.logic.project.ProjectParticipant;
 import org.greengin.senseitweb.logic.project.ProjectRequest;
 import org.greengin.senseitweb.logic.project.ProjectResponse;
-import org.greengin.senseitweb.permissions.AccessLevel;
-import org.greengin.senseitweb.permissions.SubscriptionManager;
 import org.greengin.senseitweb.persistence.EMF;
 
 @Path("/project/{projectId}")

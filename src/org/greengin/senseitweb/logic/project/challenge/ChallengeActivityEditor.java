@@ -14,6 +14,20 @@ public class ChallengeActivityEditor extends AbstractActivityEditor<ChallengeAct
 	}
 	
 	
+	public Project updateActivity(ChallengeActivityRequest activityData) {
+		if (hasAccess) {
+			em.getTransaction().begin();
+			activityData.update(activity);
+			em.getTransaction().commit();
+
+			return project;		
+		} else {
+			return null;
+		}			
+	}
+	
+	
+	
 	public Project createField(ChallengeFieldRequest fieldData) {
 		if (hasAccess) {
 			em.getTransaction().begin();

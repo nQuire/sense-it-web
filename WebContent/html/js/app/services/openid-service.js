@@ -13,9 +13,9 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
         service.listeners.push(listener);
     };
 
-    service._fireLoginEvent = function() {
+    service._fireLoginEvent = function(logged) {
         for (var i = 0; i < service.listeners.length; i++) {
-            service.listeners[i]();
+            service.listeners[i](logged);
         }
     };
 

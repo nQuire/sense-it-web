@@ -50,5 +50,12 @@ angular.module('senseItServices', null, null).factory('ProjectChallengeService',
         return ProjectService._updateProjectAction(projectId, 'delete', path);
     };
 
+    service.updateActivity = function(projectId, activity) {
+        var path = service._path(projectId);
+        return ProjectService._updateProjectAction(projectId, 'put', path, {
+            maxAnswers: activity.maxAnswers
+        });
+    };
+
     return service;
 }]);

@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.greengin.senseitweb.permissions.OpenIdManager;
-import org.greengin.senseitweb.permissions.OpenIdManager.Provider;
+import org.greengin.senseitweb.logic.permissions.OpenIdManager;
+import org.greengin.senseitweb.logic.permissions.OpenIdManager.Provider;
 
 public class LoginRedirectServlet extends HttpServlet {
 	

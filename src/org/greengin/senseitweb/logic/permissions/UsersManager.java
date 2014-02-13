@@ -1,4 +1,4 @@
-package org.greengin.senseitweb.permissions;
+package org.greengin.senseitweb.logic.permissions;
 
 import java.util.Collection;
 import java.util.List;

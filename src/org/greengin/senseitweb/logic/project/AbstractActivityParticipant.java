@@ -11,7 +11,7 @@ public class AbstractActivityParticipant<T extends AbstractActivity> extends Pro
 	public AbstractActivityParticipant(Long projectId, HttpServletRequest request, Class<T> type) {
 		super(projectId, request);
 		if (type.isInstance(project.getActivity())) {
-			this.hasAccess = true;
+			this.hasAccess = hasAccess && access.isMember();
 			this.activity = type.cast(project.getActivity());
 		} else {
 			this.hasAccess = false;

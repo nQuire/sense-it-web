@@ -13,8 +13,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 
 import org.greengin.senseitweb.entities.users.UserProfile;
-import org.greengin.senseitweb.permissions.OpenIdManager;
-import org.greengin.senseitweb.permissions.UsersManager;
+import org.greengin.senseitweb.logic.permissions.OpenIdManager;
+import org.greengin.senseitweb.logic.permissions.UsersManager;
 import org.greengin.senseitweb.persistence.EMF;
 
 @Path("/openid")

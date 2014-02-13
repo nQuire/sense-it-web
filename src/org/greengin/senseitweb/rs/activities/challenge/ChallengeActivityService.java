@@ -12,10 +12,19 @@ import javax.ws.rs.core.Context;
 
 import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.logic.project.challenge.ChallengeActivityEditor;
+import org.greengin.senseitweb.logic.project.challenge.ChallengeActivityRequest;
 import org.greengin.senseitweb.logic.project.challenge.ChallengeFieldRequest;
 
 @Path("/project/{projectId}/challenge")
 public class ChallengeActivityService {
+
+	@PUT
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Project updateActivity(@PathParam("projectId") Long projectId, ChallengeActivityRequest activityData, @Context HttpServletRequest request) {
+		ChallengeActivityEditor editor = new ChallengeActivityEditor(projectId, request);
+		return editor.updateActivity(activityData);
+	}
 
 	@Path("/fields")
 	@POST

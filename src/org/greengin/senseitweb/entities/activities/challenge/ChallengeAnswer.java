@@ -15,6 +15,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
 
+import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.entities.users.UserProfile;
 
 @Entity
@@ -26,8 +27,14 @@ public class ChallengeAnswer {
 	Long id;
 	
 	@ManyToOne
+	Project project;
+	
+	@ManyToOne
 	UserProfile author;
 	
+	@Basic
+	Boolean published = false;
+		
 
 	@Basic
 	@ElementCollection
@@ -55,6 +62,22 @@ public class ChallengeAnswer {
 
 	public void setFieldValues(Map<Long, String> fieldValues) {
 		this.fieldValues = fieldValues;
+	}
+
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
+	}
+
+	public Boolean getPublished() {
+		return published;
+	}
+
+	public void setPublished(Boolean published) {
+		this.published = published;
 	}
 
 }

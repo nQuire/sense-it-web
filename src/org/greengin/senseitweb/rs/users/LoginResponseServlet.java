@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.greengin.senseitweb.permissions.OpenIdManager;
+import org.greengin.senseitweb.logic.permissions.OpenIdManager;
 
 public class LoginResponseServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;

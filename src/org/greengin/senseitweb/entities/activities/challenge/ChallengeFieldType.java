@@ -6,7 +6,8 @@ import org.codehaus.jackson.annotate.JsonValue;
 
 public enum ChallengeFieldType {
 	TEXTFIELD,
-	TEXTAREA;
+	TEXTAREA,
+	TITLE;
 	
 	@JsonValue
     public String getValue() { return this.name().toLowerCase(); }

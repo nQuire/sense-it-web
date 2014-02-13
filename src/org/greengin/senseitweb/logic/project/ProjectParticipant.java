@@ -5,8 +5,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.entities.subscriptions.SubscriptionType;
 import org.greengin.senseitweb.logic.AbstractContentEditor;
-import org.greengin.senseitweb.permissions.AccessLevel;
-import org.greengin.senseitweb.permissions.SubscriptionManager;
+import org.greengin.senseitweb.logic.permissions.AccessLevel;
+import org.greengin.senseitweb.logic.permissions.SubscriptionManager;
 
 public class ProjectParticipant extends AbstractContentEditor {
 

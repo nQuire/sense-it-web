@@ -17,11 +17,11 @@ import javax.ws.rs.core.MediaType;
 
 import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.entities.users.UserProfile;
+import org.greengin.senseitweb.logic.permissions.AccessLevel;
+import org.greengin.senseitweb.logic.permissions.PermissionsManager;
+import org.greengin.senseitweb.logic.permissions.SubscriptionManager;
+import org.greengin.senseitweb.logic.permissions.UsersManager;
 import org.greengin.senseitweb.logic.project.ProjectCreationRequest;
-import org.greengin.senseitweb.permissions.AccessLevel;
-import org.greengin.senseitweb.permissions.PermissionsManager;
-import org.greengin.senseitweb.permissions.SubscriptionManager;
-import org.greengin.senseitweb.permissions.UsersManager;
 import org.greengin.senseitweb.persistence.EMF;
 
 @Path("/projects")

@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.logic.AbstractContentEditor;
-import org.greengin.senseitweb.permissions.PermissionsManager;
+import org.greengin.senseitweb.logic.permissions.PermissionsManager;
 
 public class ProjectEditor extends AbstractContentEditor {
 

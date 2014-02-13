@@ -4,7 +4,7 @@ import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 
 import org.greengin.senseitweb.entities.users.UserProfile;
-import org.greengin.senseitweb.permissions.UsersManager;
+import org.greengin.senseitweb.logic.permissions.UsersManager;
 import org.greengin.senseitweb.persistence.EMF;
 
 public class AbstractContentEditor {

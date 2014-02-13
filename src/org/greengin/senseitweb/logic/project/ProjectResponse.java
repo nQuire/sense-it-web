@@ -1,7 +1,7 @@
 package org.greengin.senseitweb.logic.project;
 
 import org.greengin.senseitweb.entities.projects.Project;
-import org.greengin.senseitweb.permissions.AccessLevel;
+import org.greengin.senseitweb.logic.permissions.AccessLevel;
 
 public class ProjectResponse {
 	Project project;

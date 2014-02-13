@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 
 
+
+
 <h2 class="content-subhead">Challenge project configuration</h2>
 
 <p>Challenge projects define the fields that users have to complete to prepare their proposal.</p>
@@ -12,5 +14,27 @@
 </ul>
 
 <div data-ng-include="'html/partials/project-edit-challenge-newfield.html'" data-ng-controller="ProjectEditChallengeFieldCtrl"></div>
+
+
+<div data-ng-if="form.isOpen()">
+    <form class="pure-form pure-form-stacked">
+        <fieldset>
+            <label for="max">Max answers per participant.</label>
+            <input id="max" type="number" min="1" data-ng-model="form.values.maxAnswers">
+            <button class="pure-button pure-button-primary pure-button-small" data-ng-disabled="form.okButtonDisabled()"
+                    data-ng-click="form.save()">
+                Save
+            </button>
+            <button class="pure-button pure-button-primary pure-button-small" data-ng-disabled="form.resetButtonDisabled()"
+                    data-ng-click="form.cancel()">
+                Cancel
+            </button>
+        </fieldset>
+    </form>
+</div>
+<div data-ng-if="!form.isOpen()">
+    <p>Max answers per participant: {{activity.maxAnswers}}</p>
+    <button class="pure-button pure-button-primary pure-button-small" data-ng-click="form.open()">Edit</button>
+</div>
 
 
