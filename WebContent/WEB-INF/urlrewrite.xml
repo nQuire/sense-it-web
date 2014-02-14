@@ -6,23 +6,23 @@
 
 	<rule>
 		<from>/css/*</from>
-		<to>/html/css/$1</to>
+		<to>/html/css/</to>
 	</rule>
 	<rule>
 		<from>/fonts/*</from>
-		<to>/html/fonts/$1</to>
+		<to>/html/fonts/</to>
 	</rule>
 	<rule>
 		<from>/images/*</from>
-		<to>/html/images/$1</to>
+		<to>/html/images/</to>
 	</rule>
 	<rule>
 		<from>/js/*</from>
-		<to>/html/js/$1</to>
+		<to>/html/js/</to>
 	</rule>
 	<rule>
 		<from>/partials/*</from>
-		<to>/html/partials/$1</to>
+		<to>/html/partials/</to>
 	</rule>
 	
 </urlrewrite>

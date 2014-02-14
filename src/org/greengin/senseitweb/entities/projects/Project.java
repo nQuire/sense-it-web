@@ -10,19 +10,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import org.greengin.senseitweb.entities.IdEntity;
+
 
 @Entity
-public class Project {	
+public class Project extends IdEntity {	
 
 	public Project() {
 		this.activity = null;
 	}
 
-	@Id
-    @Column (name = "PROJECT_ID", nullable = false)
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-	Long id;
-	
 
 	@Basic
 	String title;
@@ -34,14 +31,11 @@ public class Project {
 	ProjectType type;
 	
 	@Basic
-	Boolean open;
+	Boolean open = false;
 	
 	@OneToOne(orphanRemoval = true, cascade=CascadeType.ALL)
 	AbstractActivity activity;
 	
-	public Long getId() {
-		return id;
-	}
 
 	public String getTitle() {
 		return title;

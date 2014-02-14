@@ -1,29 +1,18 @@
 package org.greengin.senseitweb.entities.users;
 
 import javax.persistence.Basic;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
+import org.greengin.senseitweb.entities.IdEntity;
 
 @Entity
-public class OpenIdEntity {
+public class OpenIdEntity extends IdEntity {
 
-	@Id
-    @Column (name = "OPENID_ID", nullable = false)
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-   	Long id;
-	
 	@Basic
 	String openId;
 	
 	@Basic
 	String email;
-
-	public Long getId() {
-		return id;
-	}
 
 	public String getOpenId() {
 		return openId;

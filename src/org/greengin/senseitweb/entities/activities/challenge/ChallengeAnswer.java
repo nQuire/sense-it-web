@@ -7,24 +7,17 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
 
+import org.greengin.senseitweb.entities.IdEntity;
 import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.entities.users.UserProfile;
 
 @Entity
-public class ChallengeAnswer {
-	
-	@Id
-	@Column(name = "ANSWER_ID", nullable = false)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long id;
+public class ChallengeAnswer extends IdEntity {
 	
 	@ManyToOne
 	Project project;
@@ -44,10 +37,6 @@ public class ChallengeAnswer {
 	private Map<Long, String> fieldValues = new HashMap<Long, String>();
 	
 	
-	public Long getId() {
-		return id;
-	}
-
 	public UserProfile getAuthor() {
 		return author;
 	}

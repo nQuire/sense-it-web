@@ -1,22 +1,14 @@
 package org.greengin.senseitweb.entities.activities.senseit;
 
 import javax.persistence.Basic;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
+import org.greengin.senseitweb.entities.IdEntity;
 
 
 @Entity
-public class SensorInput {
+public class SensorInput extends IdEntity {
 
-	@Id
-    @Column (name = "INPUT_ID", nullable = false)
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-	Long id;
-	
 	@Basic
 	float rate;
 	
@@ -39,10 +31,5 @@ public class SensorInput {
 	public void setSensor(String sensor) {
 		this.sensor = sensor;
 	}
-
-	public Long getId() {
-		return id;
-	}
-	
 	
 }

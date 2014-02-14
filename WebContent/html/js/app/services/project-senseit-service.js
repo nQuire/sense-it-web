@@ -13,7 +13,7 @@ angular.module('senseItServices', null, null).factory('ProjectSenseItService', [
      * @private
      */
     service._path = function (projectId, suffix) {
-        return 'api/project/' + projectId + '/senseit' + (suffix ? '/' + suffix : '');
+        return 'senseit' + (suffix ? '/' + suffix : '');
     };
 
     /**

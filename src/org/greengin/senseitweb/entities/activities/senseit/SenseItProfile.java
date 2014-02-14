@@ -4,21 +4,14 @@ import java.util.Collection;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import org.greengin.senseitweb.entities.IdEntity;
 
 
 @Entity
-public class SenseItProfile {
-
-	@Id
-	@Column(name = "PROFILE_ID", nullable = false)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long id;
+public class SenseItProfile extends IdEntity {
 
 	@Basic
 	String title;
@@ -26,10 +19,6 @@ public class SenseItProfile {
 
 	@OneToMany(orphanRemoval=true, cascade = CascadeType.ALL)
 	Collection<SensorInput> sensorInputs;
-
-	public Long getId() {
-		return id;
-	}
 
 	public String getTitle() {
 		return title;

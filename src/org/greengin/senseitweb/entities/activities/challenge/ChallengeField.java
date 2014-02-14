@@ -7,16 +7,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.greengin.senseitweb.entities.IdEntity;
+
 
 @Entity
-public class ChallengeField {
+public class ChallengeField extends IdEntity {
 	
 
-	@Id
-	@Column(name = "FIELD_ID", nullable = false)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long id;
-	
 	@Basic
 	ChallengeFieldType type;
 	
@@ -24,9 +21,6 @@ public class ChallengeField {
 	String label;
 	
 
-	public Long getId() {
-		return id;
-	}
 	
 	public ChallengeFieldType getType() {
 		return type;

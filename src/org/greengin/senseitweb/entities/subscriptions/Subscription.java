@@ -1,25 +1,16 @@
 package org.greengin.senseitweb.entities.subscriptions;
 
 import javax.persistence.Basic;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import org.greengin.senseitweb.entities.IdEntity;
 import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.entities.users.UserProfile;
 
 @Entity
-public class Subscription {
+public class Subscription extends IdEntity {
 
-	
-	@Id
-    @Column (name = "OPENID_ID", nullable = false)
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-   	Long id;
-	
 	@ManyToOne
 	UserProfile user;
 	
@@ -30,10 +21,6 @@ public class Subscription {
 	SubscriptionType type;
 
 
-	public Long getId() {
-		return id;
-	}
-	
 	public UserProfile getUser() {
 		return user;
 	}

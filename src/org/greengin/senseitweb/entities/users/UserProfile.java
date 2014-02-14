@@ -4,31 +4,19 @@ import java.util.Collection;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-@Entity
-public class UserProfile {
+import org.greengin.senseitweb.entities.IdEntity;
 
-	@Id
-    @Column (name = "USER_ID", nullable = false)
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-   	Long id;
-	
+@Entity
+public class UserProfile extends IdEntity {
 	@Basic
 	String name;
 	
 	@OneToMany(cascade=CascadeType.ALL)
 	Collection<OpenIdEntity> openIds;
 	
-
-	public Long getId() {
-		return id;
-	}
 
 	public String getName() {
 		return name;
