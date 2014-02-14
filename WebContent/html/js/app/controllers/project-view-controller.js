@@ -13,5 +13,13 @@ angular.module('senseItWeb', null, null).controller('ProjectViewCtrl', function 
         ProjectService.leaveProject($state.params['projectId']);
     };
 
+    $scope.openProject = function() {
+        ProjectService.openProject($state.params['projectId']);
+    };
+
+    $scope.closeProject = function() {
+        ProjectService.closeProject($state.params['projectId']);
+    };
+
 });
 

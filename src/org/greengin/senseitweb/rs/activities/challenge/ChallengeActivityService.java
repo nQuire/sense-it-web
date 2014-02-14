@@ -10,10 +10,12 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 
+import org.greengin.senseitweb.entities.activities.challenge.ChallengeActivityStage;
 import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.logic.project.challenge.ChallengeActivityEditor;
 import org.greengin.senseitweb.logic.project.challenge.ChallengeActivityRequest;
 import org.greengin.senseitweb.logic.project.challenge.ChallengeFieldRequest;
+import org.greengin.senseitweb.logic.project.challenge.ChallengeStageRequest;
 
 @Path("/project/{projectId}/challenge")
 public class ChallengeActivityService {
@@ -50,6 +52,15 @@ public class ChallengeActivityService {
 	public Project delete(@PathParam("projectId") Long projectId, @PathParam("fieldId") Long fieldId, @Context HttpServletRequest request) {
 		ChallengeActivityEditor editor = new ChallengeActivityEditor(projectId, request);
 		return editor.deleteField(fieldId);
+	}
+	
+	@Path("/stage")
+	@PUT
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Project setStage(@PathParam("projectId") Long projectId, ChallengeStageRequest stage, @Context HttpServletRequest request) {
+		ChallengeActivityEditor editor = new ChallengeActivityEditor(projectId, request);
+		return editor.setStage(stage.getStage());
 	}
 	
 }

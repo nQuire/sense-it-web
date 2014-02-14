@@ -68,5 +68,21 @@ public class ProjectService {
 		ProjectParticipant participant = new ProjectParticipant(projectId, request);
 		return participant.leave();
 	}
+	
+	@Path("/open")
+	@PUT
+	@Produces("application/json")
+	public Project open(@PathParam("projectId") Long projectId, @Context HttpServletRequest request) {
+		ProjectEditor editor = new ProjectEditor(projectId, request);
+		return editor.setOpen(true);
+	}
+
+	@Path("/close")
+	@PUT
+	@Produces("application/json")
+	public Project close(@PathParam("projectId") Long projectId, @Context HttpServletRequest request) {
+		ProjectEditor editor = new ProjectEditor(projectId, request);
+		return editor.setOpen(false);
+	}
 
 }

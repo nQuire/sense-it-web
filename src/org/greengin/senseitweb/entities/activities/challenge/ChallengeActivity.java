@@ -18,6 +18,9 @@ public class ChallengeActivity extends AbstractActivity {
 	@Basic
 	Integer maxAnswers = 1;
 	
+	@Basic
+	ChallengeActivityStage stage = ChallengeActivityStage.PROPOSAL;
+	
 	
 	public Collection<ChallengeField> getFields() {
 		return fields;
@@ -33,6 +36,14 @@ public class ChallengeActivity extends AbstractActivity {
 
 	public void setMaxAnswers(Integer maxAnswers) {
 		this.maxAnswers = maxAnswers;
+	}
+
+	public ChallengeActivityStage getStage() {
+		return stage;
+	}
+
+	public void setStage(ChallengeActivityStage stage) {
+		this.stage = stage;
 	}
 	
 	

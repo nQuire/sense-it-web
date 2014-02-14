@@ -33,6 +33,9 @@ public class Project {
 	@Basic
 	ProjectType type;
 	
+	@Basic
+	Boolean open;
+	
 	@OneToOne(orphanRemoval = true, cascade=CascadeType.ALL)
 	AbstractActivity activity;
 	
@@ -72,6 +75,14 @@ public class Project {
 	
 	public void setActivity(AbstractActivity activity) {
 		this.activity = activity;
+	}
+
+	public Boolean getOpen() {
+		return open;
+	}
+
+	public void setOpen(Boolean open) {
+		this.open = open;
 	}
 
 }

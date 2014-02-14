@@ -87,6 +87,9 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
         return service._subscriptionAction(projectId, 'leave');
     };
 
+
+
+
     /**
      *
      * @param {string} projectId
@@ -96,7 +99,8 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
      * @returns {object}
      * @private
      */
-    service._updateProjectAction = function (projectId, method, url, data) {
+    service._updateProjectAction = function (projectId, method, path, data) {
+        var url = 'api/project/' + projectId + '/' + path;
         var promise = data ? RestService[method](url, data) : RestService[method](url);
         return promise.then(function (response) {
             service._projectData[projectId].project = response.data;
@@ -107,10 +111,17 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
     service.saveMetadata = function (projectId) {
         var project = service._projectData[projectId].project;
 
-        return service._updateProjectAction(projectId, 'put', 'api/project/' + projectId + '/metadata', {
+        return service._updateProjectAction(projectId, 'put', 'metadata', {
             title: project.title,
             description: project.description
         });
+    };
+
+    service.openProject = function(projectId) {
+        return service._updateProjectAction(projectId, 'put', 'open');
+    };
+    service.closeProject = function(projectId) {
+        return service._updateProjectAction(projectId, 'put', 'close');
     };
 
     OpenIdService.registerListener(function (logged) {
