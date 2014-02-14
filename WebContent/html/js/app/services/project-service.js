@@ -37,7 +37,7 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
         }
     };
 
-    service.registerGet = function (scope, projectId) {
+    service.registerGet = function (scope, projectId, callback) {
         if (!(projectId in service._projectData)) {
             service._projectData[projectId] = {
                 ready: false,
@@ -51,6 +51,10 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
         var listener = scope.$watch('projectServiceData', function () {
             scope.project = scope.projectServiceData.project;
             scope.access = scope.projectServiceData.access;
+
+            if (callback) {
+                callback();
+            }
         }, true);
 
         scope.$on('$destroy', function () {

@@ -3,22 +3,22 @@
 angular.module('senseItWeb', null, null).config([
     '$stateProvider',
     '$urlRouterProvider',
-    function ($stateProvider, $urlRouterProvider) {
+    function ($stateProvider) {
         $stateProvider
-            .state('project-view.challenge-list', {
-                url: '/challenge/answers',
-                templateUrl: 'html/partials/project-view-challenge-list.html',
-                controller: 'ProjectViewChallengeListCtrl'
-            })
-            .state('project-view.challenge-new', {
-                url: '/challenge/new-answer',
-                templateUrl: 'html/partials/project-view-challenge-answer.html',
-                controller: 'ProjectViewChallengeAnswerCtrl'
-            })
             .state('project-view.challenge-answer', {
+                url: '/challenge/answer',
+                templateUrl: 'partials/project-view-challenge-answer-list.html',
+                controller: 'ProjectViewChallengeAnswerListCtrl'
+            })
+            .state('project-view.challenge-answer-new', {
+                url: '/challenge/new-answer',
+                templateUrl: 'partials/project-view-challenge-answer-item.html',
+                controller: 'ProjectViewChallengeAnswerItemCtrl'
+            })
+            .state('project-view.challenge-answer-item', {
                 url: '/challenge/answer/{answerId}',
-                templateUrl: 'html/partials/project-view-challenge-answer.html',
-                controller: 'ProjectViewChallengeAnswerCtrl'
+                templateUrl: 'partials/project-view-challenge-answer-item.html',
+                controller: 'ProjectViewChallengeAnswerItemCtrl'
             });
     }
 ]);

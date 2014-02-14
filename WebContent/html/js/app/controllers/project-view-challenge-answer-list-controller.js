@@ -1,7 +1,7 @@
 
 
 
-angular.module('senseItWeb', null, null).controller('ProjectViewChallengeListCtrl', function ($scope, $state) {
+angular.module('senseItWeb', null, null).controller('ProjectViewChallengeAnswerListCtrl', function ($scope, $state) {
 
     var titleField = -1;
     for (var i = 0; i < $scope.project.activity.fields.length; i++) {

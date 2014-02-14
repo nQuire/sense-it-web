@@ -5,7 +5,7 @@
     <li data-ng-repeat="answer in answers">
         <p>{{answerTeaser(answer)}}
             <button class="pure-button pure-button-primary pure-button-small"
-                    data-ui-sref="project-view.challenge-answer({answerId: answer.id})">
+                    data-ui-sref="project-view.challenge-answer-item({answerId: answer.id})">
                 Open
             </button>
         </p>
@@ -17,7 +17,7 @@
 </div>
 <div data-ng-if="!maxAnswersReached()">
     <p>You can create up to {{project.activity.maxAnswers}} answers.</p>
-    <button class="pure-button pure-button-primary" data-ui-sref="project-view.challenge-new">
+    <button class="pure-button pure-button-primary" data-ui-sref="project-view.challenge-answer-new">
         Create new answer
     </button>
 </div>

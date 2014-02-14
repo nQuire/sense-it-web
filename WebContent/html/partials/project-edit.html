@@ -6,14 +6,14 @@
     </div>
     <div class="content">
         <h2 class="content-subhead">Project description</h2>
-        <div data-ng-include="'html/partials/project-edit-metadata.html'" data-ng-controller="ProjectEditMetadataCtrl"></div>
+        <div data-ng-include="'partials/project-edit-metadata.html'" data-ng-controller="ProjectEditMetadataCtrl"></div>
 
         <div data-ng-switch="project.type">
             <div data-ng-switch-when="senseit">
-                <div data-ng-include="'html/partials/project-edit-senseit.html'" data-ng-controller="ProjectEditSenseItCtrl"></div>
+                <div data-ng-include="'partials/project-edit-senseit.html'" data-ng-controller="ProjectEditSenseItCtrl"></div>
             </div>
             <div data-ng-switch-when="challenge">
-                <div data-ng-include="'html/partials/project-edit-challenge.html'" data-ng-controller="ProjectEditChallengeCtrl"></div>
+                <div data-ng-include="'partials/project-edit-challenge.html'" data-ng-controller="ProjectEditChallengeCtrl"></div>
             </div>
         </div>
     </div>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<div data-ng-if="form.isOpen()">
+    <form class="pure-form pure-form-stacked">
+        <fieldset>
+            <div data-ng-repeat="field in project.activity.fields">
+                <label for="{{field.id}}">{{field.label}}</label>
+
+                <div data-ng-switch="field.type">
+                    <div data-ng-switch-when="textarea">
+                        <textarea id="{{field.id}}" placeholder="{{field.label}}"
+                                  data-ng-model="form.values.fieldValues[field.id]"></textarea>
+                    </div>
+                    <div data-ng-switch-default>
+                        <input id="{{field.id}}" type="text" placeholder="{{field.label}}"
+                               data-ng-model="form.values.fieldValues[field.id]"/>
+                    </div>
+                </div>
+
+            </div>
+
+            <label for="published" class="pure-checkbox">
+                <input id="published" type="checkbox" data-ng-model="form.values['published']"> Published
+            </label>
+
+
+
+            <button class="pure-button pure-button-primary pure-button-small" data-ng-disabled="form.okButtonDisabled()"
+                    data-ng-click="form.save()">
+                {{isNew ? 'Create' : 'Save'}}
+            </button>
+            <button class="pure-button pure-button-primary pure-button-small"
+                    data-ng-disabled="form.resetButtonDisabled()"
+                    data-ng-click="cancelForm()">
+                Cancel
+            </button>
+        </fieldset>
+    </form>
+
+</div>
+<div data-ng-if="!form.isOpen() && !isNew">
+    <p data-ng-repeat="field in project.activity.fields">{{field.label}}: {{answer.fieldValues[field.id]}}</p>
+
+    <p>{{answer.published ? 'Published' : 'Not published yet'}}.</p>
+
+    <button class="pure-button pure-button-primary pure-button-small" data-ng-click="form.open()">
+        Edit
+    </button>
+    <button class="pure-button pure-button-primary pure-button-small" data-ng-click="deleteAnswer()">
+        Delete
+    </button>
+    <button class="pure-button pure-button-primary pure-button-small" data-ui-sref="project-view.challenge-answer">
+        Go back
+    </button>
+</div>

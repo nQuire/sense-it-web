@@ -1,6 +1,6 @@
 angular.module('senseItWeb', null, null).directive('siwSideMenu', function ($state) {
     return {
-        templateUrl: 'html/partials/side-menu.html',
+        templateUrl: 'partials/side-menu.html',
 
         controller: function($scope, $state) {
             var elements = $('#menuLink, #menu, #layout');

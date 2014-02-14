@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN"
+        "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
+
+<urlrewrite>
+
+	<rule>
+		<from>/css/*</from>
+		<to>/html/css/$1</to>
+	</rule>
+	<rule>
+		<from>/fonts/*</from>
+		<to>/html/fonts/$1</to>
+	</rule>
+	<rule>
+		<from>/images/*</from>
+		<to>/html/images/$1</to>
+	</rule>
+	<rule>
+		<from>/js/*</from>
+		<to>/html/js/$1</to>
+	</rule>
+	<rule>
+		<from>/partials/*</from>
+		<to>/html/partials/$1</to>
+	</rule>
+	
+</urlrewrite>

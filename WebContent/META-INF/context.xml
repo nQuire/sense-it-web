@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context>
-	 <Environment name="senseItLoginReturnPath" type="java.lang.String" value="sense-it-web/login/response"
-		override="false" />
-		 
+
+	<Environment name="senseItLoginReturnPath" type="java.lang.String"
+		value="sense-it-web/login/response" override="false" />
+
 </Context>

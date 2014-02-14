@@ -5,6 +5,7 @@ angular.module('senseItWeb', null, null).controller('ProjectViewCtrl', function 
     OpenIdService.registerWatcher($scope);
     ProjectService.registerGet($scope, $state.params['projectId']);
 
+
     $scope.joinProject = function() {
         ProjectService.joinProject($state.params['projectId']);
     };
