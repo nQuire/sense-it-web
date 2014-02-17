@@ -10,8 +10,11 @@ import org.greengin.senseitweb.entities.activities.challenge.ChallengeAnswer;
 import org.greengin.senseitweb.logic.project.AbstractActivityParticipant;
 
 public class ChallengeActivityParticipant extends AbstractActivityParticipant<ChallengeActivity> {
-	private static final String ANSWER_QUERY = String.format(
+	private static final String MY_ANSWERS_QUERY = String.format(
 			"SELECT a FROM %s a WHERE a.project = :project AND a.author = :author", ChallengeAnswer.class.getName());
+
+	private static final String ALL_ANSWERS_QUERY = String.format("SELECT a FROM %s a WHERE a.project = :project",
+			ChallengeAnswer.class.getName());
 
 	private static final String ANSWER_COUNT_QUERY = String.format(
 			"SELECT COUNT(a) AS N FROM %s a WHERE a.project = :project AND a.author = :author",
@@ -21,15 +24,27 @@ public class ChallengeActivityParticipant extends AbstractActivityParticipant<Ch
 		super(projectId, request, ChallengeActivity.class);
 	}
 
-	public Collection<ChallengeAnswer> getAnswers() {
+	private Collection<ChallengeAnswer> getAnswers(boolean onlyMine) {
 		if (hasAccess) {
-			TypedQuery<ChallengeAnswer> query = em.createQuery(ANSWER_QUERY, ChallengeAnswer.class);
+			TypedQuery<ChallengeAnswer> query = em.createQuery(onlyMine ? MY_ANSWERS_QUERY : ALL_ANSWERS_QUERY,
+					ChallengeAnswer.class);
 			query.setParameter("project", project);
-			query.setParameter("author", user);
+			if (onlyMine) {
+				query.setParameter("author", user);
+			}
 			return query.getResultList();
 		} else {
 			return null;
 		}
+
+	}
+
+	public Collection<ChallengeAnswer> getMyAnswers() {
+		return getAnswers(true);
+	}
+
+	public Collection<ChallengeAnswer> getAllAnswers() {
+		return getAnswers(false);
 	}
 
 	public NewChallengeAnswerResponse createAnswer(ChallengeAnswerRequest answerData) {
@@ -49,13 +64,13 @@ public class ChallengeActivityParticipant extends AbstractActivityParticipant<Ch
 				em.getTransaction().commit();
 
 				NewChallengeAnswerResponse response = new NewChallengeAnswerResponse();
-				response.setAnswers(getAnswers());
+				response.setAnswers(getMyAnswers());
 				response.setNewAnswer(answer.getId());
 				return response;
 			}
 
 		}
-		
+
 		return null;
 	}
 
@@ -66,7 +81,7 @@ public class ChallengeActivityParticipant extends AbstractActivityParticipant<Ch
 			answerData.update(answer);
 			em.getTransaction().commit();
 
-			return getAnswers();
+			return getMyAnswers();
 		} else {
 			return null;
 		}
@@ -79,7 +94,7 @@ public class ChallengeActivityParticipant extends AbstractActivityParticipant<Ch
 			em.remove(answer);
 			em.getTransaction().commit();
 
-			return getAnswers();
+			return getMyAnswers();
 		} else {
 			return null;
 		}

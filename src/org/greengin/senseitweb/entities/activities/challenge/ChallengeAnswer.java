@@ -12,12 +12,12 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
 
-import org.greengin.senseitweb.entities.IdEntity;
 import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.entities.users.UserProfile;
+import org.greengin.senseitweb.entities.voting.VotableEntity;
 
 @Entity
-public class ChallengeAnswer extends IdEntity {
+public class ChallengeAnswer extends VotableEntity {
 	
 	@ManyToOne
 	Project project;

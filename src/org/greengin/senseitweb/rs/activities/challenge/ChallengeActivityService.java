@@ -10,7 +10,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 
-import org.greengin.senseitweb.entities.activities.challenge.ChallengeActivityStage;
 import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.logic.project.challenge.ChallengeActivityEditor;
 import org.greengin.senseitweb.logic.project.challenge.ChallengeActivityRequest;

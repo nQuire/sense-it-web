@@ -1,16 +1,17 @@
 package org.greengin.senseitweb.entities.projects;
 
 
+import java.util.Collection;
+import java.util.Vector;
+
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.greengin.senseitweb.entities.IdEntity;
+import org.greengin.senseitweb.entities.subscriptions.Subscription;
 
 
 @Entity
@@ -36,7 +37,10 @@ public class Project extends IdEntity {
 	@OneToOne(orphanRemoval = true, cascade=CascadeType.ALL)
 	AbstractActivity activity;
 	
-
+	@OneToMany(mappedBy = "project", orphanRemoval = true, cascade = CascadeType.REMOVE)
+    Collection<Subscription> subscriptions = new Vector<Subscription>();
+	
+	
 	public String getTitle() {
 		return title;
 	}
@@ -77,6 +81,14 @@ public class Project extends IdEntity {
 
 	public void setOpen(Boolean open) {
 		this.open = open;
+	}
+
+	public Collection<Subscription> getSubscriptions() {
+		return subscriptions;
+	}
+
+	public void setSubscriptions(Collection<Subscription> subscriptions) {
+		this.subscriptions = subscriptions;
 	}
 
 }

@@ -30,29 +30,10 @@
                 <p>This project is still being edited by its author.</p>
             </div>
 
-            <div data-ng-if="access.admin">
-                <h2 class="content-subhead">Project administration</h2>
-                <div data-ng-if="project.open">
-                    <button class="pure-button pure-button-primary" data-ng-click="closeProject()">
-                        Close project
-                    </button>
-                </div>
-                <div data-ng-if="!project.open">
-                    <button class="pure-button pure-button-primary" data-ng-click="openProject()">
-                        Open project
-                    </button>
-                    <button class="pure-button pure-button-primary" data-ui-sref="project-edit({projectId: project.id})">
-                        Edit project
-                    </button>
-                </div>
-            </div>
-
         </div>
         <div data-ng-if="!status.logged">
             <a ui-sref="profile">Login</a> to participate in this project.
         </div>
-
-
     </div>
 
 </div>

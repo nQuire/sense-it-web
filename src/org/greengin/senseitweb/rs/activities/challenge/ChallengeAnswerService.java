@@ -13,7 +13,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 
+import org.codehaus.jackson.map.annotate.JsonView;
 import org.greengin.senseitweb.entities.activities.challenge.ChallengeAnswer;
+import org.greengin.senseitweb.json.mixins.Views;
 import org.greengin.senseitweb.logic.project.challenge.ChallengeActivityParticipant;
 import org.greengin.senseitweb.logic.project.challenge.ChallengeAnswerRequest;
 import org.greengin.senseitweb.logic.project.challenge.NewChallengeAnswerResponse;
@@ -24,9 +26,10 @@ public class ChallengeAnswerService {
 
 	@GET
 	@Produces("application/json")
+	@JsonView({Views.User.class})
 	public Collection<ChallengeAnswer> get(@PathParam("projectId") Long projectId, @Context HttpServletRequest request) {
 		ChallengeActivityParticipant participant = new ChallengeActivityParticipant(projectId, request);
-		return participant.getAnswers();
+		return participant.getMyAnswers();
 	}
 
 	@POST

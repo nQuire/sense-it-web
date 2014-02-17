@@ -12,7 +12,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 
+import org.codehaus.jackson.map.annotate.JsonView;
 import org.greengin.senseitweb.entities.users.UserProfile;
+import org.greengin.senseitweb.json.mixins.Views;
 import org.greengin.senseitweb.logic.permissions.OpenIdManager;
 import org.greengin.senseitweb.logic.permissions.UsersManager;
 import org.greengin.senseitweb.persistence.EMF;
@@ -26,6 +28,7 @@ public class OpenIdService {
 	@Path("/logout")
 	@GET
 	@Produces("application/json")
+	@JsonView({Views.UserOpenIds.class})
 	public StatusResponse logout(@PathParam("provider") String provider, @Context HttpServletRequest request) {
 		OpenIdManager.instance().logout(request);
 
@@ -39,6 +42,7 @@ public class OpenIdService {
 	@Path("/profile")
 	@GET
 	@Produces("application/json")
+	@JsonView({Views.UserOpenIds.class})
 	public StatusResponse status(@Context HttpServletRequest request) {
 		UserProfile profile = UsersManager.get().currentUser(request);
 		StatusResponse response = new StatusResponse();

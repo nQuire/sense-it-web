@@ -20,8 +20,8 @@ public class Vote extends IdEntity {
 	@ManyToOne
 	UserProfile user;
 
-	/*@ManyToOne
-	VotableEntity target;*/
+	@ManyToOne
+	VotableEntity target;
 
 	public Long getValue() {
 		return value;
@@ -47,13 +47,13 @@ public class Vote extends IdEntity {
 		this.user = user;
 	}
 
-	/*public VotableEntity getTarget() {
+	public VotableEntity getTarget() {
 		return target;
 	}
 
 	public void setTarget(VotableEntity target) {
 		this.target = target;
-	}*/
+	}
 
 
 }

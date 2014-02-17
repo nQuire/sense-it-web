@@ -27,6 +27,11 @@ angular.module('senseItWeb', ['senseItServices', 'ui.router'], null).config([
                 templateUrl: 'partials/project-view.html',
                 controller: 'ProjectViewCtrl'
             })
+            .state('project-admin', {
+                url: '/project/{projectId}/admin',
+                templateUrl: 'partials/project-admin.html',
+                controller: 'ProjectViewCtrl'
+            })
             .state('project-edit', {
                 url: '/project/{projectId}/edit',
                 templateUrl: 'partials/project-edit.html',

@@ -41,7 +41,8 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
         if (!(projectId in service._projectData)) {
             service._projectData[projectId] = {
                 ready: false,
-                project: null
+                project: null,
+                access: null
             };
             service._load(projectId);
         }
@@ -60,7 +61,11 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
         scope.$on('$destroy', function () {
             listener();
         });
+
+        return listener;
     };
+
+
 
     service.createProject = function (data) {
         return RestService.post('api/projects', data).then(function (response) {
@@ -70,13 +75,18 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
 
     service.deleteProject = function (projectId) {
         return RestService.delete('api/project/' + projectId).then(function (response) {
-            return response.data;
+            var deleted = response.data;
+            if (deleted) {
+                service._projectData[projectId].project = null;
+                service._projectData[projectId].access = null;
+                service._projectData[projectId].ready = true;
+            }
+            return deleted;
         });
     };
 
     service._subscriptionAction = function (projectId, action) {
         return RestService.post('api/project/' + projectId + '/' + action).then(function (response) {
-            console.log(response.data);
             if (response.data) {
                 service._projectData[projectId].access = response.data;
             }

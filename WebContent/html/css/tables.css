@@ -1,0 +1,11 @@
+@charset "UTF-8";
+table.pure-table.sortable-table th {
+  cursor: pointer; }
+
+table.pure-table.sortable-table th.ascending:after {
+  content: ' ▲';
+  font-size: .75em; }
+
+table.pure-table.sortable-table th.descending:after {
+  content: ' ▼';
+  font-size: .75em; }

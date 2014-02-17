@@ -3,7 +3,6 @@ package org.greengin.senseitweb.logic.permissions;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,10 +24,7 @@ public class SubscriptionManager {
 			"SELECT u FROM %s s INNER JOIN s.user u WHERE s.project = :project AND s.type = :type",
 			Subscription.class.getName(), UserProfile.class.getName());
 
-	private static final String DELETE_PROJECT_QUERY = String.format("DELETE FROM %s s WHERE s.project = :project",
-			Subscription.class.getName());
-	
-	private static final String DELETE_SUBSCRIPTION_QUERY = String.format("DELETE FROM %s s WHERE s.project = :project AND s.user = :user AND s.type = :type",
+	private static final String SEARCH_SUBSCRIPTION_QUERY = String.format("SELECT s FROM %s s WHERE s.project = :project AND s.user = :user AND s.type = :type",
 			Subscription.class.getName());
 
 	private static SubscriptionManager sm = new SubscriptionManager();
@@ -57,19 +53,12 @@ public class SubscriptionManager {
 		return projectUsers(project, SubscriptionType.MEMBER);
 	}
 
-	public int projectDeleted(Project project) {
-		EntityManager em = EMF.get().createEntityManager();
-		Query query = em.createQuery(DELETE_PROJECT_QUERY);
-		query.setParameter("project", project);
-		int rowCount = query.executeUpdate();
-		return rowCount;
-	}
-
 	public void addSubscriptionInTransaction(EntityManager em, Project project, UserProfile user, SubscriptionType type) {
 		Subscription s = new Subscription();
 		s.setProject(project);
 		s.setUser(user);
 		s.setType(type);
+		project.getSubscriptions().add(s);
 		em.persist(s);
 	}
 
@@ -157,11 +146,14 @@ public class SubscriptionManager {
 
 	public AccessLevel unsubscribe(EntityManager em, UserProfile user, Project project, SubscriptionType type) {
 		em.getTransaction().begin();
-		Query query = em.createQuery(DELETE_SUBSCRIPTION_QUERY);
+		
+		TypedQuery<Subscription> query = em.createQuery(SEARCH_SUBSCRIPTION_QUERY, Subscription.class);
 		query.setParameter("project", project);
 		query.setParameter("user", user);
 		query.setParameter("type", type);
-		query.executeUpdate();
+		for (Subscription s : query.getResultList()) {
+			project.getSubscriptions().remove(s);
+		}
 		em.getTransaction().commit();
 		return this.getAccessLevel(em, user, project.getId());
 	}

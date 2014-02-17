@@ -3,8 +3,19 @@
 
     <ul>
         <li data-ng-class="{'pure-menu-selected': active('home')}"><a href="" data-ng-click="open('home')">Home</a></li>
-        <li data-ng-class="{'pure-menu-selected': active('projects')}"><a href="" data-ng-click="open('projects')">Projects</a></li>
-        <li data-ng-class="{'pure-menu-selected': active('create')}"><a href="" data-ng-click="open('create')">Create</a></li>
+        <li data-ng-class="{'pure-menu-selected': active('projects')}"><a href=""data-ng-click="open('projects')">Projects</a></li>
+
+        <li class="menu-item-divided pure-menu-child" data-ng-class="{'pure-menu-hidden': projectItemsHidden('project-view'), 'pure-menu-selected': active('project-view')}">
+            <a href="" data-ng-click="open('project-view')">{{projectTitle()}}</a>
+        </li>
+        <li class="pure-menu-child" data-ng-class="{'pure-menu-hidden': projectItemsHidden('project-admin'), 'pure-menu-selected': active('project-admin')}">
+            <a href="" data-ng-click="open('project-admin')">Admin</a>
+        </li>
+        <li class="pure-menu-child" data-ng-class="{'pure-menu-hidden': projectItemsHidden('project-edit'), 'pure-menu-selected': active('project-edit')}">
+            <a href="" data-ng-click="open('project-edit')">Edit</a>
+        </li>
+
+        <li data-ng-class="{'menu-item-divided': separateCreateItem(), 'pure-menu-selected': active('create')}"><a href="" data-ng-click="open('create')">Create</a></li>
         <li class="menu-item-divided" data-ng-class="{'pure-menu-selected': active('profile')}">
             <div data-ng-include="'partials/login-menu-item.html'" data-ng-controller="LoginCtrl"></div>
         </li>
