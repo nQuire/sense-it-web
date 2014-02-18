@@ -3,8 +3,8 @@ package org.greengin.senseitweb.entities.projects;
 
 import javax.persistence.Entity;
 
-import org.greengin.senseitweb.entities.IdEntity;
+import org.greengin.senseitweb.entities.AbstractEntity;
 
 @Entity
-public abstract class AbstractActivity extends IdEntity {
+public abstract class AbstractActivity extends AbstractEntity {
 }

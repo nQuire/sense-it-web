@@ -10,9 +10,9 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "ENTITY_TYPE")
-public abstract class IdEntity {
+public abstract class AbstractEntity {
 	@Id
     @Column (name = "ENTITY_ID", nullable = false)
     @GeneratedValue (strategy = GenerationType.TABLE)

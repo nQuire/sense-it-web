@@ -1,0 +1,28 @@
+
+i.vote-icon {
+  margin: 0 .25em;
+  padding: .25em;
+  border-radius: .25em;
+  cursor: pointer;
+}
+
+i.vote-icon {
+  color: #666;
+  background: transparent;
+}
+
+i.vote-icon.selected {
+  background: #519251;
+  color: white;
+}
+
+i.vote-icon.not-selected {
+  color: #aaa;
+}
+
+i.vote-icon:hover {
+  background: #519251;
+  color: #aaa;
+}
+
+

@@ -15,7 +15,10 @@ public class AbstractContentEditor {
 	public AbstractContentEditor(HttpServletRequest request) {
 		this.em = EMF.get().createEntityManager();
 		this.user = UsersManager.get().currentUser(request);
-		this.hasAccess = false;
+		this.hasAccess = user != null;
 	}
 
+	public UserProfile getCurrentUser() {
+		return user;
+	}
 }

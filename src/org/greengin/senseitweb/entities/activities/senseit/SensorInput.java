@@ -3,11 +3,11 @@ package org.greengin.senseitweb.entities.activities.senseit;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 
-import org.greengin.senseitweb.entities.IdEntity;
+import org.greengin.senseitweb.entities.AbstractEntity;
 
 
 @Entity
-public class SensorInput extends IdEntity {
+public class SensorInput extends AbstractEntity {
 
 	@Basic
 	float rate;

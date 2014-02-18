@@ -7,10 +7,10 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
-import org.greengin.senseitweb.entities.IdEntity;
+import org.greengin.senseitweb.entities.AbstractEntity;
 
 @Entity
-public class UserProfile extends IdEntity {
+public class UserProfile extends AbstractEntity {
 	@Basic
 	String name;
 	
@@ -33,5 +33,6 @@ public class UserProfile extends IdEntity {
 	public void setOpenIds(Collection<OpenIdEntity> openIds) {
 		this.openIds = openIds;
 	}
+	
 
 }

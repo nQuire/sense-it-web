@@ -1,7 +1,7 @@
 package org.greengin.senseitweb.entities.activities.ispot;
 
-import org.greengin.senseitweb.entities.IdEntity;
+import org.greengin.senseitweb.entities.AbstractEntity;
 
-public class ISpotObservation extends IdEntity {
+public class ISpotObservation extends AbstractEntity {
 
 }

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<div data-ng-if="form.isOpen()">
+<div data-ng-if="itemView.editable && form.isOpen()">
     <form class="pure-form pure-form-stacked">
         <fieldset>
             <div data-ng-repeat="field in project.activity.fields">
@@ -16,13 +16,11 @@
                                data-ng-model="form.values.fieldValues[field.id]"/>
                     </div>
                 </div>
-
             </div>
 
             <label for="published" class="pure-checkbox">
                 <input id="published" type="checkbox" data-ng-model="form.values['published']"> Published
             </label>
-
 
 
             <button class="pure-button pure-button-primary pure-button-small" data-ng-disabled="form.okButtonDisabled()"
@@ -38,18 +36,26 @@
     </form>
 
 </div>
-<div data-ng-if="!form.isOpen() && !isNew">
-    <p data-ng-repeat="field in project.activity.fields">{{field.label}}: {{answer.fieldValues[field.id]}}</p>
+<div data-ng-if="!form.isOpen() && !itemView.isNew">
+    <p data-ng-repeat="field in project.activity.fields">{{field.label}}: {{itemView.answer.fieldValues[field.id]}}</p>
 
-    <p>{{answer.published ? 'Published' : 'Not published yet'}}.</p>
+    <p data-ng-if="itemView.showPublished">{{answer.published ? 'Published' : 'Not published yet'}}.</p>
 
-    <button class="pure-button pure-button-primary pure-button-small" data-ng-click="form.open()">
-        Edit
-    </button>
-    <button class="pure-button pure-button-primary pure-button-small" data-ng-click="deleteAnswer()">
-        Delete
-    </button>
-    <button class="pure-button pure-button-primary pure-button-small" data-ui-sref="project-view.challenge-answer">
-        Go back
-    </button>
+    <div data-ng-if="itemView.showVoting">
+        <div siw-vote-widget data-vote-manager="itemView.voteManager" data-vote-target="itemView.answer"></div>
+    </div>
+
+    <p>
+        <button data-ng-if="itemView.editable" class="pure-button pure-button-primary pure-button-small"
+                data-ng-click="form.open()">
+            Edit
+        </button>
+        <button data-ng-if="itemView.editable" class="pure-button pure-button-primary pure-button-small"
+                data-ng-click="deleteAnswer()">
+            Delete
+        </button>
+        <button class="pure-button pure-button-primary pure-button-small" data-ng-click="view.close()">
+            Go back
+        </button>
+    </p>
 </div>

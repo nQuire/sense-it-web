@@ -16,10 +16,12 @@ public class ProjectParticipant extends AbstractContentEditor {
 
 	public ProjectParticipant(Long projectId, HttpServletRequest request) {
 		super(request);
-		this.projectId = projectId;
-		this.project = em.find(Project.class, projectId);
-		this.hasAccess = true;
-		this.access = SubscriptionManager.get().getAccessLevel(project, request);
+		if (hasAccess) {
+			this.projectId = projectId;
+			this.project = em.find(Project.class, projectId);
+			this.hasAccess = project != null;
+			this.access = SubscriptionManager.get().getAccessLevel(project, request);
+		}
 	}
 
 	public AccessLevel join() {

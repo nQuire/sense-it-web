@@ -1,13 +1,4 @@
-angular.module('senseItWeb', null, null).controller('ProjectViewChallengeVoteCtrl', function ($scope, ProjectChallengeVoteService) {
-
-    $scope.answersReady = false;
-
-    ProjectChallengeVoteService.getAnswers($scope.project.id).then(function (answers) {
-        console.log(answers);
-        siwVotes.countVotable(answers, 'votes', 'voteCount');
-        $scope.answers = answers;
-        $scope.answersReady = true;
-    });
+angular.module('senseItWeb', null, null).controller('ProjectViewChallengeAnswersTableCtrl', function ($scope, $state, ProjectChallengeService) {
 
     var titleField = -1;
     for (var i = 0; i < $scope.project.activity.fields.length; i++) {
@@ -39,9 +30,9 @@ angular.module('senseItWeb', null, null).controller('ProjectViewChallengeVoteCtr
                     var c = $scope.filter.strCompare(a.author.name, b.author.name);
                     break;
                 case 'votes':
-                    var c = a.voteCount.balance - a.voteCount.balance;
+                    var c = a.voteCount.positive - a.voteCount.negative - b.voteCount.positive + b.voteCount.negative;
                     if (c === 0) {
-                        c = a.voteCount.positive - a.voteCount.positive;
+                        c = a.voteCount.positive - b.voteCount.positive;
                     }
                     break;
                 case 'title':
@@ -68,7 +59,7 @@ angular.module('senseItWeb', null, null).controller('ProjectViewChallengeVoteCtr
     };
 
     $scope.answerList = function() {
-        var l = $scope.answers.filter($scope.filter.filter);
+        var l = $scope.tableView.answers.filter($scope.filter.filter);
         l.sort($scope.filter.compare);
         return l;
     };
@@ -85,5 +76,11 @@ angular.module('senseItWeb', null, null).controller('ProjectViewChallengeVoteCtr
             $scope.filter.sort.ascending = true;
         }
     };
+
+    if ($scope.tableView.editable) {
+        $scope.maxAnswersReached = function() {
+            return $scope.tableView.answers.length >= $scope.project.activity.maxAnswers;
+        };
+    }
 });
 

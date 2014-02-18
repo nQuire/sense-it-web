@@ -7,11 +7,11 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
-import org.greengin.senseitweb.entities.IdEntity;
+import org.greengin.senseitweb.entities.AbstractEntity;
 
 
 @Entity
-public class SenseItProfile extends IdEntity {
+public class SenseItProfile extends AbstractEntity {
 
 	@Basic
 	String title;

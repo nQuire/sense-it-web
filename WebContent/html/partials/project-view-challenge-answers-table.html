@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+
+<div data-ng-if="tableView.showFilter">
+    <form class="pure-form">
+        <fieldset>
+            <legend>Filter answers</legend>
+
+
+            <select id="author" data-ng-model="filter.type">
+                <option value="any">All answers</option>
+                <option value="mine">Only mine</option>
+                <option value="others">Only by others</option>
+            </select>
+
+            <input type="search" placeholder="Search" data-ng-model="filter.search">
+
+            <button type="reset" class="pure-button pure-button-primary pure-button-small">Reset</button>
+
+        </fieldset>
+    </form>
+</div>
+
+<div data-ng-if="tableView.answersReady">
+    <table class="pure-table sortable-table">
+        <thead>
+        <tr>
+            <th data-ng-if="tableView.showAuthor" data-ng-class="headerClass('author')"
+                data-ng-click="headerSort('author')">
+                Author
+            </th>
+            <th data-ng-if="tableView.showVoting" data-ng-class="headerClass('votes')"
+                data-ng-click="headerSort('votes')">
+                Votes
+            </th>
+            <th data-ng-class="headerClass('title')" data-ng-click="headerSort('title')">Answer</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr data-ng-repeat="answer in answerList()">
+            <td data-ng-if="tableView.showAuthor">{{answer.author.name}}</td>
+            <td data-ng-if="tableView.showVoting">
+                <div siw-vote-widget data-vote-manager="tableView.voteManager" data-vote-target="answer"></div>
+            </td>
+            <td>{{answerTeaser(answer)}}</td>
+            <td>
+                <button class="pure-button pure-button-primary pure-button-xsmall"
+                        data-ng-click="view.open(answer)">
+                    {{tableView.selectLabel}}
+                </button>
+            </td>
+        </tr>
+        </tbody>
+
+
+    </table>
+
+
+    <div data-ng-if="tableView.editable">
+        <div data-ng-if="maxAnswersReached()">
+            <p>You have created the maximum number of allowed answers: {{project.activity.maxAnswers}}.</p>
+        </div>
+        <div data-ng-if="!maxAnswersReached()">
+            <p>You can create up to {{project.activity.maxAnswers}} answers.</p>
+            <button class="pure-button pure-button-primary" data-ng-click="view.openNew()">
+                Create new answer
+            </button>
+        </div>
+    </div>
+</div>

@@ -4,7 +4,7 @@ angular.module('senseItServices', null, null).factory('ProjectChallengeVoteServi
 
     var service = {
         _request: function(method, projectId, answerId, voteData) {
-            var path =   'api/project/' + projectId + '/challenge/voting';
+            var path =   'api/project/' + projectId + '/challenge/votes';
             if (answerId) {
                 path += '/' + answerId;
             }

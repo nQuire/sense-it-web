@@ -3,11 +3,11 @@ package org.greengin.senseitweb.entities.activities.challenge;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 
-import org.greengin.senseitweb.entities.IdEntity;
+import org.greengin.senseitweb.entities.AbstractEntity;
 
 
 @Entity
-public class ChallengeField extends IdEntity {
+public class ChallengeField extends AbstractEntity {
 	
 
 	@Basic

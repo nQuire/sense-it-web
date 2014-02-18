@@ -14,24 +14,25 @@ public class ProjectEditor extends AbstractContentEditor {
 
 	public ProjectEditor(Long projectId, HttpServletRequest request) {
 		super(request);
-		this.projectId = projectId;
-		this.project = em.find(Project.class, projectId);
-		this.hasAccess = PermissionsManager.get().canEditProject(project, user);
-		this.projectEditable = hasAccess && !project.getOpen();
+		if (hasAccess) {
+			this.projectId = projectId;
+			this.project = em.find(Project.class, projectId);
+			this.hasAccess = PermissionsManager.get().canEditProject(project, user);
+			this.projectEditable = hasAccess && !project.getOpen();
+		}
 	}
-	
+
 	public Project setOpen(Boolean open) {
 		if (hasAccess) {
 			em.getTransaction().begin();
 			project.setOpen(open);
 			em.getTransaction().commit();
-			
+
 			return project;
 		} else {
 			return null;
 		}
 	}
-
 
 	public Project updateMetadata(ProjectRequest data) {
 		if (projectEditable) {

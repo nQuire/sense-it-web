@@ -3,10 +3,10 @@ package org.greengin.senseitweb.entities.users;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 
-import org.greengin.senseitweb.entities.IdEntity;
+import org.greengin.senseitweb.entities.AbstractEntity;
 
 @Entity
-public class OpenIdEntity extends IdEntity {
+public class OpenIdEntity extends AbstractEntity {
 
 	@Basic
 	String openId;

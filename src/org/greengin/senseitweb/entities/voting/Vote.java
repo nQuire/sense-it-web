@@ -4,12 +4,12 @@ package org.greengin.senseitweb.entities.voting;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import org.greengin.senseitweb.entities.IdEntity;
+import org.greengin.senseitweb.entities.AbstractEntity;
 import org.greengin.senseitweb.entities.users.UserProfile;
 
 
 @Entity
-public class Vote extends IdEntity {	
+public class Vote extends AbstractEntity {	
 
 	@Basic
 	Long value;

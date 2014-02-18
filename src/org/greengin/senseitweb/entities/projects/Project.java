@@ -10,12 +10,12 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import org.greengin.senseitweb.entities.IdEntity;
+import org.greengin.senseitweb.entities.AbstractEntity;
 import org.greengin.senseitweb.entities.subscriptions.Subscription;
 
 
 @Entity
-public class Project extends IdEntity {	
+public class Project extends AbstractEntity {	
 
 	public Project() {
 		this.activity = null;
