@@ -2,10 +2,11 @@ package org.greengin.senseitweb.json.mixins;
 
 public class Views {
 	
-	public static class User {}
-	public static class UserOpenIds extends User {};
+	public static interface User {}
+	public static interface UserOpenIds extends User {};
 	
-	public static class Votable extends User {}
-	public static class VotableIncludeCount extends Votable {}
-	public static class VotableIncludeNamedVotes extends Votable {}
+	public static interface Votable extends User {}
+	public static interface VotableCount extends Votable {}
+	public static interface VotableNamedVotes extends Votable {}
+	public static interface VotableCountModeration extends VotableCount {} 
 }

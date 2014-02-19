@@ -23,10 +23,10 @@ public class ChallengeVoteService {
 
 	@GET
 	@Produces("application/json")
-	@JsonView({Views.VotableIncludeCount.class})
+	@JsonView({Views.VotableCount.class})
 	public Collection<ChallengeAnswer> get(@PathParam("projectId") Long projectId, @Context HttpServletRequest request) {
 		ChallengeActivityManager participant = new ChallengeActivityManager(projectId, request);
-		Collection<ChallengeAnswer> answers = participant.getAllAnswers();
+		Collection<ChallengeAnswer> answers = participant.getAnswersForParticipant();
 		for (ChallengeAnswer a : answers) {
 			a.selectVoteAuthor(participant.getCurrentUser());
 		}
@@ -38,7 +38,7 @@ public class ChallengeVoteService {
 	@POST
 	@Consumes("application/json")
 	@Produces("application/json")
-	@JsonView({Views.VotableIncludeCount.class})
+	@JsonView({Views.VotableCount.class})
 	public VoteCount vote(@PathParam("projectId") Long projectId, @PathParam("answerId") Long answerId, VoteRequest voteData, @Context HttpServletRequest request) {
 		ChallengeActivityManager voter = new ChallengeActivityManager(projectId, request);
 		

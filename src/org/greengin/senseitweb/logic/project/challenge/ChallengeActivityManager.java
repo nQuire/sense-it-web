@@ -36,7 +36,7 @@ public class ChallengeActivityManager extends AbstractActivityManager<ChallengeA
 
 	/** common actions **/
 
-	private List<ChallengeAnswer> getAnswers(boolean onlyMine) {
+	private List<ChallengeAnswer> getAnswers(boolean onlyMine, boolean onlyModerated) {
 		boolean access = hasAccess(Role.PROJECT_ADMIN)
 				|| (hasAccess(Role.PROJECT_MEMBER) && (onlyMine || activity.getStage() != ChallengeActivityStage.PROPOSAL));
 
@@ -53,12 +53,20 @@ public class ChallengeActivityManager extends AbstractActivityManager<ChallengeA
 		}
 	}
 
-	public Collection<ChallengeAnswer> getMyAnswers() {
-		return getAnswers(true);
+	public Collection<ChallengeAnswer> getAnswersForParticipant() {
+		if (hasAccess(Role.PROJECT_MEMBER)) {
+			return getAnswers(activity.getStage() == ChallengeActivityStage.PROPOSAL, true);
+		} else {
+			return new Vector<ChallengeAnswer>();
+		}
 	}
 
-	public Collection<ChallengeAnswer> getAllAnswers() {
-		return getAnswers(false);
+	public Collection<ChallengeAnswer> getAnswersForAdmin() {
+		if (hasAccess(Role.PROJECT_ADMIN)) {
+			return getAnswers(false, false);
+		} else {
+			return new Vector<ChallengeAnswer>();
+		}
 	}
 
 	/** participant actions **/
@@ -86,7 +94,7 @@ public class ChallengeActivityManager extends AbstractActivityManager<ChallengeA
 			}
 		}
 
-		response.setAnswers(getMyAnswers());
+		response.setAnswers(getAnswersForParticipant());
 		return response;
 	}
 
@@ -98,7 +106,7 @@ public class ChallengeActivityManager extends AbstractActivityManager<ChallengeA
 			em.getTransaction().commit();
 		}
 
-		return getMyAnswers();
+		return getAnswersForParticipant();
 	}
 
 	public Collection<ChallengeAnswer> deleteAnswer(Long answerId) {
@@ -109,7 +117,7 @@ public class ChallengeActivityManager extends AbstractActivityManager<ChallengeA
 			em.getTransaction().commit();
 		}
 
-		return getMyAnswers();
+		return getAnswersForParticipant();
 	}
 	
 	public VoteCount vote(Long answerId, VoteRequest voteData) {

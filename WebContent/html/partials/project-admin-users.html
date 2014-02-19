@@ -10,7 +10,7 @@
                 data-ng-click="headerSort('username')">
                 User
             </th>
-            <th data-ng-repeat="column in activityUsersManagement"
+            <th data-ng-repeat="column in activityUsersManagement.columns"
                 data-ng-class="headerClass(column.id)"
                 data-ng-click="headerSort(column.id)">
                 {{column.label}}
@@ -22,9 +22,9 @@
         </tr>
         </thead>
         <tbody>
-        <tr data-ng-repeat="user in sortedItems()">
-            <td>{{user.name}}</td>
-            <td data-ng-repeat="column in activityUsersManagement">
+        <tr data-ng-repeat="user in sortedItems()" data-ng-class="rowClass(user)">
+            <td class="selectable" data-ng-click="select(user)">{{user.name}}</td>
+            <td data-ng-repeat="column in activityUsersManagement.columns" data-ng-class="{'clickable': column.callback}" data-ng-click="column.callback(user)">
                 {{column.data(user)}}
             </td>
             <td>Member</td>

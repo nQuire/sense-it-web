@@ -14,6 +14,13 @@ angular.module('senseItWeb', null, null).controller('ProjectViewChallengeAnswers
         return $scope.titleField < 0 ? answer.id : answer.fieldValues[$scope.titleField];
     };
 
+    var listener = $scope.$watch('answerData.filterByUser', function() {
+        console.log('change');
+    }, true);
+    $scope.$on('destroy', function() {
+        listener();
+    });
+
     $scope.filter = {
         search: '',
         type: 'any',
@@ -34,14 +41,22 @@ angular.module('senseItWeb', null, null).controller('ProjectViewChallengeAnswers
                 return false;
             }
 
+            if ($scope.answerData.filterByUser && a.author.id !== $scope.answerData.filterByUser) {
+                return false;
+            }
+
             return true;
         },
         filteredAnswers: function() {
-            var l = $scope.answerData.showFilter ? $scope.answerData.answers.filter($scope.filter.filter) : $scope.answerData.answers;
-            return l;
+            return $scope.answerData.answers.filter($scope.filter.filter);
         }
     };
 
+    if ($scope.answerData.editable) {
+        $scope.maxAnswersReached = function() {
+            return $scope.project.activity.maxAnswers <= $scope.answerData.answers.length;
+        };
+    }
 
     var sort = {};
     if ($scope.answerData.showAuthor) {

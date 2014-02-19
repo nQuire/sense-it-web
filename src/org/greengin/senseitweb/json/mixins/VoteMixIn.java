@@ -8,7 +8,7 @@ import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.entities.voting.VotableEntity;
 
 public abstract class VoteMixIn {
-	@JsonView(Views.VotableIncludeNamedVotes.class) UserProfile user;
+	@JsonView(Views.VotableNamedVotes.class) UserProfile user;
 	@JsonIgnore abstract Project getProject();
 	@JsonIgnore abstract VotableEntity getTarget();
 }

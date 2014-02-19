@@ -12,3 +12,12 @@ table.pure-table.sortable-table th.descending:after {
   content: ' ▼';
   font-size: .75em;
 }
+
+table.pure-table td.selectable {
+  cursor: pointer;
+}
+
+table.pure-table tr.selected {
+  background: #519251;
+  color: white;
+}

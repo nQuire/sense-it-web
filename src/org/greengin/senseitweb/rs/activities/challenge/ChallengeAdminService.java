@@ -34,9 +34,9 @@ public class ChallengeAdminService {
 	@Path("/answers")
 	@GET
 	@Produces("application/json")
-	@JsonView({Views.VotableIncludeCount.class})
+	@JsonView({Views.VotableCountModeration.class})
 	public Collection<ChallengeAnswer> get(@PathParam("projectId") Long projectId, @Context HttpServletRequest request) {
 		ChallengeActivityManager participant = new ChallengeActivityManager(projectId, request);
-		return participant.getMyAnswers();
+		return participant.getAnswersForAdmin();
 	}
 }

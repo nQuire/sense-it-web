@@ -90,6 +90,7 @@ public class ProjectManager extends AbstractContentManager {
 			return new Vector<UserProfile>();
 		}
 	}
+	
 
 	/** editor actions **/
 	

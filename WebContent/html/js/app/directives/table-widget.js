@@ -16,8 +16,14 @@ angular.module('senseItWeb', null, null).directive('siwSortableTableWidget', fun
                 }
             };
 
+            $scope.selected = null;
+
             $scope.headerClass = function (column) {
                 return $scope.tableData.sort[column] && column === $scope.sort.column ? ($scope.sort.ascending ? 'ascending' : 'descending') : '';
+            };
+
+            $scope.rowClass = function(item) {
+                return $scope.selected == item ? 'selected' : '';
             };
 
             $scope.headerSort = function (column) {
@@ -45,6 +51,11 @@ angular.module('senseItWeb', null, null).directive('siwSortableTableWidget', fun
                 }
                 return l;
             }
+
+            $scope.select = function(item) {
+                $scope.selected = (item == $scope.selected) ? null : item;
+                $scope.tableData.selectCallback($scope.selected);
+            };
         }
     };
 });
