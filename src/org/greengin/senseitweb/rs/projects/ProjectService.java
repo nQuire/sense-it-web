@@ -1,5 +1,7 @@
 package org.greengin.senseitweb.rs.projects;
 
+import java.util.Collection;
+
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
@@ -13,11 +15,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import org.codehaus.jackson.map.annotate.JsonView;
 import org.greengin.senseitweb.entities.projects.Project;
+import org.greengin.senseitweb.entities.users.UserProfile;
+import org.greengin.senseitweb.json.mixins.Views;
 import org.greengin.senseitweb.logic.permissions.AccessLevel;
 import org.greengin.senseitweb.logic.permissions.SubscriptionManager;
-import org.greengin.senseitweb.logic.project.ProjectEditor;
-import org.greengin.senseitweb.logic.project.ProjectParticipant;
+import org.greengin.senseitweb.logic.project.ProjectManager;
 import org.greengin.senseitweb.logic.project.ProjectRequest;
 import org.greengin.senseitweb.logic.project.ProjectResponse;
 import org.greengin.senseitweb.persistence.EMF;
@@ -40,8 +44,8 @@ public class ProjectService {
 	@DELETE
 	@Produces("application/json")
 	public Boolean delete(@PathParam("projectId") Long projectId, @Context HttpServletRequest request) {
-		ProjectEditor editor = new ProjectEditor(projectId, request);
-		return editor.deleteProject();
+		ProjectManager manager = new ProjectManager(projectId, request);
+		return manager.deleteProject();
 	}
 
 	@Path("/metadata")
@@ -49,40 +53,49 @@ public class ProjectService {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Project update(@PathParam("projectId") Long projectId, ProjectRequest projectData, @Context HttpServletRequest request) {
-		ProjectEditor editor = new ProjectEditor(projectId, request);
-		return editor.updateMetadata(projectData);
+		ProjectManager manager = new ProjectManager(projectId, request);
+		return manager.updateMetadata(projectData);
 	}
 	
 	@Path("/join")
 	@POST
 	@Produces("application/json")
 	public AccessLevel join(@PathParam("projectId") Long projectId, @Context HttpServletRequest request) {
-		ProjectParticipant participant = new ProjectParticipant(projectId, request);
-		return participant.join();
+		ProjectManager manager = new ProjectManager(projectId, request);
+		return manager.join();
 	}
 
 	@Path("/leave")
 	@POST
 	@Produces("application/json")
 	public AccessLevel leave(@PathParam("projectId") Long projectId, @Context HttpServletRequest request) {
-		ProjectParticipant participant = new ProjectParticipant(projectId, request);
-		return participant.leave();
+		ProjectManager manager = new ProjectManager(projectId, request);
+		return manager.leave();
 	}
 	
-	@Path("/open")
+	@Path("/admin/open")
 	@PUT
 	@Produces("application/json")
 	public Project open(@PathParam("projectId") Long projectId, @Context HttpServletRequest request) {
-		ProjectEditor editor = new ProjectEditor(projectId, request);
-		return editor.setOpen(true);
+		ProjectManager manager = new ProjectManager(projectId, request);
+		return manager.setOpen(true);
 	}
 
-	@Path("/close")
+	@Path("/admin/close")
 	@PUT
 	@Produces("application/json")
 	public Project close(@PathParam("projectId") Long projectId, @Context HttpServletRequest request) {
-		ProjectEditor editor = new ProjectEditor(projectId, request);
-		return editor.setOpen(false);
+		ProjectManager manager = new ProjectManager(projectId, request);
+		return manager.setOpen(false);
+	}
+	
+	@Path("/admin/users")
+	@GET
+	@Produces("application/json")
+	@JsonView({Views.User.class})
+	public Collection<UserProfile> users(@PathParam("projectId") Long projectId, @Context HttpServletRequest request) {
+		ProjectManager manager = new ProjectManager(projectId, request);
+		return manager.getUsers();
 	}
 
 }

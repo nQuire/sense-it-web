@@ -137,14 +137,13 @@ public class SubscriptionManager {
 		return level;
 	}
 
-	public AccessLevel subscribe(EntityManager em, UserProfile user, Project project, SubscriptionType type) {
+	public void subscribe(EntityManager em, UserProfile user, Project project, SubscriptionType type) {
 		em.getTransaction().begin();
 		this.addSubscriptionInTransaction(em, project, user, type);
 		em.getTransaction().commit();
-		return this.getAccessLevel(em, user, project.getId());
 	}
 
-	public AccessLevel unsubscribe(EntityManager em, UserProfile user, Project project, SubscriptionType type) {
+	public void unsubscribe(EntityManager em, UserProfile user, Project project, SubscriptionType type) {
 		em.getTransaction().begin();
 		
 		TypedQuery<Subscription> query = em.createQuery(SEARCH_SUBSCRIPTION_QUERY, Subscription.class);
@@ -155,6 +154,5 @@ public class SubscriptionManager {
 			project.getSubscriptions().remove(s);
 		}
 		em.getTransaction().commit();
-		return this.getAccessLevel(em, user, project.getId());
 	}
 }

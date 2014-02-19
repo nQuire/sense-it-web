@@ -1,42 +1,39 @@
-angular.module('senseItWeb', null, null).controller('ProjectViewChallengeAnswersItemCtrl', function ($scope, ProjectChallengeAnswerService) {
-    if ($scope.itemView.editable) {
-        $scope.isNew = !Boolean($scope.itemView.answer);
-        if ($scope.isNew) {
-            $scope.itemView.answer = {
-                fieldValues: {},
-                published: false
-            };
-        }
+angular.module('senseItWeb', null, null).controller('ProjectViewChallengeAnswersItemCtrl', function ($scope, ProjectChallengeParticipantService) {
+    if ($scope.answerData.editable) {
 
-        var editCallback = function() {
-            if ($scope.isNew) {
-                ProjectChallengeAnswerService.newAnswer($scope.project.id, $scope.itemView.answer).then(function (data) {
-                    $scope.itemView.updateAnswers(data.answers);
-                    $scope.view.openById(data.newAnswer);
+        var editCallback = function () {
+            if ($scope.itemView.isNew) {
+                ProjectChallengeParticipantService.newAnswer($scope.project.id, $scope.itemView.answer).then(function (data) {
+                    if (data.newAnswer >= 0) {
+                        $scope.itemView.updateAnswers(data.answers);
+                        $scope.itemView.openById(data.newAnswer);
+                    } else {
+                        $scope.itemView.close();
+                    }
                 });
             } else {
-                ProjectChallengeAnswerService.updateAnswer($scope.project.id, $scope.itemView.answer).then(function (answers) {
+                ProjectChallengeParticipantService.updateAnswer($scope.project.id, $scope.itemView.answer).then(function (answers) {
                     $scope.itemView.updateAnswers(answers);
                 });
             }
         };
 
-        var cancelCallback = function() {
-            if ($scope.isNew) {
-                $scope.view.close();
+        var cancelCallback = function () {
+            if ($scope.itemView.isNew) {
+                $scope.itemView.close();
             }
         }
         $scope.form = new siwFormManager($scope.itemView.answer, ['fieldValues', 'published'], editCallback, cancelCallback);
     }
 
-    if ($scope.isNew) {
+    if ($scope.itemView.isNew) {
         $scope.form.open();
     }
 
     $scope.cancelForm = function () {
         $scope.form.cancel();
         if ($scope.itemView.isNew) {
-            $scope.view.close();
+            $scope.itemView.close();
         }
     };
 

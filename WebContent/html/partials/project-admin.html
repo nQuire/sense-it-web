@@ -15,7 +15,7 @@
             <div data-ng-switch="project.type">
                 <div data-ng-switch-when="challenge">
                     <div data-ng-include="'partials/project-admin-challenge.html'"
-                         data-ng-controller="ProjectViewChallengeCtrl"></div>
+                         data-ng-controller="ProjectAdminChallengeCtrl"></div>
                 </div>
             </div>
         </div>
@@ -27,7 +27,10 @@
                 Edit project
             </button>
         </div>
+
     </div>
+
+
 </div>
 
 <div data-ng-if="!projectServiceData.ready">

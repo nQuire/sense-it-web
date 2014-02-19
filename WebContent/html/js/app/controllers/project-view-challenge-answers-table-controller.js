@@ -1,4 +1,4 @@
-angular.module('senseItWeb', null, null).controller('ProjectViewChallengeAnswersTableCtrl', function ($scope, $state, ProjectChallengeService) {
+angular.module('senseItWeb', null, null).controller('ProjectViewChallengeAnswersTableCtrl', function ($scope) {
 
     var titleField = -1;
     for (var i = 0; i < $scope.project.activity.fields.length; i++) {
@@ -21,27 +21,7 @@ angular.module('senseItWeb', null, null).controller('ProjectViewChallengeAnswers
             field: 'author',
             ascending: true
         },
-        strCompare: function(a, b) {
-            return a < b ? -1 : (a > b ? 1 : 0);
-        },
-        compare: function (a, b) {
-            switch ($scope.filter.sort.field) {
-                case 'author':
-                    var c = $scope.filter.strCompare(a.author.name, b.author.name);
-                    break;
-                case 'votes':
-                    var c = a.voteCount.positive - a.voteCount.negative - b.voteCount.positive + b.voteCount.negative;
-                    if (c === 0) {
-                        c = a.voteCount.positive - b.voteCount.positive;
-                    }
-                    break;
-                case 'title':
-                    var c = $scope.filter.strCompare($scope.answerTeaser(a), $scope.answerTeaser(b));
-                    break;
-            }
-            return $scope.filter.sort.ascending ? c : -c;
-        },
-        filter: function(a) {
+        filter: function (a) {
             if ($scope.filter.type === 'mine' && a.author.id !== $scope.status.profile.id) {
                 return false;
             }
@@ -55,32 +35,31 @@ angular.module('senseItWeb', null, null).controller('ProjectViewChallengeAnswers
             }
 
             return true;
+        },
+        filteredAnswers: function() {
+            var l = $scope.answerData.showFilter ? $scope.answerData.answers.filter($scope.filter.filter) : $scope.answerData.answers;
+            return l;
         }
     };
 
-    $scope.answerList = function() {
-        var l = $scope.tableView.answers.filter($scope.filter.filter);
-        l.sort($scope.filter.compare);
-        return l;
-    };
 
-    $scope.headerClass = function (field) {
-        return field === $scope.filter.sort.field ? ($scope.filter.sort.ascending ? 'ascending' : 'descending') : '';
-    };
-
-    $scope.headerSort = function (field) {
-        if (field === $scope.filter.sort.field) {
-            $scope.filter.sort.ascending = !$scope.filter.sort.ascending;
-        } else {
-            $scope.filter.sort.field = field;
-            $scope.filter.sort.ascending = true;
-        }
-    };
-
-    if ($scope.tableView.editable) {
-        $scope.maxAnswersReached = function() {
-            return $scope.tableView.answers.length >= $scope.project.activity.maxAnswers;
+    var sort = {};
+    if ($scope.answerData.showAuthor) {
+        sort['author'] = function (a, b) {
+            return siwCompare.string(a.author.name, b.author.name);
         };
     }
+    if ($scope.answerData.showVoting) {
+        sort['votes'] = function (a, b) {
+            return siwCompare.voteCount(a.voteCount, b.voteCount);
+        };
+    }
+    sort['answer'] = function (a, b) {
+            return siwCompare.string($scope.answerTeaser(a), $scope.answerTeaser(b));
+        };
+    $scope.tableData = {
+        sort: sort,
+        items: $scope.filter.filteredAnswers
+    };
 });
 

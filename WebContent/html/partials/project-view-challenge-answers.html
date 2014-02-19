@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 
-<div data-ng-if="view.showItem()">
+<div data-ng-if="itemView.isOpen">
     <div data-ng-include="'html/partials/project-view-challenge-answers-item.html'" data-ng-controller="ProjectViewChallengeAnswersItemCtrl"></div>
 </div>
-<div data-ng-if="view.showTable()">
+<div data-ng-if="!itemView.isOpen">
     <div data-ng-include="'html/partials/project-view-challenge-answers-table.html'" data-ng-controller="ProjectViewChallengeAnswersTableCtrl"></div>
 </div>

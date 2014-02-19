@@ -2,7 +2,7 @@
 
 /* App Module */
 
-angular.module('senseItWeb', ['senseItServices', 'ui.router'], null).config([
+angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'senseItServices', ], null).config([
     '$stateProvider',
     '$urlRouterProvider',
     function ($stateProvider, $urlRouterProvider) {
@@ -30,7 +30,7 @@ angular.module('senseItWeb', ['senseItServices', 'ui.router'], null).config([
             .state('project-admin', {
                 url: '/project/{projectId}/admin',
                 templateUrl: 'partials/project-admin.html',
-                controller: 'ProjectViewCtrl'
+                controller: 'ProjectAdminCtrl'
             })
             .state('project-edit', {
                 url: '/project/{projectId}/edit',

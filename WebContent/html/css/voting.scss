@@ -3,6 +3,9 @@ i.vote-icon {
   margin: 0 .25em;
   padding: .25em;
   border-radius: .25em;
+}
+
+i.vote-icon.enabled {
   cursor: pointer;
 }
 
@@ -20,7 +23,7 @@ i.vote-icon.not-selected {
   color: #aaa;
 }
 
-i.vote-icon:hover {
+i.vote-icon.enabled:hover {
   background: #519251;
   color: #aaa;
 }

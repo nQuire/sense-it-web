@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('senseItServices', null, null).factory('ProjectChallengeService', ['RestService', 'ProjectService', function (RestService, ProjectService) {
+angular.module('senseItServices', null, null).factory('ProjectChallengeEditorService', ['RestService', 'ProjectService', function (RestService, ProjectService) {
 
     var service = {
     };
@@ -54,13 +54,6 @@ angular.module('senseItServices', null, null).factory('ProjectChallengeService',
         var path = service._path();
         return ProjectService._updateProjectAction(projectId, 'put', path, {
             maxAnswers: activity.maxAnswers
-        });
-    };
-
-    service.setStage = function(projectId, stage) {
-        var path = service._path('stage');
-        return ProjectService._updateProjectAction(projectId, 'put', path, {
-            stage: stage
         });
     };
 

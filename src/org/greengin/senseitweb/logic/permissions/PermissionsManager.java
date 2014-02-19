@@ -26,4 +26,9 @@ public class PermissionsManager {
 	public boolean canEditProject(Project project, UserProfile user) {
 		return SubscriptionManager.get().is(SubscriptionType.ADMIN, project, user);
 	}
+	
+	public boolean canManageProject(Project project, UserProfile user) {
+		return SubscriptionManager.get().is(SubscriptionType.ADMIN, project, user);
+	}
+
 }

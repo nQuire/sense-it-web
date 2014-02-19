@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<div data-ng-if="itemView.editable && form.isOpen()">
+<div data-ng-if="form.isOpen()">
     <form class="pure-form pure-form-stacked">
         <fieldset>
             <div data-ng-repeat="field in project.activity.fields">
@@ -39,22 +39,22 @@
 <div data-ng-if="!form.isOpen() && !itemView.isNew">
     <p data-ng-repeat="field in project.activity.fields">{{field.label}}: {{itemView.answer.fieldValues[field.id]}}</p>
 
-    <p data-ng-if="itemView.showPublished">{{answer.published ? 'Published' : 'Not published yet'}}.</p>
+    <p data-ng-if="answerData.showPublished">{{itemView.answer.published ? 'Published' : 'Not published yet'}}.</p>
 
-    <div data-ng-if="itemView.showVoting">
-        <div siw-vote-widget data-vote-manager="itemView.voteManager" data-vote-target="itemView.answer"></div>
+    <div data-ng-if="answerData.showVoting">
+        <div siw-vote-widget data-vote-manager="voteManager" data-vote-target="itemView.answer"></div>
     </div>
 
     <p>
-        <button data-ng-if="itemView.editable" class="pure-button pure-button-primary pure-button-small"
+        <button data-ng-if="answerData.editable" class="pure-button pure-button-primary pure-button-small"
                 data-ng-click="form.open()">
             Edit
         </button>
-        <button data-ng-if="itemView.editable" class="pure-button pure-button-primary pure-button-small"
+        <button data-ng-if="answerData.editable" class="pure-button pure-button-primary pure-button-small"
                 data-ng-click="deleteAnswer()">
             Delete
         </button>
-        <button class="pure-button pure-button-primary pure-button-small" data-ng-click="view.close()">
+        <button class="pure-button pure-button-primary pure-button-small" data-ng-click="itemView.close()">
             Go back
         </button>
     </p>

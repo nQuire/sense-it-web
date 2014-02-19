@@ -1,30 +1,19 @@
-angular.module('senseItWeb', null, null).controller('ProjectViewChallengeStageProposalCtrl', function ($scope, ProjectChallengeAnswerService) {
+angular.module('senseItWeb', null, null).controller('ProjectViewChallengeStageProposalCtrl', function ($scope, ProjectChallengeParticipantService) {
 
-    $scope.tableView = {
-        editable: true,
+    $scope.answerData = {
         answersReady: false,
         answers: [],
+        editable: true,
         showVoting: false,
         showAuthor: false,
         showFilter: false,
-        selectLabel: 'Open'
-    };
-
-    $scope.itemView = {
-        answer: false,
-        editable: true,
-        showAuthor: false,
-        showPublished: true,
-        showVoting: false,
-        updateAnswers: function (answers) {
-            $scope.tableView.answers = answers;
-        }
+        showPublished: true
     };
 
 
-    ProjectChallengeAnswerService.getAnswers($scope.project.id).then(function (answers) {
-        $scope.itemView.updateAnswers(answers);
-        $scope.tableView.answersReady = true;
+    ProjectChallengeParticipantService.getAnswers($scope.project.id).then(function (answers) {
+        $scope.answerData.answers = answers;
+        $scope.answerData.answersReady = true;
     });
 
 

@@ -11,10 +11,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 
 import org.greengin.senseitweb.entities.projects.Project;
-import org.greengin.senseitweb.logic.project.challenge.ChallengeActivityEditor;
+import org.greengin.senseitweb.logic.project.challenge.ChallengeActivityManager;
 import org.greengin.senseitweb.logic.project.challenge.ChallengeActivityRequest;
 import org.greengin.senseitweb.logic.project.challenge.ChallengeFieldRequest;
-import org.greengin.senseitweb.logic.project.challenge.ChallengeStageRequest;
 
 @Path("/project/{projectId}/challenge")
 public class ChallengeActivityService {
@@ -23,8 +22,8 @@ public class ChallengeActivityService {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Project updateActivity(@PathParam("projectId") Long projectId, ChallengeActivityRequest activityData, @Context HttpServletRequest request) {
-		ChallengeActivityEditor editor = new ChallengeActivityEditor(projectId, request);
-		return editor.updateActivity(activityData);
+		ChallengeActivityManager manager = new ChallengeActivityManager(projectId, request);
+		return manager.updateActivity(activityData);
 	}
 
 	@Path("/fields")
@@ -32,8 +31,8 @@ public class ChallengeActivityService {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Project create(@PathParam("projectId") Long projectId, ChallengeFieldRequest fieldData, @Context HttpServletRequest request) {
-		ChallengeActivityEditor editor = new ChallengeActivityEditor(projectId, request);
-		return editor.createField(fieldData);
+		ChallengeActivityManager manager = new ChallengeActivityManager(projectId, request);
+		return manager.createField(fieldData);
 	}
 
 	@Path("/field/{fieldId}")
@@ -41,25 +40,16 @@ public class ChallengeActivityService {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Project update(@PathParam("projectId") Long projectId, @PathParam("fieldId") Long fieldId, ChallengeFieldRequest fieldData, @Context HttpServletRequest request) {
-		ChallengeActivityEditor editor = new ChallengeActivityEditor(projectId, request);
-		return editor.updateField(fieldId, fieldData);
+		ChallengeActivityManager manager = new ChallengeActivityManager(projectId, request);
+		return manager.updateField(fieldId, fieldData);
 	}
 	
 	@Path("/field/{fieldId}")
 	@DELETE
 	@Produces("application/json")
 	public Project delete(@PathParam("projectId") Long projectId, @PathParam("fieldId") Long fieldId, @Context HttpServletRequest request) {
-		ChallengeActivityEditor editor = new ChallengeActivityEditor(projectId, request);
-		return editor.deleteField(fieldId);
-	}
-	
-	@Path("/stage")
-	@PUT
-	@Consumes("application/json")
-	@Produces("application/json")
-	public Project setStage(@PathParam("projectId") Long projectId, ChallengeStageRequest stage, @Context HttpServletRequest request) {
-		ChallengeActivityEditor editor = new ChallengeActivityEditor(projectId, request);
-		return editor.setStage(stage.getStage());
+		ChallengeActivityManager manager = new ChallengeActivityManager(projectId, request);
+		return manager.deleteField(fieldId);
 	}
 	
 }

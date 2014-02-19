@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<h2 class="content-subhead">Participants</h2>
+
+<div data-ng-if="usersReady">
+    <table data-siw-sortable-table-widget data-table-data="tableData" class="pure-table">
+        <thead>
+        <tr>
+            <th data-ng-class="headerClass('username')"
+                data-ng-click="headerSort('username')">
+                User
+            </th>
+            <th data-ng-repeat="column in activityUsersManagement"
+                data-ng-class="headerClass(column.id)"
+                data-ng-click="headerSort(column.id)">
+                {{column.label}}
+            </th>
+            <th data-ng-class="headerClass('status')"
+                data-ng-click="headerSort('status')">
+                Status
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr data-ng-repeat="user in sortedItems()">
+            <td>{{user.name}}</td>
+            <td data-ng-repeat="column in activityUsersManagement">
+                {{column.data(user)}}
+            </td>
+            <td>Member</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

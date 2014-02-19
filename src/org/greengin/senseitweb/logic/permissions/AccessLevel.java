@@ -30,4 +30,17 @@ public class AccessLevel {
 		this.member = member;
 	}
 	
+	public boolean hasAccess(Role level) {
+		switch(level) {
+		case PROJECT_MEMBER:
+			return member;
+		case PROJECT_ADMIN:
+			return admin;
+		case PROJECT_EDITOR:
+			return author;
+		default:
+			return true;
+		}
+	}
+	
 }
