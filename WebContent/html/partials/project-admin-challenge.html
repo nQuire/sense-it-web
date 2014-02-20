@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 
+<div data-ng-include="'partials/project-view-challenge-outcome.html'" data-ng-controller="ProjectViewChallengeOutcomeCtrl"></div>
+
+
 <h2 class="content-subhead">Challenge administration</h2>
 
 
@@ -14,9 +17,9 @@
     Voting stage
 </button>
 <button class="pure-button"
-        data-ng-class="stageButtonClass('decision')"
-        data-ng-click="setStage('decision')">
-    Decision stage
+        data-ng-class="stageButtonClass('outcome')"
+        data-ng-click="setStage('outcome')">
+    Outcome stage
 </button>
 
 

@@ -11,7 +11,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 
 import org.greengin.senseitweb.entities.projects.Project;
-import org.greengin.senseitweb.logic.project.senseit.SenseItActivityManager;
+import org.greengin.senseitweb.logic.project.senseit.SenseItActivityActions;
 import org.greengin.senseitweb.logic.project.senseit.SenseItProfileRequest;
 import org.greengin.senseitweb.logic.project.senseit.SensorInputRequest;
 
@@ -23,7 +23,7 @@ public class SenseItActivityService {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Project create(@PathParam("projectId") Long projectId, SenseItProfileRequest profileData, @Context HttpServletRequest request) {
-		SenseItActivityManager editor = new SenseItActivityManager(projectId, request);
+		SenseItActivityActions editor = new SenseItActivityActions(projectId, request);
 		return editor.createProfile(profileData);
 	}
 
@@ -32,7 +32,7 @@ public class SenseItActivityService {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Project update(@PathParam("projectId") Long projectId, @PathParam("profileId") Long profileId, SenseItProfileRequest profileData, @Context HttpServletRequest request) {
-		SenseItActivityManager editor = new SenseItActivityManager(projectId, request);
+		SenseItActivityActions editor = new SenseItActivityActions(projectId, request);
 		return editor.updateProfile(profileId, profileData);
 	}
 	
@@ -40,7 +40,7 @@ public class SenseItActivityService {
 	@DELETE
 	@Produces("application/json")
 	public Project delete(@PathParam("projectId") Long projectId, @PathParam("profileId") Long profileId, @Context HttpServletRequest request) {
-		SenseItActivityManager editor = new SenseItActivityManager(projectId, request);
+		SenseItActivityActions editor = new SenseItActivityActions(projectId, request);
 		return editor.deleteProfile(profileId);
 	}
 	
@@ -50,7 +50,7 @@ public class SenseItActivityService {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Project create(@PathParam("projectId") Long projectId, @PathParam("profileId") Long profileId, SensorInputRequest inputData, @Context HttpServletRequest request) {
-		SenseItActivityManager editor = new SenseItActivityManager(projectId, request);
+		SenseItActivityActions editor = new SenseItActivityActions(projectId, request);
 		return editor.createSensor(profileId, inputData);
 	}
 
@@ -59,7 +59,7 @@ public class SenseItActivityService {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Project update(@PathParam("projectId") Long projectId, @PathParam("profileId") Long profileId, @PathParam("inputId") Long inputId, SensorInputRequest inputData, @Context HttpServletRequest request) {
-		SenseItActivityManager editor = new SenseItActivityManager(projectId, request);
+		SenseItActivityActions editor = new SenseItActivityActions(projectId, request);
 		return editor.updateSensor(profileId, inputId, inputData);
 	}
 	
@@ -67,7 +67,7 @@ public class SenseItActivityService {
 	@DELETE
 	@Produces("application/json")
 	public Project delete(@PathParam("projectId") Long projectId, @PathParam("profileId") Long profileId, @PathParam("inputId") Long inputId, @Context HttpServletRequest request) {
-		SenseItActivityManager editor = new SenseItActivityManager(projectId, request);
+		SenseItActivityActions editor = new SenseItActivityActions(projectId, request);
 		return editor.deleteSensor(profileId, inputId);
 	}
 

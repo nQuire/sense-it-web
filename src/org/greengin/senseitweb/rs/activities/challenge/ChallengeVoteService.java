@@ -14,7 +14,7 @@ import javax.ws.rs.core.Context;
 import org.codehaus.jackson.map.annotate.JsonView;
 import org.greengin.senseitweb.entities.activities.challenge.ChallengeAnswer;
 import org.greengin.senseitweb.json.mixins.Views;
-import org.greengin.senseitweb.logic.project.challenge.ChallengeActivityManager;
+import org.greengin.senseitweb.logic.project.challenge.ChallengeActivityActions;
 import org.greengin.senseitweb.logic.voting.VoteCount;
 import org.greengin.senseitweb.logic.voting.VoteRequest;
 
@@ -25,7 +25,7 @@ public class ChallengeVoteService {
 	@Produces("application/json")
 	@JsonView({Views.VotableCount.class})
 	public Collection<ChallengeAnswer> get(@PathParam("projectId") Long projectId, @Context HttpServletRequest request) {
-		ChallengeActivityManager participant = new ChallengeActivityManager(projectId, request);
+		ChallengeActivityActions participant = new ChallengeActivityActions(projectId, request);
 		Collection<ChallengeAnswer> answers = participant.getAnswersForParticipant();
 		for (ChallengeAnswer a : answers) {
 			a.selectVoteAuthor(participant.getCurrentUser());
@@ -40,7 +40,7 @@ public class ChallengeVoteService {
 	@Produces("application/json")
 	@JsonView({Views.VotableCount.class})
 	public VoteCount vote(@PathParam("projectId") Long projectId, @PathParam("answerId") Long answerId, VoteRequest voteData, @Context HttpServletRequest request) {
-		ChallengeActivityManager voter = new ChallengeActivityManager(projectId, request);
+		ChallengeActivityActions voter = new ChallengeActivityActions(projectId, request);
 		
 		return voter.vote(answerId, voteData);
 	}

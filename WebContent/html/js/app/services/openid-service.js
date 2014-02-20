@@ -9,31 +9,33 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
         listeners: []
     };
 
-    service.registerListener = function(listener) {
+    service.registerListener = function (listener) {
         service.listeners.push(listener);
     };
 
-    service._fireLoginEvent = function(logged) {
+    service._fireLoginEvent = function (logged) {
         for (var i = 0; i < service.listeners.length; i++) {
             service.listeners[i](logged);
         }
     };
 
-    service._request = function (path, logged) {
-        return RestService.get(path).then(function (response) {
-            service.status = response.data;
+    service._openIdRequest = function (path, logged, notify) {
+        return RestService.get(path).then(function (data) {
+            service.status = data;
             service.status.ready = true;
-            service._fireLoginEvent(logged);
+            if (notify) {
+                service._fireLoginEvent(logged);
+            }
         });
     };
 
 
     service.update = function () {
-        return service._request('api/openid/profile', true);
+        return service._openIdRequest('api/openid/profile', true, true);
     };
 
     service.logout = function () {
-        return service._request('api/openid/logout', false);
+        return service._openIdRequest('api/openid/logout', false, true);
     };
 
     service.saveProfile = function () {
@@ -47,7 +49,7 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
      * @param scope
      * @param [callback=null]
      */
-    service.registerWatcher = function(scope, callback) {
+    service.registerWatcher = function (scope, callback) {
         scope.openIdService = this;
         scope.status = scope.openIdService.status;
 
@@ -58,13 +60,17 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
             }
         }, true);
 
-        scope.$on('$destroy', function() {
+        scope.$on('$destroy', function () {
             listener();
         });
     };
 
 
     service.update();
+
+    RestService.registerErrorListener(function () {
+        return service._openIdRequest('api/openid/profile', true, false);
+    });
 
     return service;
 }]);

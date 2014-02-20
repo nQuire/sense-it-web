@@ -7,8 +7,6 @@ angular.module('senseItWeb', null, null).directive('siwVoteWidget', function () 
         },
 
         controller: function ($scope, VoteService) {
-            $scope.voteCount = $scope.voteManager.getVoteCount($scope.voteTarget);
-
             $scope.voteIconClass = function (iconValue) {
                 var classes = []
 
@@ -16,7 +14,7 @@ angular.module('senseItWeb', null, null).directive('siwVoteWidget', function () 
                     classes.push('enabled');
                 }
 
-                var state = $scope.voteCount.myVote ? iconValue * $scope.voteCount.myVote.value : 0;
+                var state = $scope.voteTarget.voteCount.myVote ? iconValue * $scope.voteTarget.voteCount.myVote.value : 0;
                 if (state > 0) {
                     classes.push('selected');
                 } else if (state < 0) {
@@ -28,11 +26,10 @@ angular.module('senseItWeb', null, null).directive('siwVoteWidget', function () 
 
             $scope.vote = function (iconValue) {
                 if ($scope.voteManager.votingEnabled) {
-                    var value = $scope.voteCount && $scope.voteCount.myVote && $scope.voteCount.myVote.value == iconValue ? 0 : iconValue;
+                    var value = $scope.voteTarget.voteCount && $scope.voteTarget.voteCount.myVote && $scope.voteTarget.voteCount.myVote.value == iconValue ? 0 : iconValue;
                     VoteService.vote($scope.voteManager.getPath($scope.voteTarget), {value: value}).then(function (voteCount) {
                         if (voteCount) {
-                            $scope.voteCount = voteCount;
-                            $scope.voteManager.setVoteCount($scope.voteTarget, voteCount);
+                            $scope.voteTarget.voteCount = voteCount;
                         }
                     });
                 }

@@ -1,7 +1,6 @@
 package org.greengin.senseitweb.logic.project;
 
 import java.util.Collection;
-import java.util.Vector;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,7 +13,7 @@ import org.greengin.senseitweb.logic.permissions.AccessLevel;
 import org.greengin.senseitweb.logic.permissions.Role;
 import org.greengin.senseitweb.logic.permissions.SubscriptionManager;
 
-public class ProjectManager extends AbstractContentManager {
+public class ProjectActions extends AbstractContentManager {
 
 	static final String USERS_QUERY = String.format(
 			"SELECT DISTINCT u FROM %s s INNER JOIN s.user u WHERE s.type = :type AND s.project = :project",
@@ -25,7 +24,7 @@ public class ProjectManager extends AbstractContentManager {
 	protected AccessLevel accessLevel;
 	protected boolean projectExists;
 
-	public ProjectManager(Long projectId, HttpServletRequest request) {
+	public ProjectActions(Long projectId, HttpServletRequest request) {
 		super(request);
 		this.projectId = projectId;
 		this.project = em.find(Project.class, projectId);
@@ -59,16 +58,18 @@ public class ProjectManager extends AbstractContentManager {
 	public AccessLevel join() {
 		if (hasAccess(Role.LOGGEDIN) && !accessLevel.isMember()) {
 			SubscriptionManager.get().subscribe(em, user, project, SubscriptionType.MEMBER);
+			return SubscriptionManager.get().getAccessLevel(em, user, projectId);
 		} 
-		
-		return SubscriptionManager.get().getAccessLevel(em, user, projectId);
+		return null;
 	}
 
 	public AccessLevel leave() {
 		if (this.hasAccess(Role.PROJECT_MEMBER)) {
 			SubscriptionManager.get().unsubscribe(em, user, project, SubscriptionType.MEMBER);
+			return SubscriptionManager.get().getAccessLevel(em, user, projectId);
 		} 
-		return SubscriptionManager.get().getAccessLevel(em, user, projectId);
+		
+		return null;
 	}
 	
 	/** admin actions **/
@@ -78,16 +79,17 @@ public class ProjectManager extends AbstractContentManager {
 			em.getTransaction().begin();
 			project.setOpen(open);
 			em.getTransaction().commit();
+			return project;
 		}
-
-		return project;
+		
+		return null;
 	}
 
 	public Collection<UserProfile> getUsers() {
 		if (hasAccess(Role.PROJECT_ADMIN)) {
 			return SubscriptionManager.get().projectMembers(project);
 		} else {
-			return new Vector<UserProfile>();
+			return null;
 		}
 	}
 	
@@ -106,14 +108,14 @@ public class ProjectManager extends AbstractContentManager {
 		}
 	}
 
-	public boolean deleteProject() {
+	public Boolean deleteProject() {
 		if (hasAccess(Role.PROJECT_EDITOR)) {
 			em.getTransaction().begin();
 			em.remove(project);
 			em.getTransaction().commit();
 			return true;
 		} else {
-			return false;
+			return null;
 		}
 	}
 }

@@ -37,13 +37,7 @@
 
 </div>
 <div data-ng-if="!form.isOpen() && !itemView.isNew">
-    <p data-ng-repeat="field in project.activity.fields">{{field.label}}: {{itemView.answer.fieldValues[field.id]}}</p>
-
-    <p data-ng-if="answerData.showPublished">{{itemView.answer.published ? 'Published' : 'Not published yet'}}.</p>
-
-    <div data-ng-if="answerData.showVoting">
-        <div siw-vote-widget data-vote-manager="voteManager" data-vote-target="itemView.answer"></div>
-    </div>
+    <div data-ng-include="'partials/project-view-challenge-answers-item-display.html'"></div>
 
     <p>
         <button data-ng-if="answerData.editable" class="pure-button pure-button-primary pure-button-small"
@@ -54,8 +48,11 @@
                 data-ng-click="deleteAnswer()">
             Delete
         </button>
+        <button data-ng-if="answerData.selectable" class="pure-button pure-button-small"
+                data-ng-class="itemView.answer.id == answerData.selectedAnswer ? 'pure-button-active' : 'pure-button-primary'"
+                data-ng-click="answerData.selectCallback(itemView.answer)">Select</button>
         <button class="pure-button pure-button-primary pure-button-small" data-ng-click="itemView.close()">
-            Go back
+            List
         </button>
     </p>
 </div>

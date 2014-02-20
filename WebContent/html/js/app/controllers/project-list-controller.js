@@ -9,9 +9,9 @@ angular.module('senseItWeb', null, null).controller('ProjectListCtrl', function 
 
     $scope._update = function() {
         $scope.loading = true;
-        RestService.get("api/projects").then(function(response) {
+        RestService.get("api/projects").then(function(data) {
             $scope.loading = false;
-            $scope.projects= response.data;
+            $scope.projects = data;
         });
     };
 

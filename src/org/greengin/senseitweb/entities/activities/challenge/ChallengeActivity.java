@@ -6,6 +6,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import org.greengin.senseitweb.entities.projects.AbstractActivity;
 
@@ -20,6 +21,9 @@ public class ChallengeActivity extends AbstractActivity {
 	
 	@Basic
 	ChallengeActivityStage stage = ChallengeActivityStage.PROPOSAL;
+	
+	@OneToOne(orphanRemoval = true, cascade=CascadeType.ALL)
+	ChallengeOutcome outcome = new ChallengeOutcome();
 	
 	
 	public Collection<ChallengeField> getFields() {
@@ -45,6 +49,13 @@ public class ChallengeActivity extends AbstractActivity {
 	public void setStage(ChallengeActivityStage stage) {
 		this.stage = stage;
 	}
-	
+
+	public ChallengeOutcome getOutcome() {
+		return outcome;
+	}
+
+	public void setOutcome(ChallengeOutcome outcome) {
+		this.outcome = outcome;
+	}	
 	
 }

@@ -11,7 +11,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 
 import org.greengin.senseitweb.entities.projects.Project;
-import org.greengin.senseitweb.logic.project.challenge.ChallengeActivityManager;
+import org.greengin.senseitweb.logic.project.challenge.ChallengeActivityActions;
 import org.greengin.senseitweb.logic.project.challenge.ChallengeActivityRequest;
 import org.greengin.senseitweb.logic.project.challenge.ChallengeFieldRequest;
 
@@ -22,7 +22,7 @@ public class ChallengeActivityService {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Project updateActivity(@PathParam("projectId") Long projectId, ChallengeActivityRequest activityData, @Context HttpServletRequest request) {
-		ChallengeActivityManager manager = new ChallengeActivityManager(projectId, request);
+		ChallengeActivityActions manager = new ChallengeActivityActions(projectId, request);
 		return manager.updateActivity(activityData);
 	}
 
@@ -31,7 +31,7 @@ public class ChallengeActivityService {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Project create(@PathParam("projectId") Long projectId, ChallengeFieldRequest fieldData, @Context HttpServletRequest request) {
-		ChallengeActivityManager manager = new ChallengeActivityManager(projectId, request);
+		ChallengeActivityActions manager = new ChallengeActivityActions(projectId, request);
 		return manager.createField(fieldData);
 	}
 
@@ -40,7 +40,7 @@ public class ChallengeActivityService {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Project update(@PathParam("projectId") Long projectId, @PathParam("fieldId") Long fieldId, ChallengeFieldRequest fieldData, @Context HttpServletRequest request) {
-		ChallengeActivityManager manager = new ChallengeActivityManager(projectId, request);
+		ChallengeActivityActions manager = new ChallengeActivityActions(projectId, request);
 		return manager.updateField(fieldId, fieldData);
 	}
 	
@@ -48,7 +48,7 @@ public class ChallengeActivityService {
 	@DELETE
 	@Produces("application/json")
 	public Project delete(@PathParam("projectId") Long projectId, @PathParam("fieldId") Long fieldId, @Context HttpServletRequest request) {
-		ChallengeActivityManager manager = new ChallengeActivityManager(projectId, request);
+		ChallengeActivityActions manager = new ChallengeActivityActions(projectId, request);
 		return manager.deleteField(fieldId);
 	}
 	

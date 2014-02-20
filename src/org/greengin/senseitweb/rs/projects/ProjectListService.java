@@ -20,7 +20,8 @@ import org.greengin.senseitweb.logic.permissions.AccessLevel;
 import org.greengin.senseitweb.logic.permissions.SubscriptionManager;
 import org.greengin.senseitweb.logic.permissions.UsersManager;
 import org.greengin.senseitweb.logic.project.ProjectCreationRequest;
-import org.greengin.senseitweb.logic.project.ProjectListManager;
+import org.greengin.senseitweb.logic.project.ProjectListActions;
+import org.greengin.senseitweb.logic.project.ProjectResponse;
 import org.greengin.senseitweb.persistence.EMF;
 
 @Path("/projects")
@@ -29,7 +30,7 @@ public class ProjectListService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Project> projectList(@Context HttpServletRequest request) {
-		ProjectListManager manager = new ProjectListManager(request);
+		ProjectListActions manager = new ProjectListActions(request);
 		return manager.getProjects();
 	}
 	
@@ -37,13 +38,13 @@ public class ProjectListService {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Long create(ProjectCreationRequest projectData, @Context HttpServletRequest request) {
-		ProjectListManager manager = new ProjectListManager(request);
+		ProjectListActions manager = new ProjectListActions(request);
 		return manager.createProject(projectData);
 	}
 	
 	@POST
 	@Path("/access")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces("application/json")
 	@Consumes("application/json")
     public Map<Long, AccessLevel> getAccess(List<Long> projectIds, @Context HttpServletRequest request) {
 		HashMap<Long, AccessLevel> levels = new HashMap<Long, AccessLevel>();
@@ -56,6 +57,26 @@ public class ProjectListService {
 		}
 		
 		return levels;
+    }
+	
+	@POST
+	@Path("/reload")
+	@Produces("application/json")
+	@Consumes("application/json")
+    public Map<Long, ProjectResponse> reload(List<Long> projectIds, @Context HttpServletRequest request) {
+		HashMap<Long, ProjectResponse> projects = new HashMap<Long, ProjectResponse>();
+		
+		UserProfile user = UsersManager.get().currentUser(request);
+		EntityManager em = EMF.get().createEntityManager();
+		
+		for (Long id : projectIds) {
+			ProjectResponse pr = new ProjectResponse();
+			pr.setProject(em.find(Project.class, id));
+			pr.setAccess(SubscriptionManager.get().getAccessLevel(em, user, id));
+			projects.put(id, pr);
+		}
+		
+		return projects;
     }
 	
 }

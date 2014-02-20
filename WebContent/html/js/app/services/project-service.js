@@ -6,10 +6,51 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
         _projectData: {}
     };
 
+    service._composePath = function(path, suffix) {
+        return path + (suffix ? '/' + suffix : '');
+    };
+
+    service._request = function(method, path, data) {
+        return data ? RestService[method](path, data) : RestService[method](path);
+    };
+
+    service.projectRequest = function(method, projectId, path, data) {
+        var _path = service._composePath('api/project/' + projectId, path);
+        return service._request(method, _path, data);
+    };
+
+    service.projectsRequest = function(method, path, data) {
+        var _path = service._composePath('api/projects', path);
+        return service._request(method, _path, data);
+    };
+
+
+    service._reload = function() {
+        var ids = [];
+        for (var id in service._projectData) {
+            ids.push(id);
+        }
+
+        if (ids.length > 0) {
+            service.projectsRequest('post', 'reload', ids).then(function(data) {
+                for (var id in service._projectData) {
+                    service._projectData[id].project = null;
+                    service._projectData[id].access = null;
+                    service._projectData[id].ready = true;
+                }
+
+                for (var id in data) {
+                    service._projectData[id].access = data[id].access;
+                    service._projectData[id].project = data[id].project;
+                }
+            });
+        }
+    }
+
     service._load = function (id) {
-        RestService.get('api/project/' + id).then(function (response) {
-            service._projectData[id].project = response.data.project;
-            service._projectData[id].access = response.data.access;
+        service.projectRequest('get', id).then(function(data) {
+            service._projectData[id].project = data.project;
+            service._projectData[id].access = data.access;
             service._projectData[id].ready = true;
         });
     };
@@ -29,9 +70,9 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
         }
 
         if (ids.length > 0) {
-            RestService.post('api/projects/access', ids).then(function (response) {
-                for (var id in response.data) {
-                    service._projectData[id].access = response.data[id];
+            service.projectsRequest('post', 'access', ids).then(function(data) {
+                for (var id in data) {
+                    service._projectData[id].access = data[id];
                 }
             });
         }
@@ -68,14 +109,11 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
 
 
     service.createProject = function (data) {
-        return RestService.post('api/projects', data).then(function (response) {
-            return response.data;
-        });
+        return service.projectsRequest('post', false, data);
     };
 
     service.deleteProject = function (projectId) {
-        return RestService.delete('api/project/' + projectId).then(function (response) {
-            var deleted = response.data;
+        return service.projectRequest('delete', projectId).then(function(deleted) {
             if (deleted) {
                 service._projectData[projectId].project = null;
                 service._projectData[projectId].access = null;
@@ -86,9 +124,9 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
     };
 
     service._subscriptionAction = function (projectId, action) {
-        return RestService.post('api/project/' + projectId + '/' + action).then(function (response) {
-            if (response.data) {
-                service._projectData[projectId].access = response.data;
+        return service.projectRequest('post', projectId, action).then(function (data) {
+            if (data) {
+                service._projectData[projectId].access = data;
             }
             return true;
         });
@@ -113,29 +151,9 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
      * @returns {object}
      * @private
      */
-    service._updateProjectAction = function (projectId, method, path, data) {
-        var url = 'api/project/' + projectId + '/' + path;
-        var promise = data ? RestService[method](url, data) : RestService[method](url);
-        return promise.then(function (response) {
-            service._projectData[projectId].project = response.data;
-            return true;
-        });
-    };
-
-    /**
-     *
-     * @param {string} projectId
-     * @param {string} method
-     * @param {object} url
-     * @param {object} [data=null]
-     * @returns {object}
-     * @private
-     */
-    service._updateProjectAdminAction = function (projectId, method, path, data) {
-        var url = 'api/project/' + projectId + '/admin/' + path;
-        var promise = data ? RestService[method](url, data) : RestService[method](url);
-        return promise.then(function (response) {
-            service._projectData[projectId].project = response.data;
+    service.updateProjectAction = function (method, projectId, path, data) {
+        return service.projectRequest(method, projectId, path, data).then(function(data) {
+            service._projectData[projectId].project = data;
             return true;
         });
     };
@@ -143,23 +161,21 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
     service.saveMetadata = function (projectId) {
         var project = service._projectData[projectId].project;
 
-        return service._updateProjectAction(projectId, 'put', 'metadata', {
+        return service.updateProjectAction('put', projectId, 'metadata', {
             title: project.title,
             description: project.description
         });
     };
 
     service.openProject = function(projectId) {
-        return service._updateProjectAdminAction(projectId, 'put', 'open');
+        return service.updateProjectAction('put', projectId, 'admin/open');
     };
     service.closeProject = function(projectId) {
-        return service._updateProjectAdminAction(projectId, 'put', 'close');
+        return service.updateProjectAction('put', projectId, 'admin/close');
     };
 
     service.getUsers = function(projectId) {
-        return RestService.get('api/project/' + projectId + '/admin/users').then(function(response) {
-            return response.data;
-        });
+        return service.projectRequest('get', projectId, 'admin/users');
     };
 
     OpenIdService.registerListener(function (logged) {
@@ -170,6 +186,7 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
         }
     });
 
+    RestService.registerErrorListener(service._reload);
 
     return service;
 }]);

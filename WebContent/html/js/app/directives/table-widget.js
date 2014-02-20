@@ -6,7 +6,6 @@ angular.module('senseItWeb', null, null).directive('siwSortableTableWidget', fun
             element.addClass('sortable-table');
         },
         controller: function ($scope) {
-            console.log($scope);
             $scope.sort = {
                 column: false,
                 ascending: true,
@@ -37,12 +36,9 @@ angular.module('senseItWeb', null, null).directive('siwSortableTableWidget', fun
                 }
             };
 
-            $scope.test = "test";
-
             $scope.unsortedItems = typeof $scope.tableData.items === 'function' ? $scope.tableData.items : function () {
                 return $scope.tableData.items;
             };
-
 
             $scope.sortedItems = function () {
                 var l = $scope.unsortedItems();

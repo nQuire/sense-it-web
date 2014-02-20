@@ -46,26 +46,26 @@ angular.module('senseItServices', null, null).factory('ProjectSenseItService', [
 
     service.createProfile = function (projectId, profile) {
         var path = service._path(projectId, 'profiles');
-        return ProjectService._updateProjectAction(projectId, 'post', path, {
+        return ProjectService.updateProjectAction('post', projectId, path, {
             title: profile.title
         });
     };
 
     service.updateProfile = function (projectId, profile) {
         var path = service._profilePath(projectId, profile.id);
-        return ProjectService._updateProjectAction(projectId, 'put', path, {
+        return ProjectService.updateProjectAction('put', projectId, path, {
             title: profile.title
         });
     };
 
     service.deleteProfile = function (projectId, profileId) {
         var path = service._profilePath(projectId, profileId);
-        return ProjectService._updateProjectAction(projectId, 'delete', path);
+        return ProjectService.updateProjectAction('delete', projectId, path);
     };
 
     service.createInput = function (projectId, profileId, input) {
         var path = service._profilePath(projectId, profileId, 'inputs');
-        return ProjectService._updateProjectAction(projectId, 'post', path, {
+        return ProjectService.updateProjectAction('post', projectId, path, {
             sensor: input.sensor,
             rate: input.rate
         });
@@ -73,7 +73,7 @@ angular.module('senseItServices', null, null).factory('ProjectSenseItService', [
 
     service.updateInput = function (projectId, profileId, input) {
         var path = service._inputPath(projectId, profileId, input.id);
-        return ProjectService._updateProjectAction(projectId, 'put', path, {
+        return ProjectService.updateProjectAction('put', projectId, path, {
             sensor: input.sensor,
             rate: input.rate
         });
@@ -81,7 +81,7 @@ angular.module('senseItServices', null, null).factory('ProjectSenseItService', [
 
     service.deleteInput = function (projectId, profileId, inputId) {
         var path = service._inputPath(projectId, profileId, inputId);
-        return ProjectService._updateProjectAction(projectId, 'delete', path);
+        return ProjectService.updateProjectAction('delete', projectId, path);
     };
 
     return service;

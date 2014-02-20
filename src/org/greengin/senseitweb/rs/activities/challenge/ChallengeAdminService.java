@@ -15,7 +15,7 @@ import org.codehaus.jackson.map.annotate.JsonView;
 import org.greengin.senseitweb.entities.activities.challenge.ChallengeAnswer;
 import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.json.mixins.Views;
-import org.greengin.senseitweb.logic.project.challenge.ChallengeActivityManager;
+import org.greengin.senseitweb.logic.project.challenge.ChallengeActivityActions;
 import org.greengin.senseitweb.logic.project.challenge.ChallengeStageRequest;
 
 @Path("/project/{projectId}/challenge/admin")
@@ -27,7 +27,7 @@ public class ChallengeAdminService {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Project setStage(@PathParam("projectId") Long projectId, ChallengeStageRequest stage, @Context HttpServletRequest request) {
-		ChallengeActivityManager manager = new ChallengeActivityManager(projectId, request);
+		ChallengeActivityActions manager = new ChallengeActivityActions(projectId, request);
 		return manager.setStage(stage.getStage());
 	}
 	
@@ -36,7 +36,7 @@ public class ChallengeAdminService {
 	@Produces("application/json")
 	@JsonView({Views.VotableCountModeration.class})
 	public Collection<ChallengeAnswer> get(@PathParam("projectId") Long projectId, @Context HttpServletRequest request) {
-		ChallengeActivityManager participant = new ChallengeActivityManager(projectId, request);
+		ChallengeActivityActions participant = new ChallengeActivityActions(projectId, request);
 		return participant.getAnswersForAdmin();
 	}
 }

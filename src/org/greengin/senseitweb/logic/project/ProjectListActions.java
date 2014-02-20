@@ -12,7 +12,7 @@ import org.greengin.senseitweb.logic.AbstractContentManager;
 import org.greengin.senseitweb.logic.permissions.Role;
 import org.greengin.senseitweb.logic.permissions.SubscriptionManager;
 
-public class ProjectListManager extends AbstractContentManager {
+public class ProjectListActions extends AbstractContentManager {
 
 	static final String PROJECTS_QUERY = String.format("SELECT p FROM %s p", Project.class.getName());
 
@@ -20,7 +20,7 @@ public class ProjectListManager extends AbstractContentManager {
 			"SELECT DISTINCT u FROM %s s INNER JOIN s.user u WHERE s.type = :type AND s.project = :project",
 			Subscription.class.getName());
 
-	public ProjectListManager(HttpServletRequest request) {
+	public ProjectListActions(HttpServletRequest request) {
 		super(request);
 	}
 

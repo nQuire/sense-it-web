@@ -5,13 +5,13 @@ import javax.servlet.http.HttpServletRequest;
 import org.greengin.senseitweb.entities.projects.AbstractActivity;
 import org.greengin.senseitweb.logic.permissions.Role;
 
-public class AbstractActivityManager<T extends AbstractActivity> extends ProjectManager {
+public class AbstractActivityActions<T extends AbstractActivity> extends ProjectActions {
 	
 	protected T activity;
 	boolean validActivity;
 	Class<T> type;
 	
-	public AbstractActivityManager(Long projectId, HttpServletRequest request, Class<T> type) {
+	public AbstractActivityActions(Long projectId, HttpServletRequest request, Class<T> type) {
 		super(projectId, request);
 		this.type = type;
 		

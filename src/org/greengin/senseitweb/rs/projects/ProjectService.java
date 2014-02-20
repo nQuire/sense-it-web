@@ -21,7 +21,7 @@ import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.json.mixins.Views;
 import org.greengin.senseitweb.logic.permissions.AccessLevel;
 import org.greengin.senseitweb.logic.permissions.SubscriptionManager;
-import org.greengin.senseitweb.logic.project.ProjectManager;
+import org.greengin.senseitweb.logic.project.ProjectActions;
 import org.greengin.senseitweb.logic.project.ProjectRequest;
 import org.greengin.senseitweb.logic.project.ProjectResponse;
 import org.greengin.senseitweb.persistence.EMF;
@@ -44,7 +44,7 @@ public class ProjectService {
 	@DELETE
 	@Produces("application/json")
 	public Boolean delete(@PathParam("projectId") Long projectId, @Context HttpServletRequest request) {
-		ProjectManager manager = new ProjectManager(projectId, request);
+		ProjectActions manager = new ProjectActions(projectId, request);
 		return manager.deleteProject();
 	}
 
@@ -53,7 +53,7 @@ public class ProjectService {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Project update(@PathParam("projectId") Long projectId, ProjectRequest projectData, @Context HttpServletRequest request) {
-		ProjectManager manager = new ProjectManager(projectId, request);
+		ProjectActions manager = new ProjectActions(projectId, request);
 		return manager.updateMetadata(projectData);
 	}
 	
@@ -61,7 +61,7 @@ public class ProjectService {
 	@POST
 	@Produces("application/json")
 	public AccessLevel join(@PathParam("projectId") Long projectId, @Context HttpServletRequest request) {
-		ProjectManager manager = new ProjectManager(projectId, request);
+		ProjectActions manager = new ProjectActions(projectId, request);
 		return manager.join();
 	}
 
@@ -69,7 +69,7 @@ public class ProjectService {
 	@POST
 	@Produces("application/json")
 	public AccessLevel leave(@PathParam("projectId") Long projectId, @Context HttpServletRequest request) {
-		ProjectManager manager = new ProjectManager(projectId, request);
+		ProjectActions manager = new ProjectActions(projectId, request);
 		return manager.leave();
 	}
 	
@@ -77,7 +77,7 @@ public class ProjectService {
 	@PUT
 	@Produces("application/json")
 	public Project open(@PathParam("projectId") Long projectId, @Context HttpServletRequest request) {
-		ProjectManager manager = new ProjectManager(projectId, request);
+		ProjectActions manager = new ProjectActions(projectId, request);
 		return manager.setOpen(true);
 	}
 
@@ -85,7 +85,7 @@ public class ProjectService {
 	@PUT
 	@Produces("application/json")
 	public Project close(@PathParam("projectId") Long projectId, @Context HttpServletRequest request) {
-		ProjectManager manager = new ProjectManager(projectId, request);
+		ProjectActions manager = new ProjectActions(projectId, request);
 		return manager.setOpen(false);
 	}
 	
@@ -94,7 +94,7 @@ public class ProjectService {
 	@Produces("application/json")
 	@JsonView({Views.User.class})
 	public Collection<UserProfile> users(@PathParam("projectId") Long projectId, @Context HttpServletRequest request) {
-		ProjectManager manager = new ProjectManager(projectId, request);
+		ProjectActions manager = new ProjectActions(projectId, request);
 		return manager.getUsers();
 	}
 

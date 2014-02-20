@@ -7,7 +7,7 @@ import org.codehaus.jackson.annotate.JsonValue;
 public enum ChallengeActivityStage {
 	PROPOSAL,
 	VOTING,
-	DECISION;
+	OUTCOME;
 	
 	@JsonValue
     public String getValue() { return this.name().toLowerCase(); }

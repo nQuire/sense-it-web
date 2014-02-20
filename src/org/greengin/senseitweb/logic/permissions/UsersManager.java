@@ -22,10 +22,6 @@ public class UsersManager {
 		return um;
 	}
 
-	private UsersManager() {
-
-	}
-
 	public UserProfile currentUser(HttpServletRequest request) {
 
 		String id = OpenIdManager.instance().getId(request);

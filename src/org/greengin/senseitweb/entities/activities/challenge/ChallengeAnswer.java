@@ -9,6 +9,7 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
 
@@ -29,6 +30,7 @@ public class ChallengeAnswer extends VotableEntity {
 	Boolean published = false;
 		
 
+	@Lob
 	@Basic
 	@ElementCollection
 	@JoinTable(name="FIELD_VALUES", joinColumns = @JoinColumn(name="ID"))

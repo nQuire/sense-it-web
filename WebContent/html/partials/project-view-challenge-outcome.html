@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<h2 class="content-subhead">Challenge outcome</h2>
+
+<div data-ng-if="outcomeReady">
+    <div data-ng-if="outcome.selectedAnswer">
+        <p>Selected answer:</p>
+        <div data-ng-include="'partials/project-view-challenge-answers-item-display.html'"></div>
+    </div>
+    <div data-ng-if="!outcome.selectedAnswer">
+        <p>No answer has been selected yet.</p>
+    </div>
+
+    <div data-ng-if="outcomeForm.isOpen()">
+        <form class="pure-form pure-form-stacked">
+            <fieldset>
+                <label for="explanation">Explanation</label>
+                <textarea id="explanation" placeholder="Explanation"
+                          data-ng-model="outcomeForm.values.explanation"></textarea>
+
+                <button class="pure-button pure-button-primary pure-button-small"
+                        data-ng-disabled="outcomeForm.okButtonDisabled()"
+                        data-ng-click="outcomeForm.save()">
+                    Save
+                </button>
+                <button class="pure-button pure-button-primary pure-button-small"
+                        data-ng-disabled="form.resetButtonDisabled()"
+                        data-ng-click="outcomeForm.cancel()">
+                    Cancel
+                </button>
+            </fieldset>
+        </form>
+    </div>
+    <div data-ng-if="!outcomeForm.isOpen()">
+        <p>Explanation: {{outcome.explanation}}</p>
+        <button data-ng-if="outcomeData.editable" class="pure-button pure-button-primary pure-button-small" data-ng-click="outcomeForm.open()">Edit
+        </button>
+    </div>
+</div>
+

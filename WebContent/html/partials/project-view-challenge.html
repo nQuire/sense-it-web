@@ -10,7 +10,8 @@
         <div data-ng-include="'partials/project-view-challenge-stage-vote.html'"
          data-ng-controller="ProjectViewChallengeStageVoteCtrl"></div>
     </div>
-    <div data-ng-switch-default>
-        other
+    <div data-ng-switch-when="outcome">
+        <div data-ng-include="'partials/project-view-challenge-stage-outcome.html'"
+             data-ng-controller="ProjectViewChallengeStageOutcomeCtrl"></div>
     </div>
 </div>

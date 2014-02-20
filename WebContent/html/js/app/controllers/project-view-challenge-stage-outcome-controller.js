@@ -1,12 +1,19 @@
-angular.module('senseItWeb', null, null).controller('ProjectViewChallengeStageVoteCtrl', function ($scope, ProjectChallengeParticipantService) {
+angular.module('senseItWeb', null, null).controller('ProjectViewChallengeStageOutcomeCtrl', function ($scope, ProjectChallengeParticipantService) {
 
+    $scope.outcomeData = {
+        editable: false,
+        selectedAnswer: null,
+        updateCallback: function () {
+            $scope.answerData.selectedAnswer = $scope.outcomeData.selectedAnswer;
+        }
+    };
 
     $scope.answerData = {
         answersReady: false,
         answers: [],
         editable: false,
         showVoting: true,
-        votingEnabled: true,
+        votingEnabled: false,
         showAuthor: true,
         showFilter: true,
         showPublished: false
@@ -16,6 +23,5 @@ angular.module('senseItWeb', null, null).controller('ProjectViewChallengeStageVo
         $scope.answerData.answers = answers;
         $scope.answerData.answersReady = true;
     });
-
 });
 

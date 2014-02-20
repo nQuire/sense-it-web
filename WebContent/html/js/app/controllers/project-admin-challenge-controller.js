@@ -1,4 +1,13 @@
-angular.module('senseItWeb', null, null).controller('ProjectAdminChallengeCtrl', function ($scope, ProjectChallengeAdminService) {
+angular.module('senseItWeb', null, null).controller('ProjectAdminChallengeCtrl', function ($scope, ProjectChallengeAdminService, ProjectChallengeOutcomeService) {
+
+    $scope.outcomeData = {
+        editable: true,
+        selectedAnswer: null,
+        selectCallback: function (answer) {},
+        updateCallback: function () {
+            $scope.answerData.selectedAnswer = $scope.outcomeData.selectedAnswer;
+        }
+    };
 
     $scope.answerData = {
         answersReady: false,
@@ -9,7 +18,12 @@ angular.module('senseItWeb', null, null).controller('ProjectAdminChallengeCtrl',
         showAuthor: true,
         showFilter: false,
         showPublished: false,
-        filterByUser: null
+        filterByUser: null,
+        selectable: true,
+        selectCallback: function (answer) {
+            $scope.outcomeData.selectCallback(answer);
+        },
+        selectedAnswer: null
     };
 
     $scope.userAnswerCount = {
@@ -35,11 +49,6 @@ angular.module('senseItWeb', null, null).controller('ProjectAdminChallengeCtrl',
         }
     };
 
-    ProjectChallengeAdminService.getVotedAnswers($scope.project.id).then(function (answers) {
-        $scope.answerData.answers = answers;
-        $scope.answerData.answersReady = true;
-    });
-
     $scope.activityUsersManagement = {
         columns: [
             {
@@ -55,7 +64,6 @@ angular.module('senseItWeb', null, null).controller('ProjectAdminChallengeCtrl',
         ],
         userSelectCallback: function (user) {
             $scope.answerData.filterByUser = user ? user.id : null;
-            console.log($scope.answerData.filterByUser);
         }
     };
 
@@ -68,5 +76,11 @@ angular.module('senseItWeb', null, null).controller('ProjectAdminChallengeCtrl',
     $scope.stageButtonClass = function (stage) {
         return stage == $scope.project.activity.stage ? 'pure-button-active' : 'pure-button-primary';
     };
+
+
+    ProjectChallengeAdminService.getVotedAnswers($scope.project.id).then(function (answers) {
+        $scope.answerData.answers = answers;
+        $scope.answerData.answersReady = true;
+    });
 });
 

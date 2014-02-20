@@ -7,6 +7,7 @@ import java.util.Vector;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -25,6 +26,7 @@ public class Project extends AbstractEntity {
 	@Basic
 	String title;
 
+	@Lob
 	@Basic
 	String description;
 

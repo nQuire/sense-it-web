@@ -16,7 +16,7 @@ import javax.ws.rs.core.Context;
 import org.codehaus.jackson.map.annotate.JsonView;
 import org.greengin.senseitweb.entities.activities.challenge.ChallengeAnswer;
 import org.greengin.senseitweb.json.mixins.Views;
-import org.greengin.senseitweb.logic.project.challenge.ChallengeActivityManager;
+import org.greengin.senseitweb.logic.project.challenge.ChallengeActivityActions;
 import org.greengin.senseitweb.logic.project.challenge.ChallengeAnswerRequest;
 import org.greengin.senseitweb.logic.project.challenge.NewChallengeAnswerResponse;
 
@@ -28,7 +28,7 @@ public class ChallengeAnswerService {
 	@Produces("application/json")
 	@JsonView({Views.User.class})
 	public Collection<ChallengeAnswer> get(@PathParam("projectId") Long projectId, @Context HttpServletRequest request) {
-		ChallengeActivityManager participant = new ChallengeActivityManager(projectId, request);
+		ChallengeActivityActions participant = new ChallengeActivityActions(projectId, request);
 		return participant.getAnswersForParticipant();
 	}
 
@@ -36,7 +36,7 @@ public class ChallengeAnswerService {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public NewChallengeAnswerResponse create(@PathParam("projectId") Long projectId, ChallengeAnswerRequest answerData, @Context HttpServletRequest request) {
-		ChallengeActivityManager participant = new ChallengeActivityManager(projectId, request);
+		ChallengeActivityActions participant = new ChallengeActivityActions(projectId, request);
 		return participant.createAnswer(answerData);
 	}
 	
@@ -45,7 +45,7 @@ public class ChallengeAnswerService {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Collection<ChallengeAnswer> update(@PathParam("projectId") Long projectId, @PathParam("answerId") Long answerId, ChallengeAnswerRequest answerData, @Context HttpServletRequest request) {
-		ChallengeActivityManager participant = new ChallengeActivityManager(projectId, request);
+		ChallengeActivityActions participant = new ChallengeActivityActions(projectId, request);
 		return participant.updateAnswer(answerId, answerData);
 	}
 
@@ -53,7 +53,7 @@ public class ChallengeAnswerService {
 	@DELETE
 	@Produces("application/json")
 	public Collection<ChallengeAnswer> delete(@PathParam("projectId") Long projectId, @PathParam("answerId") Long answerId, @Context HttpServletRequest request) {
-		ChallengeActivityManager participant = new ChallengeActivityManager(projectId, request);
+		ChallengeActivityActions participant = new ChallengeActivityActions(projectId, request);
 		return participant.deleteAnswer(answerId);
 	}
 

@@ -7,11 +7,11 @@ import org.greengin.senseitweb.entities.activities.senseit.SenseItProfile;
 import org.greengin.senseitweb.entities.activities.senseit.SensorInput;
 import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.logic.permissions.Role;
-import org.greengin.senseitweb.logic.project.AbstractActivityManager;
+import org.greengin.senseitweb.logic.project.AbstractActivityActions;
 
-public class SenseItActivityManager extends AbstractActivityManager<SenseItActivity> {
+public class SenseItActivityActions extends AbstractActivityActions<SenseItActivity> {
 
-	public SenseItActivityManager(Long projectId, HttpServletRequest request) {
+	public SenseItActivityActions(Long projectId, HttpServletRequest request) {
 		super(projectId, request, SenseItActivity.class);
 	}
 
@@ -25,8 +25,10 @@ public class SenseItActivityManager extends AbstractActivityManager<SenseItActiv
 			activity.getProfiles().add(profile);
 			em.persist(profile);
 			em.getTransaction().commit();
+			return project;
 		}
-		return project;
+		
+		return null;
 	}
 
 	public Project updateProfile(Long profileId, SenseItProfileRequest profileData) {
@@ -36,8 +38,11 @@ public class SenseItActivityManager extends AbstractActivityManager<SenseItActiv
 			em.getTransaction().begin();
 			profileData.updateProfile(profile);
 			em.getTransaction().commit();
+
+			return project;
 		}
-		return project;
+		
+		return null;
 	}
 
 	public Project deleteProfile(Long profileId) {
@@ -47,8 +52,11 @@ public class SenseItActivityManager extends AbstractActivityManager<SenseItActiv
 			em.getTransaction().begin();
 			activity.getProfiles().remove(profile);
 			em.getTransaction().commit();
+
+			return project;
 		}
-		return project;
+		
+		return null;
 	}
 
 	public Project createSensor(Long profileId, SensorInputRequest inputData) {
@@ -60,8 +68,11 @@ public class SenseItActivityManager extends AbstractActivityManager<SenseItActiv
 			inputData.updateInput(input);
 			profile.getSensorInputs().add(input);
 			em.getTransaction().commit();
+
+			return project;
 		}
-		return project;
+		
+		return null;
 	}
 
 	public Project updateSensor(Long profileId, Long inputId, SensorInputRequest inputData) {
@@ -71,8 +82,11 @@ public class SenseItActivityManager extends AbstractActivityManager<SenseItActiv
 			em.getTransaction().begin();
 			inputData.updateInput(input);
 			em.getTransaction().commit();
+
+			return project;
 		}
-		return project;
+		
+		return null;
 	}
 
 	public Project deleteSensor(Long profileId, Long inputId) {
@@ -83,8 +97,11 @@ public class SenseItActivityManager extends AbstractActivityManager<SenseItActiv
 			em.getTransaction().begin();
 			profile.getSensorInputs().remove(input);
 			em.getTransaction().commit();
+
+			return project;
 		}
-		return project;
+		
+		return null;
 	}
 
 }

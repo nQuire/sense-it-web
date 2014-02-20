@@ -1,47 +1,33 @@
 'use strict';
 
-angular.module('senseItServices', null, null).factory('ProjectChallengeParticipantService', ['RestService', function (RestService) {
+angular.module('senseItServices', null, null).factory('ProjectChallengeParticipantService', ['ProjectService', function (ProjectService) {
 
     var service = {
-        _pathRequest: function (path, method, answerData) {
-            if (answerData) {
-                var promise = RestService[method](path, {
-                    fieldValues: answerData.fieldValues,
-                    published: answerData.published
-                });
-            } else {
-                var promise = RestService[method](path);
-            }
-
-            return promise.then(function (response) {
-                return response.data;
-            });
+        _answersPath: 'challenge/answers',
+        _answerPath: function (answerId) {
+            return 'challenge/answers/' + answerId;
         },
-        _request: function (method, projectId, answerId, answerData) {
-            var path = 'api/project/' + projectId + '/challenge/answers';
-            if (answerId) {
-                path += '/' + answerId;
-            }
-            return this._pathRequest(path, method, answerData);
+        _answerData: function (answer) {
+            return {
+                fieldValues: answer.fieldValues,
+                published: answer.published
+            };
         },
         getAnswers: function (projectId) {
-            return this._request('get', projectId, false, false);
+            return ProjectService.projectRequest('get', projectId, this._answersPath);
         },
         newAnswer: function (projectId, answer) {
-            return this._request('post', projectId, false, answer);
+            return ProjectService.projectRequest('post', projectId, this._answersPath, this._answerData(answer));
         },
         updateAnswer: function (projectId, answer) {
-            return this._request('put', projectId, answer.id, answer);
+            return ProjectService.projectRequest('put', projectId, this._answerPath(answer.id), this._answerData(answer));
         },
         deleteAnswer: function (projectId, answerId) {
-            return this._request('delete', projectId, answerId, false);
+            return ProjectService.projectRequest('delete', projectId, this._answerPath(answerId));
         },
         getVotedAnswers: function (projectId) {
-            return RestService.get('api/project/' + projectId + '/challenge/votes').then(function (response) {
-                return response.data;
-            });
+            return ProjectService.projectRequest('get', projectId, 'challenge/votes');
         }
-
     };
 
     return service;

@@ -14,13 +14,6 @@ angular.module('senseItWeb', null, null).controller('ProjectViewChallengeAnswers
         return $scope.titleField < 0 ? answer.id : answer.fieldValues[$scope.titleField];
     };
 
-    var listener = $scope.$watch('answerData.filterByUser', function() {
-        console.log('change');
-    }, true);
-    $scope.$on('destroy', function() {
-        listener();
-    });
-
     $scope.filter = {
         search: '',
         type: 'any',

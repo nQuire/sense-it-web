@@ -86,6 +86,7 @@ public class SubscriptionManager {
 					level.setAdmin(true);
 					break;
 				case MEMBER:
+					level.setAdmin(true);
 					level.setMember(true);
 					break;
 				}

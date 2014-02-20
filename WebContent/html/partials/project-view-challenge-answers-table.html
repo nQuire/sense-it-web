@@ -37,7 +37,7 @@
         <tr data-ng-repeat="answer in sortedItems()">
             <td data-ng-if="answerData.showAuthor">{{answer.author.name}}</td>
             <td data-ng-if="answerData.showVoting">
-                <div siw-vote-widget data-vote-manager="voteManager" data-vote-target="answer"></div>
+                <div data-siw-vote-widget data-vote-manager="voteManager" data-vote-target="answer"></div>
             </td>
             <td>{{answerTeaser(answer)}}</td>
             <td>
@@ -45,6 +45,9 @@
                         data-ng-click="itemView.open(answer)">
                     Open
                 </button>
+                <button data-ng-if="answerData.selectable" class="pure-button pure-button-xsmall"
+                        data-ng-class="answer.id == answerData.selectedAnswer ? 'pure-button-active' : 'pure-button-primary'"
+                        data-ng-click="answerData.selectCallback(answer)">Select</button>
             </td>
         </tr>
         </tbody>
