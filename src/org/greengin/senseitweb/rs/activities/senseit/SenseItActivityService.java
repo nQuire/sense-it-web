@@ -18,57 +18,31 @@ import org.greengin.senseitweb.logic.project.senseit.SensorInputRequest;
 @Path("/project/{projectId}/senseit")
 public class SenseItActivityService {
 
-	@Path("/profiles")
+	
+	@Path("/inputs")
 	@POST
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Project create(@PathParam("projectId") Long projectId, SenseItProfileRequest profileData, @Context HttpServletRequest request) {
+	public Project create(@PathParam("projectId") Long projectId, SensorInputRequest inputData, @Context HttpServletRequest request) {
 		SenseItActivityActions editor = new SenseItActivityActions(projectId, request);
-		return editor.createProfile(profileData);
+		return editor.createSensor(inputData);
 	}
 
-	@Path("/profile/{profileId}")
+	@Path("/input/{inputId}")
 	@PUT
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Project update(@PathParam("projectId") Long projectId, @PathParam("profileId") Long profileId, SenseItProfileRequest profileData, @Context HttpServletRequest request) {
+	public Project update(@PathParam("projectId") Long projectId, @PathParam("inputId") Long inputId, SensorInputRequest inputData, @Context HttpServletRequest request) {
 		SenseItActivityActions editor = new SenseItActivityActions(projectId, request);
-		return editor.updateProfile(profileId, profileData);
+		return editor.updateSensor(inputId, inputData);
 	}
 	
-	@Path("/profile/{profileId}")
+	@Path("/input/{inputId}")
 	@DELETE
 	@Produces("application/json")
-	public Project delete(@PathParam("projectId") Long projectId, @PathParam("profileId") Long profileId, @Context HttpServletRequest request) {
+	public Project delete(@PathParam("projectId") Long projectId, @PathParam("inputId") Long inputId, @Context HttpServletRequest request) {
 		SenseItActivityActions editor = new SenseItActivityActions(projectId, request);
-		return editor.deleteProfile(profileId);
-	}
-	
-	
-	@Path("/profile/{profileId}/inputs")
-	@POST
-	@Consumes("application/json")
-	@Produces("application/json")
-	public Project create(@PathParam("projectId") Long projectId, @PathParam("profileId") Long profileId, SensorInputRequest inputData, @Context HttpServletRequest request) {
-		SenseItActivityActions editor = new SenseItActivityActions(projectId, request);
-		return editor.createSensor(profileId, inputData);
-	}
-
-	@Path("/profile/{profileId}/input/{inputId}")
-	@PUT
-	@Consumes("application/json")
-	@Produces("application/json")
-	public Project update(@PathParam("projectId") Long projectId, @PathParam("profileId") Long profileId, @PathParam("inputId") Long inputId, SensorInputRequest inputData, @Context HttpServletRequest request) {
-		SenseItActivityActions editor = new SenseItActivityActions(projectId, request);
-		return editor.updateSensor(profileId, inputId, inputData);
-	}
-	
-	@Path("/profile/{profileId}/input/{inputId}")
-	@DELETE
-	@Produces("application/json")
-	public Project delete(@PathParam("projectId") Long projectId, @PathParam("profileId") Long profileId, @PathParam("inputId") Long inputId, @Context HttpServletRequest request) {
-		SenseItActivityActions editor = new SenseItActivityActions(projectId, request);
-		return editor.deleteSensor(profileId, inputId);
+		return editor.deleteSensor(inputId);
 	}
 
 }

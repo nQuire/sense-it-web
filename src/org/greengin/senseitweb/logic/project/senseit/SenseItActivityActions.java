@@ -17,56 +17,18 @@ public class SenseItActivityActions extends AbstractActivityActions<SenseItActiv
 
 	/** editor actions **/
 
-	public Project createProfile(SenseItProfileRequest profileData) {
+
+	public Project createSensor(SensorInputRequest inputData) {
 		if (hasAccess(Role.PROJECT_EDITOR)) {
-			em.getTransaction().begin();
-			SenseItProfile profile = new SenseItProfile();
-			profileData.updateProfile(profile);
-			activity.getProfiles().add(profile);
-			em.persist(profile);
-			em.getTransaction().commit();
-			return project;
-		}
-		
-		return null;
-	}
-
-	public Project updateProfile(Long profileId, SenseItProfileRequest profileData) {
-		if (hasAccess(Role.PROJECT_EDITOR)) {
-			SenseItProfile profile = em.find(SenseItProfile.class, profileId);
-
-			em.getTransaction().begin();
-			profileData.updateProfile(profile);
-			em.getTransaction().commit();
-
-			return project;
-		}
-		
-		return null;
-	}
-
-	public Project deleteProfile(Long profileId) {
-		if (hasAccess(Role.PROJECT_EDITOR)) {
-			SenseItProfile profile = em.find(SenseItProfile.class, profileId);
-
-			em.getTransaction().begin();
-			activity.getProfiles().remove(profile);
-			em.getTransaction().commit();
-
-			return project;
-		}
-		
-		return null;
-	}
-
-	public Project createSensor(Long profileId, SensorInputRequest inputData) {
-		if (hasAccess(Role.PROJECT_EDITOR)) {
-			SenseItProfile profile = em.find(SenseItProfile.class, profileId);
-
+			
 			em.getTransaction().begin();
 			SensorInput input = new SensorInput();
 			inputData.updateInput(input);
-			profile.getSensorInputs().add(input);
+			if (activity.getProfile() == null) {
+				activity.setProfile(new SenseItProfile());
+			}
+			
+			activity.getProfile().getSensorInputs().add(input);
 			em.getTransaction().commit();
 
 			return project;
@@ -75,7 +37,7 @@ public class SenseItActivityActions extends AbstractActivityActions<SenseItActiv
 		return null;
 	}
 
-	public Project updateSensor(Long profileId, Long inputId, SensorInputRequest inputData) {
+	public Project updateSensor(Long inputId, SensorInputRequest inputData) {
 		if (hasAccess(Role.PROJECT_EDITOR)) {
 			SensorInput input = em.find(SensorInput.class, inputId);
 
@@ -89,13 +51,12 @@ public class SenseItActivityActions extends AbstractActivityActions<SenseItActiv
 		return null;
 	}
 
-	public Project deleteSensor(Long profileId, Long inputId) {
+	public Project deleteSensor(Long inputId) {
 		if (hasAccess(Role.PROJECT_EDITOR)) {
-			SenseItProfile profile = em.find(SenseItProfile.class, profileId);
 			SensorInput input = em.find(SensorInput.class, inputId);
 
 			em.getTransaction().begin();
-			profile.getSensorInputs().remove(input);
+			activity.getProfile().getSensorInputs().remove(input);
 			em.getTransaction().commit();
 
 			return project;

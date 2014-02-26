@@ -1,6 +1,7 @@
 package org.greengin.senseitweb.entities.activities.senseit;
 
 import java.util.Collection;
+import java.util.Vector;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -18,7 +19,7 @@ public class SenseItProfile extends AbstractEntity {
 	
 
 	@OneToMany(orphanRemoval=true, cascade = CascadeType.ALL)
-	Collection<SensorInput> sensorInputs;
+	Collection<SensorInput> sensorInputs = new Vector<SensorInput>();
 
 	public String getTitle() {
 		return title;

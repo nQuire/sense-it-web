@@ -3,22 +3,18 @@
 
 <h2 class="content-subhead">Sense-it project configuration</h2>
 
-<p>Sense-it projects define data logging profiles that can be used to record data using the
+<p>Sense-it projects define a data logging profile that can be used to record data using the
     <a href="https://play.google.com/store/apps/details?id=org.greengin.sciencetoolkit" target="_blank">Sense-it</a>
     Android app.</p>
 
+
 <ul>
-    <li data-ng-repeat="profile in activity.profiles">
-        <div data-ng-include="'partials/project-edit-senseit-profile.html'" data-ng-controller="ProjectEditSenseItProfileCtrl"></div>
-        <ul>
-            <li data-ng-repeat="sensorInput in profile.sensorInputs">
-                <div data-ng-include="'partials/project-edit-senseit-sensor.html'" data-ng-controller="ProjectEditSenseItSensorCtrl"></div>
-            </li>
-        </ul>
-        <div data-ng-include="'partials/project-edit-senseit-newsensor.html'" data-ng-controller="ProjectEditSenseItSensorCtrl"></div>
+    <li data-ng-repeat="sensorInput in activity.profile.sensorInputs">
+        <div data-ng-include="'partials/project-edit-senseit-sensor.html'"
+             data-ng-controller="ProjectEditSenseItSensorCtrl"></div>
     </li>
 </ul>
-
-<div data-ng-include="'partials/project-edit-senseit-newprofile.html'" data-ng-controller="ProjectEditSenseItProfileCtrl"></div>
+<div data-ng-include="'partials/project-edit-senseit-newsensor.html'"
+     data-ng-controller="ProjectEditSenseItSensorCtrl"></div>
 
 

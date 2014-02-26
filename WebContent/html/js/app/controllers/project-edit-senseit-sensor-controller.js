@@ -6,11 +6,11 @@ angular.module('senseItWeb', null, null).controller('ProjectEditSenseItSensorCtr
 
     $scope.form = new siwFormManager($scope.sensorInput, ['rate', 'sensor'], function () {
         var method = $scope.isNew ? 'createInput' : 'updateInput';
-        ProjectSenseItService[method]($scope.project.id, $scope.profile.id, $scope.sensorInput);
+        ProjectSenseItService[method]($scope.project.id, $scope.sensorInput);
     });
 
     $scope.deleteInput = function() {
-        ProjectSenseItService.deleteInput($scope.project.id, $scope.profile.id, $scope.sensorInput.id);
+        ProjectSenseItService.deleteInput($scope.project.id, $scope.sensorInput.id);
     };
 
 });
