@@ -23,9 +23,22 @@ angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'senseItServices', ], n
                 controller: 'CreateCtrl'
             })
             .state('project-view', {
+                abstract: true,
                 url: '/project/{projectId}',
                 templateUrl: 'partials/project-view.html',
                 controller: 'ProjectViewCtrl'
+            })
+            .state('project-view.default', {
+                url: '',
+                templateUrl: 'partials/project-view-default.html'
+            })
+            .state('project-view.data-list', {
+                url: '/data',
+                templateUrl: 'partials/project-view-data-table.html'
+            })
+            .state('project-view.analysis-list', {
+                url: '/analysis',
+                templateUrl: 'partials/project-view-data-analysis-table.html'
             })
             .state('project-admin', {
                 url: '/project/{projectId}/admin',
@@ -37,11 +50,11 @@ angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'senseItServices', ], n
                 templateUrl: 'partials/project-edit.html',
                 controller: 'ProjectEditCtrl'
             })
-        .state('profile', {
-            url: '/profile',
-            templateUrl: 'partials/profile.html',
-            controller: 'ProfileCtrl'
-        });
+            .state('profile', {
+                url: '/profile',
+                templateUrl: 'partials/profile.html',
+                controller: 'ProfileCtrl'
+            });
 
         $urlRouterProvider.otherwise('/home');
     }

@@ -7,12 +7,14 @@ import javax.ws.rs.ext.Provider;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.greengin.senseitweb.entities.activities.challenge.ChallengeActivity;
 import org.greengin.senseitweb.entities.activities.challenge.ChallengeAnswer;
+import org.greengin.senseitweb.entities.data.AbstractDataProjectItem;
 import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.entities.voting.VotableEntity;
 import org.greengin.senseitweb.entities.voting.Vote;
 import org.greengin.senseitweb.json.mixins.ChallengeActivityMixIn;
 import org.greengin.senseitweb.json.mixins.ChallengeAnswerMixIn;
+import org.greengin.senseitweb.json.mixins.AbstractDataProjectItemMixIn;
 import org.greengin.senseitweb.json.mixins.ProjectMixIn;
 import org.greengin.senseitweb.json.mixins.UserProfileMixIn;
 import org.greengin.senseitweb.json.mixins.VotableEntityMixIn;
@@ -35,6 +37,8 @@ public class JacksonObjectMapper implements ContextResolver<ObjectMapper> {
 		
 		addMixIn(VotableEntity.class, VotableEntityMixIn.class);
 		addMixIn(Vote.class, VoteMixIn.class);
+		
+		addMixIn(AbstractDataProjectItem.class, AbstractDataProjectItemMixIn.class);
 	}
 	
 	private void addMixIn(Class<?> object, Class<?> mixin) {

@@ -3,17 +3,21 @@ package org.greengin.senseitweb.logic.project.senseit;
 import javax.servlet.http.HttpServletRequest;
 
 import org.greengin.senseitweb.entities.activities.senseit.SenseItActivity;
+import org.greengin.senseitweb.entities.activities.senseit.SenseItAnalysis;
 import org.greengin.senseitweb.entities.activities.senseit.SenseItProfile;
+import org.greengin.senseitweb.entities.activities.senseit.SenseItSeries;
 import org.greengin.senseitweb.entities.activities.senseit.SensorInput;
 import org.greengin.senseitweb.entities.projects.Project;
+import org.greengin.senseitweb.logic.data.DataActions;
 import org.greengin.senseitweb.logic.permissions.Role;
-import org.greengin.senseitweb.logic.project.AbstractActivityActions;
 
-public class SenseItActivityActions extends AbstractActivityActions<SenseItActivity> {
+public class SenseItActivityActions extends DataActions<SenseItSeries, SenseItAnalysis, SenseItActivity> {
 
 	public SenseItActivityActions(Long projectId, HttpServletRequest request) {
-		super(projectId, request, SenseItActivity.class);
+		super(projectId, request, SenseItSeries.class, SenseItAnalysis.class, SenseItActivity.class);
 	}
+	
+	
 
 	/** editor actions **/
 
@@ -64,5 +68,7 @@ public class SenseItActivityActions extends AbstractActivityActions<SenseItActiv
 		
 		return null;
 	}
+	
+	
 
 }

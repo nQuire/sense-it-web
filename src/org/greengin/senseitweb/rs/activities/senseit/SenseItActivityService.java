@@ -12,7 +12,6 @@ import javax.ws.rs.core.Context;
 
 import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.logic.project.senseit.SenseItActivityActions;
-import org.greengin.senseitweb.logic.project.senseit.SenseItProfileRequest;
 import org.greengin.senseitweb.logic.project.senseit.SensorInputRequest;
 
 @Path("/project/{projectId}/senseit")

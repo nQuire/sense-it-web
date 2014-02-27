@@ -1,0 +1,19 @@
+<table data-siw-sortable-table-widget data-table-data="tableData" class="pure-table">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Author</th>
+        <th>Votes</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr data-ng-repeat="item in tableData.items">
+        <td>{{item.id}}</td>
+        <td>{{item.author.name}}</td>
+        <td>
+            <div data-siw-vote-widget data-vote-manager="voteManager" data-vote-target="item"></div>
+        </td>
+    </tr>
+    </tbody>
+</table>
