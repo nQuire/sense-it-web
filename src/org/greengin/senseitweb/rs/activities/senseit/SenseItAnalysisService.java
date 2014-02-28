@@ -7,6 +7,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -15,7 +16,9 @@ import javax.ws.rs.core.Context;
 import org.codehaus.jackson.map.annotate.JsonView;
 import org.greengin.senseitweb.entities.activities.senseit.SenseItAnalysis;
 import org.greengin.senseitweb.json.mixins.Views;
+import org.greengin.senseitweb.logic.data.NewDataItemResponse;
 import org.greengin.senseitweb.logic.project.senseit.SenseItActivityActions;
+import org.greengin.senseitweb.logic.project.senseit.SenseItAnalysisManipulator;
 import org.greengin.senseitweb.logic.voting.VoteCount;
 import org.greengin.senseitweb.logic.voting.VoteRequest;
 
@@ -34,9 +37,18 @@ public class SenseItAnalysisService {
 	@POST
 	@Produces("application/json")
 	@JsonView({Views.VotableCount.class})
-	public Collection<SenseItAnalysis> create(@PathParam("projectId") Long projectId, @Context HttpServletRequest request) {
+	public NewDataItemResponse<SenseItAnalysis> create(@PathParam("projectId") Long projectId, SenseItAnalysisManipulator manipulator, @Context HttpServletRequest request) {
 		SenseItActivityActions member = new SenseItActivityActions(projectId, request);
-		return member.createAnalysis();
+		return member.createAnalysis(manipulator);
+	}
+
+	@Path("/{analysisId}")
+	@PUT
+	@Produces("application/json")
+	@JsonView({Views.VotableCount.class})
+	public SenseItAnalysis update(@PathParam("projectId") Long projectId, @PathParam("analysisId") Long analysisId, SenseItAnalysisManipulator manipulator, @Context HttpServletRequest request) {
+		SenseItActivityActions member = new SenseItActivityActions(projectId, request);
+		return member.updateAnalysis(analysisId, manipulator);
 	}
 
 	@Path("/{itemId}")

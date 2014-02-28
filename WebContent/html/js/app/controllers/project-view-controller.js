@@ -11,17 +11,23 @@ angular.module('senseItWeb', null, null).controller('ProjectViewCtrl', function 
         ProjectService.leaveProject($state.params['projectId']);
     };
 
-    $scope.showDataMenu = function() {
+    $scope.showDataMenu = function () {
         return $scope.project.type === 'senseit' && $scope.project.open && $scope.access.member;
     };
 
-    $scope.getDefaultTemplate = function () {
+
+    $scope.templates = {
+        home: null
+    };
+
+    $scope.projectTemplate = function () {
         switch ($scope.project.type) {
             case 'senseit':
                 return 'partials/project-view-senseit.html';
             case 'challenge':
                 return 'partials/project-view-challenge.html';
         }
+        return null;
     };
 
 });

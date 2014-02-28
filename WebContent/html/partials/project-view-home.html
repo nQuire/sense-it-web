@@ -4,6 +4,8 @@
 
 <p>{{project.description}}</p>
 
+<div data-ng-include="templates.home"></div>
+
 <div data-ng-if="status.logged">
     <div data-ng-if="project.open">
 
@@ -13,8 +15,6 @@
         <div data-ng-if="access.member">
             <button class="pure-button pure-button-primary" data-ng-click="leaveProject()">Leave project
             </button>
-
-            <div data-ng-include="getDefaultTemplate()"></div>
         </div>
     </div>
     <div data-ng-if="!project.open">

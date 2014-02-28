@@ -21,6 +21,19 @@ public class SenseItActivityActions extends DataActions<SenseItSeries, SenseItAn
 
 	/** editor actions **/
 
+	
+	public Project updateProfile(SenseItProfileRequest profileData) {
+		if (hasAccess(Role.PROJECT_EDITOR)) {
+			em.getTransaction().begin();
+			profileData.updateProfile(activity.getProfile());
+			em.getTransaction().commit();
+
+			return project;
+		}
+		
+		return null;
+	}
+
 
 	public Project createSensor(SensorInputRequest inputData) {
 		if (hasAccess(Role.PROJECT_EDITOR)) {

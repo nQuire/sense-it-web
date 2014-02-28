@@ -90,6 +90,8 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 				NewChallengeAnswerResponse response = new NewChallengeAnswerResponse();
 				response.setNewAnswer(answer.getId());
 				response.setAnswers(getAnswersForParticipant());
+				
+				return response;
 			}
 		}
 		

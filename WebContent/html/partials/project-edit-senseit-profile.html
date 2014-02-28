@@ -4,14 +4,16 @@
 <div data-ng-if="form.isOpen()">
     <form class="pure-form pure-form-stacked">
         <fieldset>
-            <label for="title">Data logging profile title</label>
-            <input id="title" type="text" placeholder="Title" data-ng-model="form.values.title">
+            <label for="geolocated">Geolocated data:
+                <input id="geolocated" type="checkbox" placeholder="Title" data-ng-model="form.values.geolocated">
+            </label>
 
             <button class="pure-button pure-button-primary pure-button-small" data-ng-disabled="form.okButtonDisabled()"
                     data-ng-click="form.save()">
                 Save
             </button>
-            <button class="pure-button pure-button-primary pure-button-small" data-ng-disabled="form.resetButtonDisabled()"
+            <button class="pure-button pure-button-primary pure-button-small"
+                    data-ng-disabled="form.resetButtonDisabled()"
                     data-ng-click="form.cancel()">
                 Cancel
             </button>
@@ -19,8 +21,7 @@
     </form>
 </div>
 <div data-ng-if="!form.isOpen()">
-    <p>Title: {{profile.title}}</p>
+    <p>Geolocated data: {{activity.profile.geolocated ? 'Yes' : 'No'}}</p>
     <button class="pure-button pure-button-primary pure-button-small" data-ng-click="form.open()">Edit</button>
-    <button class="pure-button pure-button-primary pure-button-small" data-ng-click="deleteProfile()">Delete profile</button>
 </div>
 

@@ -13,10 +13,20 @@ import javax.ws.rs.core.Context;
 import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.logic.project.senseit.SenseItActivityActions;
 import org.greengin.senseitweb.logic.project.senseit.SensorInputRequest;
+import org.greengin.senseitweb.logic.project.senseit.SenseItProfileRequest;
 
 @Path("/project/{projectId}/senseit")
 public class SenseItActivityService {
 
+
+	@Path("/profile")
+	@PUT
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Project updateProfile(@PathParam("projectId") Long projectId, SenseItProfileRequest profileData, @Context HttpServletRequest request) {
+		SenseItActivityActions editor = new SenseItActivityActions(projectId, request);
+		return editor.updateProfile(profileData);
+	}
 	
 	@Path("/inputs")
 	@POST

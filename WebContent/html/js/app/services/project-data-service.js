@@ -18,20 +18,24 @@ angular.module('senseItServices', null, null).factory('ProjectDataService', ['Pr
         return service._itemRequest('analysis', method, projectId, type, dataId, data);
     };
 
-    service.loadData = function(projectId, type) {
-        return service._dataRequest('get', projectId, type, false, false);
+    service.loadData = function(project) {
+        return service._dataRequest('get', project.id, project.type, false, false);
     };
 
-    service.createData = function(projectId, type, data) {
-        return service._dataRequest('post', projectId, type, false, data);
+    service.createData = function(project, data) {
+        return service._dataRequest('post', project.id, project.type, false, data);
     };
 
-    service.loadAnalysis = function(projectId, type) {
-        return service._analysisRequest('get', projectId, type, false, false);
+    service.loadAnalysis = function(project) {
+        return service._analysisRequest('get', project.id, project.type, false, false);
     };
 
-    service.createAnalysis = function(projectId, type, data) {
-        return service._analysisRequest('post', projectId, type, false, data);
+    service.createAnalysis = function(project, data) {
+        return service._analysisRequest('post', project.id, project.type, false, data);
+    };
+
+    service.updateAnalysis = function(project, analysisId, data) {
+        return service._analysisRequest('put', project.id, project.type, analysisId, data);
     };
 
     return service;

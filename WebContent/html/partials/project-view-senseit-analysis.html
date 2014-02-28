@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+
+<div data-ng-controller="ProjectViewSenseItAnalysisCtrl">
+
+    <h2 class="content-subhead">Data processing</h2>
+
+
+    <h2 class="content-subhead">Project conclusions</h2>
+
+    <div data-ng-if="analysisForm.isOpen()">
+        <form class="pure-form pure-form-stacked">
+            <fieldset>
+                <label for="label">Conclusions:</label>
+                <textarea id="label" placeholder="Conclusions" data-ng-model="analysisForm.values.text"></textarea>
+
+                <button class="pure-button pure-button-primary pure-button-small" data-ng-disabled="analysisForm.okButtonDisabled()"
+                        data-ng-click="analysisForm.save()">
+                    Save
+                </button>
+                <button class="pure-button pure-button-primary pure-button-small" data-ng-disabled="analysisForm.resetButtonDisabled()"
+                        data-ng-click="analysisForm.cancel()">
+                    Cancel
+                </button>
+            </fieldset>
+        </form>
+    </div>
+    <div data-ng-if="!analysisForm.isOpen()">
+        <p>{{analysis.text}}</p>
+
+        <p>
+            <button class="pure-button pure-button-primary" data-ng-click="analysisForm.open()">
+                Edit
+            </button>
+        </p>
+    </div>
+
+</div>

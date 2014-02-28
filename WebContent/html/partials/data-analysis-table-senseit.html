@@ -1,4 +1,4 @@
-<table data-siw-sortable-table-widget data-table-data="tableData" class="pure-table">
+<table data-siw-sortable-table-widget data-table-data="analysisList" class="pure-table">
     <thead>
     <tr>
         <th>#</th>
@@ -8,12 +8,29 @@
     </tr>
     </thead>
     <tbody>
-    <tr data-ng-repeat="item in tableData.items">
+    <tr data-ng-repeat="item in analysisList.items">
         <td>{{item.id}}</td>
         <td>{{item.author.name}}</td>
         <td>
-            <div data-siw-vote-widget data-vote-manager="voteManager" data-vote-target="item"></div>
+            <div data-siw-vote-widget data-vote-manager="analysisVoteManager" data-vote-target="item"></div>
         </td>
+        <td>
+            <button class="pure-button pure-button-xsmall pure-button-primary"
+                    data-ui-sref="project-view.analysis-view({analysisId: item.id})"
+                    data-ng-click="analysisView.open(item)">
+                View
+            </button>
+            <button class="pure-button pure-button-xsmall"
+                    data-ng-class="selectButtonClass(item)"
+                    data-ng-click="select(item)">
+                Activate
+            </button>
+            <button class="pure-button pure-button-primary pure-button-xsmall"
+                    data-ng-click="select(item, 'analyse', true)">
+                Analyse
+            </button>
+        </td>
+
     </tr>
     </tbody>
 </table>

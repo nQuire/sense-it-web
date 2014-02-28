@@ -2,31 +2,30 @@
 
 angular.module('senseItWeb', null, null).directive('siwSortableTableWidget', function () {
     return {
-        link: function (scope, element) {
+        link: function ($scope, element, params) {
+
             element.addClass('sortable-table');
-        },
-        controller: function ($scope) {
+
             $scope.sort = {
                 column: false,
                 ascending: true,
                 compare: function (a, b) {
-                    var c = $scope.tableData.sort[$scope.sort.column](a, b);
+                    var c = $scope.sort.f[$scope.sort.column](a, b);
                     return $scope.sort.ascending ? c : -c;
-                }
+                },
+                f: $scope[params.tableData].sort
             };
-
-            $scope.selected = null;
 
             $scope.headerClass = function (column) {
-                return $scope.tableData.sort[column] && column === $scope.sort.column ? ($scope.sort.ascending ? 'ascending' : 'descending') : '';
+                return $scope.sort.f[column] && column === $scope.sort.column ? ($scope.sort.ascending ? 'ascending' : 'descending') : '';
             };
 
-            $scope.rowClass = function(item) {
+            $scope.rowClass = function (item) {
                 return $scope.selected == item ? 'selected' : '';
             };
 
             $scope.headerSort = function (column) {
-                if ($scope.tableData.sort[column]) {
+                if ($scope.sort.f[column]) {
                     if (column === $scope.sort.column) {
                         $scope.sort.ascending = !$scope.sort.ascending;
                     } else {
@@ -36,8 +35,8 @@ angular.module('senseItWeb', null, null).directive('siwSortableTableWidget', fun
                 }
             };
 
-            $scope.unsortedItems = typeof $scope.tableData.items === 'function' ? $scope.tableData.items : function () {
-                return $scope.tableData.items;
+            $scope.unsortedItems = typeof $scope[params.tableData].items === 'function' ? $scope[params.tableData].items : function () {
+                return $scope[params.tableData].items;
             };
 
             $scope.sortedItems = function () {
@@ -46,12 +45,32 @@ angular.module('senseItWeb', null, null).directive('siwSortableTableWidget', fun
                     l.sort($scope.sort.compare);
                 }
                 return l;
-            }
-
-            $scope.select = function(item) {
-                $scope.selected = (item == $scope.selected) ? null : item;
-                $scope.tableData.selectCallback($scope.selected);
             };
+
+            $scope.select = function (item, button, onlyOn) {
+                if (item != $scope[params.tableData].selected) {
+                    var notify = true;
+                } else if (!onlyOn) {
+                    notify = true;
+                    item = null;
+                }
+
+                if (notify) {
+                    $scope[params.tableData].selected = item;
+                    $scope[params.tableData].selectCallback(item, button);
+                }
+            };
+
+            $scope.selectButtonClass = function (item) {
+                return $scope.itemIsSelected(item) ? 'pure-button-active' : 'pure-button-primary';
+            };
+
+            $scope.itemIsSelected = function (item) {
+                return $scope[params.tableData].selected == item;
+            };
+        },
+        controller: function ($scope) {
+
         }
     };
 });

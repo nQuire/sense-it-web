@@ -1,10 +1,8 @@
-<div data-ng-controller="ProjectViewDataCtrl">
-    <h2 class="content-subhead">Data</h2>
+<h2 class="content-subhead">Data</h2>
 
-    <div data-ng-include="getTableTemplateURL()"></div>
+<div data-ng-include="templates.dataTable"></div>
 
-    <p>
-        <button class="pure-button pure-button-primary" data-ng-click="createData()">Create</button>
-    </p>
+<p>
+    <button class="pure-button pure-button-primary" data-ng-click="createData()">Create</button>
+</p>
 
-</div>

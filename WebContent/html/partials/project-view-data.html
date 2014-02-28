@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 
+
 <div data-ng-if="projectServiceData.ready">
     <div class="header">
         <h1>{{project.title}}</h1>
     </div>
     <div class="content">
-        <div data-ng-include="projectTemplate()"></div>
 
+        
+
+        <div data-ng-if="status.logged && project.open && access.member">
+            <div data-ng-include="projectMenu()"></div>
+        </div>
+
+        <div data-ui-view></div>
     </div>
 
 </div>

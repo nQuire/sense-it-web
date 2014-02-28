@@ -14,23 +14,23 @@ import org.greengin.senseitweb.logic.voting.VoteCount;
 import org.greengin.senseitweb.logic.voting.VoteManager;
 import org.greengin.senseitweb.logic.voting.VoteRequest;
 
-
-public abstract class DataActions<E extends AbstractDataProjectItem, F extends AbstractDataProjectItem, T extends DataCollectionActivity<E, F>> extends AbstractActivityActions<T> {
+public abstract class DataActions<E extends AbstractDataProjectItem, F extends AbstractDataProjectItem, T extends DataCollectionActivity<E, F>>
+		extends AbstractActivityActions<T> {
 
 	private static final String ITEMS_QUERY = "SELECT d FROM %s d WHERE d.dataStore = :dataStore";
-	
+
 	Class<E> dataType;
 	Class<F> analysisType;
-	
-	public DataActions(Long projectId, HttpServletRequest request, Class<E> dataType, Class<F> analysisType, Class<T> type) {
+
+	public DataActions(Long projectId, HttpServletRequest request, Class<E> dataType, Class<F> analysisType,
+			Class<T> type) {
 		super(projectId, request, type);
 		this.dataType = dataType;
 		this.analysisType = analysisType;
 	}
-	
-		
+
 	/** member actions **/
-	
+
 	private <K extends AbstractDataProjectItem> Collection<K> getItems(Class<K> type) {
 		if (hasAccess(Role.PROJECT_MEMBER)) {
 			String queryStr = String.format(ITEMS_QUERY, type.getName());
@@ -41,49 +41,77 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
 				item.selectVoteAuthor(user);
 			}
 			return list;
-		} 
-		
+		}
+
 		return null;
 	}
-	
-	private <K extends AbstractDataProjectItem> Collection<K> createItem(Class<K> type) {
+
+	private <K extends AbstractDataProjectItem> NewDataItemResponse<K> createItem(Class<K> type,
+			DataItemManipulator<K> manipulator) {
 		if (hasAccess(Role.PROJECT_MEMBER)) {
 			em.getTransaction().begin();
 			try {
-				K dataItem = type.newInstance();
-				dataItem.setDataStore(activity);
-				dataItem.setAuthor(user);
-				em.persist(dataItem);
+				K item = type.newInstance();
+				item.setDataStore(activity);
+				item.setAuthor(user);
+				manipulator.onCreate(item);
+				em.persist(item);
 				em.getTransaction().commit();
+
+				NewDataItemResponse<K> response = new NewDataItemResponse<K>();
+				response.setNewItemId(item.getId());
+				response.setItems(getItems(type));
+				return response;
+				
 			} catch (Exception e) {
 				em.getTransaction().rollback();
 				e.printStackTrace();
-			} 
-			
-			return getItems(type);
-		} 
-		
+			}
+		}
+
 		return null;
 	}
-	
-	
-	
+
+	private <K extends AbstractDataProjectItem> K updateItem(Class<K> type, Long itemId,
+			DataItemManipulator<K> manipulator) {
+		if (hasAccess(Role.PROJECT_MEMBER)) {
+			K item = em.find(type, itemId);
+			if (item != null && item.getDataStore() == activity && item.getAuthor().getId() == user.getId()) {
+				em.getTransaction().begin();
+				try {
+					manipulator.onUpdate(item);
+					em.getTransaction().commit();
+					return item;
+				} catch (Exception e) {
+					em.getTransaction().rollback();
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return null;
+	}
+
 	public Collection<E> getData() {
 		return getItems(dataType);
 	}
 
-	public Collection<E> createData() {
-		return createItem(dataType);
+	public NewDataItemResponse<E> createData(DataItemManipulator<E> manipulator) {
+		return createItem(dataType, manipulator);
 	}
-	
+
 	public Collection<F> getAnalysis() {
 		return getItems(analysisType);
 	}
 
-	public Collection<F> createAnalysis() {
-		return createItem(analysisType);
+	public NewDataItemResponse<F> createAnalysis(DataItemManipulator<F> manipulator) {
+		return createItem(analysisType, manipulator);
 	}
-	
+
+	public F updateAnalysis(Long itemId, DataItemManipulator<F> manipulator) {
+		return updateItem(analysisType, itemId, manipulator);
+	}
+
 	public VoteCount voteItem(Long itemId, VoteRequest voteData) {
 		if (hasAccess(Role.PROJECT_MEMBER)) {
 			AbstractDataProjectItem item = em.find(AbstractDataProjectItem.class, itemId);
