@@ -21,7 +21,15 @@ public class UsersManager {
 	public static UsersManager get() {
 		return um;
 	}
-
+	
+	public String userToken(HttpServletRequest request) {
+		return OpenIdManager.instance().getToken(request);
+	}
+	
+	public boolean checkToken(HttpServletRequest request) {
+		return OpenIdManager.instance().checkToken(request);
+	}
+	
 	public UserProfile currentUser(HttpServletRequest request) {
 
 		String id = OpenIdManager.instance().getId(request);

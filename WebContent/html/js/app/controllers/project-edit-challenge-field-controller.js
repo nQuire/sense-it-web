@@ -4,7 +4,7 @@ angular.module('senseItWeb', null, null).controller('ProjectEditChallengeFieldCt
         $scope.field = {};
     }
 
-    $scope.form = new siwFormManager($scope.field, ['label', 'type'], function () {
+    $scope.form = new SiwFormManager($scope.field, ['label', 'type'], function () {
         var method = $scope.isNew ? 'createField' : 'updateField';
         ProjectChallengeEditorService[method]($scope.project.id, $scope.field);
     });

@@ -1,15 +1,18 @@
 
+function SiwClone(obj) {
+    if (Object.prototype.toString.call(obj) === '[object Array]') {
+        var temp = [], len = obj.length;
+        for (var i = 0; i < len; i++) {
+            temp[i] = SiwClone(obj[i]);
+        }
+    } else if (typeof (obj) == 'object') {
+        temp = obj.constructor();
+        for (var key in obj) {
+            temp[key] = SiwClone(obj[key]);
+        }
+    } else {
+        temp = obj;
+    }
 
-function siwClone(obj) {
-  if (obj === null || typeof (obj) !== 'object')
-    return obj;
-
-  var temp = obj.constructor(); // changed
-
-  for (var key in obj) {
-    temp[key] = tClone(obj[key]);
-  }
-
-
-  return temp;
+    return temp;
 }

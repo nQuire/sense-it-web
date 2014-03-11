@@ -11,7 +11,7 @@ angular.module('senseItWeb', null, null).controller('ProjectEditChallengeCtrl', 
         listener();
     });
 
-    $scope.form = new siwFormManager($scope.activity, ['maxAnswers'], function() {
+    $scope.form = new SiwFormManager($scope.activity, ['maxAnswers'], function() {
         ProjectChallengeEditorService.updateActivity($scope.project.id, $scope.activity);
     });
 });

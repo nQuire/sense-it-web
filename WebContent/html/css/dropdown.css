@@ -1,0 +1,16 @@
+.siw-dropdown {
+  position: relative;
+  box-sizing: border-box; }
+
+.siw-dropdown button:after {
+  content: " \25BE"; }
+
+.siw-dropdown > .siw-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0px;
+  display: none;
+  width: auto; }
+
+.siw-dropdown:hover > .siw-dropdown-menu {
+  display: block; }

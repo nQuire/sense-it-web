@@ -21,7 +21,7 @@ angular.module('senseItWeb', null, null).controller('ProjectViewChallengeOutcome
         if ($scope.outcomeForm) {
             $scope.outcomeForm.setObject(outcome);
         } else {
-            $scope.outcomeForm = new siwFormManager($scope.outcome, ['explanation'], function () {
+            $scope.outcomeForm = new SiwFormManager($scope.outcome, ['explanation'], function () {
                 ProjectChallengeOutcomeService.setExplanation($scope.project.id, $scope.outcome.explanation).then($scope._setOutcome);
             });
         }

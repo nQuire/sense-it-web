@@ -1,5 +1,7 @@
 package org.greengin.senseitweb.logic.permissions;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.List;
 
 import javax.naming.Context;
@@ -60,13 +62,15 @@ public class OpenIdManager {
 	ConsumerManager manager;
 	String realm;
 	String returnUrl;
+	SecureRandom random;
 
 	private OpenIdManager() {
 		try {
 			Context env = (Context) (new InitialContext().lookup("java:comp/env"));
 			this.realm = (String) env.lookup("serverBasePath");
 			this.returnUrl = this.realm + (String) env.lookup("senseItLoginReturnPath");
-
+			this.random = new SecureRandom();
+			
 			try {
 				String serverHost = (String) env.lookup("serverProxyHostName");
 				int serverPort = (Integer) env.lookup("serverProxyPort");
@@ -177,6 +181,18 @@ public class OpenIdManager {
 		return attr != null ? attr.toString() : null;
 	}
 
+	public String getToken(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		Object attr = session.getAttribute("token");
+		return attr != null ? attr.toString() : null;
+	}
+
+	public boolean checkToken(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		Object attr = session.getAttribute("token");
+		return attr != null && attr.toString().equals(request.getHeader("token"));
+	}
+
 	public String getEmail(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		
@@ -208,6 +224,7 @@ public class OpenIdManager {
 
 				session.setAttribute("openid", authSuccess.getIdentity());
 				session.setAttribute("openid-claimed", authSuccess.getClaimed());
+				session.setAttribute("token", new BigInteger(260, random).toString(32));
 
 				try {
 					MessageExtension ext = authSuccess.getExtension(AxMessage.OPENID_NS_AX);

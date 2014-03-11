@@ -16,6 +16,7 @@ angular.module('senseItServices', null, null).factory('RestService', ['$http', f
                     for (var i = 0; i < service.errorListeners.length; i++) {
                         service.errorListeners[i]();
                     }
+                    return null;
                 }
             });
         },
@@ -30,6 +31,9 @@ angular.module('senseItServices', null, null).factory('RestService', ['$http', f
         },
         delete: function(path) {
             return service._request($http.delete(path));
+        },
+        setToken: function(token) {
+            $http.defaults.headers.common.token = token;
         }
     };
 

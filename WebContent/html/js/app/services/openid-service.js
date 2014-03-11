@@ -21,8 +21,16 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
 
     service._openIdRequest = function (path, logged, notify) {
         return RestService.get(path).then(function (data) {
-            service.status = data;
-            service.status.ready = true;
+            service.status = {
+                logged: data.logged,
+                profile: data.profile,
+                ready: true
+            };
+
+            if (data && data.token) {
+                RestService.setToken(data.token);
+            }
+
             if (notify) {
                 service._fireLoginEvent(logged);
             }

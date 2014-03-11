@@ -16,7 +16,7 @@ public class AbstractContentManager {
 	public AbstractContentManager(HttpServletRequest request) {
 		this.em = EMF.get().createEntityManager();
 		this.user = UsersManager.get().currentUser(request);
-		this.isLoggedIn = user != null;
+		this.isLoggedIn = user != null && UsersManager.get().checkToken(request);
 	}
 
 	public UserProfile getCurrentUser() {

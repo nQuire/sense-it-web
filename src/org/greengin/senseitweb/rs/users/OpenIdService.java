@@ -48,6 +48,7 @@ public class OpenIdService {
 		StatusResponse response = new StatusResponse();
 		response.setLogged(profile != null);
 		response.setProfile(profile);
+		response.setToken(UsersManager.get().userToken(request));
 		return response;
 	}
 	

@@ -4,7 +4,7 @@ angular.module('senseItWeb', null, null).controller('ProjectEditSenseItSensorCtr
         $scope.sensorInput = {};
     }
 
-    $scope.form = new siwFormManager($scope.sensorInput, ['rate', 'sensor'], function () {
+    $scope.form = new SiwFormManager($scope.sensorInput, ['rate', 'sensor'], function () {
         var method = $scope.isNew ? 'createInput' : 'updateInput';
         ProjectSenseItService[method]($scope.project.id, $scope.sensorInput);
     });

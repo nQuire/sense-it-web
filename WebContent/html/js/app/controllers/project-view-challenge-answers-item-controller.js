@@ -23,7 +23,7 @@ angular.module('senseItWeb', null, null).controller('ProjectViewChallengeAnswers
                 $scope.itemView.close();
             }
         }
-        $scope.form = new siwFormManager($scope.itemView.answer, ['fieldValues', 'published'], editCallback, cancelCallback);
+        $scope.form = new SiwFormManager($scope.itemView.answer, ['fieldValues', 'published'], editCallback, cancelCallback);
     }
 
     if ($scope.itemView.isNew) {
