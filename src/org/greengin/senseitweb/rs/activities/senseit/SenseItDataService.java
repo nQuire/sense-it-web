@@ -1,5 +1,6 @@
 package org.greengin.senseitweb.rs.activities.senseit;
 
+import java.io.InputStream;
 import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 
 import org.codehaus.jackson.map.annotate.JsonView;
 import org.greengin.senseitweb.entities.activities.senseit.SenseItSeries;
@@ -20,6 +22,9 @@ import org.greengin.senseitweb.logic.project.senseit.SenseItActivityActions;
 import org.greengin.senseitweb.logic.project.senseit.SenseItSeriesManipulator;
 import org.greengin.senseitweb.logic.voting.VoteCount;
 import org.greengin.senseitweb.logic.voting.VoteRequest;
+
+import com.sun.jersey.core.header.FormDataContentDisposition;
+import com.sun.jersey.multipart.FormDataParam;
 
 @Path("/project/{projectId}/senseit/data")
 public class SenseItDataService {
@@ -34,20 +39,26 @@ public class SenseItDataService {
 
 	
 	@POST
-	@Produces("application/json")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Produces(MediaType.APPLICATION_JSON)
 	@JsonView({Views.VotableCount.class})
-	public NewDataItemResponse<SenseItSeries> upload(@PathParam("projectId") Long projectId, @Context HttpServletRequest request) {
+	public NewDataItemResponse<SenseItSeries> upload(@PathParam("projectId") Long projectId,
+			@FormDataParam("title") String title,
+			@FormDataParam("file") InputStream uploadedInputStream,
+			@FormDataParam("file") FormDataContentDisposition fileDetail,
+			@Context HttpServletRequest request) {
+		
 		SenseItActivityActions member = new SenseItActivityActions(projectId, request);
-		return member.createData(new SenseItSeriesManipulator());
+		return member.createData(new SenseItSeriesManipulator(title, uploadedInputStream));
 	}
 
 	@Path("/{dataId}")
 	@DELETE
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Boolean delete(@PathParam("projectId") Long projectId, @Context HttpServletRequest request) {
-		//SenseItActivityActions editor = new SenseItActivityActions(projectId, request);
-		return false;
+	public Long delete(@PathParam("projectId") Long projectId, @PathParam("dataId") Long dataId, @Context HttpServletRequest request) {
+		SenseItActivityActions member = new SenseItActivityActions(projectId, request);
+		return member.deleteData(dataId, new SenseItSeriesManipulator(null, null));
 	}
 	
 	@Path("/vote/{itemId}")

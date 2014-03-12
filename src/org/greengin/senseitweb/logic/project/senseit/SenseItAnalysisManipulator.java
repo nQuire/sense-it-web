@@ -1,17 +1,20 @@
 package org.greengin.senseitweb.logic.project.senseit;
 
+import org.greengin.senseitweb.entities.activities.senseit.SenseItActivity;
 import org.greengin.senseitweb.entities.activities.senseit.SenseItAnalysis;
+import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.logic.data.DataItemManipulator;
 
-public class SenseItAnalysisManipulator extends SenseItAnalysisRequest implements DataItemManipulator<SenseItAnalysis> {
+public class SenseItAnalysisManipulator extends SenseItAnalysisRequest implements DataItemManipulator<SenseItActivity, SenseItAnalysis> {
 
 	@Override
-	public void onCreate(SenseItAnalysis newItem) {
-		onUpdate(newItem);
+	public boolean onCreate(Project project, SenseItActivity activity, SenseItAnalysis newItem) {
+		onUpdate(project, activity, newItem);
+		return true;
 	}
 
 	@Override
-	public void onUpdate(SenseItAnalysis item) {
+	public void onUpdate(Project project, SenseItActivity activity, SenseItAnalysis item) {
 		if (getText() != null) {
 			item.setText(this.getText());
 		}
@@ -23,7 +26,7 @@ public class SenseItAnalysisManipulator extends SenseItAnalysisRequest implement
 	}
 
 	@Override
-	public void onDelete(SenseItAnalysis item) {
+	public void onDelete(Project project, SenseItActivity activity, SenseItAnalysis item) {
 	}
 
 }

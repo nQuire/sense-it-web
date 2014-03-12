@@ -47,24 +47,25 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
 	}
 
 	private <K extends AbstractDataProjectItem> NewDataItemResponse<K> createItem(Class<K> type,
-			DataItemManipulator<K> manipulator) {
+			DataItemManipulator<T, K> manipulator) {
 		if (hasAccess(Role.PROJECT_MEMBER)) {
-			em.getTransaction().begin();
 			try {
+				
 				K item = type.newInstance();
 				item.setDataStore(activity);
 				item.setAuthor(user);
-				manipulator.onCreate(item);
-				em.persist(item);
-				em.getTransaction().commit();
+				if (manipulator.onCreate(project, activity, item)) {
+					em.getTransaction().begin();
+					em.persist(item);
+					em.getTransaction().commit();
+				}
 
 				NewDataItemResponse<K> response = new NewDataItemResponse<K>();
 				response.setNewItemId(item.getId());
 				response.setItems(getItems(type));
 				return response;
-				
+
 			} catch (Exception e) {
-				em.getTransaction().rollback();
 				e.printStackTrace();
 			}
 		}
@@ -73,15 +74,36 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
 	}
 
 	private <K extends AbstractDataProjectItem> K updateItem(Class<K> type, Long itemId,
-			DataItemManipulator<K> manipulator) {
+			DataItemManipulator<T, K> manipulator) {
 		if (hasAccess(Role.PROJECT_MEMBER)) {
 			K item = em.find(type, itemId);
 			if (item != null && item.getDataStore() == activity && item.getAuthor().getId() == user.getId()) {
 				em.getTransaction().begin();
 				try {
-					manipulator.onUpdate(item);
+					manipulator.onUpdate(project, activity, item);
 					em.getTransaction().commit();
 					return item;
+				} catch (Exception e) {
+					em.getTransaction().rollback();
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return null;
+	}
+	
+	private <K extends AbstractDataProjectItem> Long deleteItem(Class<K> type, Long itemId,
+			DataItemManipulator<T, K> manipulator) {
+		if (hasAccess(Role.PROJECT_MEMBER)) {
+			K item = em.find(type, itemId);
+			if (item != null && item.getDataStore() == activity && item.getAuthor().getId() == user.getId()) {
+				try {
+					em.getTransaction().begin();
+					manipulator.onDelete(project, activity, item);	
+					em.remove(item);
+					em.getTransaction().commit();
+					return itemId;
 				} catch (Exception e) {
 					em.getTransaction().rollback();
 					e.printStackTrace();
@@ -96,19 +118,24 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
 		return getItems(dataType);
 	}
 
-	public NewDataItemResponse<E> createData(DataItemManipulator<E> manipulator) {
+	public NewDataItemResponse<E> createData(DataItemManipulator<T, E> manipulator) {
 		return createItem(dataType, manipulator);
 	}
+	
+	public Long deleteData(Long itemId, DataItemManipulator<T, E> manipulator) {
+		return deleteItem(dataType, itemId, manipulator);
+	}
+
 
 	public Collection<F> getAnalysis() {
 		return getItems(analysisType);
 	}
 
-	public NewDataItemResponse<F> createAnalysis(DataItemManipulator<F> manipulator) {
+	public NewDataItemResponse<F> createAnalysis(DataItemManipulator<T, F> manipulator) {
 		return createItem(analysisType, manipulator);
 	}
 
-	public F updateAnalysis(Long itemId, DataItemManipulator<F> manipulator) {
+	public F updateAnalysis(Long itemId, DataItemManipulator<T, F> manipulator) {
 		return updateItem(analysisType, itemId, manipulator);
 	}
 
@@ -123,5 +150,6 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
 
 		return null;
 	}
+	
 
 }

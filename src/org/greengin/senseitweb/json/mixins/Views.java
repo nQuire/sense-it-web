@@ -1,6 +1,7 @@
 package org.greengin.senseitweb.json.mixins;
 
 public class Views {
+	public static interface None {}
 	
 	public static interface User {}
 	public static interface UserOpenIds extends User {};

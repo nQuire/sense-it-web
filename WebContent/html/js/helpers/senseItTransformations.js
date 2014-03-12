@@ -27,12 +27,8 @@ SiwSenseItVariable.prototype.txLabel = function () {
 
 var SiwSenseItTransformations = function (sensorInputs, transformations) {
     this.sensorInputs = sensorInputs;
-    this.transformations = transformations;
 
-    this._updateVariables();
-    console.log(sensorInputs);
-    console.log(transformations);
-    console.log(this.variables);
+    this.setTx(transformations);
 };
 
 SiwSenseItTransformations.prototype._inputVariables = function (variable) {
@@ -54,7 +50,7 @@ SiwSenseItTransformations.prototype.inputVariables = function (variable) {
 };
 
 SiwSenseItTransformations.prototype.setTx = function (transformations) {
-    this.transformations = transformations;
+    this.transformations = transformations != null ? transformations : [];
     this._updateVariables();
 };
 

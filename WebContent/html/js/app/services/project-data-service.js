@@ -26,6 +26,10 @@ angular.module('senseItServices', null, null).factory('ProjectDataService', ['Pr
         return service._dataRequest('post', project.id, project.type, false, data);
     };
 
+    service.deleteData = function(project, data) {
+        return service._dataRequest('delete', project.id, project.type, data.id, false);
+    };
+
     service.loadAnalysis = function(project) {
         return service._analysisRequest('get', project.id, project.type, false, false);
     };

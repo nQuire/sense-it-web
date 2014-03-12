@@ -31,5 +31,5 @@ public class SensorInput extends AbstractEntity {
 	public void setSensor(String sensor) {
 		this.sensor = sensor;
 	}
-	
+		
 }

@@ -4,6 +4,7 @@
         <th>#</th>
         <th>Author</th>
         <th>Votes</th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
@@ -13,6 +14,27 @@
         <td>
             <div data-siw-vote-widget data-vote-manager="dataVoteManager" data-vote-target="item"></div>
         </td>
+        <th>
+            <button data-ng-if="item.author.id == status.profile.id" data-ng-click="deleteData(item)"
+                    class="pure-button pure-button-primary pure-button-xsmall">Delete</button>
+        </th>
     </tr>
     </tbody>
+
 </table>
+
+<div data-ng-controller="ProjectViewSenseItTestUpload">
+    <p>{{title}}</p>
+    <p>{{file}}</p>
+
+    <form class="pure-form">
+        <fieldset>
+            <label for="title">Select a file</label><br />
+            <input type="text" data-ng-model="title" id="title"/>
+            <label for="fileToUpload">Select a file</label><br />
+            <input type="file" data-ng-model="file" id="fileToUpload" onchange="angular.element(this).scope().setFile(this)" />
+        </fieldset>
+        <button class="pure-button pure-button-primary" data-ng-click="uploadFile()">Upload</button>
+    </form>
+</div>
+

@@ -29,6 +29,7 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
 
             if (data && data.token) {
                 RestService.setToken(data.token);
+                RestService.get('api/senseit/profiles');
             }
 
             if (notify) {

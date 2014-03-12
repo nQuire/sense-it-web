@@ -1,6 +1,8 @@
 
 function SiwClone(obj) {
-    if (Object.prototype.toString.call(obj) === '[object Array]') {
+    if (obj == null) {
+        return null;
+    } else if (Object.prototype.toString.call(obj) === '[object Array]') {
         var temp = [], len = obj.length;
         for (var i = 0; i < len; i++) {
             temp[i] = SiwClone(obj[i]);

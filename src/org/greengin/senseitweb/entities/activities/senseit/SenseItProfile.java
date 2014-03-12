@@ -39,4 +39,14 @@ public class SenseItProfile extends AbstractEntity {
 		this.geolocated = geolocated;
 	}
 	
+	public SensorInput inputById(Long id) {
+		for (SensorInput input : sensorInputs) {
+			if (input.getId().equals(id)) {
+				return input;
+			}
+		}
+		return null;
+	}
+
+	
 }

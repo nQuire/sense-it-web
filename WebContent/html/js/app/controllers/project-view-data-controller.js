@@ -62,6 +62,20 @@ angular.module('senseItWeb', null, null).controller('ProjectViewDataCtrl', funct
         });
     };
 
+    $scope.deleteData = function(data) {
+        ProjectDataService.deleteData($scope.project, data).then(function(deletedDataId) {
+            if (deletedDataId) {
+                for (var index = 0; index < $scope.dataList.items.length; index++) {
+                    if ($scope.dataList.items[index].id == deletedDataId) {
+                        $scope.dataList.items.splice(index, 1);
+                        break;
+                    }
+                }
+            }
+            $scope.dataReady = true;
+        });
+    };
+
     ProjectDataService.loadAnalysis($scope.project).then(function (data) {
         $scope.analysisList.items = data;
         $scope.analysisReady = true;

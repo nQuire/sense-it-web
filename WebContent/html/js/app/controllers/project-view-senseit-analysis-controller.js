@@ -2,6 +2,10 @@ angular.module('senseItWeb', null, null).controller('ProjectViewSenseItAnalysisC
 
     $scope.analysis = $scope.analysisById($state.params['analysisId']);
 
+    if ($scope.analysis.tx == null) {
+        $scope.analysis.tx = [];
+    }
+    
     $scope.transformations = new SiwSenseItTransformations($scope.project.activity.profile.sensorInputs, $scope.analysis.tx);
 
     var save = function () {
@@ -21,7 +25,7 @@ angular.module('senseItWeb', null, null).controller('ProjectViewSenseItAnalysisC
     }
 
 
-    $scope.txForm = new SiwFormManager($scope.analysis, ['tx'], save, function() {
+    $scope.txForm = new SiwFormManager($scope.analysis, ['tx'], save, function () {
         $scope.txEdit.reset();
     });
 
@@ -31,7 +35,7 @@ angular.module('senseItWeb', null, null).controller('ProjectViewSenseItAnalysisC
         tx: function () {
             return $scope.txForm.values.tx;
         },
-        open: function() {
+        open: function () {
             $scope.txForm.open();
             this.updateFormValue();
         },
@@ -71,15 +75,17 @@ angular.module('senseItWeb', null, null).controller('ProjectViewSenseItAnalysisC
         newTxId: function () {
             var id = 1;
             var tx = this.tx();
-            for (var i = 0; i < tx.length; i++) {
-                id = Math.max(id, 1 + parseInt(tx[i].id.substr(3)));
+            if (tx) {
+                for (var i = 0; i < tx.length; i++) {
+                    id = Math.max(id, 1 + parseInt(tx[i].id.substr(3)));
+                }
             }
             return "tx:" + id;
         },
-        editable: function(variable) {
+        editable: function (variable) {
             return $scope.txForm.isOpen() && variable.editable;
         },
-        setInputVariable: function(tx, vId, index) {
+        setInputVariable: function (tx, vId, index) {
             tx.inputs[index] = vId;
             this.updateFormValue();
         }
