@@ -12,8 +12,10 @@ public class AbstractContentManager {
 	protected UserProfile user;
 	protected EntityManager em;
 	protected boolean isLoggedIn;
+	protected HttpServletRequest request;
 	
 	public AbstractContentManager(HttpServletRequest request) {
+		this.request = request;
 		this.em = EMF.get().createEntityManager();
 		this.user = UsersManager.get().currentUser(request);
 		this.isLoggedIn = user != null && UsersManager.get().checkToken(request);
@@ -25,5 +27,8 @@ public class AbstractContentManager {
 	
 	public boolean hasAccess(Role role) {
 		return role == Role.NONE || (isLoggedIn && role == Role.LOGGEDIN);
+	}
+	public boolean hasAccessIgnoreToken(Role role) {
+		return role == Role.NONE || (user != null && role == Role.LOGGEDIN);
 	}
 }

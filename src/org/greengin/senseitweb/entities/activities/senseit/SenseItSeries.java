@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.Lob;
 
 import org.greengin.senseitweb.entities.data.AbstractDataProjectItem;
+import org.greengin.senseitweb.logic.project.senseit.transformations.SenseItOperations;
+import org.greengin.senseitweb.logic.project.senseit.transformations.SenseItProcessedSeries;
 import org.greengin.senseitweb.utils.TimeValue;
 
 @Entity
@@ -21,7 +23,8 @@ public class SenseItSeries extends AbstractDataProjectItem {
 	
 	@Lob
 	HashMap<Long, Vector<TimeValue>> data = new HashMap<Long, Vector<TimeValue>>();
-
+	
+	transient SenseItProcessedSeries processData = null;
 	
 	public String getTitle() {
 		return title;
@@ -45,6 +48,23 @@ public class SenseItSeries extends AbstractDataProjectItem {
 
 	public void setData(HashMap<Long, Vector<TimeValue>> data) {
 		this.data = data;
+	}
+	
+
+	public HashMap<String, TimeValue> getVarValue() {
+		processData();
+		return SenseItOperations.tableVariables(processData, (SenseItActivity) this.dataStore);
+	}
+	
+	public Vector<TimeValue> varData(String varId) {
+		processData();
+		return processData.values.get(varId);
+	}
+	
+	private void processData() {
+		if (processData == null) {
+			processData = SenseItOperations.process(this.data, (SenseItActivity) this.dataStore);
+		}
 	}
 	
 }

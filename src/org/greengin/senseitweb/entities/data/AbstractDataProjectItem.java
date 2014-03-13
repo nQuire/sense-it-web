@@ -14,7 +14,7 @@ public abstract class AbstractDataProjectItem extends VotableEntity {
 	UserProfile author;
 
 	@ManyToOne
-	DataCollectionActivity<?, ?> dataStore;
+	protected DataCollectionActivity<?, ?> dataStore;
 	
 	
 	public UserProfile getAuthor() {

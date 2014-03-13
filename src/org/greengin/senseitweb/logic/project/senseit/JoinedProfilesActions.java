@@ -20,9 +20,9 @@ public class JoinedProfilesActions extends AbstractContentManager {
 	static final String PROJECTS_QUERY = String.format(
 			"SELECT DISTINCT p FROM %s s INNER JOIN s.project p WHERE s.user=:user AND s.type=:access AND p.type=:type",
 			Subscription.class.getName());
-	
+
 	public JoinedProfilesActions(HttpServletRequest request) {
-		super(request);
+		super(request);		
 	}
 
 	/** logged in user actions **/

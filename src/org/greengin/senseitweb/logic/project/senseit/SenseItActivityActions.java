@@ -1,5 +1,8 @@
 package org.greengin.senseitweb.logic.project.senseit;
 
+import java.util.Collection;
+import java.util.Vector;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.greengin.senseitweb.entities.activities.senseit.SenseItActivity;
@@ -10,6 +13,8 @@ import org.greengin.senseitweb.entities.activities.senseit.SensorInput;
 import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.logic.data.DataActions;
 import org.greengin.senseitweb.logic.permissions.Role;
+import org.greengin.senseitweb.logic.project.senseit.transformations.SenseItOperations;
+import org.greengin.senseitweb.utils.TimeValue;
 
 public class SenseItActivityActions extends DataActions<SenseItSeries, SenseItAnalysis, SenseItActivity> {
 
@@ -17,6 +22,23 @@ public class SenseItActivityActions extends DataActions<SenseItSeries, SenseItAn
 		super(projectId, request, SenseItSeries.class, SenseItAnalysis.class, SenseItActivity.class);
 	}
 	
+	/** member actions **/
+	
+	@Override
+	public Collection<SenseItSeries> getData() {
+		SenseItOperations.init(request.getServletContext());
+		return super.getData();
+	}
+	
+	public byte[] getPlot(Long dataId, String varId) {
+		if (hasMemberAccessIgnoreToken()) {
+			SenseItSeries series = em.find(SenseItSeries.class, dataId);
+			Vector<TimeValue> data = series.varData(varId);
+			return SenseItPlots.createPlot("", data);
+		} else {
+			return null;
+		}
+	}
 	
 
 	/** editor actions **/

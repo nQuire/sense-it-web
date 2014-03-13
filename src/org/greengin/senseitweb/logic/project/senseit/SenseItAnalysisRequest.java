@@ -5,7 +5,6 @@ public class SenseItAnalysisRequest {
 	
 	String text;
 	
-	String tx;
 	
 
 	public String getText() {
@@ -16,11 +15,4 @@ public class SenseItAnalysisRequest {
 		this.text = text;
 	}
 
-	public String getTx() {
-		return tx;
-	}
-
-	public void setTx(String tx) {
-		this.tx = tx;
-	}
 }

@@ -30,7 +30,7 @@ public class ProjectActions extends AbstractContentManager {
 		this.project = em.find(Project.class, projectId);
 		this.projectExists = this.project != null;
 
-		this.accessLevel = isLoggedIn ? SubscriptionManager.get().getAccessLevel(project, request) : null;
+		this.accessLevel = SubscriptionManager.get().getAccessLevel(project, request);
 	}
 
 	@Override
@@ -52,6 +52,11 @@ public class ProjectActions extends AbstractContentManager {
 			return false;
 		}
 	}
+	
+	public boolean hasMemberAccessIgnoreToken() {
+		return super.hasAccessIgnoreToken(Role.LOGGEDIN) && accessLevel.isMember() && project.getOpen();
+	}
+
 
 	/** participant actions **/
 

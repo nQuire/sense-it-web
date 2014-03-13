@@ -106,7 +106,7 @@ SiwSenseItTransformations.prototype._updateVariables = function () {
 
     var continueChecking = true;
     while (continueChecking) {
-        var continueChecking = false;
+        continueChecking = false;
         for (i = 0; i < this.transformations.length; i++) {
             var tx = this.transformations[i];
             if (!outputSet[tx.id]) {
@@ -121,7 +121,7 @@ SiwSenseItTransformations.prototype._updateVariables = function () {
                 }
 
                 if (inputsReady) {
-                    var input = this.variables[tx.inputs[0]].output;
+                    input = this.variables[tx.inputs[0]].output;
                     this.variables[tx.id].output = SiwSenseItSensorData.transformations[tx.type].data[input];
                     outputSet[tx.id] = true;
                     continueChecking = true;
@@ -129,5 +129,33 @@ SiwSenseItTransformations.prototype._updateVariables = function () {
             }
         }
     }
+};
+
+SiwSenseItTransformations.prototype.sequenceVariables = function() {
+    var vs = [];
+    for (var vid in this.variables) {
+        if (this.variables.hasOwnProperty(vid)) {
+            var output = this.variables[vid].output;
+            if (output && output.length > 0 && output[0] == '[') {
+                vs.push(this.variables[vid]);
+            }
+        }
+    }
+
+    return vs;
+};
+
+SiwSenseItTransformations.prototype.nonSequenceVariables = function() {
+    var vs = [];
+    for (var vid in this.variables) {
+        if (this.variables.hasOwnProperty(vid)) {
+            var output = this.variables[vid].output;
+            if (output && output.length > 0 && output[0] != '[') {
+                vs.push(this.variables[vid]);
+            }
+        }
+    }
+
+    return vs;
 };
 

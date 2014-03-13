@@ -25,3 +25,20 @@
     <button class="pure-button pure-button-primary pure-button-small" data-ng-click="form.open()">Edit</button>
 </div>
 
+
+
+
+
+<ul>
+    <li data-ng-repeat="sensorInput in activity.profile.sensorInputs">
+        <div data-ng-include="'partials/project-edit-senseit-sensor.html'"
+             data-ng-controller="ProjectEditSenseItSensorCtrl"></div>
+    </li>
+</ul>
+<div data-ng-include="'partials/project-edit-senseit-newsensor.html'"
+     data-ng-controller="ProjectEditSenseItSensorCtrl"></div>
+
+
+
+<div data-ng-include="'partials/project-edit-senseit-analysis.html'"
+     data-ng-controller="ProjectEditSenseItAnalysisCtrl"></div>

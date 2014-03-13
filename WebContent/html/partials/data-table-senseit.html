@@ -1,24 +1,36 @@
+
 <table data-siw-sortable-table-widget data-table-data="dataList" class="pure-table">
     <thead>
     <tr>
         <th>#</th>
         <th>Author</th>
         <th>Votes</th>
+        <th data-ng-repeat="v in dataInfo.tableVariables">{{v.label()}}</th>
         <th></th>
     </tr>
     </thead>
     <tbody>
-    <tr data-ng-repeat="item in dataList.items">
-        <td>{{item.id}}</td>
+    <tr data-ng-repeat-start="item in dataList.items">
+        <td>{{item.title}}</td>
         <td>{{item.author.name}}</td>
         <td>
             <div data-siw-vote-widget data-vote-manager="dataVoteManager" data-vote-target="item"></div>
         </td>
-        <th>
+        <td data-ng-repeat="v in dataInfo.tableVariables">
+            {{item.varValue[v.id].v[0]}}
+        </td>
+        <td>
             <button data-ng-if="item.author.id == status.profile.id" data-ng-click="deleteData(item)"
                     class="pure-button pure-button-primary pure-button-xsmall">Delete</button>
-        </th>
+        </td>
     </tr>
+    <tr data-ng-repeat-end>
+        <td colspan="{{4 + dataInfo.tableVariables.length}}">
+            <img data-ng-repeat="v in dataInfo.plotVariables"
+                 src="api/project/{{project.id}}/senseit/data/{{item.id}}/{{v.id}}.png" />
+        </td>
+    </tr>
+
     </tbody>
 
 </table>

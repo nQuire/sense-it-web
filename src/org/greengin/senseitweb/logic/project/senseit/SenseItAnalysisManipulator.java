@@ -18,11 +18,6 @@ public class SenseItAnalysisManipulator extends SenseItAnalysisRequest implement
 		if (getText() != null) {
 			item.setText(this.getText());
 		}
-
-		if (getTx() != null) {
-			item.setTx(getTx());
-		}
-
 	}
 
 	@Override

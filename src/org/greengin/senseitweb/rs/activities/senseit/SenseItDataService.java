@@ -13,6 +13,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.codehaus.jackson.map.annotate.JsonView;
 import org.greengin.senseitweb.entities.activities.senseit.SenseItSeries;
@@ -71,7 +72,18 @@ public class SenseItDataService {
 		return voter.voteItem(itemId, voteData);
 	}
 	
-	
+	@Path("/{dataId}/{varId}.png")
+	@GET
+	@Produces("image/png")
+	public Response plot(@PathParam("projectId") Long projectId, @PathParam("dataId") Long dataId, @PathParam("varId") String varId, @Context HttpServletRequest request) {
+		SenseItActivityActions member = new SenseItActivityActions(projectId, request);
+		byte[] imageData = member.getPlot(dataId, varId);
+		if (imageData != null) {
+			return Response.ok(imageData).build();
+		} else {
+			return Response.serverError().build();
+		}
+	}
 	
 	
 }

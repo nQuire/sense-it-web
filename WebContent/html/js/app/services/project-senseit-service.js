@@ -52,7 +52,8 @@ angular.module('senseItServices', null, null).factory('ProjectSenseItService', [
     service.updateProfile = function (projectId, profile) {
         var path = service._path(projectId, 'profile');
         return ProjectService.updateProjectAction('put', projectId, path, {
-            geolocated: profile.geolocated
+            geolocated: profile.geolocated,
+            tx: profile.tx
         });
     };
 
