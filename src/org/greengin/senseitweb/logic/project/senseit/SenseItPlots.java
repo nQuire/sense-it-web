@@ -6,6 +6,7 @@ import java.awt.Stroke;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Map.Entry;
 
 import javax.imageio.ImageIO;
 
@@ -38,8 +39,31 @@ public class SenseItPlots {
 				}
 				dataset.addSeries(series);
 			}
-
-			JFreeChart chart = ChartFactory.createXYLineChart(label, "Time", "", dataset);
+			
+			StringBuffer units = new StringBuffer();
+			for (Entry<String, Integer> entry : data.units.entrySet()) {
+				if (entry.getValue() > 0) {
+					units.append(entry.getKey());
+					if (entry.getValue() > 1) {
+						units.append(entry.getValue()).append(" ");
+					}
+				}
+			}
+			boolean first = true;
+			for (Entry<String, Integer> entry : data.units.entrySet()) {
+				if (entry.getValue() < 0) {
+					if (first) {
+						units.append("/");
+						first = false;
+					}
+					units.append(entry.getKey());
+					if (entry.getValue() < -1) {
+						units.append(-entry.getValue()).append(" ");
+					}
+				}
+			}
+			
+			JFreeChart chart = ChartFactory.createXYLineChart(label, "Time", units.toString(), dataset);
 
 			XYPlot plot = (XYPlot) chart.getPlot();
 

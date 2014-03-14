@@ -5,12 +5,12 @@ import java.util.HashMap;
 public class SenseItDataTransformation {
 	private String name;
 	private HashMap<String, String> data;
-	private HashMap<String, Integer> units;
+	private SenseItDataUnits units;
 	
 	public SenseItDataTransformation() {
 		name = null;
 		data = new HashMap<String, String>();
-		units = new HashMap<String, Integer>();
+		units = new SenseItDataUnits();
 	}
 	
 	public String getName() {
@@ -25,10 +25,10 @@ public class SenseItDataTransformation {
 	public void setData(HashMap<String, String> data) {
 		this.data = data;
 	}
-	public HashMap<String, Integer> getUnits() {
+	public SenseItDataUnits getUnits() {
 		return units;
 	}
-	public void setUnits(HashMap<String, Integer> units) {
+	public void setUnits(SenseItDataUnits units) {
 		this.units = units;
 	}
 }

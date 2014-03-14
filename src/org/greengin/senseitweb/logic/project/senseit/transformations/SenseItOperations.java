@@ -12,6 +12,7 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.greengin.senseitweb.entities.activities.senseit.SenseItActivity;
 import org.greengin.senseitweb.entities.activities.senseit.SenseItTransformation;
+import org.greengin.senseitweb.entities.activities.senseit.SensorInput;
 import org.greengin.senseitweb.logic.project.senseit.transformations.maths.Abs;
 import org.greengin.senseitweb.logic.project.senseit.transformations.maths.Derivative;
 import org.greengin.senseitweb.logic.project.senseit.transformations.maths.FilterCC;
@@ -68,11 +69,18 @@ public class SenseItOperations {
 
 	public static SenseItProcessedSeries process(HashMap<Long, Vector<TimeValue>> series, SenseItActivity activity) {
 		int index = 0;
-		SenseItProcessedSeries data = new SenseItProcessedSeries();
-		
+		SenseItProcessedSeries processed = new SenseItProcessedSeries();
+
 		for (Entry<Long, Vector<TimeValue>> entry : series.entrySet()) {
-			SenseItProcessedSeriesVariable var = new SenseItProcessedSeriesVariable(index++, entry.getValue());
-			data.values.put(String.valueOf(entry.getKey()), var);
+			SensorInput input = activity.getProfile().inputById(entry.getKey());
+			if (input != null) {
+				SenseItDataSensor sensorData = data.sensorTypes.get(input.getSensor());
+				if (sensorData != null) {
+					SenseItProcessedSeriesVariable var = new SenseItProcessedSeriesVariable(index++, entry.getValue());
+					var.units.apply(sensorData.units);
+					processed.values.put(String.valueOf(entry.getKey()), var);
+				}
+			}
 		}
 
 		boolean goon = true;
@@ -80,14 +88,15 @@ public class SenseItOperations {
 			goon = false;
 			for (SenseItTransformation tx : activity.getProfile().getTx()) {
 				String varId = tx.getId();
-				if (data.values.get(varId) == null) {
-					System.out.println(varId + " " + tx.getType());  
+				if (processed.values.get(varId) == null) {
+					System.out.println(varId + " " + tx.getType());
 					SenseItOperation op = ops.get(tx.getType());
 					if (op != null) {
+						SenseItProcessedSeriesVariable input = null;
 						Vector<Vector<TimeValue>> inputs = new Vector<Vector<TimeValue>>();
 						boolean good = true;
 						for (String inputId : tx.getInputs()) {
-							SenseItProcessedSeriesVariable input = data.values.get(inputId);
+							input = processed.values.get(inputId);
 							if (input == null) {
 								good = false;
 								break;
@@ -99,7 +108,12 @@ public class SenseItOperations {
 						if (good) {
 							SenseItProcessedSeriesVariable result = new SenseItProcessedSeriesVariable(index++);
 							if (op.process(inputs, result.values)) {
-								data.values.put(varId, result);
+								SenseItDataTransformation txData = data.transformations.get(tx.getType());
+								if (input != null) {
+									result.units.apply(input.units);
+								}
+								result.units.apply(txData.getUnits());
+								processed.values.put(varId, result);
 								goon = true;
 							}
 						}
@@ -108,9 +122,9 @@ public class SenseItOperations {
 			}
 		}
 
-		return data;
+		return processed;
 	}
-	
+
 	public static HashMap<String, TimeValue> tableVariables(SenseItProcessedSeries data, SenseItActivity activity) {
 		HashMap<String, TimeValue> values = new HashMap<String, TimeValue>();
 		for (SenseItTransformation tx : activity.getProfile().getTx()) {
@@ -121,9 +135,8 @@ public class SenseItOperations {
 				values.put(id, var != null && var.values.size() > 0 ? var.values.firstElement() : null);
 			}
 		}
-		
+
 		return values;
 	}
-	
-	
+
 }
