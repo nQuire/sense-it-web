@@ -7,9 +7,11 @@ var SiwSenseItVariable = function (options) {
         this.name = SiwSenseItSensorData.sensorTypes[options.input.sensor].name + ' raw data';
         this.tx = null;
         this.output = SiwSenseItSensorData.sensorTypes[options.input.sensor].output;
+        this.weight = options.weight;
     } else {
         this.id = options.tx.id;
         this.tx = options.tx;
+        this.weight = options.tx.weight;
     }
 };
 
@@ -31,12 +33,23 @@ var SiwSenseItTransformations = function (sensorInputs, transformations) {
     this.setTx(transformations);
 };
 
+SiwSenseItTransformations.prototype._variableById = function (vid) {
+    for (var i = 0; i < this.variables.length; i++) {
+        if (this.variables[i].id == vid) {
+            return this.variables[i];
+        }
+    }
+
+    return null;
+};
+
 SiwSenseItTransformations.prototype._inputVariables = function (variable) {
-    var vars = this.variables;
+    var self = this;
     return variable.tx.inputs.map(function (inputId) {
-        return inputId in vars ? vars[inputId] : null;
+        return self._variableById(inputId);
     });
 };
+
 
 SiwSenseItTransformations.prototype.inputVariables = function (variable) {
     if (variable.tx) {
@@ -58,12 +71,10 @@ SiwSenseItTransformations.prototype.availableInputVariables = function (variable
     var options = SiwSenseItSensorData.transformations[variable.tx.type].data;
     var aiv = {};
 
-    for (var tvid in this.variables) {
-        if (this.variables.hasOwnProperty(tvid)) {
-            var tv = this.variables[tvid];
-            if (this.independent(tv, variable.id) && tv.output in options) {
-                aiv[tv.id] = tv;
-            }
+    for (var i = 0; i < this.variables.length; i++) {
+        var tv = this.variables[i];
+        if (this.independent(tv, variable.id) && (options === 'any' || tv.output in options)) {
+            aiv[tv.id] = tv;
         }
     }
 
@@ -88,20 +99,20 @@ SiwSenseItTransformations.prototype.independent = function (variable, fromId) {
 };
 
 SiwSenseItTransformations.prototype._updateVariables = function () {
-    this.variables = {};
+    this.variables = [];
 
     var outputSet = {};
 
     for (var i = 0; i < this.sensorInputs.length; i++) {
         var input = this.sensorInputs[i];
-        var v = new SiwSenseItVariable({raw: true, input: input});
-        this.variables[v.id] = v;
+        var v = new SiwSenseItVariable({raw: true, input: input, weight: i - this.sensorInputs.length});
+        this.variables.push(v);
         outputSet[v.id] = true;
     }
 
     for (i = 0; i < this.transformations.length; i++) {
         v = new SiwSenseItVariable({raw: false, tx: this.transformations[i]});
-        this.variables[v.id] = v;
+        this.variables.push(v);
     }
 
     var continueChecking = true;
@@ -121,8 +132,9 @@ SiwSenseItTransformations.prototype._updateVariables = function () {
                 }
 
                 if (inputsReady) {
-                    input = this.variables[tx.inputs[0]].output;
-                    this.variables[tx.id].output = SiwSenseItSensorData.transformations[tx.type].data[input];
+                    input = this._variableById(tx.inputs[0]).output;
+                    var typeConversion = SiwSenseItSensorData.transformations[tx.type].data;
+                    this._variableById(tx.id).output = typeConversion === 'any' ? input : typeConversion[input];
                     outputSet[tx.id] = true;
                     continueChecking = true;
                 }
@@ -131,31 +143,15 @@ SiwSenseItTransformations.prototype._updateVariables = function () {
     }
 };
 
-SiwSenseItTransformations.prototype.sequenceVariables = function() {
-    var vs = [];
-    for (var vid in this.variables) {
-        if (this.variables.hasOwnProperty(vid)) {
-            var output = this.variables[vid].output;
-            if (output && output.length > 0 && output[0] == '[') {
-                vs.push(this.variables[vid]);
-            }
-        }
-    }
-
-    return vs;
+SiwSenseItTransformations.prototype.sequenceVariables = function () {
+    return this.variables.filter(function(v) {
+        return v && v.output && v.output.length > 0 && v.output[0] == '[';
+    });
 };
 
-SiwSenseItTransformations.prototype.nonSequenceVariables = function() {
-    var vs = [];
-    for (var vid in this.variables) {
-        if (this.variables.hasOwnProperty(vid)) {
-            var output = this.variables[vid].output;
-            if (output && output.length > 0 && output[0] != '[') {
-                vs.push(this.variables[vid]);
-            }
-        }
-    }
-
-    return vs;
+SiwSenseItTransformations.prototype.nonSequenceVariables = function () {
+    return this.variables.filter(function(v) {
+        return v && v.output && v.output.length > 0 && v.output[0] != '[';
+    });
 };
 

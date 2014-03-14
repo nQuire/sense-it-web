@@ -14,6 +14,7 @@ import org.greengin.senseitweb.entities.subscriptions.Subscription;
 import org.greengin.senseitweb.entities.subscriptions.SubscriptionType;
 import org.greengin.senseitweb.logic.AbstractContentManager;
 import org.greengin.senseitweb.logic.permissions.Role;
+import org.greengin.senseitweb.utils.NamedObject;
 
 public class JoinedProfilesActions extends AbstractContentManager {
 
@@ -38,8 +39,8 @@ public class JoinedProfilesActions extends AbstractContentManager {
 			for (Project p : projects) {
 				if (p.getActivity() instanceof SenseItActivity) {
 					SenseItActivity activity = (SenseItActivity) p.getActivity();
-					Vector<SenseItProfile> profiles = new Vector<SenseItProfile>();
-					profiles.add(activity.getProfile());
+					Vector<NamedObject<SenseItProfile>> profiles = new Vector<NamedObject<SenseItProfile>>();
+					profiles.add(new NamedObject<SenseItProfile>(p.getTitle(), activity.getProfile()));
 					response.put(p.getId(), profiles);
 				}
 			}

@@ -1,4 +1,3 @@
-
 <table data-siw-sortable-table-widget data-table-data="dataList" class="pure-table">
     <thead>
     <tr>
@@ -17,17 +16,22 @@
             <div data-siw-vote-widget data-vote-manager="dataVoteManager" data-vote-target="item"></div>
         </td>
         <td data-ng-repeat="v in dataInfo.tableVariables">
-            {{item.varValue[v.id].v[0]}}
+            {{dataInfo.tableValue(item, v)}}
         </td>
         <td>
+            <button data-ng-if="item.author.id == status.profile.id" data-ng-click="plots.togglePlot(item)"
+                    class="pure-button pure-button-primary pure-button-xsmall">
+                {{plots.plotOpen(item) ? 'Close plot' : 'Open plot'}}
+            </button>
             <button data-ng-if="item.author.id == status.profile.id" data-ng-click="deleteData(item)"
-                    class="pure-button pure-button-primary pure-button-xsmall">Delete</button>
+                    class="pure-button pure-button-primary pure-button-xsmall">Delete
+            </button>
         </td>
     </tr>
-    <tr data-ng-repeat-end>
+    <tr data-ng-repeat-end data-ng-if="plots.plotOpen(item)">
         <td colspan="{{4 + dataInfo.tableVariables.length}}">
             <img data-ng-repeat="v in dataInfo.plotVariables"
-                 src="api/project/{{project.id}}/senseit/data/{{item.id}}/{{v.id}}.png" />
+                 data-ng-src="{{plots.url(item, v)}}"/>
         </td>
     </tr>
 
@@ -37,14 +41,16 @@
 
 <div data-ng-controller="ProjectViewSenseItTestUpload">
     <p>{{title}}</p>
+
     <p>{{file}}</p>
 
     <form class="pure-form">
         <fieldset>
-            <label for="title">Select a file</label><br />
+            <label for="title">Select a file</label><br/>
             <input type="text" data-ng-model="title" id="title"/>
-            <label for="fileToUpload">Select a file</label><br />
-            <input type="file" data-ng-model="file" id="fileToUpload" onchange="angular.element(this).scope().setFile(this)" />
+            <label for="fileToUpload">Select a file</label><br/>
+            <input type="file" data-ng-model="file" id="fileToUpload"
+                   onchange="angular.element(this).scope().setFile(this)"/>
         </fieldset>
         <button class="pure-button pure-button-primary" data-ng-click="uploadFile()">Upload</button>
     </form>

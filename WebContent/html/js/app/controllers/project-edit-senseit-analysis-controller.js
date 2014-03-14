@@ -35,32 +35,34 @@ angular.module('senseItWeb', null, null).controller('ProjectEditSenseItAnalysisC
             }
         },
         createVariable: function (type) {
+            var id = 1;
+            var weight = 0;
+            var tx = this.tx();
+            if (tx) {
+                for (var i = 0; i < tx.length; i++) {
+                    id = Math.max(id, 1 + parseInt(tx[i].id.substr(3)));
+                    weight = Math.max(weight, 1 + tx[i].weight);
+                }
+            }
+
             this.tx().push({
-                id: this.newTxId(),
+                id: "tx:" + id,
+                weight: weight,
                 name: '',
                 type: type,
                 inputs: []
             });
+
             this.updateFormValue();
         },
         indexOf: function (variable) {
             var tx = this.tx();
             for (var i = 0; i < tx.length; i++) {
-                if (tx[i].id = variable.tx) {
+                if (tx[i].id == variable.tx.id) {
                     return i;
                 }
             }
             return -1;
-        },
-        newTxId: function () {
-            var id = 1;
-            var tx = this.tx();
-            if (tx) {
-                for (var i = 0; i < tx.length; i++) {
-                    id = Math.max(id, 1 + parseInt(tx[i].id.substr(3)));
-                }
-            }
-            return "tx:" + id;
         },
         editable: function (variable) {
             return $scope.txForm.isOpen() && variable.editable;

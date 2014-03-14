@@ -10,6 +10,7 @@ import javax.persistence.Lob;
 import org.greengin.senseitweb.entities.data.AbstractDataProjectItem;
 import org.greengin.senseitweb.logic.project.senseit.transformations.SenseItOperations;
 import org.greengin.senseitweb.logic.project.senseit.transformations.SenseItProcessedSeries;
+import org.greengin.senseitweb.logic.project.senseit.transformations.SenseItProcessedSeriesVariable;
 import org.greengin.senseitweb.utils.TimeValue;
 
 @Entity
@@ -17,7 +18,10 @@ public class SenseItSeries extends AbstractDataProjectItem {
 	
 	@Basic
 	String title;
-	
+
+	@Basic
+	String geolocation;
+
 	@Lob
 	HashMap<Long, String> sensors = new HashMap<Long, String>();
 	
@@ -56,11 +60,20 @@ public class SenseItSeries extends AbstractDataProjectItem {
 		return SenseItOperations.tableVariables(processData, (SenseItActivity) this.dataStore);
 	}
 	
-	public Vector<TimeValue> varData(String varId) {
+	public SenseItProcessedSeriesVariable varData(String varId) {
 		processData();
 		return processData.values.get(varId);
 	}
+
+	public String getGeolocation() {
+		return geolocation;
+	}
+
+	public void setGeolocation(String geolocation) {
+		this.geolocation = geolocation;
+	}
 	
+
 	private void processData() {
 		if (processData == null) {
 			processData = SenseItOperations.process(this.data, (SenseItActivity) this.dataStore);

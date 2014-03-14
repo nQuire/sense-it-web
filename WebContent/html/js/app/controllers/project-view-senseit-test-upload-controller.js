@@ -19,6 +19,8 @@ angular.module('senseItWeb', null, null).controller('ProjectViewSenseItTestUploa
                 headers: {'Content-Type': undefined}
             }).
                 success(function (data, status, headers, config) {
+                    console.log(data);
+                    console.log(status);
                     alert("success!");
                 }).
                 error(function (data, status, headers, config) {

@@ -44,6 +44,12 @@
             },
             "units": {}
         },
+        "abs": {
+            "name": "Absolute value",
+            "data": null,
+            "units": {
+            }
+        },
         "integrate": {
             "name": "Integrate",
             "data": {
@@ -52,6 +58,17 @@
                 "[txyz]": "[txyz]"
             },
             "units": {"s": 1}
+        },
+        "derivative": {
+        	"name": "Derivative",
+            "data": {
+            	"[tx]": "[tx]",
+                "[txy]": "[txy]",
+                "[txyz]": "[txyz]"
+            },
+            "units": {
+            	"s": -1
+            }
         },
         "getx": {
             "name": "Get X",

@@ -51,6 +51,12 @@ var SiwSenseItSensorData = {
                 "units": {
                 }
             },
+            "abs": {
+                "name": "Absolute value",
+                "data": 'any',
+                "units": {
+                }
+            },
             "integrate": {
                 "name": "Integrate",
                 "data": {
@@ -60,6 +66,17 @@ var SiwSenseItSensorData = {
                 },
                 "units": {
                     "s": 1
+                }
+            },
+            "derivative": {
+                "name": "Derivative",
+                "data": {
+                    "[tx]": "[tx]",
+                    "[txy]": "[txy]",
+                    "[txyz]": "[txyz]"
+                },
+                "units": {
+                    "s": -1
                 }
             },
             "getx": {

@@ -45,12 +45,13 @@ public class SenseItDataService {
 	@JsonView({Views.VotableCount.class})
 	public NewDataItemResponse<SenseItSeries> upload(@PathParam("projectId") Long projectId,
 			@FormDataParam("title") String title,
+			@FormDataParam("geolocation") String geolocation,
 			@FormDataParam("file") InputStream uploadedInputStream,
 			@FormDataParam("file") FormDataContentDisposition fileDetail,
 			@Context HttpServletRequest request) {
 		
 		SenseItActivityActions member = new SenseItActivityActions(projectId, request);
-		return member.createData(new SenseItSeriesManipulator(title, uploadedInputStream));
+		return member.createData(new SenseItSeriesManipulator(title, geolocation, uploadedInputStream));
 	}
 
 	@Path("/{dataId}")
@@ -59,7 +60,7 @@ public class SenseItDataService {
 	@Produces("application/json")
 	public Long delete(@PathParam("projectId") Long projectId, @PathParam("dataId") Long dataId, @Context HttpServletRequest request) {
 		SenseItActivityActions member = new SenseItActivityActions(projectId, request);
-		return member.deleteData(dataId, new SenseItSeriesManipulator(null, null));
+		return member.deleteData(dataId, new SenseItSeriesManipulator(null, null, null));
 	}
 	
 	@Path("/vote/{itemId}")

@@ -17,10 +17,12 @@ import org.greengin.senseitweb.utils.TimeValue;
 public class SenseItSeriesManipulator implements DataItemManipulator<SenseItActivity, SenseItSeries> {
 
 	String title;
+	String geolocation;
 	InputStream uploadedInputStream;
 
-	public SenseItSeriesManipulator(String title, InputStream uploadedInputStream) {
+	public SenseItSeriesManipulator(String title, String geolocation, InputStream uploadedInputStream) {
 		this.title = title;
+		this.geolocation = geolocation;
 		this.uploadedInputStream = uploadedInputStream;
 	}
 
@@ -28,9 +30,9 @@ public class SenseItSeriesManipulator implements DataItemManipulator<SenseItActi
 	public boolean onCreate(Project project, SenseItActivity activity, SenseItSeries newItem) {
 		SenseItProfile profile = activity.getProfile();
 		newItem.setTitle(title);
+		newItem.setGeolocation(geolocation);
 
 		try {
-
 			BufferedReader reader = new BufferedReader(new InputStreamReader(uploadedInputStream));
 			boolean valid = false;
 
@@ -38,7 +40,6 @@ public class SenseItSeriesManipulator implements DataItemManipulator<SenseItActi
 			sensors.clear();
 			HashMap<Long, Vector<TimeValue>> data = newItem.getData();
 			data.clear();
-			HashMap<Long, Long> sensorInputIds = new HashMap<Long, Long>();
 
 			while (true) {
 				String line = reader.readLine();
@@ -48,38 +49,41 @@ public class SenseItSeriesManipulator implements DataItemManipulator<SenseItActi
 				}
 
 				if (line.startsWith("#")) {
-					String[] parts = line.split(" ", 6);
+					String[] parts = line.split(" ", 5);
 					if (parts.length < 2) {
 						return false;
 					}
 
 					if ("profile:".equals(parts[1])) {
-						valid = !valid && parts.length == 4 && Long.parseLong(parts[2]) == project.getId()
-								&& Long.parseLong(parts[3]) == profile.getId();
-						
-						if (!valid) {
+						if (valid || parts.length != 3) {
 							return false;
 						}
+
+						String[] idparts = parts[2].split("\\.");
+						if (idparts.length != 3 || !"r".equals(idparts[0]) || Long.parseLong(idparts[1]) != project.getId()
+								&& Long.parseLong(idparts[2]) != profile.getId()) {
+							return false;
+						}
+
+						valid = true;
 					} else if ("sensor:".equals(parts[1])) {
-						if (!valid || parts.length != 6) {
+						if (!valid || parts.length != 5) {
 							return false;
 						}
 
 						long sensorInputId = Long.parseLong(parts[2]);
-						long csvSensorId = Long.parseLong(parts[3]);
-						String type = parts[4].split(":")[0];
-						String name = parts[5];
+						String type = parts[3].split(":")[0];
+						String name = parts[4];
 						SensorInput input = profile.inputById(sensorInputId);
 
-						if (input == null || !type.equals(input.getSensor()) || sensorInputIds.containsKey(csvSensorId)
-								|| sensors.containsKey(sensorInputIds) || name.length() == 0) {
+						if (input == null || !type.equals(input.getSensor()) || 
+								sensors.containsKey(sensorInputId) || name.length() == 0) {
 							return false;
 						}
 
-						sensorInputIds.put(csvSensorId, sensorInputId);
+						
 						sensors.put(sensorInputId, name);
 						data.put(sensorInputId, new Vector<TimeValue>());
-
 					}
 				} else {
 					String[] parts = line.split(",");
@@ -87,12 +91,10 @@ public class SenseItSeriesManipulator implements DataItemManipulator<SenseItActi
 						return false;
 					}
 
-					long csvSensorId = Long.parseLong(parts[0]);
-					if (!sensorInputIds.containsKey(csvSensorId)) {
+					long sensorInputId = Long.parseLong(parts[0]);
+					if (!sensors.containsKey(sensorInputId)) {
 						return false;
 					}
-
-					long sensorInputId = sensorInputIds.get(csvSensorId);
 
 					long time = Long.parseLong(parts[1]);
 					float[] values = new float[parts.length - 2];

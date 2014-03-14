@@ -13,6 +13,8 @@ public class SenseItTransformation implements Serializable {
 	
 	String type;
 	
+	int weight;
+	
 	Vector<String> inputs = new Vector<String>();
 
 	public String getId() {
@@ -46,5 +48,12 @@ public class SenseItTransformation implements Serializable {
 	public void setInputs(Vector<String> inputs) {
 		this.inputs = inputs;
 	}
-	
+
+	public int getWeight() {
+		return weight;
+	}
+
+	public void setWeight(int weight) {
+		this.weight = weight;
+	}	
 }

@@ -12,6 +12,8 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.greengin.senseitweb.entities.activities.senseit.SenseItActivity;
 import org.greengin.senseitweb.entities.activities.senseit.SenseItTransformation;
+import org.greengin.senseitweb.logic.project.senseit.transformations.maths.Abs;
+import org.greengin.senseitweb.logic.project.senseit.transformations.maths.Derivative;
 import org.greengin.senseitweb.logic.project.senseit.transformations.maths.FilterCC;
 import org.greengin.senseitweb.logic.project.senseit.transformations.maths.GetX;
 import org.greengin.senseitweb.logic.project.senseit.transformations.maths.GetY;
@@ -26,7 +28,9 @@ public class SenseItOperations {
 	static {
 		ops = new HashMap<String, SenseItOperation>();
 		ops.put("integrate", new Integrate());
+		ops.put("derivative", new Derivative());
 		ops.put("modulus", null);
+		ops.put("abs", new Abs());
 		ops.put("getx", new GetX());
 		ops.put("gety", new GetY());
 		ops.put("getz", new GetZ());
@@ -63,9 +67,12 @@ public class SenseItOperations {
 	}
 
 	public static SenseItProcessedSeries process(HashMap<Long, Vector<TimeValue>> series, SenseItActivity activity) {
+		int index = 0;
 		SenseItProcessedSeries data = new SenseItProcessedSeries();
+		
 		for (Entry<Long, Vector<TimeValue>> entry : series.entrySet()) {
-			data.values.put(String.valueOf(entry.getKey()), entry.getValue());
+			SenseItProcessedSeriesVariable var = new SenseItProcessedSeriesVariable(index++, entry.getValue());
+			data.values.put(String.valueOf(entry.getKey()), var);
 		}
 
 		boolean goon = true;
@@ -80,18 +87,18 @@ public class SenseItOperations {
 						Vector<Vector<TimeValue>> inputs = new Vector<Vector<TimeValue>>();
 						boolean good = true;
 						for (String inputId : tx.getInputs()) {
-							Vector<TimeValue> input = data.values.get(inputId);
+							SenseItProcessedSeriesVariable input = data.values.get(inputId);
 							if (input == null) {
 								good = false;
 								break;
 							} else {
-								inputs.add(input);
+								inputs.add(input.values);
 							}
 						}
 
 						if (good) {
-							Vector<TimeValue> result = new Vector<TimeValue>();
-							if (op.process(inputs, result)) {
+							SenseItProcessedSeriesVariable result = new SenseItProcessedSeriesVariable(index++);
+							if (op.process(inputs, result.values)) {
 								data.values.put(varId, result);
 								goon = true;
 							}
@@ -110,8 +117,8 @@ public class SenseItOperations {
 			String type = tx.getType();
 			if ("max".equals(type) || "min".equals(type)) {
 				String id = tx.getId();
-				Vector<TimeValue> value = data.values.get(id);
-				values.put(id, value != null && value.size() > 0 ? value.firstElement() : null);
+				SenseItProcessedSeriesVariable var = data.values.get(id);
+				values.put(id, var != null && var.values.size() > 0 ? var.values.firstElement() : null);
 			}
 		}
 		
