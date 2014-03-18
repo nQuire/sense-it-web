@@ -22,6 +22,7 @@ import org.greengin.senseitweb.logic.project.senseit.transformations.maths.GetZ;
 import org.greengin.senseitweb.logic.project.senseit.transformations.maths.Integrate;
 import org.greengin.senseitweb.logic.project.senseit.transformations.maths.Max;
 import org.greengin.senseitweb.logic.project.senseit.transformations.maths.Min;
+import org.greengin.senseitweb.logic.project.senseit.transformations.maths.Modulus;
 import org.greengin.senseitweb.utils.TimeValue;
 
 public class SenseItOperations {
@@ -30,7 +31,7 @@ public class SenseItOperations {
 		ops = new HashMap<String, SenseItOperation>();
 		ops.put("integrate", new Integrate());
 		ops.put("derivative", new Derivative());
-		ops.put("modulus", null);
+		ops.put("modulus", new Modulus());
 		ops.put("abs", new Abs());
 		ops.put("getx", new GetX());
 		ops.put("gety", new GetY());
@@ -76,7 +77,8 @@ public class SenseItOperations {
 			if (input != null) {
 				SenseItDataSensor sensorData = data.sensorTypes.get(input.getSensor());
 				if (sensorData != null) {
-					SenseItProcessedSeriesVariable var = new SenseItProcessedSeriesVariable(index++, entry.getValue());
+					String label = String.format("%s raw data", sensorData.name);
+					SenseItProcessedSeriesVariable var = new SenseItProcessedSeriesVariable(index++, label, entry.getValue());
 					var.units.apply(sensorData.units);
 					processed.values.put(String.valueOf(entry.getKey()), var);
 				}
@@ -89,7 +91,6 @@ public class SenseItOperations {
 			for (SenseItTransformation tx : activity.getProfile().getTx()) {
 				String varId = tx.getId();
 				if (processed.values.get(varId) == null) {
-					System.out.println(varId + " " + tx.getType());
 					SenseItOperation op = ops.get(tx.getType());
 					if (op != null) {
 						SenseItProcessedSeriesVariable input = null;
@@ -106,7 +107,7 @@ public class SenseItOperations {
 						}
 
 						if (good) {
-							SenseItProcessedSeriesVariable result = new SenseItProcessedSeriesVariable(index++);
+							SenseItProcessedSeriesVariable result = new SenseItProcessedSeriesVariable(index++, tx.getName());
 							if (op.process(inputs, result.values)) {
 								SenseItDataTransformation txData = data.transformations.get(tx.getType());
 								if (input != null) {

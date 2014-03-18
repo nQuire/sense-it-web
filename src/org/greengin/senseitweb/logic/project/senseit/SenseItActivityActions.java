@@ -33,7 +33,7 @@ public class SenseItActivityActions extends DataActions<SenseItSeries, SenseItAn
 		if (hasMemberAccessIgnoreToken()) {
 			SenseItSeries series = em.find(SenseItSeries.class, dataId);
 			SenseItProcessedSeriesVariable data = series.varData(varId);
-			return SenseItPlots.createPlot("", data);
+			return SenseItPlots.createPlot(data);
 		} else {
 			return null;
 		}

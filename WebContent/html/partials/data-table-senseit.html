@@ -19,7 +19,7 @@
             {{dataInfo.tableValue(item, v)}}
         </td>
         <td>
-            <button data-ng-if="item.author.id == status.profile.id" data-ng-click="plots.togglePlot(item)"
+            <button data-ng-click="plots.togglePlot(item)"
                     class="pure-button pure-button-primary pure-button-xsmall">
                 {{plots.plotOpen(item) ? 'Close plot' : 'Open plot'}}
             </button>
@@ -38,21 +38,3 @@
     </tbody>
 
 </table>
-
-<div data-ng-controller="ProjectViewSenseItTestUpload">
-    <p>{{title}}</p>
-
-    <p>{{file}}</p>
-
-    <form class="pure-form">
-        <fieldset>
-            <label for="title">Select a file</label><br/>
-            <input type="text" data-ng-model="title" id="title"/>
-            <label for="fileToUpload">Select a file</label><br/>
-            <input type="file" data-ng-model="file" id="fileToUpload"
-                   onchange="angular.element(this).scope().setFile(this)"/>
-        </fieldset>
-        <button class="pure-button pure-button-primary" data-ng-click="uploadFile()">Upload</button>
-    </form>
-</div>
-

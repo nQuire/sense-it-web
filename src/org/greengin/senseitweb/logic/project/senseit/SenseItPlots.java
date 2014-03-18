@@ -2,6 +2,7 @@ package org.greengin.senseitweb.logic.project.senseit;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Stroke;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -23,8 +24,11 @@ public class SenseItPlots {
 
 	static final Color[] LINE_COLORS = new Color[] { new Color(0, 172, 226), new Color(220, 19, 64),
 			new Color(252, 199, 36), new Color(136, 183, 15) };
+	
+	static final Font titleFont = new Font("SansSerif", Font.BOLD, 12);
+	static final Font labelFont = new Font("SansSerif", Font.PLAIN, 10);
 
-	public static byte[] createPlot(String label, SenseItProcessedSeriesVariable data) {
+	public static byte[] createPlot(SenseItProcessedSeriesVariable data) {
 		if (data.values.size() > 0) {
 
 			XYSeriesCollection dataset = new XYSeriesCollection();
@@ -33,7 +37,7 @@ public class SenseItPlots {
 			long t0 = data.values.firstElement().t;
 
 			for (int i = 0; i < nv; i++) {
-				XYSeries series = new XYSeries(label + " " + (i + 1));
+				XYSeries series = new XYSeries(" " + (i + 1));
 				for (TimeValue v : data.values) {
 					series.add(v.t - t0, v.v[i]);
 				}
@@ -63,11 +67,16 @@ public class SenseItPlots {
 				}
 			}
 			
-			JFreeChart chart = ChartFactory.createXYLineChart(label, "Time", units.toString(), dataset);
-
+			JFreeChart chart = ChartFactory.createXYLineChart(data.name, "Time", units.toString(), dataset);
+			chart.getTitle().setFont(titleFont);
+			
 			XYPlot plot = (XYPlot) chart.getPlot();
+			plot.getDomainAxis().setLabelFont(labelFont);
+			plot.getRangeAxis().setLabelFont(labelFont);
+			
+			plot.setAxisOffset(new RectangleInsets(0,  0,  0, 0));
 
-			Color gridLinesColor = new Color(15, 65, 18);
+			Color gridLinesColor = new Color(200, 200, 200);
 			Stroke gridLinesStroke = new BasicStroke(1f);
 
 			plot.setOutlineVisible(false);
@@ -78,11 +87,12 @@ public class SenseItPlots {
 			plot.setRangeGridlinesVisible(true);
 			plot.setRangeGridlinePaint(gridLinesColor);
 			plot.setRangeGridlineStroke(gridLinesStroke);
-
-			plot.setBackgroundPaint(new Color(25, 25, 25));
-			for (int i = 0; i < plot.getSeriesCount(); i++) {
+			
+			plot.setBackgroundAlpha(.0f);
+			
+			/*for (int i = 0; i < plot.getSeriesCount(); i++) {
 				plot.getRenderer().setSeriesPaint(i, LINE_COLORS[(data.index + i) % LINE_COLORS.length]);
-			}
+			}*/
 
 			if (plot.getSeriesCount() > 1) {
 				chart.getLegend().setBorder(0, 0, 0, 0);

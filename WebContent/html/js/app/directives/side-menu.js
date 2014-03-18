@@ -1,3 +1,5 @@
+/*global $*/
+
 angular.module('senseItWeb', null, null).directive('siwSideMenu', function ($state) {
     return {
         templateUrl: 'partials/side-menu.html',
@@ -20,28 +22,13 @@ angular.module('senseItWeb', null, null).directive('siwSideMenu', function ($sta
                 }
             };
 
-            $scope.projectTitle = function() {
+            $scope.projectTitle = function () {
                 return $scope.project ? $scope.project.title : '...';
             };
 
             $scope.open = function (state) {
                 elements.removeClass('active');
-                switch (state) {
-                    case 'project-view':
-                        if ($scope._viewState) {
-                            $state.go($scope._viewState.name, $scope._viewState.params);
-                        } else {
-                            $state.go(state, {projectId: $scope.projectId});
-                        }
-                        break;
-                    case 'project-edit':
-                    case 'project-admin':
-                        $state.go(state, {projectId: $scope.projectId});
-                        break;
-                    default:
-                        $state.go(state);
-                        break;
-                }
+                $state.go(state, {projectId: $scope.projectId});
             };
 
             $scope.projectItemsHidden = function (state) {
@@ -63,15 +50,15 @@ angular.module('senseItWeb', null, null).directive('siwSideMenu', function ($sta
 
 
             $scope._updateMenu = function () {
-                var projectPath = false;
-                if ($scope.state.current.name.indexOf('project-view') == 0) {
-                    $scope._viewState = {name: $scope.state.current.name, params: $scope.state.params};
-                    projectPath = true;
-                } else {
-                    projectPath = $scope.state.current.name.indexOf('project-edit') == 0 || $scope.state.current.name.indexOf('project-admin') == 0;
-                }
+                var projectPath = $scope.state.current.name.indexOf('project-view') == 0
+                    || $scope.state.current.name.indexOf('project-edit') == 0
+                    || $scope.state.current.name.indexOf('project-admin') == 0;
+
+                console.log(projectPath);
+                console.log($scope.state.params.projectId);
 
                 if (projectPath) {
+                    console.log('update project path');
                     $scope._setProject($scope.state.params.projectId);
                 }
             };
@@ -97,7 +84,7 @@ angular.module('senseItWeb', null, null).directive('siwSideMenu', function ($sta
                 $scope.access = null;
             };
 
-            $scope.separateCreateItem = function() {
+            $scope.separateCreateItem = function () {
                 return Boolean($scope.project);
             };
         }
