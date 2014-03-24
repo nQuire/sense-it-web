@@ -1,7 +1,3 @@
-.classpath
-.project
-.settings
-.buildpath
-build
-src/META-INF/persistence.xml
+app/src/main/webapp/WEB-INF/mvc-dispatcher-servlet.xml
+app/target
 
