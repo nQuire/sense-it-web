@@ -33,7 +33,8 @@ import org.openid4java.util.ProxyProperties;
 
 public class OpenIdManager {
 
-	public enum Provider {
+
+    public enum Provider {
 		OU, GOOGLE, YAHOO;
 
 		@JsonValue
@@ -53,18 +54,18 @@ public class OpenIdManager {
 		}
 	}
 
-	private static OpenIdManager oi = new OpenIdManager();
-
-	public static OpenIdManager instance() {
-		return oi;
-	}
-
 	ConsumerManager manager;
 	String realm;
 	String returnUrl;
 	SecureRandom random;
 
-	private OpenIdManager() {
+    private String serverBasePath;
+    private String serverProxyHostName;
+    private short serverProxyPort;
+    private String senseItLoginReturnPath;
+
+
+	public OpenIdManager() {
 		try {
 			Context env = (Context) (new InitialContext().lookup("java:comp/env"));
 			this.realm = (String) env.lookup("serverBasePath");
@@ -93,7 +94,25 @@ public class OpenIdManager {
 		}
 	}
 
-	public void logout(HttpServletRequest request) {
+
+    public void setServerBasePath(String serverBasePath) {
+        this.serverBasePath = serverBasePath;
+    }
+
+    public void setServerProxyHostName(String serverProxyHostName) {
+        this.serverProxyHostName = serverProxyHostName;
+    }
+
+    public void setServerProxyPort(short serverProxyPort) {
+        this.serverProxyPort = serverProxyPort;
+    }
+
+    public void setSenseItLoginReturnPath(String senseItLoginReturnPath) {
+        this.senseItLoginReturnPath = senseItLoginReturnPath;
+    }
+
+
+    public void logout(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		session.removeAttribute("openid");
 		session.removeAttribute("openid-claimed");

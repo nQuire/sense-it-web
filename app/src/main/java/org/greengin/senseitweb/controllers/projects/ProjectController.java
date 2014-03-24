@@ -10,6 +10,7 @@ import org.greengin.senseitweb.logic.project.ProjectActions;
 import org.greengin.senseitweb.logic.project.ProjectRequest;
 import org.greengin.senseitweb.logic.project.ProjectResponse;
 import org.greengin.senseitweb.persistence.EMF;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,12 +23,16 @@ import java.util.Collection;
 @RequestMapping(value = "/project/{projectId}")
 public class ProjectController {
 
+    @Autowired
+    SubscriptionManager subscriptionManager;
+
+
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     public ProjectResponse get(@PathVariable("projectId") Long projectId, HttpServletRequest request) {
         EntityManager em = EMF.get().createEntityManager();
         Project project = em.find(Project.class, projectId);
-        AccessLevel access = SubscriptionManager.get().getAccessLevel(project, request);
+        AccessLevel access = subscriptionManager.getAccessLevel(project, request);
 
         ProjectResponse response = new ProjectResponse();
         response.setProject(project);

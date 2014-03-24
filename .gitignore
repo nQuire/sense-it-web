@@ -1,3 +1,4 @@
 app/src/main/webapp/WEB-INF/mvc-dispatcher-servlet.xml
 app/target
-
+app/.idea
+static/.idea

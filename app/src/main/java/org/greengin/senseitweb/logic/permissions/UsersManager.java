@@ -11,28 +11,26 @@ import javax.servlet.http.HttpServletRequest;
 import org.greengin.senseitweb.entities.users.OpenIdEntity;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.persistence.EMF;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class UsersManager {
 	static final String OPENID_QUERY = String.format("SELECT p FROM %s p JOIN p.openIds i WHERE i.openId = :oid",
 			UserProfile.class.getName());
 
-	private static UsersManager um = new UsersManager();
+    @Autowired
+    OpenIdManager openIdManager;
 
-	public static UsersManager get() {
-		return um;
-	}
-	
 	public String userToken(HttpServletRequest request) {
-		return OpenIdManager.instance().getToken(request);
+		return openIdManager.getToken(request);
 	}
 	
 	public boolean checkToken(HttpServletRequest request) {
-		return OpenIdManager.instance().checkToken(request);
+		return openIdManager.checkToken(request);
 	}
 	
 	public UserProfile currentUser(HttpServletRequest request) {
 
-		String id = OpenIdManager.instance().getId(request);
+		String id = openIdManager.getId(request);
 
 		if (id != null) {
 			EntityManager em = EMF.get().createEntityManager();
@@ -48,7 +46,7 @@ public class UsersManager {
 
 				OpenIdEntity openid = new OpenIdEntity();
 				openid.setOpenId(id);
-				openid.setEmail(OpenIdManager.instance().getEmail(request));
+				openid.setEmail(openIdManager.getEmail(request));
 				ids.add(openid);
 
 				profile.setOpenIds(ids);

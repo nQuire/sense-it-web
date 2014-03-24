@@ -7,13 +7,18 @@ import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.logic.permissions.Role;
 import org.greengin.senseitweb.logic.permissions.UsersManager;
 import org.greengin.senseitweb.persistence.EMF;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class AbstractContentManager {
 	protected UserProfile user;
 	protected EntityManager em;
 	protected boolean isLoggedIn;
 	protected HttpServletRequest request;
-	
+
+    @Autowired
+    UsersManager usersManager;
+
+
 	public AbstractContentManager(HttpServletRequest request) {
 		this.request = request;
 		this.em = EMF.get().createEntityManager();
@@ -21,8 +26,8 @@ public class AbstractContentManager {
 	}
 	
 	private void setUser(UserProfile user, String token) {
-		this.user = UsersManager.get().currentUser(request);
-		this.isLoggedIn = user != null && UsersManager.get().checkToken(request);
+		this.user = usersManager.currentUser(request);
+		this.isLoggedIn = user != null && usersManager.checkToken(request);
 	}
 
 	public UserProfile getCurrentUser() {

@@ -11,6 +11,7 @@ import org.greengin.senseitweb.entities.subscriptions.Subscription;
 import org.greengin.senseitweb.entities.subscriptions.SubscriptionType;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.persistence.EMF;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class SubscriptionManager {
 
@@ -27,15 +28,9 @@ public class SubscriptionManager {
 	private static final String SEARCH_SUBSCRIPTION_QUERY = String.format("SELECT s FROM %s s WHERE s.project = :project AND s.user = :user AND s.type = :type",
 			Subscription.class.getName());
 
-	private static SubscriptionManager sm = new SubscriptionManager();
 
-	public static SubscriptionManager get() {
-		return sm;
-	}
-
-	private SubscriptionManager() {
-
-	}
+    @Autowired
+    UsersManager usersManager;
 
 	public List<UserProfile> projectUsers(Project project, SubscriptionType type) {
 		EntityManager em = EMF.get().createEntityManager();
@@ -70,7 +65,7 @@ public class SubscriptionManager {
 	public AccessLevel getAccessLevel(Project project, HttpServletRequest request) {
 		AccessLevel level = new AccessLevel();
 
-		UserProfile user = UsersManager.get().currentUser(request);
+		UserProfile user = usersManager.currentUser(request);
 		if (project != null && user != null) {
 			EntityManager em = EMF.get().createEntityManager();
 			TypedQuery<Subscription> query = em.createQuery(SUBSCRIPTION_QUERY, Subscription.class);

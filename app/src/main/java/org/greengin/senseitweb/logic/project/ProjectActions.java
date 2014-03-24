@@ -12,6 +12,7 @@ import org.greengin.senseitweb.logic.AbstractContentManager;
 import org.greengin.senseitweb.logic.permissions.AccessLevel;
 import org.greengin.senseitweb.logic.permissions.Role;
 import org.greengin.senseitweb.logic.permissions.SubscriptionManager;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class ProjectActions extends AbstractContentManager {
 
@@ -24,13 +25,16 @@ public class ProjectActions extends AbstractContentManager {
 	protected AccessLevel accessLevel;
 	protected boolean projectExists;
 
+    @Autowired
+    SubscriptionManager subscriptionManager;
+
 	public ProjectActions(Long projectId, HttpServletRequest request) {
 		super(request);
 		this.projectId = projectId;
 		this.project = em.find(Project.class, projectId);
 		this.projectExists = this.project != null;
 
-		this.accessLevel = SubscriptionManager.get().getAccessLevel(project, request);
+		this.accessLevel = subscriptionManager.getAccessLevel(project, request);
 	}
 
 	@Override
@@ -62,16 +66,16 @@ public class ProjectActions extends AbstractContentManager {
 
 	public AccessLevel join() {
 		if (hasAccess(Role.LOGGEDIN) && !accessLevel.isMember()) {
-			SubscriptionManager.get().subscribe(em, user, project, SubscriptionType.MEMBER);
-			return SubscriptionManager.get().getAccessLevel(em, user, projectId);
+            subscriptionManager.subscribe(em, user, project, SubscriptionType.MEMBER);
+			return subscriptionManager.getAccessLevel(em, user, projectId);
 		} 
 		return null;
 	}
 
 	public AccessLevel leave() {
 		if (this.hasAccess(Role.PROJECT_MEMBER)) {
-			SubscriptionManager.get().unsubscribe(em, user, project, SubscriptionType.MEMBER);
-			return SubscriptionManager.get().getAccessLevel(em, user, projectId);
+            subscriptionManager.unsubscribe(em, user, project, SubscriptionType.MEMBER);
+			return subscriptionManager.getAccessLevel(em, user, projectId);
 		} 
 		
 		return null;
@@ -92,7 +96,7 @@ public class ProjectActions extends AbstractContentManager {
 
 	public Collection<UserProfile> getUsers() {
 		if (hasAccess(Role.PROJECT_ADMIN)) {
-			return SubscriptionManager.get().projectMembers(project);
+			return subscriptionManager.projectMembers(project);
 		} else {
 			return null;
 		}

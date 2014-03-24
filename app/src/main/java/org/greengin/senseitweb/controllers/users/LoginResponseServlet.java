@@ -8,12 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.greengin.senseitweb.logic.permissions.OpenIdManager;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class LoginResponseServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+
+    @Autowired
+    OpenIdManager openIdManager;
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		OpenIdManager.instance().updateLoginStatus(request);
+        openIdManager.updateLoginStatus(request);
 		response.sendRedirect("status.jsp");
 	}
 }
