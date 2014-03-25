@@ -16,5 +16,13 @@ Licence
 
 nQuire-it is released under the GPLV3 licence. See the file 'gpl.txt' for more details.
 
+Releases
+--------
 
+16-03-2014
+Added support for:
+ - uploading data from Sense-it.
+ - user-defined plots.
+ - custom fields in data table.
+ 
 
