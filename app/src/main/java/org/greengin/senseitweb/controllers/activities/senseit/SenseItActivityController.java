@@ -3,43 +3,38 @@ package org.greengin.senseitweb.controllers.activities.senseit;
 import javax.servlet.http.HttpServletRequest;
 
 import org.greengin.senseitweb.entities.projects.Project;
-import org.greengin.senseitweb.logic.project.senseit.SenseItActivityActions;
 import org.greengin.senseitweb.logic.project.senseit.SensorInputRequest;
 import org.greengin.senseitweb.logic.project.senseit.SenseItProfileRequest;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
-@RequestMapping(value = "/project/{projectId}/senseit")
-public class SenseItActivityController {
+@Controller
+@RequestMapping(value = "/api/project/{projectId}/senseit")
+public class SenseItActivityController extends AbstractSenseItController {
+
 
     @RequestMapping(value = "/profile", method = RequestMethod.PUT)
     @ResponseBody
-	public Project updateProfile(@PathVariable("projectId") Long projectId, SenseItProfileRequest profileData, HttpServletRequest request) {
-		SenseItActivityActions editor = new SenseItActivityActions(projectId, request);
-		return editor.updateProfile(profileData);
+	public Project updateProfile(@PathVariable("projectId") Long projectId, @RequestBody SenseItProfileRequest profileData, HttpServletRequest request) {
+		return createManager(projectId, request).updateProfile(profileData);
 	}
 
     @RequestMapping(value = "/inputs", method = RequestMethod.POST)
     @ResponseBody
-	public Project create(@PathVariable("projectId") Long projectId, SensorInputRequest inputData, HttpServletRequest request) {
-		SenseItActivityActions editor = new SenseItActivityActions(projectId, request);
-		return editor.createSensor(inputData);
+	public Project create(@PathVariable("projectId") Long projectId, @RequestBody SensorInputRequest inputData, HttpServletRequest request) {
+        return createManager(projectId, request).createSensor(inputData);
 	}
 
     @RequestMapping(value = "/input/{inputId}", method = RequestMethod.PUT)
     @ResponseBody
-	public Project update(@PathVariable("projectId") Long projectId, @PathVariable("inputId") Long inputId, SensorInputRequest inputData, HttpServletRequest request) {
-		SenseItActivityActions editor = new SenseItActivityActions(projectId, request);
-		return editor.updateSensor(inputId, inputData);
+	public Project update(@PathVariable("projectId") Long projectId, @PathVariable("inputId") Long inputId, @RequestBody SensorInputRequest inputData, HttpServletRequest request) {
+        return createManager(projectId, request).updateSensor(inputId, inputData);
 	}
 
     @RequestMapping(value = "/input/{inputId}", method = RequestMethod.DELETE)
     @ResponseBody
 	public Project delete(@PathVariable("projectId") Long projectId, @PathVariable("inputId") Long inputId, HttpServletRequest request) {
-		SenseItActivityActions editor = new SenseItActivityActions(projectId, request);
-		return editor.deleteSensor(inputId);
+        return createManager(projectId, request).deleteSensor(inputId);
 	}
 
 }

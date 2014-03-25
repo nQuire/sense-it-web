@@ -6,31 +6,41 @@ import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.json.mixins.Views;
 import org.greengin.senseitweb.logic.permissions.AccessLevel;
 import org.greengin.senseitweb.logic.permissions.SubscriptionManager;
+import org.greengin.senseitweb.logic.permissions.UsersManager;
+import org.greengin.senseitweb.logic.persistence.EntityManagerFactory;
 import org.greengin.senseitweb.logic.project.ProjectActions;
 import org.greengin.senseitweb.logic.project.ProjectRequest;
 import org.greengin.senseitweb.logic.project.ProjectResponse;
-import org.greengin.senseitweb.persistence.EMF;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 
-@RequestMapping(value = "/project/{projectId}")
+@Controller
+@RequestMapping(value = "/api/project/{projectId}")
 public class ProjectController {
 
     @Autowired
     SubscriptionManager subscriptionManager;
 
+    @Autowired
+    EntityManagerFactory entityManagerFactory;
+
+    @Autowired
+    UsersManager usersManager;
+
+    private ProjectActions createProjectManager(Long projectId, HttpServletRequest request) {
+        return new ProjectActions(projectId, subscriptionManager, usersManager, entityManagerFactory.createEntityManager(), request);
+    }
+
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     public ProjectResponse get(@PathVariable("projectId") Long projectId, HttpServletRequest request) {
-        EntityManager em = EMF.get().createEntityManager();
+        EntityManager em = entityManagerFactory.createEntityManager();
         Project project = em.find(Project.class, projectId);
         AccessLevel access = subscriptionManager.getAccessLevel(project, request);
 
@@ -40,54 +50,48 @@ public class ProjectController {
         return response;
     }
 
+
     @RequestMapping(method = RequestMethod.DELETE)
     @ResponseBody
     public Boolean delete(@PathVariable("projectId") Long projectId, HttpServletRequest request) {
-        ProjectActions manager = new ProjectActions(projectId, request);
-        return manager.deleteProject();
+        return createProjectManager(projectId, request).deleteProject();
     }
 
     @RequestMapping(value = "/metadata", method = RequestMethod.PUT)
     @ResponseBody
-    public Project update(@PathVariable("projectId") Long projectId, ProjectRequest projectData, HttpServletRequest request) {
-        ProjectActions manager = new ProjectActions(projectId, request);
-        return manager.updateMetadata(projectData);
+    public Project update(@PathVariable("projectId") Long projectId, @RequestBody ProjectRequest projectData, HttpServletRequest request) {
+        return createProjectManager(projectId, request).updateMetadata(projectData);
     }
 
     @RequestMapping(value = "/join", method = RequestMethod.POST)
     @ResponseBody
     public AccessLevel join(@PathVariable("projectId") Long projectId, HttpServletRequest request) {
-        ProjectActions manager = new ProjectActions(projectId, request);
-        return manager.join();
+        return createProjectManager(projectId, request).join();
     }
 
     @RequestMapping(value = "/leave", method = RequestMethod.POST)
     @ResponseBody
     public AccessLevel leave(@PathVariable("projectId") Long projectId, HttpServletRequest request) {
-        ProjectActions manager = new ProjectActions(projectId, request);
-        return manager.leave();
+        return createProjectManager(projectId, request).leave();
     }
 
     @RequestMapping(value = "/admin/open", method = RequestMethod.PUT)
     @ResponseBody
     public Project open(@PathVariable("projectId") Long projectId, HttpServletRequest request) {
-        ProjectActions manager = new ProjectActions(projectId, request);
-        return manager.setOpen(true);
+        return createProjectManager(projectId, request).setOpen(true);
     }
 
     @RequestMapping(value = "/admin/close", method = RequestMethod.PUT)
     @ResponseBody
     public Project close(@PathVariable("projectId") Long projectId, HttpServletRequest request) {
-        ProjectActions manager = new ProjectActions(projectId, request);
-        return manager.setOpen(false);
+        return createProjectManager(projectId, request).setOpen(false);
     }
 
     @RequestMapping(value = "/admin/users", method = RequestMethod.GET)
     @ResponseBody
     @JsonView(Views.User.class)
     public Collection<UserProfile> users(@PathVariable("projectId") Long projectId, HttpServletRequest request) {
-        ProjectActions manager = new ProjectActions(projectId, request);
-        return manager.getUsers();
+        return createProjectManager(projectId, request).getUsers();
     }
 
 }

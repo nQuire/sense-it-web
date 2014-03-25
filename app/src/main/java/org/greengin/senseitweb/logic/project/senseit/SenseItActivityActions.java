@@ -2,6 +2,7 @@ package org.greengin.senseitweb.logic.project.senseit;
 
 import java.util.Collection;
 
+import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 
 import org.greengin.senseitweb.entities.activities.senseit.SenseItActivity;
@@ -10,29 +11,40 @@ import org.greengin.senseitweb.entities.activities.senseit.SenseItProfile;
 import org.greengin.senseitweb.entities.activities.senseit.SenseItSeries;
 import org.greengin.senseitweb.entities.activities.senseit.SensorInput;
 import org.greengin.senseitweb.entities.projects.Project;
+import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.logic.data.DataActions;
 import org.greengin.senseitweb.logic.permissions.Role;
+import org.greengin.senseitweb.logic.permissions.SubscriptionManager;
+import org.greengin.senseitweb.logic.permissions.UsersManager;
 import org.greengin.senseitweb.logic.project.senseit.transformations.SenseItOperations;
 import org.greengin.senseitweb.logic.project.senseit.transformations.SenseItProcessedSeriesVariable;
 
 public class SenseItActivityActions extends DataActions<SenseItSeries, SenseItAnalysis, SenseItActivity> {
 
-	public SenseItActivityActions(Long projectId, HttpServletRequest request) {
-		super(projectId, request, SenseItSeries.class, SenseItAnalysis.class, SenseItActivity.class);
-	}
-	
+
+    SenseItOperations senseItOperations;
+
+    public SenseItActivityActions(Long projectId, SenseItOperations senseItOperations, SubscriptionManager subscriptionManager, UserProfile user, boolean tokenOk, EntityManager em) {
+        super(projectId, SenseItActivity.class, SenseItSeries.class, SenseItAnalysis.class, subscriptionManager, user, tokenOk, em);
+        setOperations(senseItOperations);
+    }
+
+    public SenseItActivityActions(Long projectId, SenseItOperations senseItOperations, SubscriptionManager subscriptionManager, UsersManager usersManager, EntityManager em, HttpServletRequest request) {
+        super(projectId, SenseItActivity.class, SenseItSeries.class, SenseItAnalysis.class, subscriptionManager, usersManager, em, request);
+        setOperations(senseItOperations);
+    }
+
+    private void setOperations(SenseItOperations senseItOperations) {
+        this.senseItOperations = senseItOperations;
+    }
+
+
 	/** member actions **/
-	
-	@Override
-	public Collection<SenseItSeries> getData() {
-		SenseItOperations.init(request.getServletContext());
-		return super.getData();
-	}
-	
+
 	public byte[] getPlot(Long dataId, String varId) {
 		if (hasMemberAccessIgnoreToken()) {
 			SenseItSeries series = em.find(SenseItSeries.class, dataId);
-			SenseItProcessedSeriesVariable data = series.varData(varId);
+			SenseItProcessedSeriesVariable data = series.varData(senseItOperations, varId);
 			return SenseItPlots.createPlot(data);
 		} else {
 			return null;

@@ -13,6 +13,9 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
 
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
 import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.entities.voting.VotableEntity;
@@ -21,12 +24,18 @@ import org.greengin.senseitweb.entities.voting.VotableEntity;
 public class ChallengeAnswer extends VotableEntity {
 	
 	@ManyToOne
-	Project project;
+    @Getter
+    @Setter
+    Project project;
 	
 	@ManyToOne
+    @Getter
+    @Setter
 	UserProfile author;
 	
 	@Basic
+    @Getter
+    @Setter
 	Boolean published = false;
 		
 
@@ -36,39 +45,9 @@ public class ChallengeAnswer extends VotableEntity {
 	@JoinTable(name="FIELD_VALUES", joinColumns = @JoinColumn(name="ID"))
 	@MapKeyColumn (name="FIELD_ID")
 	@Column(name="VALUE")
+    @Getter
+    @Setter
+    @NonNull
 	private Map<Long, String> fieldValues = new HashMap<Long, String>();
-	
-	
-	public UserProfile getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(UserProfile author) {
-		this.author = author;
-	}
-
-	public Map<Long, String> getFieldValues() {
-		return fieldValues;
-	}
-
-	public void setFieldValues(Map<Long, String> fieldValues) {
-		this.fieldValues = fieldValues;
-	}
-
-	public Project getProject() {
-		return project;
-	}
-
-	public void setProject(Project project) {
-		this.project = project;
-	}
-
-	public Boolean getPublished() {
-		return published;
-	}
-
-	public void setPublished(Boolean published) {
-		this.published = published;
-	}
 
 }

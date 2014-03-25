@@ -1,62 +1,43 @@
 package org.greengin.senseitweb.entities.activities.senseit;
 
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
+import org.greengin.senseitweb.entities.AbstractEntity;
+
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.Vector;
-
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Lob;
-import javax.persistence.OneToMany;
-
-import org.greengin.senseitweb.entities.AbstractEntity;
 
 
 @Entity
 public class SenseItProfile extends AbstractEntity {
-	
-	@Basic
-	Boolean geolocated;
-	
 
-	@OneToMany(orphanRemoval=true, cascade = CascadeType.ALL)
-	Collection<SensorInput> sensorInputs = new Vector<SensorInput>();
-	
-	@Lob
-	SenseItTransformations tx = new SenseItTransformations();
-	
-	
-	public Collection<SensorInput> getSensorInputs() {
-		return sensorInputs;
-	}
+    @Basic
+    @Getter
+    @Setter
+    Boolean geolocated;
 
-	public void setSensorInputs(Collection<SensorInput> sensorInputs) {
-		this.sensorInputs = sensorInputs;
-	}
 
-	
-	public Boolean getGeolocated() {
-		return geolocated;
-	}
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "profile")
+    @Getter
+    @Setter
+    @NonNull
+    Collection<SensorInput> sensorInputs = new Vector<SensorInput>();
 
-	public void setGeolocated(Boolean geolocated) {
-		this.geolocated = geolocated;
-	}
-	
-	public SenseItTransformations getTx() {
-		return tx;
-	}
+    @Lob
+    @Getter
+    @Setter
+    @NonNull
+    SenseItTransformations tx = new SenseItTransformations();
 
-	public void setTx(SenseItTransformations tx) {
-		this.tx = tx;
-	}	
 
-	public SensorInput inputById(Long id) {
-		for (SensorInput input : sensorInputs) {
-			if (input.getId().equals(id)) {
-				return input;
-			}
-		}
-		return null;
-	}
+    public SensorInput inputById(Long id) {
+        for (SensorInput input : sensorInputs) {
+            if (input.getId().equals(id)) {
+                return input;
+            }
+        }
+        return null;
+    }
 }

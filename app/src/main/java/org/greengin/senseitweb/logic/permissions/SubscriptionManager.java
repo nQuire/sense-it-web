@@ -10,8 +10,9 @@ import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.entities.subscriptions.Subscription;
 import org.greengin.senseitweb.entities.subscriptions.SubscriptionType;
 import org.greengin.senseitweb.entities.users.UserProfile;
-import org.greengin.senseitweb.persistence.EMF;
+import org.greengin.senseitweb.logic.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
 public class SubscriptionManager {
 
@@ -23,7 +24,7 @@ public class SubscriptionManager {
 
 	private static final String USER_QUERY = String.format(
 			"SELECT u FROM %s s INNER JOIN s.user u WHERE s.project = :project AND s.type = :type",
-			Subscription.class.getName(), UserProfile.class.getName());
+			Subscription.class.getName());
 
 	private static final String SEARCH_SUBSCRIPTION_QUERY = String.format("SELECT s FROM %s s WHERE s.project = :project AND s.user = :user AND s.type = :type",
 			Subscription.class.getName());
@@ -32,8 +33,12 @@ public class SubscriptionManager {
     @Autowired
     UsersManager usersManager;
 
+
+    @Autowired
+    EntityManagerFactory entityManagerFactory;
+
 	public List<UserProfile> projectUsers(Project project, SubscriptionType type) {
-		EntityManager em = EMF.get().createEntityManager();
+		EntityManager em = entityManagerFactory.createEntityManager();
 		TypedQuery<UserProfile> query = em.createQuery(USER_QUERY, UserProfile.class);
 		query.setParameter("project", project);
 		query.setParameter("type", type);
@@ -63,11 +68,15 @@ public class SubscriptionManager {
 	}
 
 	public AccessLevel getAccessLevel(Project project, HttpServletRequest request) {
+        UserProfile user = usersManager.currentUser(request);
+        return getAccessLevel(project, user);
+    }
+
+    public AccessLevel getAccessLevel(Project project, UserProfile user) {
 		AccessLevel level = new AccessLevel();
 
-		UserProfile user = usersManager.currentUser(request);
 		if (project != null && user != null) {
-			EntityManager em = EMF.get().createEntityManager();
+			EntityManager em = entityManagerFactory.createEntityManager();
 			TypedQuery<Subscription> query = em.createQuery(SUBSCRIPTION_QUERY, Subscription.class);
 			query.setParameter("projectId", project.getId());
 			query.setParameter("user", user);
@@ -93,7 +102,7 @@ public class SubscriptionManager {
 	
 	public boolean is(SubscriptionType type, Project project, UserProfile user) {
 		if (project != null && user != null) {
-			EntityManager em = EMF.get().createEntityManager();
+			EntityManager em = entityManagerFactory.createEntityManager();
 			TypedQuery<Long> query = em.createQuery(USER_IS_QUERY, Long.class);
 			query.setParameter("project", project);
 			query.setParameter("user", user);

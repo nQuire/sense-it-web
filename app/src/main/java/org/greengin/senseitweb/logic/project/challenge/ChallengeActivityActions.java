@@ -3,6 +3,7 @@ package org.greengin.senseitweb.logic.project.challenge;
 import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,7 +13,10 @@ import org.greengin.senseitweb.entities.activities.challenge.ChallengeAnswer;
 import org.greengin.senseitweb.entities.activities.challenge.ChallengeField;
 import org.greengin.senseitweb.entities.activities.challenge.ChallengeOutcome;
 import org.greengin.senseitweb.entities.projects.Project;
+import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.logic.permissions.Role;
+import org.greengin.senseitweb.logic.permissions.SubscriptionManager;
+import org.greengin.senseitweb.logic.permissions.UsersManager;
 import org.greengin.senseitweb.logic.project.AbstractActivityActions;
 import org.greengin.senseitweb.logic.voting.VoteCount;
 import org.greengin.senseitweb.logic.voting.VoteManager;
@@ -30,9 +34,15 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 			"SELECT COUNT(a) AS N FROM %s a WHERE a.project = :project AND a.author = :author",
 			ChallengeAnswer.class.getName());
 
-	public ChallengeActivityActions(Long projectId, HttpServletRequest request) {
-		super(projectId, request, ChallengeActivity.class);
-	}
+
+
+    public ChallengeActivityActions(Long projectId, SubscriptionManager subscriptionManager, UserProfile user, boolean tokenOk, EntityManager em) {
+        super(projectId, ChallengeActivity.class, subscriptionManager, user, tokenOk, em);
+    }
+
+    public ChallengeActivityActions(Long projectId, SubscriptionManager subscriptionManager, UsersManager usersManager, EntityManager em, HttpServletRequest request) {
+        super(projectId, ChallengeActivity.class, subscriptionManager, usersManager, em, request);
+    }
 
 	/** common actions **/
 

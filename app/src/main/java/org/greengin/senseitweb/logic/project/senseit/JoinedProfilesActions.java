@@ -3,6 +3,7 @@ package org.greengin.senseitweb.logic.project.senseit;
 import java.util.List;
 import java.util.Vector;
 
+import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,8 +13,10 @@ import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.entities.projects.ProjectType;
 import org.greengin.senseitweb.entities.subscriptions.Subscription;
 import org.greengin.senseitweb.entities.subscriptions.SubscriptionType;
+import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.logic.AbstractContentManager;
 import org.greengin.senseitweb.logic.permissions.Role;
+import org.greengin.senseitweb.logic.permissions.UsersManager;
 import org.greengin.senseitweb.utils.NamedObject;
 
 public class JoinedProfilesActions extends AbstractContentManager {
@@ -22,11 +25,15 @@ public class JoinedProfilesActions extends AbstractContentManager {
 			"SELECT DISTINCT p FROM %s s INNER JOIN s.project p WHERE s.user=:user AND s.type=:access AND p.type=:type",
 			Subscription.class.getName());
 
-	public JoinedProfilesActions(HttpServletRequest request) {
-		super(request);		
-	}
+    public JoinedProfilesActions(UserProfile user, boolean tokenOk, EntityManager em) {
+        super(user, tokenOk, em);
+    }
 
-	/** logged in user actions **/
+    public JoinedProfilesActions(UsersManager usersManager, EntityManager em, HttpServletRequest request) {
+        super(usersManager, em, request);
+    }
+
+    /** logged in user actions **/
 
 	public JoinedProfilesResponse joinedProfiles() {
 		if (hasAccess(Role.LOGGEDIN)) {

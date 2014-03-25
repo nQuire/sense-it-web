@@ -1,33 +1,23 @@
 package org.greengin.senseitweb.entities.users;
 
+import lombok.Getter;
+import lombok.Setter;
+import org.greengin.senseitweb.entities.AbstractEntity;
+
 import javax.persistence.Basic;
 import javax.persistence.Entity;
-
-import org.greengin.senseitweb.entities.AbstractEntity;
 
 @Entity
 public class OpenIdEntity extends AbstractEntity {
 
-	@Basic
-	String openId;
-	
-	@Basic
-	String email;
+    @Basic
+    @Getter
+    @Setter
+    String openId;
 
-	public String getOpenId() {
-		return openId;
-	}
-
-	public void setOpenId(String openId) {
-		this.openId = openId;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    @Basic
+    @Getter
+    @Setter
+    String email;
 
 }

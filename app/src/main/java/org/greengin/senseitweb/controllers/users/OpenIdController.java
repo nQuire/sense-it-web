@@ -11,13 +11,11 @@ import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.json.mixins.Views;
 import org.greengin.senseitweb.logic.permissions.OpenIdManager;
 import org.greengin.senseitweb.logic.permissions.UsersManager;
-import org.greengin.senseitweb.persistence.EMF;
+import org.greengin.senseitweb.logic.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping(value = "/api/openid")
@@ -32,10 +30,13 @@ public class OpenIdController {
     @Autowired
     UsersManager usersManager;
 
+    @Autowired
+    EntityManagerFactory entityManagerFactory;
+
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     @ResponseBody
 	@JsonView({Views.UserOpenIds.class})
-	public StatusResponse logout(@PathVariable("provider") String provider, HttpServletRequest request) {
+	public StatusResponse logout(HttpServletRequest request) {
         openIdManager.logout(request);
 
 		StatusResponse response = new StatusResponse();
@@ -59,11 +60,11 @@ public class OpenIdController {
 
     @RequestMapping(value = "/profile", method = RequestMethod.PUT)
     @ResponseBody
-	public Boolean update(ProfileRequest profileData, HttpServletRequest request) {
+	public Boolean update(@RequestBody ProfileRequest profileData, HttpServletRequest request) {
 		String id = openIdManager.getId(request);
 
 		if (id != null) {
-			EntityManager em = EMF.get().createEntityManager();
+			EntityManager em = entityManagerFactory.createEntityManager();
 			TypedQuery<UserProfile> query = em.createQuery(OPENID_QUERY, UserProfile.class);
 			query.setParameter("oid", id);
 			List<UserProfile> profiles = query.getResultList();

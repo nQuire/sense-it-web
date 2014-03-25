@@ -1,61 +1,38 @@
 package org.greengin.senseitweb.entities.activities.challenge;
 
-import java.util.Collection;
-
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
 import org.greengin.senseitweb.entities.projects.AbstractActivity;
+
+import javax.persistence.*;
+import java.util.Collection;
+import java.util.Vector;
 
 @Entity
 public class ChallengeActivity extends AbstractActivity {
-	
-	@OneToMany(orphanRemoval = true, cascade=CascadeType.ALL)
-	Collection<ChallengeField> fields;
-	
-	@Basic
-	Integer maxAnswers = 1;
-	
-	@Basic
-	ChallengeActivityStage stage = ChallengeActivityStage.PROPOSAL;
-	
-	@OneToOne(orphanRemoval = true, cascade=CascadeType.ALL)
-	ChallengeOutcome outcome = new ChallengeOutcome();
-	
-	
-	public Collection<ChallengeField> getFields() {
-		return fields;
-	}
 
-	public void setFields(Collection<ChallengeField> fields) {
-		this.fields = fields;
-	}
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
+    @Getter
+    @Setter
+    @NonNull
+    Collection<ChallengeField> fields = new Vector<ChallengeField>();
 
-	public Integer getMaxAnswers() {
-		return maxAnswers;
-	}
+    @Basic
+    @Getter
+    @Setter
+    Integer maxAnswers = 1;
 
-	public void setMaxAnswers(Integer maxAnswers) {
-		this.maxAnswers = maxAnswers;
-	}
+    @Basic
+    @Getter
+    @Setter
+    ChallengeActivityStage stage = ChallengeActivityStage.PROPOSAL;
 
-	public ChallengeActivityStage getStage() {
-		return stage;
-	}
+    @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL)
+    @Getter
+    @Setter
+    @NonNull
+    ChallengeOutcome outcome = new ChallengeOutcome();
 
-	public void setStage(ChallengeActivityStage stage) {
-		this.stage = stage;
-	}
 
-	public ChallengeOutcome getOutcome() {
-		return outcome;
-	}
-
-	public void setOutcome(ChallengeOutcome outcome) {
-		this.outcome = outcome;
-	}	
-	
 }

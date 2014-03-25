@@ -5,6 +5,8 @@ import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.greengin.senseitweb.entities.data.AbstractDataProjectItem;
 
 
@@ -14,15 +16,9 @@ public class SenseItAnalysis extends AbstractDataProjectItem {
 	
 	@Lob
 	@Basic
-	String text;
+    @Getter
+    @Setter
+    String text;
 	
 		
-	public String getText() {
-		return text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
-	}
-	
 }

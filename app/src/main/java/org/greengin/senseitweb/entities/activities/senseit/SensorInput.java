@@ -1,35 +1,30 @@
 package org.greengin.senseitweb.entities.activities.senseit;
 
+import lombok.Getter;
+import lombok.Setter;
+import org.greengin.senseitweb.entities.AbstractEntity;
+
 import javax.persistence.Basic;
 import javax.persistence.Entity;
-
-import org.greengin.senseitweb.entities.AbstractEntity;
+import javax.persistence.ManyToOne;
 
 
 @Entity
 public class SensorInput extends AbstractEntity {
 
-	@Basic
-	float rate;
-	
-	@Basic
-	String sensor;
-	
+    @Basic
+    @Getter
+    @Setter
+    float rate;
 
-	public float getRate() {
-		return rate;
-	}
+    @Basic
+    @Getter
+    @Setter
+    String sensor;
 
-	public void setRate(float rate) {
-		this.rate = rate;
-	}
+    @ManyToOne
+    @Getter
+    @Setter
+    SenseItProfile profile;
 
-	public String getSensor() {
-		return sensor;
-	}
-
-	public void setSensor(String sensor) {
-		this.sensor = sensor;
-	}
-		
 }

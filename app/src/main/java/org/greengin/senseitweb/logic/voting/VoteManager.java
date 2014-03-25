@@ -54,7 +54,7 @@ public class VoteManager {
 
 		em.getTransaction().commit();
 
-		target.selectVoteAuthor(user);
+		target.setSelectedVoteAuthor(user);
 		return target.getVoteCount();
 	}
 }

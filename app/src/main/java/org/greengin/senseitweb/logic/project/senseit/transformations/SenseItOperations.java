@@ -5,11 +5,10 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Vector;
 
-import javax.servlet.ServletContext;
-
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.inject.Inject;
 import org.greengin.senseitweb.entities.activities.senseit.SenseItActivity;
 import org.greengin.senseitweb.entities.activities.senseit.SenseItTransformation;
 import org.greengin.senseitweb.entities.activities.senseit.SensorInput;
@@ -24,7 +23,11 @@ import org.greengin.senseitweb.logic.project.senseit.transformations.maths.Max;
 import org.greengin.senseitweb.logic.project.senseit.transformations.maths.Min;
 import org.greengin.senseitweb.logic.project.senseit.transformations.maths.Modulus;
 import org.greengin.senseitweb.utils.TimeValue;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.stereotype.Component;
 
+@Component
 public class SenseItOperations {
 	private static final HashMap<String, SenseItOperation> ops;
 	static {
@@ -41,18 +44,23 @@ public class SenseItOperations {
 		ops.put("min", new Min());
 	}
 
-	private static SenseItData data = null;
+    @Inject
+    private ResourceLoader resourceLoader;
+	private SenseItData data = null;
 
-	public static void init(ServletContext context) {
+
+
+	public void init() {
 		if (data == null) {
-			data = loadData(context);
+			data = loadData();
 		}
 	}
 
-	private static SenseItData loadData(ServletContext context) {
+	private SenseItData loadData() {
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			return mapper.readValue(context.getResourceAsStream("/WEB-INF/data/senseit.json"), SenseItData.class);
+            Resource resource = resourceLoader.getResource("file:senseit/data.json");
+			return mapper.readValue(resource.getInputStream(), SenseItData.class);
 		} catch (JsonParseException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -64,11 +72,12 @@ public class SenseItOperations {
 		return null;
 	}
 
-	public static SenseItData get() {
+	public SenseItData get() {
+        init();
 		return data;
 	}
 
-	public static SenseItProcessedSeries process(HashMap<Long, Vector<TimeValue>> series, SenseItActivity activity) {
+	public SenseItProcessedSeries process(HashMap<Long, Vector<TimeValue>> series, SenseItActivity activity) {
 		int index = 0;
 		SenseItProcessedSeries processed = new SenseItProcessedSeries();
 

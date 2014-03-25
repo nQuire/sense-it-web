@@ -2,11 +2,13 @@ package org.greengin.senseitweb.logic.project;
 
 import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.entities.subscriptions.Subscription;
+import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.logic.AbstractContentManager;
 import org.greengin.senseitweb.logic.permissions.Role;
 import org.greengin.senseitweb.logic.permissions.SubscriptionManager;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.greengin.senseitweb.logic.permissions.UsersManager;
 
+import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -20,13 +22,22 @@ public class ProjectListActions extends AbstractContentManager {
             "SELECT DISTINCT u FROM %s s INNER JOIN s.user u WHERE s.type = :type AND s.project = :project",
             Subscription.class.getName());
 
-    @Autowired
     SubscriptionManager subscriptionManager;
 
-
-    public ProjectListActions(HttpServletRequest request) {
-        super(request);
+    public ProjectListActions(SubscriptionManager subscriptionManager, UserProfile user, boolean tokenOk, EntityManager em) {
+        super(user, tokenOk, em);
+        setSubscriptionManager(subscriptionManager);
     }
+
+    public ProjectListActions(SubscriptionManager subscriptionManager, UsersManager usersManager, EntityManager em, HttpServletRequest request) {
+        super(usersManager, em, request);
+        setSubscriptionManager(subscriptionManager);
+    }
+
+    private void setSubscriptionManager(SubscriptionManager subscriptionManager) {
+        this.subscriptionManager = subscriptionManager;
+    }
+
 
     /**
      * any user actions *
@@ -34,7 +45,7 @@ public class ProjectListActions extends AbstractContentManager {
     public List<Project> getProjects() {
         if (hasAccess(Role.NONE)) {
             TypedQuery<Project> query = em.createQuery(PROJECTS_QUERY, Project.class);
-            return (List<Project>) query.getResultList();
+            return query.getResultList();
         } else {
             return new Vector<Project>();
         }

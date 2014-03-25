@@ -2,6 +2,7 @@ package org.greengin.senseitweb.logic.project;
 
 import java.util.Collection;
 
+import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 
 import org.greengin.senseitweb.entities.projects.Project;
@@ -12,6 +13,7 @@ import org.greengin.senseitweb.logic.AbstractContentManager;
 import org.greengin.senseitweb.logic.permissions.AccessLevel;
 import org.greengin.senseitweb.logic.permissions.Role;
 import org.greengin.senseitweb.logic.permissions.SubscriptionManager;
+import org.greengin.senseitweb.logic.permissions.UsersManager;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class ProjectActions extends AbstractContentManager {
@@ -25,23 +27,32 @@ public class ProjectActions extends AbstractContentManager {
 	protected AccessLevel accessLevel;
 	protected boolean projectExists;
 
-    @Autowired
     SubscriptionManager subscriptionManager;
 
-	public ProjectActions(Long projectId, HttpServletRequest request) {
-		super(request);
-		this.projectId = projectId;
-		this.project = em.find(Project.class, projectId);
-		this.projectExists = this.project != null;
 
-		this.accessLevel = subscriptionManager.getAccessLevel(project, request);
-	}
+    public ProjectActions(Long projectId, SubscriptionManager subscriptionManager, UserProfile user, boolean tokenOk, EntityManager em) {
+        super(user, tokenOk, em);
+        setProject(projectId, subscriptionManager);
+    }
+    public ProjectActions(Long projectId, SubscriptionManager subscriptionManager, UsersManager usersManager, EntityManager em, HttpServletRequest request) {
+        super(usersManager, em, request);
+        setProject(projectId, subscriptionManager);
+    }
+
+    private void setProject(Long projectId, SubscriptionManager subscriptionManager) {
+        this.subscriptionManager = subscriptionManager;
+        this.projectId = projectId;
+        this.project = em.find(Project.class, projectId);
+        this.projectExists = this.project != null;
+
+        this.accessLevel = subscriptionManager.getAccessLevel(project, user);
+    }
 
 	@Override
 	public boolean hasAccess(Role role) {
 		if (super.hasAccess(role)) {
 			return true;
-		} else if (isLoggedIn) {
+		} else if (loggedWithToken) {
 			switch (role) {
 			case PROJECT_MEMBER:
 				return accessLevel.isMember() && project.getOpen();

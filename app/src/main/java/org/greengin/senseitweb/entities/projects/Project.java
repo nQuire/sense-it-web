@@ -1,96 +1,55 @@
 package org.greengin.senseitweb.entities.projects;
 
 
-import java.util.Collection;
-import java.util.Vector;
-
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Lob;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
 import org.greengin.senseitweb.entities.AbstractEntity;
 import org.greengin.senseitweb.entities.subscriptions.Subscription;
 
+import javax.persistence.*;
+import java.util.Collection;
+import java.util.Vector;
+
 
 @Entity
-public class Project extends AbstractEntity {	
+public class Project extends AbstractEntity {
 
-	public Project() {
-		this.activity = null;
-	}
+    public Project() {
+        this.activity = null;
+    }
 
+    @Basic
+    @Getter
+    @Setter
+    String title;
 
-	@Basic
-	String title;
+    @Lob
+    @Basic
+    @Getter
+    @Setter
+    String description;
 
-	@Lob
-	@Basic
-	String description;
+    @Basic
+    @Getter
+    @Setter
+    ProjectType type;
 
-	@Basic
-	ProjectType type;
-	
-	@Basic
-	Boolean open = false;
-	
-	@OneToOne(orphanRemoval = true, cascade=CascadeType.ALL)
-	AbstractActivity activity;
-	
-	@OneToMany(mappedBy = "project", orphanRemoval = true, cascade = CascadeType.REMOVE)
+    @Basic
+    @Getter
+    @Setter
+    Boolean open = false;
+
+    @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL)
+    @Getter
+    @Setter
+    AbstractActivity activity;
+
+    @OneToMany(mappedBy = "project", orphanRemoval = true, cascade = CascadeType.REMOVE)
+    @Getter
+    @Setter
+    @NonNull
     Collection<Subscription> subscriptions = new Vector<Subscription>();
-	
-	
-	public String getTitle() {
-		return title;
-	}
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public ProjectType getType() {
-		return type;
-	}
-
-	public void setType(ProjectType type) {
-		this.type = type;
-	}
-	
-	
-
-	public AbstractActivity getActivity() {
-		return activity;
-	}
-	
-	public void setActivity(AbstractActivity activity) {
-		this.activity = activity;
-	}
-
-	public Boolean getOpen() {
-		return open;
-	}
-
-	public void setOpen(Boolean open) {
-		this.open = open;
-	}
-
-	public Collection<Subscription> getSubscriptions() {
-		return subscriptions;
-	}
-
-	public void setSubscriptions(Collection<Subscription> subscriptions) {
-		this.subscriptions = subscriptions;
-	}
 
 }

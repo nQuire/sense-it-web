@@ -12,38 +12,33 @@ import org.greengin.senseitweb.logic.project.senseit.SenseItActivityActions;
 import org.greengin.senseitweb.logic.project.senseit.SenseItAnalysisManipulator;
 import org.greengin.senseitweb.logic.voting.VoteCount;
 import org.greengin.senseitweb.logic.voting.VoteRequest;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
-
-@RequestMapping(value = "/project/{projectId}/senseit/analysys")
-public class SenseItAnalysisController {
+@Controller
+@RequestMapping(value = "/api/project/{projectId}/senseit/analysis")
+public class SenseItAnalysisController extends AbstractSenseItController {
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
 	@JsonView({Views.VotableCount.class})
 	public Collection<SenseItAnalysis> get(@PathVariable("projectId") Long projectId, HttpServletRequest request) {
-		SenseItActivityActions member = new SenseItActivityActions(projectId, request);
-		return member.getAnalysis();
+        return createManager(projectId, request).getAnalysis();
 	}
 
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
 	@JsonView({Views.VotableCount.class})
-	public NewDataItemResponse<SenseItAnalysis> create(@PathVariable("projectId") Long projectId, SenseItAnalysisManipulator manipulator, HttpServletRequest request) {
-		SenseItActivityActions member = new SenseItActivityActions(projectId, request);
-		return member.createAnalysis(manipulator);
+	public NewDataItemResponse<SenseItAnalysis> create(@PathVariable("projectId") Long projectId, @RequestBody SenseItAnalysisManipulator manipulator, HttpServletRequest request) {
+        return createManager(projectId, request).createAnalysis(manipulator);
 	}
 
     @RequestMapping(value = "/{analysisId}", method = RequestMethod.PUT)
     @ResponseBody
 	@JsonView({Views.VotableCount.class})
-	public SenseItAnalysis update(@PathVariable("projectId") Long projectId, @PathVariable("analysisId") Long analysisId, SenseItAnalysisManipulator manipulator, HttpServletRequest request) {
-		SenseItActivityActions member = new SenseItActivityActions(projectId, request);
-		return member.updateAnalysis(analysisId, manipulator);
+	public SenseItAnalysis update(@PathVariable("projectId") Long projectId, @PathVariable("analysisId") Long analysisId, @RequestBody SenseItAnalysisManipulator manipulator, HttpServletRequest request) {
+        return createManager(projectId, request).updateAnalysis(analysisId, manipulator);
 	}
 
     @RequestMapping(value = "/{itemId}", method = RequestMethod.DELETE)
@@ -56,8 +51,7 @@ public class SenseItAnalysisController {
     @RequestMapping(value = "/vote/{itemId}", method = RequestMethod.POST)
     @ResponseBody
 	@JsonView({Views.VotableCount.class})
-	public VoteCount vote(@PathVariable("projectId") Long projectId, @PathVariable("itemId") Long itemId, VoteRequest voteData, HttpServletRequest request) {
-		SenseItActivityActions voter = new SenseItActivityActions(projectId, request);
-		return voter.voteItem(itemId, voteData);
+	public VoteCount vote(@PathVariable("projectId") Long projectId, @PathVariable("itemId") Long itemId, @RequestBody VoteRequest voteData, HttpServletRequest request) {
+        return createManager(projectId, request).voteItem(itemId, voteData);
 	}
 }

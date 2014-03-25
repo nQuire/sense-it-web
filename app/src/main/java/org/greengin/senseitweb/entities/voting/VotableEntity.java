@@ -8,6 +8,9 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
 import org.greengin.senseitweb.entities.AbstractEntity;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.logic.moderation.ModerationStatus;
@@ -17,39 +20,23 @@ import org.greengin.senseitweb.logic.voting.VoteCount;
 public abstract class VotableEntity extends AbstractEntity {
 	
 	@OneToMany(mappedBy = "target", orphanRemoval = true, cascade = CascadeType.REMOVE)
+    @Getter
+    @Setter
+    @NonNull
     Collection<Vote> votes = new Vector<Vote>();
 	
 	@Basic
+    @Getter
+    @Setter
 	ModerationStatus moderationStatus = ModerationStatus.UNMODERATED;
-	
-	
-	
-	private transient UserProfile selectedVoteAuthor = null;
-	
-	public Collection<Vote> getVotes() {
-		return votes;
-	}
 
-	public void setVotes(Collection<Vote> votes) {
-		this.votes = votes;
-	}
-	
+
+    @Getter
+    @Setter
+	private transient UserProfile selectedVoteAuthor = null;
+
+
 	public VoteCount getVoteCount() {
 		return new VoteCount(getVotes(), this.selectedVoteAuthor);
 	}
-	
-	public void selectVoteAuthor(UserProfile selectedVoteAuthor) {
-		this.selectedVoteAuthor = selectedVoteAuthor;
-	}
-
-	public ModerationStatus getModerationStatus() {
-		return moderationStatus;
-	}
-
-	public void setModerationStatus(ModerationStatus moderationStatus) {
-		this.moderationStatus = moderationStatus;
-	}
-	
-	
-	
 }

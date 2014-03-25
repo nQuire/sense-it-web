@@ -4,6 +4,9 @@ import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
 import org.greengin.senseitweb.entities.AbstractEntity;
 import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.entities.users.UserProfile;
@@ -12,36 +15,18 @@ import org.greengin.senseitweb.entities.users.UserProfile;
 public class Subscription extends AbstractEntity {
 
 	@ManyToOne
-	UserProfile user;
+    @Getter
+    @Setter
+    UserProfile user;
 	
 	@ManyToOne
+    @Getter
+    @Setter
 	Project project;
 	
 	@Basic
+    @Getter
+    @Setter
 	SubscriptionType type;
 
-
-	public UserProfile getUser() {
-		return user;
-	}
-
-	public void setUser(UserProfile user) {
-		this.user = user;
-	}
-
-	public Project getProject() {
-		return project;
-	}
-
-	public void setProject(Project project) {
-		this.project = project;
-	}
-
-	public SubscriptionType getType() {
-		return type;
-	}
-
-	public void setType(SubscriptionType type) {
-		this.type = type;
-	}
 }
