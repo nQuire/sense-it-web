@@ -5,10 +5,7 @@ import org.greengin.senseitweb.logic.project.challenge.ChallengeActivityActions;
 import org.greengin.senseitweb.logic.project.challenge.ChallengeActivityRequest;
 import org.greengin.senseitweb.logic.project.challenge.ChallengeFieldRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,19 +15,19 @@ public class ChallengeActivityController extends AbstractChallengeController {
 
 
     @RequestMapping(method = RequestMethod.PUT)
-    public Project updateActivity(@PathVariable("projectId") Long projectId, ChallengeActivityRequest activityData, HttpServletRequest request) {
+    public Project updateActivity(@PathVariable("projectId") Long projectId, @RequestBody ChallengeActivityRequest activityData, HttpServletRequest request) {
         return createManager(projectId, request).updateActivity(activityData);
     }
 
     @RequestMapping(value = "/fields", method = RequestMethod.POST)
     @ResponseBody
-    public Project create(@PathVariable("projectId") Long projectId, ChallengeFieldRequest fieldData, HttpServletRequest request) {
+    public Project create(@PathVariable("projectId") Long projectId, @RequestBody ChallengeFieldRequest fieldData, HttpServletRequest request) {
         return createManager(projectId, request).createField(fieldData);
     }
 
     @RequestMapping(value = "/field/{fieldId}", method = RequestMethod.PUT)
     @ResponseBody
-    public Project update(@PathVariable("projectId") Long projectId, @PathVariable("fieldId") Long fieldId, ChallengeFieldRequest fieldData, HttpServletRequest request) {
+    public Project update(@PathVariable("projectId") Long projectId, @PathVariable("fieldId") Long fieldId, @RequestBody ChallengeFieldRequest fieldData, HttpServletRequest request) {
         return createManager(projectId, request).updateField(fieldId, fieldData);
     }
 

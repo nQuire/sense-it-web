@@ -23,9 +23,6 @@ import org.jfree.ui.RectangleInsets;
 
 public class SenseItPlots {
 
-	static final Color[] LINE_COLORS = new Color[] { new Color(0, 172, 226), new Color(220, 19, 64),
-			new Color(252, 199, 36), new Color(136, 183, 15) };
-	
 	static final Font titleFont = new Font("SansSerif", Font.BOLD, 12);
 	static final Font labelFont = new Font("SansSerif", Font.PLAIN, 10);
 
@@ -68,7 +65,7 @@ public class SenseItPlots {
 				}
 			}
 			
-			JFreeChart chart = ChartFactory.createXYLineChart(data.name, "Time", units.toString(), dataset, PlotOrientation.HORIZONTAL, false, false, false);
+			JFreeChart chart = ChartFactory.createXYLineChart(data.name, "Time", units.toString(), dataset, PlotOrientation.VERTICAL, false, false, false);
 			chart.getTitle().setFont(titleFont);
 			
 			XYPlot plot = (XYPlot) chart.getPlot();

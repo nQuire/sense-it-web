@@ -12,8 +12,7 @@ import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.logic.permissions.AccessLevel;
 import org.greengin.senseitweb.logic.permissions.SubscriptionManager;
 import org.greengin.senseitweb.logic.permissions.UsersManager;
-import org.greengin.senseitweb.logic.persistence.EntityManagerFactory;
-import org.greengin.senseitweb.logic.project.ProjectActions;
+import org.greengin.senseitweb.logic.persistence.CustomEntityManagerFactory;
 import org.greengin.senseitweb.logic.project.ProjectCreationRequest;
 import org.greengin.senseitweb.logic.project.ProjectListActions;
 import org.greengin.senseitweb.logic.project.ProjectResponse;
@@ -35,7 +34,7 @@ public class ProjectListController {
     UsersManager usersManager;
 
     @Autowired
-    EntityManagerFactory entityManagerFactory;
+    CustomEntityManagerFactory entityManagerFactory;
 
 
     private ProjectListActions createProjectManager(HttpServletRequest request) {

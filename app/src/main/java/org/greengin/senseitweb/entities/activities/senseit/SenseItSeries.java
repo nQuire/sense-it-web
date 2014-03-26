@@ -15,7 +15,11 @@ import org.greengin.senseitweb.logic.project.senseit.transformations.SenseItOper
 import org.greengin.senseitweb.logic.project.senseit.transformations.SenseItProcessedSeries;
 import org.greengin.senseitweb.logic.project.senseit.transformations.SenseItProcessedSeriesVariable;
 import org.greengin.senseitweb.utils.TimeValue;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 
+@Configurable
 @Entity
 public class SenseItSeries extends AbstractDataProjectItem {
 	
@@ -41,22 +45,22 @@ public class SenseItSeries extends AbstractDataProjectItem {
     @NonNull
 	HashMap<Long, Vector<TimeValue>> data = new HashMap<Long, Vector<TimeValue>>();
 	
-	transient SenseItProcessedSeries processData = null;
+	transient SenseItProcessedSeries processData;
 
 
-	public HashMap<String, TimeValue> getVarValue(SenseItOperations ops) {
-		processData(ops);
+	public HashMap<String, TimeValue> getVarValue() {
+		processData();
 		return SenseItOperations.tableVariables(processData, (SenseItActivity) this.dataStore);
 	}
 	
-	public SenseItProcessedSeriesVariable varData(SenseItOperations ops, String varId) {
-		processData(ops);
+	public SenseItProcessedSeriesVariable varData(String varId) {
+		processData();
 		return processData.values.get(varId);
 	}
 
-	private void processData(SenseItOperations ops) {
+	private void processData() {
 		if (processData == null) {
-			processData = ops.process(this.data, (SenseItActivity) this.dataStore);
+			processData = SenseItOperations.instance().process(this.data, (SenseItActivity) this.dataStore);
 		}
 	}
 	

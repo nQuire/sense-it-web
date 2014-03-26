@@ -1,8 +1,9 @@
 package org.greengin.senseitweb.json;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.greengin.senseitweb.entities.activities.challenge.ChallengeActivity;
 import org.greengin.senseitweb.entities.activities.challenge.ChallengeAnswer;
 import org.greengin.senseitweb.entities.activities.senseit.SenseItAnalysis;
@@ -23,6 +24,9 @@ import org.springframework.stereotype.Component;
 public class JacksonObjectMapper extends ObjectMapper {
 
     public JacksonObjectMapper() throws Exception {
+
+        configure(MapperFeature.DEFAULT_VIEW_INCLUSION, true);
+
         addMixIn(UserProfile.class, UserProfileMixIn.class);
         addMixIn(OpenIdEntity.class, OpenIdEntityMixIn.class);
 
@@ -42,9 +46,7 @@ public class JacksonObjectMapper extends ObjectMapper {
     }
 
     private void addMixIn(Class<?> object, Class<?> mixin) {
-
         addMixInAnnotations(object, mixin);
-        //addMixInAnnotations(object, mixin);
     }
 
 }

@@ -22,7 +22,7 @@ public class LoginController {
     protected void redirect(@RequestParam("p") String provider,
                             @RequestParam(value = "u", required = false) String username,
                             HttpServletRequest request, HttpServletResponse response) {
-        openIdManager.redirect(Provider.create(provider), username, request, response, request.getServletContext());
+        openIdManager.redirect(Provider.create(provider), username, request, response);
     }
 
 

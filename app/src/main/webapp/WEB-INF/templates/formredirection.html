@@ -4,7 +4,7 @@
     <title>OpenID HTML FORM Redirection</title>
 </head>
 
-<body> <!--onload="document.forms['openid-form-redirection'].submit();"-->
+<body onload="document.forms['openid-form-redirection'].submit();">
 <p th:text="${message.OPEndpoint}"></p>
 
 <form name="openid-form-redirection" th:action="${message.OPEndpoint}" method="post" accept-charset="utf-8">

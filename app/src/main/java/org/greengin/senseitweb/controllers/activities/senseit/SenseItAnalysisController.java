@@ -5,6 +5,7 @@ import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.mangofactory.jsonview.ResponseView;
 import org.greengin.senseitweb.entities.activities.senseit.SenseItAnalysis;
 import org.greengin.senseitweb.json.mixins.Views;
 import org.greengin.senseitweb.logic.data.NewDataItemResponse;
@@ -21,7 +22,7 @@ public class SenseItAnalysisController extends AbstractSenseItController {
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-	@JsonView({Views.VotableCount.class})
+    @ResponseView(value = Views.VotableCount.class)
 	public Collection<SenseItAnalysis> get(@PathVariable("projectId") Long projectId, HttpServletRequest request) {
         return createManager(projectId, request).getAnalysis();
 	}
@@ -29,14 +30,14 @@ public class SenseItAnalysisController extends AbstractSenseItController {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-	@JsonView({Views.VotableCount.class})
+    @ResponseView(value = Views.VotableCount.class)
 	public NewDataItemResponse<SenseItAnalysis> create(@PathVariable("projectId") Long projectId, @RequestBody SenseItAnalysisManipulator manipulator, HttpServletRequest request) {
         return createManager(projectId, request).createAnalysis(manipulator);
 	}
 
     @RequestMapping(value = "/{analysisId}", method = RequestMethod.PUT)
     @ResponseBody
-	@JsonView({Views.VotableCount.class})
+    @ResponseView(value = Views.VotableCount.class)
 	public SenseItAnalysis update(@PathVariable("projectId") Long projectId, @PathVariable("analysisId") Long analysisId, @RequestBody SenseItAnalysisManipulator manipulator, HttpServletRequest request) {
         return createManager(projectId, request).updateAnalysis(analysisId, manipulator);
 	}
@@ -50,7 +51,7 @@ public class SenseItAnalysisController extends AbstractSenseItController {
 
     @RequestMapping(value = "/vote/{itemId}", method = RequestMethod.POST)
     @ResponseBody
-	@JsonView({Views.VotableCount.class})
+    @ResponseView(value = Views.VotableCount.class)
 	public VoteCount vote(@PathVariable("projectId") Long projectId, @PathVariable("itemId") Long itemId, @RequestBody VoteRequest voteData, HttpServletRequest request) {
         return createManager(projectId, request).voteItem(itemId, voteData);
 	}

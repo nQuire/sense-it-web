@@ -7,13 +7,13 @@ import javax.persistence.TypedQuery;
 import javax.servlet.http.HttpServletRequest;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.mangofactory.jsonview.ResponseView;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.json.mixins.Views;
 import org.greengin.senseitweb.logic.permissions.OpenIdManager;
 import org.greengin.senseitweb.logic.permissions.UsersManager;
-import org.greengin.senseitweb.logic.persistence.EntityManagerFactory;
+import org.greengin.senseitweb.logic.persistence.CustomEntityManagerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,11 +31,11 @@ public class OpenIdController {
     UsersManager usersManager;
 
     @Autowired
-    EntityManagerFactory entityManagerFactory;
+    CustomEntityManagerFactory entityManagerFactory;
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     @ResponseBody
-	@JsonView({Views.UserOpenIds.class})
+    @ResponseView(value = Views.UserOpenIds.class)
 	public StatusResponse logout(HttpServletRequest request) {
         openIdManager.logout(request);
 
@@ -48,7 +48,7 @@ public class OpenIdController {
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     @ResponseBody
-	@JsonView({Views.UserOpenIds.class})
+    @ResponseView(value = Views.UserOpenIds.class)
 	public StatusResponse status(HttpServletRequest request) {
 		UserProfile profile = usersManager.currentUser(request);
 		StatusResponse response = new StatusResponse();

@@ -23,13 +23,18 @@ import org.greengin.senseitweb.logic.project.senseit.transformations.maths.Max;
 import org.greengin.senseitweb.logic.project.senseit.transformations.maths.Min;
 import org.greengin.senseitweb.logic.project.senseit.transformations.maths.Modulus;
 import org.greengin.senseitweb.utils.TimeValue;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SenseItOperations {
-	private static final HashMap<String, SenseItOperation> ops;
+public class SenseItOperations implements InitializingBean {
+
+    private static SenseItOperations instance;
+
+    private static final HashMap<String, SenseItOperation> ops;
 	static {
 		ops = new HashMap<String, SenseItOperation>();
 		ops.put("integrate", new Integrate());
@@ -44,10 +49,20 @@ public class SenseItOperations {
 		ops.put("min", new Min());
 	}
 
-    @Inject
+    @Autowired
     private ResourceLoader resourceLoader;
+
 	private SenseItData data = null;
 
+    public static SenseItOperations instance() {
+        return instance;
+    }
+
+    @Override
+    public void afterPropertiesSet() {
+        init();
+        instance = this;
+    }
 
 
 	public void init() {
@@ -59,7 +74,7 @@ public class SenseItOperations {
 	private SenseItData loadData() {
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-            Resource resource = resourceLoader.getResource("file:senseit/data.json");
+            Resource resource = resourceLoader.getResource("WEB-INF/senseit/data.json");
 			return mapper.readValue(resource.getInputStream(), SenseItData.class);
 		} catch (JsonParseException e) {
 			e.printStackTrace();
@@ -70,11 +85,6 @@ public class SenseItOperations {
 		}
 
 		return null;
-	}
-
-	public SenseItData get() {
-        init();
-		return data;
 	}
 
 	public SenseItProcessedSeries process(HashMap<Long, Vector<TimeValue>> series, SenseItActivity activity) {

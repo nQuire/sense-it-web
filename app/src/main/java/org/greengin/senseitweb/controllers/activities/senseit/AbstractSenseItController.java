@@ -1,11 +1,8 @@
 package org.greengin.senseitweb.controllers.activities.senseit;
 
-import org.greengin.senseitweb.entities.activities.challenge.ChallengeActivity;
-import org.greengin.senseitweb.entities.activities.senseit.SenseItActivity;
 import org.greengin.senseitweb.logic.permissions.SubscriptionManager;
 import org.greengin.senseitweb.logic.permissions.UsersManager;
-import org.greengin.senseitweb.logic.persistence.EntityManagerFactory;
-import org.greengin.senseitweb.logic.project.challenge.ChallengeActivityActions;
+import org.greengin.senseitweb.logic.persistence.CustomEntityManagerFactory;
 import org.greengin.senseitweb.logic.project.senseit.SenseItActivityActions;
 import org.greengin.senseitweb.logic.project.senseit.transformations.SenseItOperations;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +18,7 @@ public class AbstractSenseItController {
     SubscriptionManager subscriptionManager;
 
     @Autowired
-    EntityManagerFactory entityManagerFactory;
+    CustomEntityManagerFactory entityManagerFactory;
 
     @Autowired
     UsersManager usersManager;
@@ -30,6 +27,6 @@ public class AbstractSenseItController {
     SenseItOperations senseItOperations;
 
     protected SenseItActivityActions createManager(Long projectId, HttpServletRequest request) {
-        return new SenseItActivityActions(projectId, senseItOperations, subscriptionManager, usersManager, entityManagerFactory.createEntityManager(), request);
+        return new SenseItActivityActions(projectId, subscriptionManager, usersManager, entityManagerFactory.createEntityManager(), request);
     }
 }

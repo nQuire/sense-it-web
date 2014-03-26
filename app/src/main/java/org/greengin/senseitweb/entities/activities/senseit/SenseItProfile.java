@@ -19,7 +19,7 @@ public class SenseItProfile extends AbstractEntity {
     Boolean geolocated;
 
 
-    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "profile")
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
     @Getter
     @Setter
     @NonNull

@@ -107,8 +107,7 @@ public class OpenIdManager implements InitializingBean {
         session.removeAttribute("openid-claimed");
     }
 
-    public void redirect(Provider provider, String username, HttpServletRequest request, HttpServletResponse response,
-                         ServletContext context) {
+    public void redirect(Provider provider, String username, HttpServletRequest request, HttpServletResponse response) {
 
         String nextUrl;
         boolean requireId = false;
@@ -164,7 +163,7 @@ public class OpenIdManager implements InitializingBean {
                     // Option 2: HTML FORM Redirection (Allows payloads >2048
                     // bytes)
 
-                    RequestDispatcher dispatcher = context.getRequestDispatcher("/login/formredirection");
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("/login/formredirection");
                     request.setAttribute("parameterMap", request.getParameterMap());
                     request.setAttribute("message", authReq);
                     // httpReq.setAttribute("destinationUrl", httpResp

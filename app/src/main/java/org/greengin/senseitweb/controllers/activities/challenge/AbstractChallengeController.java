@@ -2,7 +2,7 @@ package org.greengin.senseitweb.controllers.activities.challenge;
 
 import org.greengin.senseitweb.logic.permissions.SubscriptionManager;
 import org.greengin.senseitweb.logic.permissions.UsersManager;
-import org.greengin.senseitweb.logic.persistence.EntityManagerFactory;
+import org.greengin.senseitweb.logic.persistence.CustomEntityManagerFactory;
 import org.greengin.senseitweb.logic.project.challenge.ChallengeActivityActions;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,7 +17,7 @@ public class AbstractChallengeController {
     SubscriptionManager subscriptionManager;
 
     @Autowired
-    EntityManagerFactory entityManagerFactory;
+    CustomEntityManagerFactory entityManagerFactory;
 
     @Autowired
     UsersManager usersManager;

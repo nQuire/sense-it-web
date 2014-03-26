@@ -13,11 +13,8 @@
                     <li data-ng-class="itemClass('project-view.data-list')">
                         <a data-ui-sref="project-view.data-list">Data</a>
                     </li>
-                    <li data-ng-class="itemClass('project-view.analysis-list')">
-                        <a data-ui-sref="project-view.analysis-list">Analysis</a>
-                    </li>
-                    <li data-ng-if="project.activity.profile.geolocated" data-ng-class="itemClass('project-view.senseit-map')">
-                        <a data-ui-sref="project-view.senseit-map">Map</a>
+                    <li data-ng-if="project.activity.profile.geolocated" data-ng-class="itemClass('project-view.data-map')">
+                        <a data-ui-sref="project-view.data-map">Map</a>
                     </li>
                 </ul>
             </div>

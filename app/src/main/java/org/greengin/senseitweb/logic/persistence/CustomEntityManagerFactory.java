@@ -4,7 +4,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
 import javax.persistence.EntityManager;
 
-public class EntityManagerFactory extends LocalContainerEntityManagerFactoryBean {
+public class CustomEntityManagerFactory extends LocalContainerEntityManagerFactoryBean {
 
     public EntityManager createEntityManager() {
         return this.getNativeEntityManagerFactory().createEntityManager();

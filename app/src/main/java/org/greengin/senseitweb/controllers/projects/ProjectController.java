@@ -1,13 +1,14 @@
 package org.greengin.senseitweb.controllers.projects;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.mangofactory.jsonview.ResponseView;
 import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.json.mixins.Views;
 import org.greengin.senseitweb.logic.permissions.AccessLevel;
 import org.greengin.senseitweb.logic.permissions.SubscriptionManager;
 import org.greengin.senseitweb.logic.permissions.UsersManager;
-import org.greengin.senseitweb.logic.persistence.EntityManagerFactory;
+import org.greengin.senseitweb.logic.persistence.CustomEntityManagerFactory;
 import org.greengin.senseitweb.logic.project.ProjectActions;
 import org.greengin.senseitweb.logic.project.ProjectRequest;
 import org.greengin.senseitweb.logic.project.ProjectResponse;
@@ -27,7 +28,7 @@ public class ProjectController {
     SubscriptionManager subscriptionManager;
 
     @Autowired
-    EntityManagerFactory entityManagerFactory;
+    CustomEntityManagerFactory entityManagerFactory;
 
     @Autowired
     UsersManager usersManager;
@@ -89,7 +90,7 @@ public class ProjectController {
 
     @RequestMapping(value = "/admin/users", method = RequestMethod.GET)
     @ResponseBody
-    @JsonView(Views.User.class)
+    @ResponseView(value = Views.User.class)
     public Collection<UserProfile> users(@PathVariable("projectId") Long projectId, HttpServletRequest request) {
         return createProjectManager(projectId, request).getUsers();
     }

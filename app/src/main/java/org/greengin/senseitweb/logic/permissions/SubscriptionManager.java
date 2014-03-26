@@ -10,9 +10,8 @@ import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.entities.subscriptions.Subscription;
 import org.greengin.senseitweb.entities.subscriptions.SubscriptionType;
 import org.greengin.senseitweb.entities.users.UserProfile;
-import org.greengin.senseitweb.logic.persistence.EntityManagerFactory;
+import org.greengin.senseitweb.logic.persistence.CustomEntityManagerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
 public class SubscriptionManager {
 
@@ -35,7 +34,7 @@ public class SubscriptionManager {
 
 
     @Autowired
-    EntityManagerFactory entityManagerFactory;
+    CustomEntityManagerFactory entityManagerFactory;
 
 	public List<UserProfile> projectUsers(Project project, SubscriptionType type) {
 		EntityManager em = entityManagerFactory.createEntityManager();

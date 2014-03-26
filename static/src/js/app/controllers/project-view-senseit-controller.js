@@ -5,6 +5,7 @@ angular.module('senseItWeb', null, null).controller('ProjectViewSenseItCtrl', fu
     $scope.templates.analysis = 'partials/project-view-senseit-analysis.html';
     $scope.templates.analysisTable = 'partials/data-analysis-table-senseit.html';
 
+
     $scope.transformations = new SiwSenseItTransformations($scope.project.activity.profile.sensorInputs, $scope.project.activity.profile.tx);
 
     $scope.dataInfo = {
@@ -16,6 +17,22 @@ angular.module('senseItWeb', null, null).controller('ProjectViewSenseItCtrl', fu
             return item.varValue[variable.id].v[0].toPrecision(3)
         }
     };
+
+
+    if ($scope.project.activity.profile.geolocated) {
+        $scope.mapData = {
+            mapVariables: $scope.dataInfo.tableVariables.map(function(v) {
+                return {id: v.id, label: v.label(), weight: v.weight};
+            }),
+            value: function(item, v) {
+                return item.varValue[v.id].v[0];
+            },
+            location: function(item) {
+                return JSON.parse(item.geolocation);
+            }
+        };
+    }
+
 
     $scope.plots = {
         _open: {},

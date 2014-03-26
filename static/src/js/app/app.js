@@ -44,6 +44,10 @@ angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'senseItServices', ], n
                 url: '/analysis/{analysisId}',
                 templateUrl: 'partials/project-view-data-analysis-view.html'
             })
+            .state('project-view.data-map', {
+                url: '/map',
+                templateUrl: 'partials/project-view-data-map.html'
+            })
             .state('project-view.challenge', {
                 url: '/challenge',
                 templateUrl: 'partials/project-view-challenge-work.html'

@@ -31,7 +31,6 @@ public abstract class VotableEntity extends AbstractEntity {
 	ModerationStatus moderationStatus = ModerationStatus.UNMODERATED;
 
 
-    @Getter
     @Setter
 	private transient UserProfile selectedVoteAuthor = null;
 

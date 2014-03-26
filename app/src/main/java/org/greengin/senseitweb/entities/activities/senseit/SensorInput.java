@@ -22,9 +22,4 @@ public class SensorInput extends AbstractEntity {
     @Setter
     String sensor;
 
-    @ManyToOne
-    @Getter
-    @Setter
-    SenseItProfile profile;
-
 }

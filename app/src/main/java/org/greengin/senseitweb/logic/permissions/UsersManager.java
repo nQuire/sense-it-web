@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.greengin.senseitweb.entities.users.OpenIdEntity;
 import org.greengin.senseitweb.entities.users.UserProfile;
-import org.greengin.senseitweb.logic.persistence.EntityManagerFactory;
+import org.greengin.senseitweb.logic.persistence.CustomEntityManagerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class UsersManager {
@@ -21,7 +21,7 @@ public class UsersManager {
     OpenIdManager openIdManager;
 
     @Autowired
-    EntityManagerFactory entityManagerFactory;
+    CustomEntityManagerFactory entityManagerFactory;
 
 	public String userToken(HttpServletRequest request) {
 		return openIdManager.getToken(request);

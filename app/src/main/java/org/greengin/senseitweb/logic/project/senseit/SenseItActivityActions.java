@@ -1,120 +1,108 @@
 package org.greengin.senseitweb.logic.project.senseit;
 
-import java.util.Collection;
-
-import javax.persistence.EntityManager;
-import javax.servlet.http.HttpServletRequest;
-
-import org.greengin.senseitweb.entities.activities.senseit.SenseItActivity;
-import org.greengin.senseitweb.entities.activities.senseit.SenseItAnalysis;
-import org.greengin.senseitweb.entities.activities.senseit.SenseItProfile;
-import org.greengin.senseitweb.entities.activities.senseit.SenseItSeries;
-import org.greengin.senseitweb.entities.activities.senseit.SensorInput;
+import org.greengin.senseitweb.entities.activities.senseit.*;
 import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.logic.data.DataActions;
 import org.greengin.senseitweb.logic.permissions.Role;
 import org.greengin.senseitweb.logic.permissions.SubscriptionManager;
 import org.greengin.senseitweb.logic.permissions.UsersManager;
-import org.greengin.senseitweb.logic.project.senseit.transformations.SenseItOperations;
 import org.greengin.senseitweb.logic.project.senseit.transformations.SenseItProcessedSeriesVariable;
+
+import javax.persistence.EntityManager;
+import javax.servlet.http.HttpServletRequest;
 
 public class SenseItActivityActions extends DataActions<SenseItSeries, SenseItAnalysis, SenseItActivity> {
 
 
-    SenseItOperations senseItOperations;
-
-    public SenseItActivityActions(Long projectId, SenseItOperations senseItOperations, SubscriptionManager subscriptionManager, UserProfile user, boolean tokenOk, EntityManager em) {
+    public SenseItActivityActions(Long projectId, SubscriptionManager subscriptionManager, UserProfile user, boolean tokenOk, EntityManager em) {
         super(projectId, SenseItActivity.class, SenseItSeries.class, SenseItAnalysis.class, subscriptionManager, user, tokenOk, em);
-        setOperations(senseItOperations);
     }
 
-    public SenseItActivityActions(Long projectId, SenseItOperations senseItOperations, SubscriptionManager subscriptionManager, UsersManager usersManager, EntityManager em, HttpServletRequest request) {
+    public SenseItActivityActions(Long projectId, SubscriptionManager subscriptionManager, UsersManager usersManager, EntityManager em, HttpServletRequest request) {
         super(projectId, SenseItActivity.class, SenseItSeries.class, SenseItAnalysis.class, subscriptionManager, usersManager, em, request);
-        setOperations(senseItOperations);
-    }
-
-    private void setOperations(SenseItOperations senseItOperations) {
-        this.senseItOperations = senseItOperations;
     }
 
 
-	/** member actions **/
+    /**
+     * member actions *
+     */
 
-	public byte[] getPlot(Long dataId, String varId) {
-		if (hasMemberAccessIgnoreToken()) {
-			SenseItSeries series = em.find(SenseItSeries.class, dataId);
-			SenseItProcessedSeriesVariable data = series.varData(senseItOperations, varId);
-			return SenseItPlots.createPlot(data);
-		} else {
-			return null;
-		}
-	}
-	
-
-	/** editor actions **/
-
-	
-	public Project updateProfile(SenseItProfileRequest profileData) {
-		if (hasAccess(Role.PROJECT_EDITOR)) {
-			em.getTransaction().begin();
-			profileData.updateProfile(activity.getProfile());
-			em.getTransaction().commit();
-
-			return project;
-		}
-		
-		return null;
-	}
+    public byte[] getPlot(Long dataId, String varId) {
+        if (hasMemberAccessIgnoreToken()) {
+            SenseItSeries series = em.find(SenseItSeries.class, dataId);
+            SenseItProcessedSeriesVariable data = series.varData(varId);
+            return SenseItPlots.createPlot(data);
+        } else {
+            return null;
+        }
+    }
 
 
-	public Project createSensor(SensorInputRequest inputData) {
-		if (hasAccess(Role.PROJECT_EDITOR)) {
-			
-			em.getTransaction().begin();
-			SensorInput input = new SensorInput();
-			inputData.updateInput(input);
-			if (activity.getProfile() == null) {
-				activity.setProfile(new SenseItProfile());
-			}
-			
-			activity.getProfile().getSensorInputs().add(input);
-			em.getTransaction().commit();
+    /**
+     * editor actions *
+     */
 
-			return project;
-		}
-		
-		return null;
-	}
 
-	public Project updateSensor(Long inputId, SensorInputRequest inputData) {
-		if (hasAccess(Role.PROJECT_EDITOR)) {
-			SensorInput input = em.find(SensorInput.class, inputId);
+    public Project updateProfile(SenseItProfileRequest profileData) {
+        if (hasAccess(Role.PROJECT_EDITOR)) {
+            em.getTransaction().begin();
+            profileData.updateProfile(activity.getProfile());
+            em.getTransaction().commit();
 
-			em.getTransaction().begin();
-			inputData.updateInput(input);
-			em.getTransaction().commit();
+            return project;
+        }
 
-			return project;
-		}
-		
-		return null;
-	}
+        return null;
+    }
 
-	public Project deleteSensor(Long inputId) {
-		if (hasAccess(Role.PROJECT_EDITOR)) {
-			SensorInput input = em.find(SensorInput.class, inputId);
 
-			em.getTransaction().begin();
-			activity.getProfile().getSensorInputs().remove(input);
-			em.getTransaction().commit();
+    public Project createSensor(SensorInputRequest inputData) {
+        if (hasAccess(Role.PROJECT_EDITOR)) {
 
-			return project;
-		}
-		
-		return null;
-	}
-	
-	
+            em.getTransaction().begin();
+            SensorInput input = new SensorInput();
+            inputData.updateInput(input);
+            if (activity.getProfile() == null) {
+                activity.setProfile(new SenseItProfile());
+            }
+
+            activity.getProfile().getSensorInputs().add(input);
+            em.getTransaction().commit();
+
+            return project;
+        }
+
+        return null;
+    }
+
+    public Project updateSensor(Long inputId, SensorInputRequest inputData) {
+        if (hasAccess(Role.PROJECT_EDITOR)) {
+            SensorInput input = em.find(SensorInput.class, inputId);
+
+            em.getTransaction().begin();
+            inputData.updateInput(input);
+            em.getTransaction().commit();
+
+            return project;
+        }
+
+        return null;
+    }
+
+    public Project deleteSensor(Long inputId) {
+        if (hasAccess(Role.PROJECT_EDITOR)) {
+            SensorInput input = em.find(SensorInput.class, inputId);
+
+            em.getTransaction().begin();
+            activity.getProfile().getSensorInputs().remove(input);
+            em.getTransaction().commit();
+
+            return project;
+        }
+
+        return null;
+    }
+
 
 }
