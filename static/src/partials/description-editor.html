@@ -1,0 +1,36 @@
+<fieldset>
+    <label for="description-type">Project description</label>
+    <select id="description-type" data-ng-model="form.values.description.type">
+        <option value="">Select project description templates:</option>
+        <option value="text">Plain text</option>
+        <option value="html">HTML text</option>
+        <option value="simple">Simple template</option>
+    </select>
+</fieldset>
+
+<div data-ng-switch="form.values.description.type">
+    <div data-ng-switch-when="text">
+        <fieldset>
+            <label for="description-plain-text">Plain text:</label>
+            <textarea id="description-plain-text" data-ng-model="form.values.description.value"></textarea>
+        </fieldset>
+    </div>
+
+    <div data-ng-switch-when="html">
+        <fieldset>
+            <label for="description-html-text">HTML text:</label>
+            <textarea id="description-html-text" data-ng-model="form.values.description.value"></textarea>
+        </fieldset>
+    </div>
+
+    <div data-ng-switch-when="simple">
+        <fieldset>
+            <label for="description-simple-text">Short description:</label>
+            <textarea id="description-simple-text" data-ng-model="form.values.description.value"></textarea>
+
+            <label for="description-simple-background">Background image:</label>
+            <input id="description-simple-background" type="file" onchange="angular.element(this).scope().form.setFile('background', this.files[0])"/>
+        </fieldset>
+    </div>
+
+</div>

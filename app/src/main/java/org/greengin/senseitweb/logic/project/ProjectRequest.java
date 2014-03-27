@@ -1,34 +1,28 @@
 package org.greengin.senseitweb.logic.project;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.greengin.senseitweb.entities.projects.Project;
 
+import java.util.HashMap;
+
 public class ProjectRequest {
-	String title;
-	String description;
-	
-	
-	public String getTitle() {
-		return title;
-	}
+    @Getter
+    @Setter
+    String title;
+
+    @Getter
+    @Setter
+    HashMap<String, String> description;
 
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public void updateProject(Project project) {
+        if (title != null) {
+            project.setTitle(title);
+        }
 
-
-	public String getDescription() {
-		return description;
-	}
-
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-
-	public void updateProject(Project project) {
-		project.setTitle(title);
-		project.setDescription(description);
-	}
+        if (description != null) {
+            project.setDescription(description);
+        }
+    }
 }

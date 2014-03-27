@@ -6,15 +6,17 @@
         <fieldset>
             <label for="title">Project title</label>
             <input id="title" type="text" placeholder="Title" data-ng-model="form.values.title">
+        </fieldset>
 
-            <label for="description">Project description</label>
-            <textarea id="description" placeholder="description" data-ng-model="form.values.description"></textarea>
+        <div data-ng-include="'partials/description-editor.html'"></div>
 
+        <fieldset>
             <button class="pure-button pure-button-primary pure-button-small" data-ng-disabled="form.okButtonDisabled()"
                     data-ng-click="form.save()">
                 Save
             </button>
-            <button class="pure-button pure-button-primary pure-button-small" data-ng-disabled="form.resetButtonDisabled()"
+            <button class="pure-button pure-button-primary pure-button-small"
+                    data-ng-disabled="form.resetButtonDisabled()"
                     data-ng-click="form.cancel()">
                 Cancel
             </button>
@@ -24,8 +26,10 @@
 <div data-ng-if="!form.isOpen()">
     <p>Title: {{project.title}}</p>
 
-    <p>Description: {{project.description}}</p>
+    <div data-siw-project-description></div>
+
     <button class="pure-button pure-button-primary pure-button-small" data-ng-click="form.open()">Edit</button>
-    <button class="pure-button pure-button-primary pure-button-small" data-ng-click="deleteProject()">Delete project</button>
+    <button class="pure-button pure-button-primary pure-button-small" data-ng-click="deleteProject()">Delete project
+    </button>
 </div>
 

@@ -20,10 +20,10 @@ angular.module('senseItWeb', null, null).controller('CreateCtrl', function ($sco
             this.values = {};
         },
         okButtonDisabled: function() {
-            return !this.values.type || !this.values.title || !this.values.description;
+            return !this.values.type || !this.values.title;
         },
         resetButtonDisabled: function() {
-            return !this.values.type && !this.values.title && !this.values.description;
+            return !this.values.type && !this.values.title;
         }
     };
 

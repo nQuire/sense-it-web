@@ -1,6 +1,5 @@
 package org.greengin.senseitweb.controllers.projects;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import com.mangofactory.jsonview.ResponseView;
 import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.entities.users.UserProfile;
@@ -14,11 +13,14 @@ import org.greengin.senseitweb.logic.project.ProjectRequest;
 import org.greengin.senseitweb.logic.project.ProjectResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/api/project/{projectId}")
@@ -58,10 +60,18 @@ public class ProjectController {
         return createProjectManager(projectId, request).deleteProject();
     }
 
-    @RequestMapping(value = "/metadata", method = RequestMethod.PUT)
+    @RequestMapping(value = "/metadata", method = RequestMethod.POST)
     @ResponseBody
     public Project update(@PathVariable("projectId") Long projectId, @RequestBody ProjectRequest projectData, HttpServletRequest request) {
         return createProjectManager(projectId, request).updateMetadata(projectData);
+    }
+
+    @RequestMapping(value = "/metadata/files", method = RequestMethod.POST)
+    @ResponseBody
+    public Project updateFiles(@PathVariable("projectId") Long projectId, HttpServletRequest request) {
+        EntityManager em = entityManagerFactory.createEntityManager();
+        Project project = em.find(Project.class, projectId);
+        return project;
     }
 
     @RequestMapping(value = "/join", method = RequestMethod.POST)

@@ -13,12 +13,16 @@ var SiwFormManager = function (object, keys, saveCallback, cancelCallback) {
     this.values = {};
     this.saveCallback = saveCallback;
     this.cancelCallback = cancelCallback;
+    this.files = {};
 };
 
 SiwFormManager.prototype.setObject = function (object) {
     this.object = object;
 };
 
+SiwFormManager.prototype.setFile = function(name, file) {
+    this.files[name] = file;
+};
 
 SiwFormManager.prototype._copyValues = function (from, to) {
     for (var i = 0; i < this.keys.length; i++) {
@@ -28,6 +32,7 @@ SiwFormManager.prototype._copyValues = function (from, to) {
 };
 
 SiwFormManager.prototype.open = function () {
+    this.files = {};
     this._copyValues(this.object, this.values);
     this._isOpen = true;
 };

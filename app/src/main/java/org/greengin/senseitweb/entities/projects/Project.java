@@ -9,6 +9,8 @@ import org.greengin.senseitweb.entities.subscriptions.Subscription;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 
 
@@ -25,10 +27,9 @@ public class Project extends AbstractEntity {
     String title;
 
     @Lob
-    @Basic
     @Getter
     @Setter
-    String description;
+    HashMap<String, String> description = new HashMap<String, String>();
 
     @Basic
     @Getter

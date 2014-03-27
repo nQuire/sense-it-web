@@ -10,13 +10,31 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
         return path + (suffix ? '/' + suffix : '');
     };
 
-    service._request = function(method, path, data) {
-        return data ? RestService[method](path, data) : RestService[method](path);
+    /**
+     *
+     * @param method
+     * @param path
+     * @param data
+     * @param [files=null]
+     * @returns {*}
+     * @private
+     */
+    service._request = function(method, path, data, files) {
+        return data ? RestService[method](path, data, files) : RestService[method](path);
     };
 
-    service.projectRequest = function(method, projectId, path, data) {
+    /**
+     *
+     * @param method
+     * @param projectId
+     * @param path
+     * @param data
+     * @param [files=null]
+     * @returns {*}
+     */
+    service.projectRequest = function(method, projectId, path, data, files) {
         var _path = service._composePath('api/project/' + projectId, path);
-        return service._request(method, _path, data);
+        return service._request(method, _path, data, files);
     };
 
     service.projectsRequest = function(method, path, data) {
@@ -148,23 +166,32 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
      * @param {string} method
      * @param {object} path
      * @param {object} [data=null]
+     * @param {object} [files=null]
      * @returns {object}
      * @private
      */
-    service.updateProjectAction = function (method, projectId, path, data) {
-        return service.projectRequest(method, projectId, path, data).then(function(data) {
+    service.updateProjectAction = function (method, projectId, path, data, files) {
+        return service.projectRequest(method, projectId, path, data, files).then(function(data) {
             service._projectData[projectId].project = data;
             return true;
         });
     };
 
-    service.saveMetadata = function (projectId) {
+
+    /**
+     *
+     * @param {string} projectId
+     * @param {object} [files=null]
+     * @returns {object}
+     * @private
+     */
+    service.saveMetadata = function (projectId, files) {
         var project = service._projectData[projectId].project;
 
-        return service.updateProjectAction('put', projectId, 'metadata', {
+        return service.updateProjectAction('post', projectId, 'metadata', {
             title: project.title,
             description: project.description
-        });
+        }, files);
     };
 
     service.openProject = function(projectId) {

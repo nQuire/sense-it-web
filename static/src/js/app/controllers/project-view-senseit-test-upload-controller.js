@@ -9,7 +9,7 @@ angular.module('senseItWeb', null, null).controller('ProjectViewSenseItTestUploa
 
     $scope.uploadFile = function () {
         if ($scope.title && $scope.file) {
-            // from http://shazwazza.com/post/Uploading-files-and-JSON-data-in-the-same-request-with-Angular-JS
+
             var fd = new FormData();
             fd.append("title", $scope.title);
             fd.append('file', $scope.file);
