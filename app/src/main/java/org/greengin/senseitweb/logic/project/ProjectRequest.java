@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.greengin.senseitweb.entities.projects.Project;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class ProjectRequest {
     @Getter
@@ -22,7 +23,17 @@ public class ProjectRequest {
         }
 
         if (description != null) {
-            project.setDescription(description);
+            if (project.getDescription() == null) {
+                project.setDescription(description);
+            } else {
+                for (Map.Entry<String, String> entry : description.entrySet()) {
+                    if (entry.getValue() == null) {
+                        project.getDescription().remove(entry.getKey());
+                    } else {
+                        project.getDescription().put(entry.getKey(), entry.getValue());
+                    }
+                }
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 package org.greengin.senseitweb.controllers.activities.senseit;
 
+import org.greengin.senseitweb.logic.data.FileManager;
 import org.greengin.senseitweb.logic.permissions.SubscriptionManager;
 import org.greengin.senseitweb.logic.permissions.UsersManager;
 import org.greengin.senseitweb.logic.persistence.CustomEntityManagerFactory;
@@ -21,12 +22,15 @@ public class AbstractSenseItController {
     CustomEntityManagerFactory entityManagerFactory;
 
     @Autowired
+    FileManager fileManager;
+
+    @Autowired
     UsersManager usersManager;
 
     @Autowired
     SenseItOperations senseItOperations;
 
     protected SenseItActivityActions createManager(Long projectId, HttpServletRequest request) {
-        return new SenseItActivityActions(projectId, subscriptionManager, usersManager, entityManagerFactory.createEntityManager(), request);
+        return new SenseItActivityActions(projectId, subscriptionManager, fileManager, usersManager, entityManagerFactory.createEntityManager(), request);
     }
 }

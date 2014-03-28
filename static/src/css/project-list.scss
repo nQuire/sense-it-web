@@ -40,10 +40,6 @@
   text-transform: uppercase;
 }
 
-/*
- * -- PRICING TABLE LIST --
- * Each pricing table has a <ul> which is denoted by the .pricing-table-list class
- */
 .project-list-item-rows {
   list-style-type: none;
   margin: 0;
@@ -51,10 +47,6 @@
   text-align: center;
 }
 
-/*
- * -- PRICING TABLE LIST ELEMENTS --
- * Styles for the individual list elements within each pricing table
- */
 .project-list-item-rows li {
   padding: 0.8em 0;
   background: #f7f7f7;

@@ -2,7 +2,7 @@
 
 /* App Module */
 
-angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'senseItServices', ], null).config([
+angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'senseItServices'], null).config([
     '$stateProvider',
     '$urlRouterProvider',
     function ($stateProvider, $urlRouterProvider) {
@@ -58,10 +58,27 @@ angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'senseItServices', ], n
                 controller: 'ProjectAdminCtrl'
             })
             .state('project-edit', {
+                abstract: true,
                 url: '/project/{projectId}/edit',
                 templateUrl: 'partials/project-edit.html',
                 controller: 'ProjectEditCtrl'
             })
+            .state('project-edit.home', {
+                url: '',
+                templateUrl: 'partials/project-edit-metadata.html',
+                controller: 'ProjectEditMetadataCtrl'
+            })
+            .state('project-edit.senseit', {
+                url: '/senseit',
+                templateUrl: 'partials/project-edit-senseit.html',
+                controller: 'ProjectEditSenseItCtrl'
+            })
+            .state('project-edit.challenge', {
+                url: '/challenge',
+                templateUrl: 'partials/project-edit-challenge.html',
+                controller: 'ProjectEditChallengeCtrl'
+            })
+
             .state('profile', {
                 url: '/profile',
                 templateUrl: 'partials/profile.html',

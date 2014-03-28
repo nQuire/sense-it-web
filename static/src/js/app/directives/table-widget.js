@@ -74,3 +74,5 @@ angular.module('senseItWeb', null, null).directive('siwSortableTableWidget', fun
         }
     };
 });
+
+

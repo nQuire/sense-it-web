@@ -1,83 +1,57 @@
 @import url(pure-ext.css);
-
 .project-list {
-    padding-top: 1em;
-}
+  padding-top: 1em; }
 
 .project-list-item {
-    border: 1px solid #ddd;
-    margin: 0 0.5em 2em;
-    text-align: center;
-}
+  border: 1px solid #ddd;
+  margin: 0 0.5em 2em;
+  text-align: center; }
 
 /*
  * -- PRICING TABLE HEADER COLORS --
  * Choose a different color based on the type of pricing table.
  */
 .project-list-item-header {
-    color: #fff;
-}
-
-.project-list-item.project-senseit .project-list-item-header {
-    background: #519251;
-}
-
-.project-list-item.project-challenge .project-list-item-header {
-    background: #2c4985;
-    /*background: #111;
-    */
-}
+  background: #519251;
+  color: #fff;
+  /*  background: #2c4985;
+  background: #111;
+  */ }
 
 .project-list-item-header h2 {
-    margin: 0;
-    padding-top: 1em;
-    font-size: 2em;
-    font-weight: lighter;
-}
+  margin: 0;
+  padding-top: 1em;
+  font-size: 2em;
+  font-weight: lighter; }
 
 .project-list-item-header div {
-    font-size: 1em;
-    padding: 1em 0;
-    font-weight: normal;
-    color: rgba(255, 255, 255, 0.5);
-    text-transform: uppercase;
-}
+  font-size: 1em;
+  padding: 1em 0;
+  font-weight: normal;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase; }
 
-/*
- * -- PRICING TABLE LIST --
- * Each pricing table has a <ul> which is denoted by the .pricing-table-list class
- */
 .project-list-item-rows {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-}
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  text-align: center; }
 
-/*
- * -- PRICING TABLE LIST ELEMENTS --
- * Styles for the individual list elements within each pricing table
- */
 .project-list-item-rows li {
-    padding: 0.8em 0;
-    background: #f7f7f7;
-    border-bottom: 1px solid #e7e7e7;
-}
+  padding: 0.8em 0;
+  background: #f7f7f7;
+  border-bottom: 1px solid #e7e7e7; }
 
 @media (max-width: 48em) {
-    .project-list-item {
-        position: relative;
-    }
+  .project-list-item {
+    position: relative; }
 
-    .project-list-item-header {
-        width: 50%;
-    }
+  .project-list-item-header {
+    width: 50%; }
 
-    .project-list-item-rows {
-        position: absolute;
-        top: 0;
-        width: 50%;
-        right: 0;
-        height: 100%;
-    }
-}
+  .project-list-item-rows {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    right: 0;
+    height: 100%; } }

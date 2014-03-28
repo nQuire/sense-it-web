@@ -38,11 +38,11 @@ angular.module('senseItServices', null, null).factory('RestService', ['$http', f
             if (hasFiles) {
                 var fd = new FormData();
 
-                fd.append("body", "body=" + JSON.stringify(data));
+                fd.append("body", JSON.stringify(data));
 
                 for (fileId in files) {
                     if (files.hasOwnProperty(fileId)) {
-                        fd.append("files[" + fileId + "]", files[fileId]);
+                        fd.append(fileId, files[fileId]);
                     }
                 }
 

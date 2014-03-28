@@ -1,5 +1,6 @@
 package org.greengin.senseitweb.controllers.activities.challenge;
 
+import org.greengin.senseitweb.logic.data.FileManager;
 import org.greengin.senseitweb.logic.permissions.SubscriptionManager;
 import org.greengin.senseitweb.logic.permissions.UsersManager;
 import org.greengin.senseitweb.logic.persistence.CustomEntityManagerFactory;
@@ -20,9 +21,12 @@ public class AbstractChallengeController {
     CustomEntityManagerFactory entityManagerFactory;
 
     @Autowired
+    FileManager fileManager;
+
+    @Autowired
     UsersManager usersManager;
 
     protected ChallengeActivityActions createManager(Long projectId, HttpServletRequest request) {
-        return new ChallengeActivityActions(projectId, subscriptionManager, usersManager, entityManagerFactory.createEntityManager(), request);
+        return new ChallengeActivityActions(projectId, subscriptionManager, fileManager, usersManager, entityManagerFactory.createEntityManager(), request);
     }
 }

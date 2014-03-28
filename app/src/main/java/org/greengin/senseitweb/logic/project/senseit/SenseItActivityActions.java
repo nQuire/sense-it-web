@@ -4,6 +4,7 @@ import org.greengin.senseitweb.entities.activities.senseit.*;
 import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.logic.data.DataActions;
+import org.greengin.senseitweb.logic.data.FileManager;
 import org.greengin.senseitweb.logic.permissions.Role;
 import org.greengin.senseitweb.logic.permissions.SubscriptionManager;
 import org.greengin.senseitweb.logic.permissions.UsersManager;
@@ -15,12 +16,12 @@ import javax.servlet.http.HttpServletRequest;
 public class SenseItActivityActions extends DataActions<SenseItSeries, SenseItAnalysis, SenseItActivity> {
 
 
-    public SenseItActivityActions(Long projectId, SubscriptionManager subscriptionManager, UserProfile user, boolean tokenOk, EntityManager em) {
-        super(projectId, SenseItActivity.class, SenseItSeries.class, SenseItAnalysis.class, subscriptionManager, user, tokenOk, em);
+    public SenseItActivityActions(Long projectId, SubscriptionManager subscriptionManager, FileManager fileManager, UserProfile user, boolean tokenOk, EntityManager em) {
+        super(projectId, SenseItActivity.class, SenseItSeries.class, SenseItAnalysis.class, subscriptionManager, fileManager, user, tokenOk, em);
     }
 
-    public SenseItActivityActions(Long projectId, SubscriptionManager subscriptionManager, UsersManager usersManager, EntityManager em, HttpServletRequest request) {
-        super(projectId, SenseItActivity.class, SenseItSeries.class, SenseItAnalysis.class, subscriptionManager, usersManager, em, request);
+    public SenseItActivityActions(Long projectId, SubscriptionManager subscriptionManager, FileManager fileManager, UsersManager usersManager, EntityManager em, HttpServletRequest request) {
+        super(projectId, SenseItActivity.class, SenseItSeries.class, SenseItAnalysis.class, subscriptionManager, fileManager, usersManager, em, request);
     }
 
 

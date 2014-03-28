@@ -16,7 +16,6 @@
 
 	<persistence-unit name="ormunit-jpa" transaction-type="RESOURCE_LOCAL">
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
-		
 		<properties>
 			<property name="eclipselink.ddl-generation" value="create-or-extend-tables" />
 			<property name="eclipselink.ddl-generation.output-mode"

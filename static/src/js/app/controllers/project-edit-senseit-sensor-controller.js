@@ -1,7 +1,7 @@
 angular.module('senseItWeb', null, null).controller('ProjectEditSenseItSensorCtrl', function ($scope, ProjectSenseItService) {
     $scope.isNew = typeof $scope.sensorInput === 'undefined';
     if ($scope.isNew) {
-        $scope.sensorInput = {};
+        $scope.sensorInput = {sensor: "", rate: 10};
     }
 
     $scope.form = new SiwFormManager($scope.sensorInput, ['rate', 'sensor'], function () {

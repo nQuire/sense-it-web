@@ -1,6 +1,9 @@
 package org.greengin.senseitweb.logic.project;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collection;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
@@ -10,11 +13,12 @@ import org.greengin.senseitweb.entities.subscriptions.Subscription;
 import org.greengin.senseitweb.entities.subscriptions.SubscriptionType;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.logic.AbstractContentManager;
+import org.greengin.senseitweb.logic.data.FileManager;
 import org.greengin.senseitweb.logic.permissions.AccessLevel;
 import org.greengin.senseitweb.logic.permissions.Role;
 import org.greengin.senseitweb.logic.permissions.SubscriptionManager;
 import org.greengin.senseitweb.logic.permissions.UsersManager;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.greengin.senseitweb.logic.project.senseit.FileMapUpload;
 
 public class ProjectActions extends AbstractContentManager {
 
@@ -28,19 +32,21 @@ public class ProjectActions extends AbstractContentManager {
 	protected boolean projectExists;
 
     SubscriptionManager subscriptionManager;
+    FileManager fileManager;
 
 
-    public ProjectActions(Long projectId, SubscriptionManager subscriptionManager, UserProfile user, boolean tokenOk, EntityManager em) {
+    public ProjectActions(Long projectId, SubscriptionManager subscriptionManager, FileManager fileManager, UserProfile user, boolean tokenOk, EntityManager em) {
         super(user, tokenOk, em);
-        setProject(projectId, subscriptionManager);
+        setProject(projectId, subscriptionManager, fileManager);
     }
-    public ProjectActions(Long projectId, SubscriptionManager subscriptionManager, UsersManager usersManager, EntityManager em, HttpServletRequest request) {
+    public ProjectActions(Long projectId, SubscriptionManager subscriptionManager, FileManager fileManager, UsersManager usersManager, EntityManager em, HttpServletRequest request) {
         super(usersManager, em, request);
-        setProject(projectId, subscriptionManager);
+        setProject(projectId, subscriptionManager, fileManager);
     }
 
-    private void setProject(Long projectId, SubscriptionManager subscriptionManager) {
+    private void setProject(Long projectId, SubscriptionManager subscriptionManager, FileManager fileManager) {
         this.subscriptionManager = subscriptionManager;
+        this.fileManager = fileManager;
         this.projectId = projectId;
         this.project = em.find(Project.class, projectId);
         this.projectExists = this.project != null;
@@ -116,8 +122,20 @@ public class ProjectActions extends AbstractContentManager {
 
 	/** editor actions **/
 	
-	public Project updateMetadata(ProjectRequest data) {
+	public Project updateMetadata(ProjectRequest data, FileMapUpload files) {
 		if (hasAccess(Role.PROJECT_EDITOR)) {
+            if (files != null && data.getDescription() != null) {
+                String context = projectId.toString();
+                for (Map.Entry<String, FileMapUpload.FileData> entry : files.getData().entrySet()) {
+                    try {
+                        fileManager.uploadFile(context, entry.getValue().filename, entry.getValue().data);
+                        data.getDescription().put(entry.getKey(), context + "/" + entry.getValue().filename);
+                    } catch (Exception e) {
+                        data.getDescription().put(entry.getKey(), null);
+                    }
+                }
+            }
+
 			em.getTransaction().begin();
 			data.updateProject(project);
 			em.getTransaction().commit();

@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.greengin.senseitweb.entities.projects.AbstractActivity;
 import org.greengin.senseitweb.entities.users.UserProfile;
+import org.greengin.senseitweb.logic.data.FileManager;
 import org.greengin.senseitweb.logic.permissions.Role;
 import org.greengin.senseitweb.logic.permissions.SubscriptionManager;
 import org.greengin.senseitweb.logic.permissions.UsersManager;
@@ -15,13 +16,13 @@ public class AbstractActivityActions<T extends AbstractActivity> extends Project
 	boolean validActivity;
 	Class<T> type;
 
-    public AbstractActivityActions(Long projectId, Class<T> type, SubscriptionManager subscriptionManager, UserProfile user, boolean tokenOk, EntityManager em) {
-        super(projectId, subscriptionManager, user, tokenOk, em);
+    public AbstractActivityActions(Long projectId, Class<T> type, SubscriptionManager subscriptionManager, FileManager fileManager, UserProfile user, boolean tokenOk, EntityManager em) {
+        super(projectId, subscriptionManager, fileManager, user, tokenOk, em);
         setType(type);
     }
 
-    public AbstractActivityActions(Long projectId, Class<T> type, SubscriptionManager subscriptionManager, UsersManager usersManager, EntityManager em, HttpServletRequest request) {
-        super(projectId, subscriptionManager, usersManager, em, request);
+    public AbstractActivityActions(Long projectId, Class<T> type, SubscriptionManager subscriptionManager, FileManager fileManager, UsersManager usersManager, EntityManager em, HttpServletRequest request) {
+        super(projectId, subscriptionManager, fileManager, usersManager, em, request);
         setType(type);
     }
 

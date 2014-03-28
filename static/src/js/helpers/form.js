@@ -24,6 +24,14 @@ SiwFormManager.prototype.setFile = function(name, file) {
     this.files[name] = file;
 };
 
+SiwFormManager.prototype.clearFile = function(name) {
+    delete this.files[name];
+};
+
+SiwFormManager.prototype.deleteFile = function(name) {
+    this.files[name] = false;
+};
+
 SiwFormManager.prototype._copyValues = function (from, to) {
     for (var i = 0; i < this.keys.length; i++) {
         var key = this.keys[i];

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 
+<h2 class="content-subhead">Project description</h2>
 
 <div data-ng-if="form.isOpen()">
     <form class="pure-form pure-form-stacked">
@@ -11,7 +12,8 @@
         <div data-ng-include="'partials/description-editor.html'"></div>
 
         <fieldset>
-            <button class="pure-button pure-button-primary pure-button-small" data-ng-disabled="form.okButtonDisabled()"
+            <button class="pure-button pure-button-primary pure-button-small"
+                    data-ng-disabled="form.okButtonDisabled()"
                     data-ng-click="form.save()">
                 Save
             </button>
@@ -24,12 +26,15 @@
     </form>
 </div>
 <div data-ng-if="!form.isOpen()">
-    <p>Title: {{project.title}}</p>
 
+    <p>
+        <button class="pure-button pure-button-primary pure-button-small" data-ng-click="form.open()">
+            Edit
+        </button>
+        <button class="pure-button pure-button-primary pure-button-small" data-ng-click="deleteProject()">
+            Delete project
+        </button>
+    </p>
     <div data-siw-project-description></div>
 
-    <button class="pure-button pure-button-primary pure-button-small" data-ng-click="form.open()">Edit</button>
-    <button class="pure-button pure-button-primary pure-button-small" data-ng-click="deleteProject()">Delete project
-    </button>
 </div>
-

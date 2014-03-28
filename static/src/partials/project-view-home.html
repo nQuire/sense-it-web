@@ -1,11 +1,5 @@
 <!DOCTYPE html>
 
-<h2 class="content-subhead">Project description</h2>
-
-<p>{{project.description}}</p>
-
-<div data-ng-include="templates.home"></div>
-
 <div data-ng-if="status.logged">
     <div data-ng-if="project.open">
 
@@ -26,3 +20,6 @@
     <a data-ui-sref="profile">Login</a> to participate in this project.
 </div>
 
+<div data-siw-project-description></div>
+
+<div data-ng-include="templates.home"></div>

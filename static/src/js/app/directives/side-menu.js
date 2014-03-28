@@ -15,11 +15,7 @@ angular.module('senseItWeb', null, null).directive('siwSideMenu', function ($sta
             }, true);
 
             $scope.active = function (state) {
-                if (state === 'project-view') {
-                    return $scope.state.current.name.indexOf(state) === 0;
-                } else {
-                    return state === $scope.state.current.name;
-                }
+                return $scope.state.current.name.indexOf(state) === 0;
             };
 
             $scope.projectTitle = function () {

@@ -1,15 +1,16 @@
 <table data-siw-sortable-table-widget data-table-data="dataList" class="pure-table">
     <thead>
     <tr>
-        <th>#</th>
-        <th>Author</th>
-        <th>Votes</th>
-        <th data-ng-repeat="v in dataInfo.tableVariables">{{v.label()}}</th>
+        <th data-ng-class="headerClass('title')" data-ng-click="headerSort('title')">Title</th>
+        <th data-ng-class="headerClass('author')" data-ng-click="headerSort('author')">Author</th>
+        <th data-ng-class="headerClass('votes')" data-ng-click="headerSort('votes')">Votes</th>
+        <th data-ng-repeat="v in dataInfo.tableVariables"
+            data-ng-class="headerClass(v.id)" data-ng-click="headerSort(v.id)">{{v.label()}}</th>
         <th></th>
     </tr>
     </thead>
     <tbody>
-    <tr data-ng-repeat-start="item in dataList.items">
+    <tr data-ng-repeat-start="item in sortedItems()">
         <td>{{item.title}}</td>
         <td>{{item.author.name}}</td>
         <td>

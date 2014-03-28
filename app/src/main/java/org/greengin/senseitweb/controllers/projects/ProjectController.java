@@ -3,7 +3,9 @@ package org.greengin.senseitweb.controllers.projects;
 import com.mangofactory.jsonview.ResponseView;
 import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.entities.users.UserProfile;
+import org.greengin.senseitweb.json.JacksonObjectMapper;
 import org.greengin.senseitweb.json.mixins.Views;
+import org.greengin.senseitweb.logic.data.FileManager;
 import org.greengin.senseitweb.logic.permissions.AccessLevel;
 import org.greengin.senseitweb.logic.permissions.SubscriptionManager;
 import org.greengin.senseitweb.logic.permissions.UsersManager;
@@ -11,19 +13,25 @@ import org.greengin.senseitweb.logic.persistence.CustomEntityManagerFactory;
 import org.greengin.senseitweb.logic.project.ProjectActions;
 import org.greengin.senseitweb.logic.project.ProjectRequest;
 import org.greengin.senseitweb.logic.project.ProjectResponse;
+import org.greengin.senseitweb.logic.project.senseit.FileMapUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.support.DefaultMultipartHttpServletRequest;
 
 import javax.persistence.EntityManager;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Collection;
-import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/api/project/{projectId}")
+@MultipartConfig(fileSizeThreshold = 1024 * 1024,    // 1 MB
+        maxFileSize = 1024 * 1024,          // 1 MB
+        maxRequestSize = 1024 * 1024 * 10) // 10MB
 public class ProjectController {
 
     @Autowired
@@ -33,10 +41,16 @@ public class ProjectController {
     CustomEntityManagerFactory entityManagerFactory;
 
     @Autowired
+    FileManager fileManager;
+
+    @Autowired
     UsersManager usersManager;
 
+    @Autowired
+    JacksonObjectMapper objectMapper;
+
     private ProjectActions createProjectManager(Long projectId, HttpServletRequest request) {
-        return new ProjectActions(projectId, subscriptionManager, usersManager, entityManagerFactory.createEntityManager(), request);
+        return new ProjectActions(projectId, subscriptionManager, fileManager, usersManager, entityManagerFactory.createEntityManager(), request);
     }
 
 
@@ -63,12 +77,34 @@ public class ProjectController {
     @RequestMapping(value = "/metadata", method = RequestMethod.POST)
     @ResponseBody
     public Project update(@PathVariable("projectId") Long projectId, @RequestBody ProjectRequest projectData, HttpServletRequest request) {
-        return createProjectManager(projectId, request).updateMetadata(projectData);
+        return createProjectManager(projectId, request).updateMetadata(projectData, null);
     }
 
     @RequestMapping(value = "/metadata/files", method = RequestMethod.POST)
     @ResponseBody
     public Project updateFiles(@PathVariable("projectId") Long projectId, HttpServletRequest request) {
+        try {
+            DefaultMultipartHttpServletRequest multiPartRequest = (DefaultMultipartHttpServletRequest) request;
+            ProjectRequest projectData = objectMapper.readValue(multiPartRequest.getParameter("body"), ProjectRequest.class);
+            FileMapUpload files = new FileMapUpload();
+
+            for (String param : multiPartRequest.getParameterMap().keySet()) {
+                if (!"body".equals(param)) {
+                    files.getData().put(param, null);
+                }
+            }
+
+            for (Map.Entry<String, MultipartFile> entry : multiPartRequest.getFileMap().entrySet()) {
+                files.add(entry.getKey(), entry.getValue().getOriginalFilename(), entry.getValue().getInputStream());
+            }
+
+
+            return createProjectManager(projectId, request).updateMetadata(projectData, files);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         EntityManager em = entityManagerFactory.createEntityManager();
         Project project = em.find(Project.class, projectId);
         return project;

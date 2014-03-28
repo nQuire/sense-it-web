@@ -3,7 +3,17 @@ angular.module('senseItWeb', null, null).controller('ProjectViewDataCtrl', funct
     $scope.dataReady = false;
     $scope.dataList = {
         items: [],
-        sort: {}
+        sort: {
+            'title' : function(a, b) {
+                return siwCompare.string(a.title, b.title);
+            },
+            'author': function (a, b) {
+                return siwCompare.string(a.author.name, b.author.name);
+            },
+            'votes': function (a, b) {
+                return siwCompare.voteCount(a.voteCount, b.voteCount);
+            }
+        }
     };
 
     $scope.analysisReady = false;

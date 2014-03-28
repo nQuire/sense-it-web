@@ -18,6 +18,17 @@ angular.module('senseItWeb', null, null).controller('ProjectViewSenseItCtrl', fu
         }
     };
 
+    var createSortFunction = function(id) {
+        return function(a, b) {
+            return a.varValue[id].v[0] - b.varValue[id].v[0];
+        };
+    };
+
+    for (var i = 0; i < $scope.dataInfo.tableVariables.length; i++) {
+        var id = $scope.dataInfo.tableVariables[i].id;
+        $scope.dataList.sort[id] = createSortFunction(id);
+    }
+
 
     if ($scope.project.activity.profile.geolocated) {
         $scope.mapData = {

@@ -26,13 +26,13 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
     Class<F> analysisType;
 
 
-    public DataActions(Long projectId, Class<T> type, Class<E> dataType, Class<F> analysisType, SubscriptionManager subscriptionManager, UserProfile user, boolean tokenOk, EntityManager em) {
-        super(projectId, type, subscriptionManager, user, tokenOk, em);
+    public DataActions(Long projectId, Class<T> type, Class<E> dataType, Class<F> analysisType, SubscriptionManager subscriptionManager, FileManager fileManager, UserProfile user, boolean tokenOk, EntityManager em) {
+        super(projectId, type, subscriptionManager, fileManager, user, tokenOk, em);
         setTypes(dataType, analysisType);
     }
 
-    public DataActions(Long projectId, Class<T> type, Class<E> dataType, Class<F> analysisType, SubscriptionManager subscriptionManager, UsersManager usersManager, EntityManager em, HttpServletRequest request) {
-        super(projectId, type, subscriptionManager, usersManager, em, request);
+    public DataActions(Long projectId, Class<T> type, Class<E> dataType, Class<F> analysisType, SubscriptionManager subscriptionManager, FileManager fileManager, UsersManager usersManager, EntityManager em, HttpServletRequest request) {
+        super(projectId, type, subscriptionManager, fileManager, usersManager, em, request);
         setTypes(dataType, analysisType);
     }
 
