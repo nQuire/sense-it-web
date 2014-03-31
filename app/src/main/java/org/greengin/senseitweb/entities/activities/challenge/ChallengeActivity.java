@@ -8,6 +8,7 @@ import org.greengin.senseitweb.entities.users.Role;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 import java.util.Vector;
 
 @Entity
@@ -31,17 +32,15 @@ public class ChallengeActivity extends AbstractActivity {
     @Setter
     ChallengeActivityStage stage = ChallengeActivityStage.PROPOSAL;
 
-    @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
     @Getter
     @Setter
-    @NonNull
     ChallengeOutcome outcome = new ChallengeOutcome();
 
-    @OneToMany(mappedBy = "activity", orphanRemoval = false)
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.REMOVE)
     @Getter
     @Setter
     @NonNull
-    Collection<ChallengeAnswer> answers = new Vector<ChallengeAnswer>();
-
+    List<ChallengeAnswer> answers = new Vector<ChallengeAnswer>();
 
 }

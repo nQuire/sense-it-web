@@ -43,5 +43,4 @@ public class Project extends RoleContextEntity {
     @Setter
     AbstractActivity activity;
 
-
 }

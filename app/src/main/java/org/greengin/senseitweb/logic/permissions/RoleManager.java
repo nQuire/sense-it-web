@@ -60,7 +60,6 @@ public class RoleManager {
         role.setUser(user);
         role.setType(type);
         context.getRoles().add(role);
-        user.getRoles().add(role);
 		em.persist(role);
 	}
 
@@ -96,7 +95,6 @@ public class RoleManager {
 		query.setParameter("type", type);
 		for (Role r : query.getResultList()) {
             context.getRoles().remove(r);
-            user.getRoles().remove(r);
             em.remove(r);
 		}
 		em.getTransaction().commit();

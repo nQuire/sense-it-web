@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.support.DefaultMultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,7 +34,7 @@ public class SenseItDataController extends AbstractSenseItController {
     }
 
 
-    @RequestMapping(method = RequestMethod.POST)
+    /*@RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     @ResponseView(value = Views.VotableCount.class)
     public NewDataItemResponse<SenseItSeries> upload(@PathVariable("projectId") Long projectId,
@@ -42,6 +43,23 @@ public class SenseItDataController extends AbstractSenseItController {
                                                      @RequestParam("file") MultipartFile file,
                                                      HttpServletRequest request) {
         try {
+            return createManager(projectId, request).createData(new SenseItSeriesManipulator(title, geolocation, file.getInputStream()));
+        } catch (IOException e) {
+            return null;
+        }
+    }*/
+
+    @RequestMapping(method = RequestMethod.POST)
+    @ResponseBody
+    @ResponseView(value = Views.VotableCount.class)
+    public NewDataItemResponse<SenseItSeries> upload2(@PathVariable("projectId") Long projectId,
+                                                     HttpServletRequest request) {
+        try {
+            DefaultMultipartHttpServletRequest multiPartRequest = (DefaultMultipartHttpServletRequest) request;
+            String title = multiPartRequest.getParameter("title");
+            String geolocation = multiPartRequest.getParameter("geolocation");
+            MultipartFile file = multiPartRequest.getFile("file");
+
             return createManager(projectId, request).createData(new SenseItSeriesManipulator(title, geolocation, file.getInputStream()));
         } catch (IOException e) {
             return null;

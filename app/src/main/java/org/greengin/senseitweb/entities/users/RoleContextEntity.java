@@ -8,8 +8,11 @@ import org.greengin.senseitweb.entities.voting.Vote;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.OneToMany;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
 /**
@@ -18,14 +21,11 @@ import java.util.Vector;
 @Entity
 public class RoleContextEntity extends AbstractEntity {
 
-    @OneToMany(mappedBy = "context", orphanRemoval = true, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "context")
     @Getter
     @Setter
     @NonNull
-    Collection<Role> roles = new Vector<Role>();
+    List<Role> roles = new Vector<Role>();
 
-    public void removeRole(Role role) {
-        this.roles.remove(role);
-    }
 
 }

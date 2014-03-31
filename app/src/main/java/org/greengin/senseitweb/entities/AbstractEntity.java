@@ -17,5 +17,4 @@ public abstract class AbstractEntity {
     public boolean equals(Object obj) {
         return obj != null && obj instanceof AbstractEntity && ((AbstractEntity) obj).getId().equals(getId());
     }
-
 }

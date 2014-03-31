@@ -26,22 +26,27 @@ public class DbHelper {
     public void clear() {
         EntityManager em = emf.createEntityManager();
 
-        List<Long> ids = em.createQuery("SELECT e.id from AbstractEntity e", Long.class).getResultList();
+        String[] types = new String[] {"RoleContextEntity", "AbstractEntity"};
 
-        for (Long id : ids) {
-            try {
-                AbstractEntity entity = em.find(AbstractEntity.class, id);
-                if (entity != null) {
-                    em.getTransaction().begin();
-                    try {
-                        em.remove(entity);
-                        em.getTransaction().commit();
-                    } catch (Exception exception) {
-                        em.getTransaction().rollback();
+        for (String type : types) {
+            List<Long> ids = em.createQuery(String.format("SELECT e.id from %s e", type), Long.class).getResultList();
+
+            for (Long id : ids) {
+                try {
+                    AbstractEntity entity = em.find(AbstractEntity.class, id);
+                    if (entity != null) {
+                        try {
+                            em.getTransaction().begin();
+                            em.remove(entity);
+                            em.getTransaction().commit();
+                        } catch (Exception exception) {
+                            exception.printStackTrace();
+                            em.getTransaction().rollback();
+                        }
                     }
+                } catch (Exception exception) {
+                    exception.printStackTrace();
                 }
-            } catch (Exception exception) {
-                exception.printStackTrace();
             }
         }
     }

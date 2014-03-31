@@ -26,11 +26,11 @@ import org.greengin.senseitweb.logic.voting.VoteRequest;
 
 public class ChallengeActivityActions extends AbstractActivityActions<ChallengeActivity> {
 
-	private static final String MY_ANSWERS_QUERY = "SELECT a FROM ChallengeAnswer a WHERE a.activity = :activity AND a.author = :author";
+	private static final String MY_ANSWERS_QUERY = "SELECT an FROM ChallengeActivity ac INNER JOIN ac.answers an WHERE ac = :activity AND an.author = :author";
 
-	private static final String ALL_ANSWERS_QUERY = "SELECT a FROM ChallengeAnswer a WHERE a.activity = :activity";
+	private static final String ALL_ANSWERS_QUERY = "SELECT an FROM ChallengeActivity ac INNER JOIN ac.answers an WHERE ac = :activity";
 
-	private static final String ANSWER_COUNT_QUERY = "SELECT COUNT(a) AS N FROM ChallengeAnswer a WHERE a.activity = :activity AND a.author = :author";
+	private static final String ANSWER_COUNT_QUERY = "SELECT COUNT(an) AS N FROM ChallengeActivity ac INNER JOIN ac.answers an WHERE ac = :activity AND an.author = :author";
 
 
 
@@ -90,8 +90,8 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 				em.getTransaction().begin();
 				ChallengeAnswer answer = new ChallengeAnswer();
 				answer.setAuthor(user);
-				answer.setActivity((ChallengeActivity) project.getActivity());
 				answerData.update(answer);
+                activity.getAnswers().add(answer);
 				em.persist(answer);
 				em.getTransaction().commit();
 
@@ -136,7 +136,7 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 	public VoteCount vote(Long answerId, VoteRequest voteData) {
 		if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION) && activity.getStage() == ChallengeActivityStage.VOTING) {
 			ChallengeAnswer answer = em.find(ChallengeAnswer.class, answerId);
-			if (answer != null && answer.getActivity().equals(project.getActivity())) {
+			if (answer != null && activity.getAnswers().contains(answer)) {
 				VoteManager voter = new VoteManager(em, user, answer);
 				return voter.vote(voteData);
 			}

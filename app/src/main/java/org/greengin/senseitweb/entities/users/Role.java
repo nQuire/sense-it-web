@@ -7,6 +7,7 @@ import org.greengin.senseitweb.entities.projects.Project;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -20,7 +21,7 @@ public class Role extends AbstractEntity {
 	@ManyToOne
     @Getter
     @Setter
-	AbstractEntity context;
+	RoleContextEntity context;
 	
 	@Basic
     @Getter

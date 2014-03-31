@@ -4,9 +4,11 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import org.greengin.senseitweb.entities.AbstractEntity;
+import org.greengin.senseitweb.logic.permissions.OpenIdManager;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Vector;
 
 @Entity
@@ -17,15 +19,11 @@ public class UserProfile extends AbstractEntity {
     @Setter
     String name;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
     @Getter
     @Setter
     @NonNull
     Collection<OpenIdEntity> openIds = new Vector<OpenIdEntity>();
 
-    @OneToMany(mappedBy = "user", orphanRemoval = false, cascade = CascadeType.DETACH)
-    @Getter
-    @Setter
-    @NonNull
-    Collection<Role> roles = new Vector<Role>();
+
 }

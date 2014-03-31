@@ -20,11 +20,6 @@ public class ChallengeAnswer extends VotableEntity {
     @ManyToOne
     @Getter
     @Setter
-    ChallengeActivity activity;
-
-    @ManyToOne
-    @Getter
-    @Setter
     UserProfile author;
 
     @Basic
