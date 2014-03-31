@@ -23,4 +23,9 @@ public class UserProfile extends AbstractEntity {
     @NonNull
     Collection<OpenIdEntity> openIds = new Vector<OpenIdEntity>();
 
+    @OneToMany(mappedBy = "user", orphanRemoval = false, cascade = CascadeType.DETACH)
+    @Getter
+    @Setter
+    @NonNull
+    Collection<Role> roles = new Vector<Role>();
 }

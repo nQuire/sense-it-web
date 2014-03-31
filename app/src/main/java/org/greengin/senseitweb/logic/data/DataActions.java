@@ -2,9 +2,9 @@ package org.greengin.senseitweb.logic.data;
 
 import org.greengin.senseitweb.entities.data.AbstractDataProjectItem;
 import org.greengin.senseitweb.entities.data.DataCollectionActivity;
+import org.greengin.senseitweb.entities.users.PermissionType;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.entities.voting.VotableEntity;
-import org.greengin.senseitweb.logic.permissions.Role;
 import org.greengin.senseitweb.logic.permissions.SubscriptionManager;
 import org.greengin.senseitweb.logic.permissions.UsersManager;
 import org.greengin.senseitweb.logic.project.AbstractActivityActions;
@@ -46,7 +46,7 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
      */
 
     private <K extends AbstractDataProjectItem> Collection<K> getItems(Class<K> type) {
-        if (hasAccess(Role.PROJECT_MEMBER)) {
+        if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION)) {
             String queryStr = String.format(ITEMS_QUERY, type.getName());
             TypedQuery<K> query = em.createQuery(queryStr, type);
             query.setParameter("dataStore", activity);
@@ -62,7 +62,7 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
 
     private <K extends AbstractDataProjectItem> NewDataItemResponse<K> createItem(Class<K> type,
                                                                                   DataItemManipulator<T, K> manipulator) {
-        if (hasAccess(Role.PROJECT_MEMBER)) {
+        if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION)) {
             try {
 
                 K item = type.newInstance();
@@ -89,7 +89,7 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
 
     private <K extends AbstractDataProjectItem> K updateItem(Class<K> type, Long itemId,
                                                              DataItemManipulator<T, K> manipulator) {
-        if (hasAccess(Role.PROJECT_MEMBER)) {
+        if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION)) {
             K item = em.find(type, itemId);
             if (item != null && item.getDataStore() == activity && item.getAuthor().getId() == user.getId()) {
                 em.getTransaction().begin();
@@ -109,7 +109,7 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
 
     private <K extends AbstractDataProjectItem> Long deleteItem(Class<K> type, Long itemId,
                                                                 DataItemManipulator<T, K> manipulator) {
-        if (hasAccess(Role.PROJECT_MEMBER)) {
+        if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION)) {
             K item = em.find(type, itemId);
             if (item != null && item.getDataStore() == activity && item.getAuthor().getId() == user.getId()) {
                 try {
@@ -154,7 +154,7 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
     }
 
     public VoteCount voteItem(Long itemId, VoteRequest voteData) {
-        if (hasAccess(Role.PROJECT_MEMBER)) {
+        if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION)) {
             AbstractDataProjectItem item = em.find(AbstractDataProjectItem.class, itemId);
             if (item != null && item.getDataStore() == activity) {
                 VoteManager voter = new VoteManager(em, user, item);

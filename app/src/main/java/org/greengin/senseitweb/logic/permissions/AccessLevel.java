@@ -1,5 +1,7 @@
 package org.greengin.senseitweb.logic.permissions;
 
+import org.greengin.senseitweb.entities.users.RoleType;
+
 public class AccessLevel {
 	boolean author;
 	boolean admin;
@@ -30,13 +32,13 @@ public class AccessLevel {
 		this.member = member;
 	}
 	
-	public boolean hasAccess(Role level) {
+	public boolean hasAccess(RoleType level) {
 		switch(level) {
-		case PROJECT_MEMBER:
+		case MEMBER:
 			return member;
-		case PROJECT_ADMIN:
+		case ADMIN:
 			return admin;
-		case PROJECT_EDITOR:
+		case AUTHOR:
 			return author;
 		default:
 			return true;

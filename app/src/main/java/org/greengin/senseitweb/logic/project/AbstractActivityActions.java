@@ -4,9 +4,10 @@ import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 
 import org.greengin.senseitweb.entities.projects.AbstractActivity;
+import org.greengin.senseitweb.entities.users.PermissionType;
+import org.greengin.senseitweb.entities.users.RoleType;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.logic.data.FileManager;
-import org.greengin.senseitweb.logic.permissions.Role;
 import org.greengin.senseitweb.logic.permissions.SubscriptionManager;
 import org.greengin.senseitweb.logic.permissions.UsersManager;
 
@@ -38,8 +39,8 @@ public class AbstractActivityActions<T extends AbstractActivity> extends Project
     }
 
 	@Override
-	public boolean hasAccess(Role role) {
-		return validActivity && super.hasAccess(role);
+	public boolean hasAccess(PermissionType permission) {
+		return validActivity && super.hasAccess(permission);
 	}
 
 }

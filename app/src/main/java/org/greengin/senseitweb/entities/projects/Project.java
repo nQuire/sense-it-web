@@ -2,20 +2,17 @@ package org.greengin.senseitweb.entities.projects;
 
 
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 import org.greengin.senseitweb.entities.AbstractEntity;
-import org.greengin.senseitweb.entities.subscriptions.Subscription;
+import org.greengin.senseitweb.entities.users.RoleContextEntity;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Vector;
+
 
 
 @Entity
-public class Project extends AbstractEntity {
+public class Project extends RoleContextEntity {
 
     public Project() {
         this.activity = null;
@@ -45,12 +42,6 @@ public class Project extends AbstractEntity {
     @Getter
     @Setter
     AbstractActivity activity;
-
-    @OneToMany(mappedBy = "project", orphanRemoval = true, cascade = CascadeType.REMOVE)
-    @Getter
-    @Setter
-    @NonNull
-    Collection<Subscription> subscriptions = new Vector<Subscription>();
 
 
 }

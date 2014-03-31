@@ -62,7 +62,7 @@ public class ProjectListController {
 		EntityManager em = entityManagerFactory.getNativeEntityManagerFactory().createEntityManager();
 		
 		for (Long id : projectIds) {
-			levels.put(id, subscriptionManager.getAccessLevel(em, user, id));
+			levels.put(id, subscriptionManager.getAccessLevel(id, em, user));
 		}
 		
 		return levels;
@@ -79,7 +79,7 @@ public class ProjectListController {
 		for (Long id : projectIds) {
 			ProjectResponse pr = new ProjectResponse();
 			pr.setProject(em.find(Project.class, id));
-			pr.setAccess(subscriptionManager.getAccessLevel(em, user, id));
+			pr.setAccess(subscriptionManager.getAccessLevel(id, em, user));
 			projects.put(id, pr);
 		}
 		

@@ -1,10 +1,9 @@
 package org.greengin.senseitweb.logic.project;
 
 import org.greengin.senseitweb.entities.projects.Project;
-import org.greengin.senseitweb.entities.subscriptions.Subscription;
+import org.greengin.senseitweb.entities.users.PermissionType;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.logic.AbstractContentManager;
-import org.greengin.senseitweb.logic.permissions.Role;
 import org.greengin.senseitweb.logic.permissions.SubscriptionManager;
 import org.greengin.senseitweb.logic.permissions.UsersManager;
 
@@ -17,10 +16,6 @@ import java.util.Vector;
 public class ProjectListActions extends AbstractContentManager {
 
     static final String PROJECTS_QUERY = String.format("SELECT p FROM %s p", Project.class.getName());
-
-    static final String USERS_QUERY = String.format(
-            "SELECT DISTINCT u FROM %s s INNER JOIN s.user u WHERE s.type = :type AND s.project = :project",
-            Subscription.class.getName());
 
     SubscriptionManager subscriptionManager;
 
@@ -43,7 +38,7 @@ public class ProjectListActions extends AbstractContentManager {
      * any user actions *
      */
     public List<Project> getProjects() {
-        if (hasAccess(Role.NONE)) {
+        if (hasAccess(PermissionType.BROWSE)) {
             TypedQuery<Project> query = em.createQuery(PROJECTS_QUERY, Project.class);
             return query.getResultList();
         } else {
@@ -55,7 +50,7 @@ public class ProjectListActions extends AbstractContentManager {
      * registered user actions *
      */
     public Long createProject(ProjectCreationRequest projectData) {
-        if (hasAccess(Role.LOGGEDIN)) {
+        if (hasAccess(PermissionType.CREATE_PROJECT)) {
             em.getTransaction().begin();
             Project project = new Project();
             projectData.initProject(project);

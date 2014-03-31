@@ -2,10 +2,10 @@ package org.greengin.senseitweb.logic.project.senseit;
 
 import org.greengin.senseitweb.entities.activities.senseit.*;
 import org.greengin.senseitweb.entities.projects.Project;
+import org.greengin.senseitweb.entities.users.PermissionType;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.logic.data.DataActions;
 import org.greengin.senseitweb.logic.data.FileManager;
-import org.greengin.senseitweb.logic.permissions.Role;
 import org.greengin.senseitweb.logic.permissions.SubscriptionManager;
 import org.greengin.senseitweb.logic.permissions.UsersManager;
 import org.greengin.senseitweb.logic.project.senseit.transformations.SenseItProcessedSeriesVariable;
@@ -30,7 +30,7 @@ public class SenseItActivityActions extends DataActions<SenseItSeries, SenseItAn
      */
 
     public byte[] getPlot(Long dataId, String varId) {
-        if (hasMemberAccessIgnoreToken()) {
+        if (hasAccess(PermissionType.PROJECT_VIEW_IMAGE)) {
             SenseItSeries series = em.find(SenseItSeries.class, dataId);
             SenseItProcessedSeriesVariable data = series.varData(varId);
             return SenseItPlots.createPlot(data);
@@ -46,7 +46,7 @@ public class SenseItActivityActions extends DataActions<SenseItSeries, SenseItAn
 
 
     public Project updateProfile(SenseItProfileRequest profileData) {
-        if (hasAccess(Role.PROJECT_EDITOR)) {
+        if (hasAccess(PermissionType.PROJECT_EDITION)) {
             em.getTransaction().begin();
             profileData.updateProfile(activity.getProfile());
             em.getTransaction().commit();
@@ -59,7 +59,7 @@ public class SenseItActivityActions extends DataActions<SenseItSeries, SenseItAn
 
 
     public Project createSensor(SensorInputRequest inputData) {
-        if (hasAccess(Role.PROJECT_EDITOR)) {
+        if (hasAccess(PermissionType.PROJECT_EDITION)) {
 
             em.getTransaction().begin();
             SensorInput input = new SensorInput();
@@ -78,7 +78,7 @@ public class SenseItActivityActions extends DataActions<SenseItSeries, SenseItAn
     }
 
     public Project updateSensor(Long inputId, SensorInputRequest inputData) {
-        if (hasAccess(Role.PROJECT_EDITOR)) {
+        if (hasAccess(PermissionType.PROJECT_EDITION)) {
             SensorInput input = em.find(SensorInput.class, inputId);
 
             em.getTransaction().begin();
@@ -92,7 +92,7 @@ public class SenseItActivityActions extends DataActions<SenseItSeries, SenseItAn
     }
 
     public Project deleteSensor(Long inputId) {
-        if (hasAccess(Role.PROJECT_EDITOR)) {
+        if (hasAccess(PermissionType.PROJECT_EDITION)) {
             SensorInput input = em.find(SensorInput.class, inputId);
 
             em.getTransaction().begin();

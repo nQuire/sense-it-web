@@ -13,9 +13,10 @@ import org.greengin.senseitweb.entities.activities.challenge.ChallengeAnswer;
 import org.greengin.senseitweb.entities.activities.challenge.ChallengeField;
 import org.greengin.senseitweb.entities.activities.challenge.ChallengeOutcome;
 import org.greengin.senseitweb.entities.projects.Project;
+import org.greengin.senseitweb.entities.users.PermissionType;
+import org.greengin.senseitweb.entities.users.RoleType;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.logic.data.FileManager;
-import org.greengin.senseitweb.logic.permissions.Role;
 import org.greengin.senseitweb.logic.permissions.SubscriptionManager;
 import org.greengin.senseitweb.logic.permissions.UsersManager;
 import org.greengin.senseitweb.logic.project.AbstractActivityActions;
@@ -25,15 +26,11 @@ import org.greengin.senseitweb.logic.voting.VoteRequest;
 
 public class ChallengeActivityActions extends AbstractActivityActions<ChallengeActivity> {
 
-	private static final String MY_ANSWERS_QUERY = String.format(
-			"SELECT a FROM %s a WHERE a.project = :project AND a.author = :author", ChallengeAnswer.class.getName());
+	private static final String MY_ANSWERS_QUERY = "SELECT a FROM ChallengeAnswer a WHERE a.activity = :activity AND a.author = :author";
 
-	private static final String ALL_ANSWERS_QUERY = String.format("SELECT a FROM %s a WHERE a.project = :project",
-			ChallengeAnswer.class.getName());
+	private static final String ALL_ANSWERS_QUERY = "SELECT a FROM ChallengeAnswer a WHERE a.activity = :activity";
 
-	private static final String ANSWER_COUNT_QUERY = String.format(
-			"SELECT COUNT(a) AS N FROM %s a WHERE a.project = :project AND a.author = :author",
-			ChallengeAnswer.class.getName());
+	private static final String ANSWER_COUNT_QUERY = "SELECT COUNT(a) AS N FROM ChallengeAnswer a WHERE a.activity = :activity AND a.author = :author";
 
 
 
@@ -48,13 +45,13 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 	/** common actions **/
 
 	private List<ChallengeAnswer> getAnswers(boolean onlyMine, boolean onlyModerated) {
-		boolean access = hasAccess(Role.PROJECT_ADMIN)
-				|| (hasAccess(Role.PROJECT_MEMBER) && (onlyMine || activity.getStage() != ChallengeActivityStage.PROPOSAL));
+		boolean access = hasAccess(PermissionType.PROJECT_ADMIN)
+				|| (hasAccess(PermissionType.PROJECT_MEMBER_ACTION) && (onlyMine || activity.getStage() != ChallengeActivityStage.PROPOSAL));
 
 		if (access) {
 			TypedQuery<ChallengeAnswer> query = em.createQuery(onlyMine ? MY_ANSWERS_QUERY : ALL_ANSWERS_QUERY,
 					ChallengeAnswer.class);
-			query.setParameter("project", project);
+			query.setParameter("activity", project.getActivity());
 			if (onlyMine) {
 				query.setParameter("author", user);
 			}
@@ -65,7 +62,7 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 	}
 
 	public Collection<ChallengeAnswer> getAnswersForParticipant() {
-		if (hasAccess(Role.PROJECT_MEMBER)) {
+		if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION)) {
 			return getAnswers(activity.getStage() == ChallengeActivityStage.PROPOSAL, true);
 		} 
 				
@@ -73,7 +70,7 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 	}
 
 	public Collection<ChallengeAnswer> getAnswersForAdmin() {
-		if (hasAccess(Role.PROJECT_ADMIN)) {
+		if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION)) {
 			return getAnswers(false, false);
 		} 
 		
@@ -83,9 +80,9 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 	/** participant actions **/
 
 	public NewChallengeAnswerResponse createAnswer(ChallengeAnswerRequest answerData) {
-		if (hasAccess(Role.PROJECT_MEMBER) && activity.getStage() == ChallengeActivityStage.PROPOSAL) {
+		if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION) && activity.getStage() == ChallengeActivityStage.PROPOSAL) {
 			TypedQuery<Long> query = em.createQuery(ANSWER_COUNT_QUERY, Long.class);
-			query.setParameter("project", project);
+			query.setParameter("activity", project.getActivity());
 			query.setParameter("author", user);
 			Long n = query.getSingleResult();
 
@@ -93,7 +90,7 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 				em.getTransaction().begin();
 				ChallengeAnswer answer = new ChallengeAnswer();
 				answer.setAuthor(user);
-				answer.setProject(project);
+				answer.setActivity((ChallengeActivity) project.getActivity());
 				answerData.update(answer);
 				em.persist(answer);
 				em.getTransaction().commit();
@@ -110,7 +107,7 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 	}
 
 	public Collection<ChallengeAnswer> updateAnswer(Long answerId, ChallengeAnswerRequest answerData) {
-		if (hasAccess(Role.PROJECT_MEMBER) && activity.getStage() == ChallengeActivityStage.PROPOSAL) {
+		if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION) && activity.getStage() == ChallengeActivityStage.PROPOSAL) {
 			em.getTransaction().begin();
 			ChallengeAnswer answer = em.find(ChallengeAnswer.class, answerId);
 			answerData.update(answer);
@@ -122,7 +119,7 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 	}
 
 	public Collection<ChallengeAnswer> deleteAnswer(Long answerId) {
-		if (hasAccess(Role.PROJECT_MEMBER) && activity.getStage() == ChallengeActivityStage.PROPOSAL) {
+		if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION) && activity.getStage() == ChallengeActivityStage.PROPOSAL) {
 			ChallengeAnswer answer = em.find(ChallengeAnswer.class, answerId);
 			em.getTransaction().begin();
 			if (activity.getOutcome().getSelectedAnswer() == answer) {
@@ -137,9 +134,9 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 	}
 
 	public VoteCount vote(Long answerId, VoteRequest voteData) {
-		if (hasAccess(Role.PROJECT_MEMBER) && activity.getStage() == ChallengeActivityStage.VOTING) {
+		if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION) && activity.getStage() == ChallengeActivityStage.VOTING) {
 			ChallengeAnswer answer = em.find(ChallengeAnswer.class, answerId);
-			if (answer != null && answer.getProject() == project) {
+			if (answer != null && answer.getActivity().equals(project.getActivity())) {
 				VoteManager voter = new VoteManager(em, user, answer);
 				return voter.vote(voteData);
 			}
@@ -151,7 +148,7 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 	/** admin actions **/
 
 	public Project setStage(ChallengeActivityStage stage) {
-		if (hasAccess(Role.PROJECT_ADMIN)) {
+		if (hasAccess(PermissionType.PROJECT_ADMIN)) {
 			em.getTransaction().begin();
 			activity.setStage(stage);
 			em.getTransaction().commit();
@@ -164,7 +161,7 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 	/** editor actions **/
 
 	public Project updateActivity(ChallengeActivityRequest activityData) {
-		if (hasAccess(Role.PROJECT_EDITOR)) {
+		if (hasAccess(PermissionType.PROJECT_EDITION)) {
 			em.getTransaction().begin();
 			activityData.update(activity);
 			em.getTransaction().commit();
@@ -175,7 +172,7 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 	}
 
 	public Project createField(ChallengeFieldRequest fieldData) {
-		if (hasAccess(Role.PROJECT_EDITOR)) {
+		if (hasAccess(PermissionType.PROJECT_EDITION)) {
 			em.getTransaction().begin();
 			ChallengeField field = new ChallengeField();
 			fieldData.update(field);
@@ -188,7 +185,7 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 	}
 
 	public Project updateField(Long fieldId, ChallengeFieldRequest fieldData) {
-		if (hasAccess(Role.PROJECT_EDITOR)) {
+		if (hasAccess(PermissionType.PROJECT_EDITION)) {
 			ChallengeField field = em.find(ChallengeField.class, fieldId);
 
 			em.getTransaction().begin();
@@ -202,7 +199,7 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 	}
 
 	public Project deleteField(Long fieldId) {
-		if (hasAccess(Role.PROJECT_EDITOR)) {
+		if (hasAccess(PermissionType.PROJECT_EDITION)) {
 			ChallengeField field = em.find(ChallengeField.class, fieldId);
 
 			em.getTransaction().begin();
@@ -213,7 +210,7 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 	}
 
 	public ChallengeOutcome updateOutcome(ChallengeOutcomeRequest outcomeData) {
-		if (hasAccess(Role.PROJECT_ADMIN)) {
+		if (hasAccess(PermissionType.PROJECT_ADMIN)) {
 			em.getTransaction().begin();
 			outcomeData.update(em, activity.getOutcome());
 			em.getTransaction().commit();
@@ -224,8 +221,8 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 	}
 
 	public ChallengeOutcome getOutcome() {
-		if (hasAccess(Role.PROJECT_ADMIN)
-				|| (hasAccess(Role.PROJECT_MEMBER) && activity.getStage() == ChallengeActivityStage.OUTCOME)) {
+		if (hasAccess(PermissionType.PROJECT_ADMIN)
+				|| (hasAccess(PermissionType.PROJECT_MEMBER_ACTION) && activity.getStage() == ChallengeActivityStage.OUTCOME)) {
 			return activity.getOutcome();
 		} 
 		

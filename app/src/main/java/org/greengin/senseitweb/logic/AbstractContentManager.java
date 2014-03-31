@@ -3,8 +3,10 @@ package org.greengin.senseitweb.logic;
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 
+import org.greengin.senseitweb.entities.users.PermissionType;
+import org.greengin.senseitweb.entities.users.Role;
+import org.greengin.senseitweb.entities.users.RoleType;
 import org.greengin.senseitweb.entities.users.UserProfile;
-import org.greengin.senseitweb.logic.permissions.Role;
 import org.greengin.senseitweb.logic.permissions.UsersManager;
 
 public class AbstractContentManager {
@@ -39,11 +41,8 @@ public class AbstractContentManager {
 		return user;
 	}
 	
-	public boolean hasAccess(Role role) {
-		return role == Role.NONE || (loggedWithToken && role == Role.LOGGEDIN);
-	}
-
-	public boolean hasAccessIgnoreToken(Role role) {
-		return role == Role.NONE || (loggedIn && role == Role.LOGGEDIN);
+	public boolean hasAccess(PermissionType permission) {
+		return permission == PermissionType.BROWSE ||
+                (permission == PermissionType.CREATE_PROJECT && loggedWithToken);
 	}
 }

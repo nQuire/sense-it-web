@@ -6,7 +6,16 @@ import javax.persistence.EntityManager;
 
 public class CustomEntityManagerFactory extends LocalContainerEntityManagerFactoryBean {
 
+    private EntityManager entityManager;
+
+    public CustomEntityManagerFactory() {
+        entityManager = null;
+    }
+
     public EntityManager createEntityManager() {
-        return this.getNativeEntityManagerFactory().createEntityManager();
+        if (entityManager == null) {
+            entityManager = this.getNativeEntityManagerFactory().createEntityManager();
+        }
+        return entityManager;
     }
 }

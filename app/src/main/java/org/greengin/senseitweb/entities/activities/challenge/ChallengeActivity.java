@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import org.greengin.senseitweb.entities.projects.AbstractActivity;
+import org.greengin.senseitweb.entities.users.Role;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -11,6 +12,8 @@ import java.util.Vector;
 
 @Entity
 public class ChallengeActivity extends AbstractActivity {
+
+    public static final int DEFAULT_MAX = 1;
 
     @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
     @Getter
@@ -21,7 +24,7 @@ public class ChallengeActivity extends AbstractActivity {
     @Basic
     @Getter
     @Setter
-    Integer maxAnswers = 1;
+    Integer maxAnswers = DEFAULT_MAX;
 
     @Basic
     @Getter
@@ -33,6 +36,12 @@ public class ChallengeActivity extends AbstractActivity {
     @Setter
     @NonNull
     ChallengeOutcome outcome = new ChallengeOutcome();
+
+    @OneToMany(mappedBy = "activity", orphanRemoval = false)
+    @Getter
+    @Setter
+    @NonNull
+    Collection<ChallengeAnswer> answers = new Vector<ChallengeAnswer>();
 
 
 }
