@@ -38,8 +38,8 @@
           class="org.greengin.senseitweb.logic.permissions.OpenIdManager">
         <property name="serverBaseURL" value="http://localhost/"/>
         <property name="senseItBasePath" value="~evilfer/nquire-it/"/>
-        <property name="serverProxyHostName" value=""/>
-        <property name="serverProxyPort" value="0"/>
+        <property name="serverProxyHostName" value="wwwcache.open.ac.uk"/>
+        <property name="serverProxyPort" value="80"/>
     </bean>
 
 

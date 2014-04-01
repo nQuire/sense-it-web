@@ -33,7 +33,9 @@ public class SenseItProfileRequest {
 
 	public void updateProfile(SenseItProfile profile) {
 		profile.setGeolocated(geolocated);
-		profile.setTx(tx);
+        if (tx != null) {
+            profile.setTx(tx);
+        }
 	}
 
 }

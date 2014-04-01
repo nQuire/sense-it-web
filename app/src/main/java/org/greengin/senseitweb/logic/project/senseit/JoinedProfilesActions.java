@@ -36,7 +36,7 @@ public class JoinedProfilesActions extends AbstractContentManager {
     /** logged in user actions **/
 
 	public JoinedProfilesResponse joinedProfiles() {
-		if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION)) {
+		if (hasAccess(PermissionType.BROWSE)) {
 			JoinedProfilesResponse response = new JoinedProfilesResponse();
 			TypedQuery<AbstractEntity> query = em.createQuery(PROJECTS_QUERY, AbstractEntity.class);
 			query.setParameter("access", RoleType.MEMBER);

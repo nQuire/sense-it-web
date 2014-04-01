@@ -19,6 +19,7 @@ public class SenseItActivity extends DataCollectionActivity<SenseItSeries, Sense
 	@OneToOne(orphanRemoval = true, cascade=CascadeType.ALL)
     @Getter
     @Setter
+    @NonNull
     SenseItProfile profile = new SenseItProfile();
 
 }

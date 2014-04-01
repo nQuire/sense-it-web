@@ -1,4 +1,5 @@
-app/src/main/webapp/WEB-INF/mvc-dispatcher-servlet.xml
+app/src/main/webapp/WEB-INF/database.xml
+app/src/main/webapp/files*
 app/target
 app/.idea
 static/.idea

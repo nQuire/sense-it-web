@@ -33,26 +33,10 @@ public class SenseItDataController extends AbstractSenseItController {
         return createManager(projectId, request).getData();
     }
 
-
-    /*@RequestMapping(method = RequestMethod.POST)
-    @ResponseBody
-    @ResponseView(value = Views.VotableCount.class)
-    public NewDataItemResponse<SenseItSeries> upload(@PathVariable("projectId") Long projectId,
-                                                     @RequestParam("title") String title,
-                                                     @RequestParam("geolocation") String geolocation,
-                                                     @RequestParam("file") MultipartFile file,
-                                                     HttpServletRequest request) {
-        try {
-            return createManager(projectId, request).createData(new SenseItSeriesManipulator(title, geolocation, file.getInputStream()));
-        } catch (IOException e) {
-            return null;
-        }
-    }*/
-
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     @ResponseView(value = Views.VotableCount.class)
-    public NewDataItemResponse<SenseItSeries> upload2(@PathVariable("projectId") Long projectId,
+    public NewDataItemResponse<SenseItSeries> upload(@PathVariable("projectId") Long projectId,
                                                      HttpServletRequest request) {
         try {
             DefaultMultipartHttpServletRequest multiPartRequest = (DefaultMultipartHttpServletRequest) request;
