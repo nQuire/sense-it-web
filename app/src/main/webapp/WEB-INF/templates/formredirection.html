@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>OpenID HTML FORM Redirection</title>
+</head>
+
+<body onload="document.forms['openid-form-redirection'].submit();">
+<p th:text="${message.OPEndpoint}"></p>
+
+<form name="openid-form-redirection" th:action="${message.OPEndpoint}" method="post" accept-charset="utf-8">
+    <div th:each="parameter : ${message.parameterMap}">
+        <input type="hidden" name="" th:name="${parameter.key}" value="" th:value="${parameter.value}"/>
+    </div>
+    <button type="submit">Continue...</button>
+</form>
+</body>
+
+</html>

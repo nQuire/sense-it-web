@@ -1,0 +1,30 @@
+<div data-ng-switch="description.type">
+
+    <div data-ng-switch-when="text">
+        <p style="white-space: pre;">{{description.value}}</p>
+    </div>
+
+    <div data-ng-switch-when="html">
+        <div data-ng-bind-html="description.value"></div>
+    </div>
+
+
+    <div data-ng-switch-when="simple" style="position: relative;">
+        <div data-ng-if="description.background">
+            <img width="100%" data-ng-if="description.background"
+                 data-ng-src="{{'files/image/' + description.background}}"/>
+        </div>
+
+        <div class="siw-description-title">{{title}}</div>
+
+        <div class="siw-description-grid pure-g-r">
+            <div data-ng-if="description.value" class="pure-u-1-2">
+                <div class="siw-description-grid-item" data-ng-bind-html="description.value"></div>
+            </div>
+            <div data-ng-if="description.video" class="pure-u-1-2">
+                <div data-siw-youtube data-code="description.video"></div>
+            </div>
+        </div>
+
+    </div>
+</div>

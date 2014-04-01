@@ -1,7 +1,5 @@
-.classpath
-.project
-.settings
-.buildpath
-build
-src/META-INF/persistence.xml
-
+app/src/main/webapp/WEB-INF/database.xml
+app/src/main/webapp/files*
+app/target
+app/.idea
+static/.idea
