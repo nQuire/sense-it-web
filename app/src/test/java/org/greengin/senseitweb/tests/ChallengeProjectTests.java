@@ -5,10 +5,10 @@ import org.greengin.senseitweb.entities.activities.challenge.ChallengeActivity;
 import org.greengin.senseitweb.entities.activities.challenge.ChallengeActivityStage;
 import org.greengin.senseitweb.entities.projects.ProjectType;
 import org.greengin.senseitweb.entities.users.UserProfile;
-import org.greengin.senseitweb.logic.permissions.AccessLevel;
 import org.greengin.senseitweb.logic.project.challenge.ChallengeActivityActions;
 import org.greengin.senseitweb.logic.project.challenge.ChallengeActivityRequest;
 import org.greengin.senseitweb.logic.project.challenge.ChallengeAnswerRequest;
+import org.greengin.senseitweb.logic.project.challenge.NewChallengeAnswerResponse;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,26 +20,13 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("file:src/main/webapp/WEB-INF/mvc-dispatcher-servlet-tests.xml")
-public class ChallengeProjectTests extends TestsBase {
+public class ChallengeProjectTests extends AbstractProjectTests {
 
-    UserProfile author;
-    UserProfile member;
-    UserProfile member2;
-    UserProfile nonMember;
-    Long projectId;
 
-    @Before
-    public void before() {
-        super.before();
-        author = helper.createUser("author");
-        projectId = helper.createProject(subscriptionManager, author, "challenge", ProjectType.CHALLENGE).getId();
-        member = helper.createUser("member");
-        member2 = helper.createUser("member2");
-        nonMember = helper.createUser("other");
 
-        projectActions(projectId, author).setOpen(true);
-        projectActions(projectId, member).join();
-        projectActions(projectId, member2).join();
+
+    public ChallengeProjectTests() {
+        super("challenge", ProjectType.CHALLENGE);
     }
 
 
@@ -51,36 +38,13 @@ public class ChallengeProjectTests extends TestsBase {
         return (ChallengeActivity) helper.getProject(projectId).getActivity();
     }
 
-    private void setMaxQuestions(int max) {
+    private void setMaxQuestions(UserProfile user, int max) {
         ChallengeActivityRequest request = new ChallengeActivityRequest();
         request.setMaxAnswers(max);
-        challengeActions(author).updateActivity(request);
+        challengeActions(user).updateActivity(request);
     }
 
 
-    @Test
-    public void testSetUp() {
-        AccessLevel authorAccess = accessLevel(projectId, author);
-        AccessLevel memberAccess = accessLevel(projectId, member);
-        AccessLevel member2Access = accessLevel(projectId, member2);
-        AccessLevel nonMemberAccess = accessLevel(projectId, nonMember);
-
-        Assert.assertTrue(authorAccess.isAuthor());
-        Assert.assertTrue(authorAccess.isAdmin());
-        Assert.assertFalse(authorAccess.isMember());
-
-        Assert.assertFalse(memberAccess.isAuthor());
-        Assert.assertFalse(memberAccess.isAdmin());
-        Assert.assertTrue(memberAccess.isMember());
-
-        Assert.assertFalse(member2Access.isAuthor());
-        Assert.assertFalse(member2Access.isAdmin());
-        Assert.assertTrue(member2Access.isMember());
-
-        Assert.assertFalse(nonMemberAccess.isAuthor());
-        Assert.assertFalse(nonMemberAccess.isAdmin());
-        Assert.assertFalse(nonMemberAccess.isMember());
-    }
 
     @Test
     public void testDefaultMaxQuestions() {
@@ -89,47 +53,71 @@ public class ChallengeProjectTests extends TestsBase {
 
     @Test
     public void testMaxQuestions() {
-        Assert.assertEquals(ChallengeActivity.DEFAULT_MAX, activity().getMaxAnswers().longValue());
+        super.testProjectEdition(new ProjectManipulator() {
+            @Override
+            public void modify(UserProfile user) {
+                setMaxQuestions(user, 2);
+            }
 
-        setMaxQuestions(2);
-        Assert.assertEquals(ChallengeActivity.DEFAULT_MAX, activity().getMaxAnswers().longValue());
+            @Override
+            public void reset(UserProfile user) {
+                setMaxQuestions(user, ChallengeActivity.DEFAULT_MAX);
+            }
 
-        challengeActions(author).setOpen(false);
-        setMaxQuestions(2);
-        Assert.assertEquals(2, activity().getMaxAnswers().longValue());
+            @Override
+            public void testModified() {
+                Assert.assertEquals(2, activity().getMaxAnswers().longValue());
+            }
+
+            @Override
+            public void testSame() {
+                Assert.assertEquals(ChallengeActivity.DEFAULT_MAX, activity().getMaxAnswers().longValue());
+            }
+        });
     }
+
 
     @Test
     public void testDuringProposal() {
+        projectActions(author).setOpen(true);
         Assert.assertEquals(activity().getStage(), ChallengeActivityStage.PROPOSAL);
 
-        ChallengeAnswerRequest request = new ChallengeAnswerRequest();
+        final ChallengeAnswerRequest request = new ChallengeAnswerRequest();
 
-        Assert.assertEquals(0, challengeActions(member).getAnswersForParticipant().size());
-        challengeActions(member).createAnswer(request);
-        Assert.assertEquals(1, challengeActions(member).getAnswersForParticipant().size());
+        super.testPrivateMemberAction(new ProjectManipulator() {
+            Long answerId;
 
-        Assert.assertEquals(0, challengeActions(member2).getAnswersForParticipant().size());
+            @Override
+            public void modify(UserProfile user) {
+                NewChallengeAnswerResponse answer = challengeActions(user).createAnswer(request);
+                answerId = answer != null ? answer.getNewAnswer() : null;
+            }
 
-        Assert.assertNull(challengeActions(nonMember).getAnswersForParticipant());
+            @Override
+            public void reset(UserProfile user) {
+                challengeActions(user).deleteAnswer(answerId);
+            }
+
+            @Override
+            public void testModified() {
+                if (project().getOpen()) {
+                    Assert.assertEquals(1, challengeActions(member).getAnswersForParticipant().size());
+                    Assert.assertEquals(0, challengeActions(member2).getAnswersForParticipant().size());
+                } else {
+                    Assert.assertNull(challengeActions(member).getAnswersForParticipant());
+                }
+            }
+
+            @Override
+            public void testSame() {
+                if (project().getOpen()) {
+                    Assert.assertEquals(0, challengeActions(member).getAnswersForParticipant().size());
+                    Assert.assertEquals(0, challengeActions(member2).getAnswersForParticipant().size());
+                } else {
+                    Assert.assertNull(challengeActions(member).getAnswersForParticipant());
+                }
+            }
+        });
     }
-
-    @Test
-    public void testDuringVoting() {
-        Assert.assertEquals(activity().getStage(), ChallengeActivityStage.PROPOSAL);
-        ChallengeAnswerRequest request = new ChallengeAnswerRequest();
-        challengeActions(member).createAnswer(request);
-        challengeActions(author).setStage(ChallengeActivityStage.VOTING);
-
-        Assert.assertEquals(1, challengeActions(member).getAnswersForParticipant().size());
-        Assert.assertEquals(1, challengeActions(member2).getAnswersForParticipant().size());
-
-        challengeActions(member).createAnswer(request);
-        Assert.assertEquals(1, challengeActions(member).getAnswersForParticipant().size());
-        Assert.assertEquals(1, challengeActions(member2).getAnswersForParticipant().size());
-
-        Assert.assertNull(challengeActions(nonMember).getAnswersForParticipant());
-    }
-
 
 }

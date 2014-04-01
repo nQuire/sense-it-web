@@ -121,13 +121,16 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 	public Collection<ChallengeAnswer> deleteAnswer(Long answerId) {
 		if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION) && activity.getStage() == ChallengeActivityStage.PROPOSAL) {
 			ChallengeAnswer answer = em.find(ChallengeAnswer.class, answerId);
-			em.getTransaction().begin();
-			if (activity.getOutcome().getSelectedAnswer() == answer) {
-				activity.getOutcome().setSelectedAnswer(null);
-			}
-			em.remove(answer);
-			em.getTransaction().commit();
-			return getAnswersForParticipant();
+            if (user.equals(answer.getAuthor())) {
+                em.getTransaction().begin();
+                if (activity.getOutcome().getSelectedAnswer() == answer) {
+                    activity.getOutcome().setSelectedAnswer(null);
+                }
+                activity.getAnswers().remove(answer);
+                em.remove(answer);
+                em.getTransaction().commit();
+                return getAnswersForParticipant();
+            }
 		}
 		
 		return null;

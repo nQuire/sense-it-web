@@ -19,8 +19,10 @@
       <configuration>
         <fileset id="fileset" name="Spring Application Context" removed="false">
           <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/mvc-dispatcher-servlet.xml</file>
-          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/mvc-dispatcher-servlet.default.xml</file>
           <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/shared.xml</file>
+          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/database.xml</file>
+          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/mvc-dispatcher-servlet-tests.xml</file>
+          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/database-tests.xml</file>
         </fileset>
       </configuration>
     </facet>
@@ -30,7 +32,7 @@
         <setting name="provider-name" value="" />
         <datasource-mapping>
           <factory-entry name="nquire-it-jpa" value="dataSource" />
-          <factory-entry name="nquire-it-jpa-tests" />
+          <factory-entry name="nquire-it-jpa-tests" value="dataSource" />
           <factory-entry name="ormunit-jpa" />
         </datasource-mapping>
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/persistence.xml" />
