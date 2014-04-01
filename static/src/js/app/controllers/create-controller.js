@@ -13,7 +13,7 @@ angular.module('senseItWeb', null, null).controller('CreateCtrl', function ($sco
         },
         save: function() {
             ProjectService.createProject(this.values).then(function(id) {
-                $state.go('project-edit', { projectId: id });
+                $state.go('project-edit.home', { projectId: id });
             });
         },
         reset: function() {
