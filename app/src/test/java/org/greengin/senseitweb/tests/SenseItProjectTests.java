@@ -77,4 +77,9 @@ public class SenseItProjectTests extends TestsBase {
         Assert.assertTrue(activity().getProfile().getGeolocated());
     }
 
+    @Test
+    public void testFields() {
+
+    }
+
 }
