@@ -9,13 +9,13 @@ angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'senseItServices'], nul
         $stateProvider
             .state('home', {
                 url: '/home',
-                templateUrl: 'partials/home.html',
-                controller: 'HomeCtrl'
-            })
-            .state('projects', {
-                url: '/projects',
                 templateUrl: 'partials/projects.html',
                 controller: 'ProjectListCtrl'
+            })
+            .state('about', {
+                url: '/about',
+                templateUrl: 'partials/about.html',
+                controller: 'HomeCtrl'
             })
             .state('create', {
                 url: '/create',

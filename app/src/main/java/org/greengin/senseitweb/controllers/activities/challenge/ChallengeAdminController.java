@@ -4,11 +4,10 @@ import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import com.mangofactory.jsonview.ResponseView;
 import org.greengin.senseitweb.entities.activities.challenge.ChallengeAnswer;
 import org.greengin.senseitweb.entities.projects.Project;
-import org.greengin.senseitweb.json.mixins.Views;
+import org.greengin.senseitweb.json.Views;
 import org.greengin.senseitweb.logic.project.challenge.ChallengeStageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

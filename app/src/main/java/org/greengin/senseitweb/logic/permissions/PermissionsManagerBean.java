@@ -6,11 +6,11 @@ import org.greengin.senseitweb.entities.users.RoleType;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class PermissionsManager {
+public class PermissionsManagerBean {
 	
 
     @Autowired
-    SubscriptionManager subscriptionManager;
+    SubscriptionManagerBean subscriptionManager;
 
 	
 	public boolean canCreateProject(UserProfile user) {

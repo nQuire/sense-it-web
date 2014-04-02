@@ -1,16 +1,12 @@
 package org.greengin.senseitweb.controllers.activities.senseit;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
-import com.fasterxml.jackson.annotation.JsonView;
 import com.mangofactory.jsonview.ResponseView;
 import org.greengin.senseitweb.entities.activities.senseit.SenseItSeries;
-import org.greengin.senseitweb.json.mixins.Views;
+import org.greengin.senseitweb.json.Views;
 import org.greengin.senseitweb.logic.data.NewDataItemResponse;
 import org.greengin.senseitweb.logic.project.senseit.SenseItSeriesManipulator;
 import org.greengin.senseitweb.logic.voting.VoteCount;
 import org.greengin.senseitweb.logic.voting.VoteRequest;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

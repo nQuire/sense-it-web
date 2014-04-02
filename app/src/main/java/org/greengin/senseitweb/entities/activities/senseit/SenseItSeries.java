@@ -59,9 +59,7 @@ public class SenseItSeries extends AbstractDataProjectItem {
 	}
 
 	private void processData() {
-		if (processData == null) {
-			processData = SenseItOperations.instance().process(this.data, (SenseItActivity) this.dataStore);
-		}
+		processData = SenseItOperations.instance().process(this.data, (SenseItActivity) this.dataStore);
 	}
 	
 }

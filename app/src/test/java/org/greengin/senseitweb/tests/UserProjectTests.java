@@ -3,18 +3,11 @@ package org.greengin.senseitweb.tests;
 
 import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.entities.users.UserProfile;
-import org.greengin.senseitweb.logic.data.FileManager;
 import org.greengin.senseitweb.logic.permissions.AccessLevel;
-import org.greengin.senseitweb.logic.permissions.SubscriptionManager;
-import org.greengin.senseitweb.logic.persistence.CustomEntityManagerFactory;
-import org.greengin.senseitweb.logic.project.ProjectActions;
 import org.greengin.senseitweb.logic.project.ProjectRequest;
-import org.greengin.senseitweb.tests.helpers.DbHelper;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;

@@ -3,7 +3,7 @@ package org.greengin.senseitweb.logic.voting;
 import java.util.Collection;
 
 import org.greengin.senseitweb.entities.users.UserProfile;
-import org.greengin.senseitweb.entities.voting.Vote;
+import org.greengin.senseitweb.entities.rating.Vote;
 
 public class VoteCount {
 	
@@ -15,7 +15,6 @@ public class VoteCount {
 	
 	
 	public VoteCount(Collection<Vote> votes, UserProfile selectedVoteAuthor) {
-		total = votes.size();
 		positive = 0;
 		negative = 0;
 		myVote = null;
@@ -31,6 +30,8 @@ public class VoteCount {
 				myVote = vote;
 			}
 		}
+
+        total = positive + negative;
 	}
 
 	public int getPositive() {

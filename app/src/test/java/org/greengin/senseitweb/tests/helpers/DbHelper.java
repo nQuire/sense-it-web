@@ -4,29 +4,25 @@ import org.greengin.senseitweb.entities.AbstractEntity;
 import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.entities.projects.ProjectType;
 import org.greengin.senseitweb.entities.users.UserProfile;
-import org.greengin.senseitweb.logic.permissions.SubscriptionManager;
-import org.greengin.senseitweb.logic.persistence.CustomEntityManagerFactory;
+import org.greengin.senseitweb.logic.ContextBean;
 import org.greengin.senseitweb.logic.project.ProjectCreationRequest;
 import org.greengin.senseitweb.logic.project.ProjectListActions;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
-/**
- * Created by evilfer on 3/31/14.
- */
 public class DbHelper {
 
-    CustomEntityManagerFactory emf;
+    ContextBean context;
 
-    public DbHelper(CustomEntityManagerFactory emf) {
-        this.emf = emf;
+    public DbHelper(ContextBean context) {
+        this.context = context;
     }
 
     public void clear() {
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = context.createEntityManager();
 
-        String[] types = new String[] {"RoleContextEntity", "AbstractEntity"};
+        String[] types = new String[] {"Role", "AbstractEntity"};
 
         for (String type : types) {
             List<Long> ids = em.createQuery(String.format("SELECT e.id from %s e", type), Long.class).getResultList();
@@ -52,14 +48,14 @@ public class DbHelper {
     }
 
     public Project getProject(Long id) {
-        return emf.createEntityManager().find(Project.class, id);
+        return context.createEntityManager().find(Project.class, id);
     }
 
     public UserProfile createUser(String name) {
         UserProfile user = new UserProfile();
         user.setName(name);
 
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = context.createEntityManager();
         em.getTransaction().begin();
         em.persist(user);
         em.getTransaction().commit();
@@ -67,23 +63,23 @@ public class DbHelper {
         return user;
     }
 
-    public Project createProject(SubscriptionManager subscriptionManager, UserProfile user) {
-        return createProject(subscriptionManager, user, "project1", ProjectType.SENSEIT);
+    public Project createProject(UserProfile user) {
+        return createProject(user, "project1", ProjectType.SENSEIT);
     }
 
-    public Project createProject(SubscriptionManager subscriptionManager, UserProfile user, String title, ProjectType type) {
+    public Project createProject( UserProfile user, String title, ProjectType type) {
         ProjectCreationRequest projectRequest = new ProjectCreationRequest();
         projectRequest.setType(type);
         projectRequest.setTitle(title);
 
-        ProjectListActions actions = new ProjectListActions(subscriptionManager, user, true, emf.createEntityManager());
+        ProjectListActions actions = new ProjectListActions(context, user, true);
         Long id = actions.createProject(projectRequest);
-        return emf.createEntityManager().find(Project.class, id);
+        return context.createEntityManager().find(Project.class, id);
     }
 
 
     public List<UserProfile> users() {
-        return emf.createEntityManager().createQuery("SELECT u from UserProfile u", UserProfile.class).getResultList();
+        return context.createEntityManager().createQuery("SELECT u from UserProfile u", UserProfile.class).getResultList();
     }
 
 }

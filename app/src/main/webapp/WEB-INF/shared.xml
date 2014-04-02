@@ -35,32 +35,32 @@
     </bean>
 
     <bean id="openIdManager"
-          class="org.greengin.senseitweb.logic.permissions.OpenIdManager">
+          class="org.greengin.senseitweb.logic.permissions.OpenIdManagerBean">
         <property name="serverBaseURL" value="http://localhost/"/>
         <property name="senseItBasePath" value="~evilfer/nquire-it/"/>
         <property name="serverProxyHostName" value="wwwcache.open.ac.uk"/>
-        <property name="serverProxyPort" value="80"/>
+        <property name="serverProxyPort" value="0"/>
     </bean>
 
 
     <bean id="usersManager"
-          class="org.greengin.senseitweb.logic.permissions.UsersManager">
+          class="org.greengin.senseitweb.logic.permissions.UsersManagerBean">
     </bean>
 
     <bean id="roleManager"
-          class="org.greengin.senseitweb.logic.permissions.RoleManager">
+          class="org.greengin.senseitweb.logic.permissions.RoleManagerBean">
     </bean>
 
     <bean id="subscriptionManager"
-          class="org.greengin.senseitweb.logic.permissions.SubscriptionManager">
+          class="org.greengin.senseitweb.logic.permissions.SubscriptionManagerBean">
     </bean>
 
     <bean id="permissionsManager"
-          class="org.greengin.senseitweb.logic.permissions.PermissionsManager">
+          class="org.greengin.senseitweb.logic.permissions.PermissionsManagerBean">
     </bean>
 
     <bean id="fileManager"
-          class="org.greengin.senseitweb.logic.data.FileManager">
+          class="org.greengin.senseitweb.logic.data.FileManagerBean">
         <property name="basePath" value="files"/>
     </bean>
 
@@ -71,5 +71,8 @@
 
     <bean id="objectMapper" class="org.greengin.senseitweb.json.JacksonObjectMapper"/>
 
+    <bean id="voteManager" class="org.greengin.senseitweb.logic.voting.VoteManagerBean"/>
+
+    <bean id="context" class="org.greengin.senseitweb.logic.ContextBean"/>
 
 </beans>

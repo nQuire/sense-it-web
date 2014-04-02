@@ -4,8 +4,8 @@ import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.entities.users.PermissionType;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.logic.AbstractContentManager;
-import org.greengin.senseitweb.logic.permissions.SubscriptionManager;
-import org.greengin.senseitweb.logic.permissions.UsersManager;
+import org.greengin.senseitweb.logic.ContextBean;
+import org.greengin.senseitweb.logic.permissions.AccessLevel;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -17,20 +17,12 @@ public class ProjectListActions extends AbstractContentManager {
 
     static final String PROJECTS_QUERY = String.format("SELECT p FROM %s p", Project.class.getName());
 
-    SubscriptionManager subscriptionManager;
-
-    public ProjectListActions(SubscriptionManager subscriptionManager, UserProfile user, boolean tokenOk, EntityManager em) {
-        super(user, tokenOk, em);
-        setSubscriptionManager(subscriptionManager);
+    public ProjectListActions(ContextBean context, UserProfile user, boolean tokenOk) {
+        super(context, user, tokenOk);
     }
 
-    public ProjectListActions(SubscriptionManager subscriptionManager, UsersManager usersManager, EntityManager em, HttpServletRequest request) {
-        super(usersManager, em, request);
-        setSubscriptionManager(subscriptionManager);
-    }
-
-    private void setSubscriptionManager(SubscriptionManager subscriptionManager) {
-        this.subscriptionManager = subscriptionManager;
+    public ProjectListActions(ContextBean context, HttpServletRequest request) {
+        super(context, request);
     }
 
 
@@ -38,12 +30,20 @@ public class ProjectListActions extends AbstractContentManager {
      * any user actions *
      */
     public List<Project> getProjects() {
+        List<Project> filtered = new Vector<Project>();
         if (hasAccess(PermissionType.BROWSE)) {
+            EntityManager em = context.createEntityManager();
             TypedQuery<Project> query = em.createQuery(PROJECTS_QUERY, Project.class);
-            return query.getResultList();
-        } else {
-            return new Vector<Project>();
+            List<Project> all = query.getResultList();
+            for (Project p : all) {
+                AccessLevel access = context.getSubscriptionManager().getAccessLevel(p, user);
+                if (access.isAdmin() || p.getOpen()) {
+                    filtered.add(p);
+                }
+            }
         }
+
+        return filtered;
     }
 
     /**
@@ -51,11 +51,12 @@ public class ProjectListActions extends AbstractContentManager {
      */
     public Long createProject(ProjectCreationRequest projectData) {
         if (hasAccess(PermissionType.CREATE_PROJECT)) {
+            EntityManager em = context.createEntityManager();
             em.getTransaction().begin();
             Project project = new Project();
             projectData.initProject(project);
             em.persist(project);
-            subscriptionManager.projectCreatedInTransaction(em, project, user);
+            context.getSubscriptionManager().projectCreatedInTransaction(em, project, user);
             em.getTransaction().commit();
 
             return project.getId();

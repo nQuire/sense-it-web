@@ -12,10 +12,9 @@ import org.greengin.senseitweb.entities.activities.senseit.SensorInput;
 import org.greengin.senseitweb.entities.data.AbstractDataProjectItem;
 import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.entities.users.OpenIdEntity;
-import org.greengin.senseitweb.entities.users.RoleContextEntity;
 import org.greengin.senseitweb.entities.users.UserProfile;
-import org.greengin.senseitweb.entities.voting.VotableEntity;
-import org.greengin.senseitweb.entities.voting.Vote;
+import org.greengin.senseitweb.entities.rating.VotableEntity;
+import org.greengin.senseitweb.entities.rating.Vote;
 import org.greengin.senseitweb.json.mixins.*;
 import org.greengin.senseitweb.logic.project.senseit.SenseItAnalysisRequest;
 import org.springframework.stereotype.Component;
@@ -31,7 +30,6 @@ public class JacksonObjectMapper extends ObjectMapper {
         addMixIn(UserProfile.class, UserProfileMixIn.class);
         addMixIn(OpenIdEntity.class, OpenIdEntityMixIn.class);
 
-        addMixIn(RoleContextEntity.class, RoleContextEntityMixIn.class);
 
         addMixIn(Project.class, ProjectMixIn.class);
         addMixIn(ChallengeActivity.class, ChallengeActivityMixIn.class);

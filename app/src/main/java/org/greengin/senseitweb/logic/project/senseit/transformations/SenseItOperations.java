@@ -91,18 +91,16 @@ public class SenseItOperations implements InitializingBean {
 		int index = 0;
 		SenseItProcessedSeries processed = new SenseItProcessedSeries();
 
-		for (Entry<Long, Vector<TimeValue>> entry : series.entrySet()) {
-			SensorInput input = activity.getProfile().inputById(entry.getKey());
-			if (input != null) {
-				SenseItDataSensor sensorData = data.sensorTypes.get(input.getSensor());
-				if (sensorData != null) {
-					String label = String.format("%s raw data", sensorData.name);
-					SenseItProcessedSeriesVariable var = new SenseItProcessedSeriesVariable(index++, label, entry.getValue());
-					var.units.apply(sensorData.units);
-					processed.values.put(String.valueOf(entry.getKey()), var);
-				}
-			}
-		}
+        for (SensorInput input : activity.getProfile().getSensorInputs()) {
+            SenseItDataSensor sensorData = data.sensorTypes.get(input.getSensor());
+            if (sensorData != null) {
+                String label = String.format("%s raw data", sensorData.name);
+                SenseItProcessedSeriesVariable var = new SenseItProcessedSeriesVariable(index++, label, series.get(input.getId()));
+                var.units.apply(sensorData.units);
+                processed.values.put(String.valueOf(input.getId()), var);
+            }
+        }
+
 
 		boolean goon = true;
 		while (goon) {

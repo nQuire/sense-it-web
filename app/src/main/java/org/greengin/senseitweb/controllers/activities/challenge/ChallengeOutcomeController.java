@@ -3,10 +3,9 @@ package org.greengin.senseitweb.controllers.activities.challenge;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import com.mangofactory.jsonview.ResponseView;
 import org.greengin.senseitweb.entities.activities.challenge.ChallengeOutcome;
-import org.greengin.senseitweb.json.mixins.Views;
+import org.greengin.senseitweb.json.Views;
 import org.greengin.senseitweb.logic.project.challenge.ChallengeOutcomeRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

@@ -1,4 +1,4 @@
-package org.greengin.senseitweb.entities.voting;
+package org.greengin.senseitweb.entities.rating;
 
 import java.util.Collection;
 import java.util.Vector;

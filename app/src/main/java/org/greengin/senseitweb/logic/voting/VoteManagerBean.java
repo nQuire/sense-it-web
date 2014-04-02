@@ -6,24 +6,22 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import org.greengin.senseitweb.entities.users.UserProfile;
-import org.greengin.senseitweb.entities.voting.VotableEntity;
-import org.greengin.senseitweb.entities.voting.Vote;
+import org.greengin.senseitweb.entities.rating.VotableEntity;
+import org.greengin.senseitweb.entities.rating.Vote;
+import org.greengin.senseitweb.json.Views;
+import org.greengin.senseitweb.logic.persistence.CustomEntityManagerFactoryBean;
+import org.springframework.beans.factory.annotation.Autowired;
 
-public class VoteManager {
+public class VoteManagerBean {
 	private static final String VOTE_QUERY = String.format(
 			"SELECT v FROM %s v WHERE v.target = :target AND v.user = :user", Vote.class.getName());
 
-	EntityManager em;
-	UserProfile user;
-	VotableEntity target;
+    @Autowired
+    CustomEntityManagerFactoryBean entityManagerFactory;
 
-	public VoteManager(EntityManager em, UserProfile user, VotableEntity target) {
-		this.user = user;
-		this.em = em;
-		this.target = target;
-	}
 
-	public VoteCount vote(VoteRequest voteData) {
+	public VoteCount vote(UserProfile user, VotableEntity target, VoteRequest voteData) {
+        EntityManager em = entityManagerFactory.createEntityManager();
 
 		TypedQuery<Vote> query = em.createQuery(VOTE_QUERY, Vote.class);
 		query.setParameter("target", target);

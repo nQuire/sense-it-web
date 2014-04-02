@@ -1,15 +1,11 @@
 package org.greengin.senseitweb.controllers.files;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
-import org.greengin.senseitweb.logic.data.FileManager;
+import org.greengin.senseitweb.logic.data.FileManagerBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.HandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +19,7 @@ import java.io.IOException;
 public class FileController {
 
     @Autowired
-    FileManager fileManager;
+    FileManagerBean fileManager;
 
     @RequestMapping(value = "/image/**"/*, produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_GIF_VALUE, MediaType.IMAGE_PNG_VALUE}*/)
     public void image(HttpServletRequest request, HttpServletResponse response) {

@@ -5,10 +5,8 @@ import org.greengin.senseitweb.entities.users.PermissionType;
 import org.greengin.senseitweb.entities.users.RoleType;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.logic.AbstractContentManager;
-import org.greengin.senseitweb.logic.data.FileManager;
+import org.greengin.senseitweb.logic.ContextBean;
 import org.greengin.senseitweb.logic.permissions.AccessLevel;
-import org.greengin.senseitweb.logic.permissions.SubscriptionManager;
-import org.greengin.senseitweb.logic.permissions.UsersManager;
 import org.greengin.senseitweb.logic.project.senseit.FileMapUpload;
 
 import javax.persistence.EntityManager;
@@ -18,35 +16,30 @@ import java.util.Map;
 
 public class ProjectActions extends AbstractContentManager {
 
-    static final String USERS_QUERY = "SELECT DISTINCT u FROM Role r INNER JOIN r.user u WHERE r.type = :type AND r.project = :project";
-
     protected Long projectId;
     protected Project project;
     protected AccessLevel accessLevel;
     protected boolean projectExists;
 
-    SubscriptionManager subscriptionManager;
-    FileManager fileManager;
 
-
-    public ProjectActions(Long projectId, SubscriptionManager subscriptionManager, FileManager fileManager, UserProfile user, boolean tokenOk, EntityManager em) {
-        super(user, tokenOk, em);
-        setProject(projectId, subscriptionManager, fileManager);
+    public ProjectActions(ContextBean context, Long projectId, UserProfile user, boolean tokenOk) {
+        super(context, user, tokenOk);
+        setProject(projectId);
     }
 
-    public ProjectActions(Long projectId, SubscriptionManager subscriptionManager, FileManager fileManager, UsersManager usersManager, EntityManager em, HttpServletRequest request) {
-        super(usersManager, em, request);
-        setProject(projectId, subscriptionManager, fileManager);
+    public ProjectActions(ContextBean context, Long projectId, HttpServletRequest request) {
+        super(context, request);
+        setProject(projectId);
     }
 
-    private void setProject(Long projectId, SubscriptionManager subscriptionManager, FileManager fileManager) {
-        this.subscriptionManager = subscriptionManager;
-        this.fileManager = fileManager;
+
+    private void setProject(Long projectId) {
+        EntityManager em = context.createEntityManager();
         this.projectId = projectId;
         this.project = em.find(Project.class, projectId);
         this.projectExists = this.project != null;
 
-        this.accessLevel = subscriptionManager.getAccessLevel(project, user);
+        this.accessLevel = context.getSubscriptionManager().getAccessLevel(project, user);
     }
 
     @Override
@@ -74,21 +67,37 @@ public class ProjectActions extends AbstractContentManager {
     }
 
     /**
+     * common actions
+     */
+
+
+    public Project get() {
+        if (accessLevel.isAdmin() || project.getOpen()) {
+            project.setSelectedVoteAuthor(user);
+            return project;
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * participant actions *
      */
 
     public AccessLevel join() {
         if (hasAccess(PermissionType.PROJECT_JOIN) && !accessLevel.isMember()) {
-            subscriptionManager.subscribe(em, user, project, RoleType.MEMBER);
-            return subscriptionManager.getAccessLevel(projectId, em, user);
+            EntityManager em = context.createEntityManager();
+            context.getSubscriptionManager().subscribe(em, user, project, RoleType.MEMBER);
+            return context.getSubscriptionManager().getAccessLevel(projectId, em, user);
         }
         return null;
     }
 
     public AccessLevel leave() {
         if (this.hasAccess(PermissionType.PROJECT_MEMBER_ACTION)) {
-            subscriptionManager.unsubscribe(em, user, project, RoleType.MEMBER);
-            return subscriptionManager.getAccessLevel(projectId, em, user);
+            EntityManager em = context.createEntityManager();
+            context.getSubscriptionManager().unsubscribe(em, user, project, RoleType.MEMBER);
+            return context.getSubscriptionManager().getAccessLevel(projectId, em, user);
         }
 
         return null;
@@ -100,6 +109,7 @@ public class ProjectActions extends AbstractContentManager {
 
     public Project setOpen(Boolean open) {
         if (hasAccess(PermissionType.PROJECT_ADMIN)) {
+            EntityManager em = context.createEntityManager();
             em.getTransaction().begin();
             project.setOpen(open);
             em.getTransaction().commit();
@@ -111,7 +121,7 @@ public class ProjectActions extends AbstractContentManager {
 
     public Collection<UserProfile> getUsers() {
         if (hasAccess(PermissionType.PROJECT_ADMIN)) {
-            return subscriptionManager.projectMembers(project);
+            return context.getSubscriptionManager().projectMembers(project);
         } else {
             return null;
         }
@@ -125,17 +135,18 @@ public class ProjectActions extends AbstractContentManager {
     public Project updateMetadata(ProjectRequest data, FileMapUpload files) {
         if (hasAccess(PermissionType.PROJECT_EDITION)) {
             if (files != null && data.getDescription() != null) {
-                String context = projectId.toString();
+                String fileContext = projectId.toString();
                 for (Map.Entry<String, FileMapUpload.FileData> entry : files.getData().entrySet()) {
                     try {
-                        fileManager.uploadFile(context, entry.getValue().filename, entry.getValue().data);
-                        data.getDescription().put(entry.getKey(), context + "/" + entry.getValue().filename);
+                        context.getFileManager().uploadFile(fileContext, entry.getValue().filename, entry.getValue().data);
+                        data.getDescription().put(entry.getKey(), fileContext + "/" + entry.getValue().filename);
                     } catch (Exception e) {
                         data.getDescription().put(entry.getKey(), null);
                     }
                 }
             }
 
+            EntityManager em = context.createEntityManager();
             em.getTransaction().begin();
             data.updateProject(project);
             em.getTransaction().commit();
@@ -148,6 +159,7 @@ public class ProjectActions extends AbstractContentManager {
 
     public Boolean deleteProject() {
         if (hasAccess(PermissionType.PROJECT_EDITION)) {
+            EntityManager em = context.createEntityManager();
             em.getTransaction().begin();
             em.remove(project);
             em.getTransaction().commit();

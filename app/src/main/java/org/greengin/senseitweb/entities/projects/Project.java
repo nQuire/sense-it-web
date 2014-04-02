@@ -3,8 +3,8 @@ package org.greengin.senseitweb.entities.projects;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.greengin.senseitweb.entities.AbstractEntity;
-import org.greengin.senseitweb.entities.users.RoleContextEntity;
+import org.greengin.senseitweb.entities.rating.CommentThreadEntity;
+import org.greengin.senseitweb.entities.rating.VotableEntity;
 
 import javax.persistence.*;
 import java.util.HashMap;
@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 
 @Entity
-public class Project extends RoleContextEntity {
+public class Project extends CommentThreadEntity {
 
     public Project() {
         this.activity = null;

@@ -4,11 +4,9 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import org.greengin.senseitweb.entities.AbstractEntity;
-import org.greengin.senseitweb.logic.permissions.OpenIdManager;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Vector;
 
 @Entity

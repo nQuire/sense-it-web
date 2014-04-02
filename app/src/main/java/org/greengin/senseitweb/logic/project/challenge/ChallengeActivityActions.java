@@ -14,14 +14,10 @@ import org.greengin.senseitweb.entities.activities.challenge.ChallengeField;
 import org.greengin.senseitweb.entities.activities.challenge.ChallengeOutcome;
 import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.entities.users.PermissionType;
-import org.greengin.senseitweb.entities.users.RoleType;
 import org.greengin.senseitweb.entities.users.UserProfile;
-import org.greengin.senseitweb.logic.data.FileManager;
-import org.greengin.senseitweb.logic.permissions.SubscriptionManager;
-import org.greengin.senseitweb.logic.permissions.UsersManager;
+import org.greengin.senseitweb.logic.ContextBean;
 import org.greengin.senseitweb.logic.project.AbstractActivityActions;
 import org.greengin.senseitweb.logic.voting.VoteCount;
-import org.greengin.senseitweb.logic.voting.VoteManager;
 import org.greengin.senseitweb.logic.voting.VoteRequest;
 
 public class ChallengeActivityActions extends AbstractActivityActions<ChallengeActivity> {
@@ -34,12 +30,12 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 
 
 
-    public ChallengeActivityActions(Long projectId, SubscriptionManager subscriptionManager, FileManager fileManager, UserProfile user, boolean tokenOk, EntityManager em) {
-        super(projectId, ChallengeActivity.class, subscriptionManager, fileManager, user, tokenOk, em);
+    public ChallengeActivityActions(ContextBean context, Long projectId, UserProfile user, boolean tokenOk) {
+        super(context, projectId, ChallengeActivity.class, user, tokenOk);
     }
 
-    public ChallengeActivityActions(Long projectId, SubscriptionManager subscriptionManager, FileManager fileManager, UsersManager usersManager, EntityManager em, HttpServletRequest request) {
-        super(projectId, ChallengeActivity.class, subscriptionManager, fileManager, usersManager, em, request);
+    public ChallengeActivityActions(ContextBean context, Long projectId, HttpServletRequest request) {
+        super(context, projectId, ChallengeActivity.class, request);
     }
 
 	/** common actions **/
@@ -49,8 +45,8 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 				|| (hasAccess(PermissionType.PROJECT_MEMBER_ACTION) && (onlyMine || activity.getStage() != ChallengeActivityStage.PROPOSAL));
 
 		if (access) {
-			TypedQuery<ChallengeAnswer> query = em.createQuery(onlyMine ? MY_ANSWERS_QUERY : ALL_ANSWERS_QUERY,
-					ChallengeAnswer.class);
+			TypedQuery<ChallengeAnswer> query = context.createEntityManager().createQuery(onlyMine ? MY_ANSWERS_QUERY : ALL_ANSWERS_QUERY,
+                    ChallengeAnswer.class);
 			query.setParameter("activity", project.getActivity());
 			if (onlyMine) {
 				query.setParameter("author", user);
@@ -81,6 +77,8 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 
 	public NewChallengeAnswerResponse createAnswer(ChallengeAnswerRequest answerData) {
 		if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION) && activity.getStage() == ChallengeActivityStage.PROPOSAL) {
+            EntityManager em = context.createEntityManager();
+
 			TypedQuery<Long> query = em.createQuery(ANSWER_COUNT_QUERY, Long.class);
 			query.setParameter("activity", project.getActivity());
 			query.setParameter("author", user);
@@ -108,6 +106,7 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 
 	public Collection<ChallengeAnswer> updateAnswer(Long answerId, ChallengeAnswerRequest answerData) {
 		if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION) && activity.getStage() == ChallengeActivityStage.PROPOSAL) {
+            EntityManager em = context.createEntityManager();
 			em.getTransaction().begin();
 			ChallengeAnswer answer = em.find(ChallengeAnswer.class, answerId);
 			answerData.update(answer);
@@ -120,6 +119,7 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 
 	public Collection<ChallengeAnswer> deleteAnswer(Long answerId) {
 		if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION) && activity.getStage() == ChallengeActivityStage.PROPOSAL) {
+            EntityManager em = context.createEntityManager();
 			ChallengeAnswer answer = em.find(ChallengeAnswer.class, answerId);
             if (user.equals(answer.getAuthor())) {
                 em.getTransaction().begin();
@@ -138,10 +138,10 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 
 	public VoteCount vote(Long answerId, VoteRequest voteData) {
 		if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION) && activity.getStage() == ChallengeActivityStage.VOTING) {
+            EntityManager em = context.createEntityManager();
 			ChallengeAnswer answer = em.find(ChallengeAnswer.class, answerId);
 			if (answer != null && activity.getAnswers().contains(answer)) {
-				VoteManager voter = new VoteManager(em, user, answer);
-				return voter.vote(voteData);
+                context.getVoteManager().vote(user, answer, voteData);
 			}
 		}
 
@@ -152,6 +152,7 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 
 	public Project setStage(ChallengeActivityStage stage) {
 		if (hasAccess(PermissionType.PROJECT_ADMIN)) {
+            EntityManager em = context.createEntityManager();
 			em.getTransaction().begin();
 			activity.setStage(stage);
 			em.getTransaction().commit();
@@ -165,6 +166,7 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 
 	public Project updateActivity(ChallengeActivityRequest activityData) {
 		if (hasAccess(PermissionType.PROJECT_EDITION)) {
+            EntityManager em = context.createEntityManager();
 			em.getTransaction().begin();
 			activityData.update(activity);
 			em.getTransaction().commit();
@@ -176,6 +178,7 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 
 	public Project createField(ChallengeFieldRequest fieldData) {
 		if (hasAccess(PermissionType.PROJECT_EDITION)) {
+            EntityManager em = context.createEntityManager();
 			em.getTransaction().begin();
 			ChallengeField field = new ChallengeField();
 			fieldData.update(field);
@@ -189,6 +192,7 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 
 	public Project updateField(Long fieldId, ChallengeFieldRequest fieldData) {
 		if (hasAccess(PermissionType.PROJECT_EDITION)) {
+            EntityManager em = context.createEntityManager();
 			ChallengeField field = em.find(ChallengeField.class, fieldId);
 
 			em.getTransaction().begin();
@@ -203,6 +207,7 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 
 	public Project deleteField(Long fieldId) {
 		if (hasAccess(PermissionType.PROJECT_EDITION)) {
+            EntityManager em = context.createEntityManager();
 			ChallengeField field = em.find(ChallengeField.class, fieldId);
 
 			em.getTransaction().begin();
@@ -214,6 +219,7 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 
 	public ChallengeOutcome updateOutcome(ChallengeOutcomeRequest outcomeData) {
 		if (hasAccess(PermissionType.PROJECT_ADMIN)) {
+            EntityManager em = context.createEntityManager();
 			em.getTransaction().begin();
 			outcomeData.update(em, activity.getOutcome());
 			em.getTransaction().commit();

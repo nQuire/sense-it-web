@@ -1,19 +1,18 @@
 package org.greengin.senseitweb.logic.permissions;
 
+import org.greengin.senseitweb.entities.AbstractEntity;
 import org.greengin.senseitweb.entities.users.Role;
-import org.greengin.senseitweb.entities.users.RoleContextEntity;
 import org.greengin.senseitweb.entities.users.RoleType;
 import org.greengin.senseitweb.entities.users.UserProfile;
-import org.greengin.senseitweb.logic.persistence.CustomEntityManagerFactory;
+import org.greengin.senseitweb.logic.persistence.CustomEntityManagerFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Vector;
 
-public class RoleManager {
+public class RoleManagerBean {
 
 	private static final String ROLE_QUERY = "SELECT r FROM Role r WHERE r.context.id = :contextId AND r.user = :user";
 	
@@ -25,13 +24,13 @@ public class RoleManager {
 
 
     @Autowired
-    UsersManager usersManager;
+    UsersManagerBean usersManager;
 
 
     @Autowired
-    CustomEntityManagerFactory entityManagerFactory;
+    CustomEntityManagerFactoryBean entityManagerFactory;
 
-	public List<UserProfile> contextUsers(RoleContextEntity context, RoleType type) {
+	public List<UserProfile> contextUsers(AbstractEntity context, RoleType type) {
 		EntityManager em = entityManagerFactory.createEntityManager();
 		TypedQuery<UserProfile> query = em.createQuery(USER_QUERY, UserProfile.class);
 		query.setParameter("context", context);
@@ -39,7 +38,7 @@ public class RoleManager {
 		return query.getResultList();
 	}
 
-    public List<RoleType> userRoles(UserProfile user, RoleContextEntity context) {
+    public List<RoleType> userRoles(UserProfile user, AbstractEntity context) {
         Vector<RoleType> roles = new Vector<RoleType>();
 
         EntityManager em = entityManagerFactory.createEntityManager();
@@ -54,16 +53,15 @@ public class RoleManager {
     }
 
 
-    public void addRoleInTransaction(EntityManager em, RoleContextEntity context, UserProfile user, RoleType type) {
+    public void addRoleInTransaction(EntityManager em, AbstractEntity context, UserProfile user, RoleType type) {
 		Role role = new Role();
 		role.setContext(context);
         role.setUser(user);
         role.setType(type);
-        context.getRoles().add(role);
 		em.persist(role);
 	}
 
-	public boolean is(RoleType type, RoleContextEntity context, UserProfile user) {
+	public boolean is(RoleType type, AbstractEntity context, UserProfile user) {
 		if (context != null && user != null) {
 			EntityManager em = entityManagerFactory.createEntityManager();
 			TypedQuery<Long> query = em.createQuery(USER_HAS_QUERY, Long.class);
@@ -80,13 +78,13 @@ public class RoleManager {
 	}
 
 
-	public void addRole(EntityManager em, UserProfile user, RoleContextEntity context, RoleType type) {
+	public void addRole(EntityManager em, UserProfile user, AbstractEntity context, RoleType type) {
 		em.getTransaction().begin();
 		this.addRoleInTransaction(em, context, user, type);
 		em.getTransaction().commit();
 	}
 
-	public void removeRole(EntityManager em, UserProfile user, RoleContextEntity context, RoleType type) {
+	public void removeRole(EntityManager em, UserProfile user, AbstractEntity context, RoleType type) {
 		em.getTransaction().begin();
 		
 		TypedQuery<Role> query = em.createQuery(SEARCH_ROLE_QUERY, Role.class);
@@ -94,7 +92,6 @@ public class RoleManager {
 		query.setParameter("user", user);
 		query.setParameter("type", type);
 		for (Role r : query.getResultList()) {
-            context.getRoles().remove(r);
             em.remove(r);
 		}
 		em.getTransaction().commit();

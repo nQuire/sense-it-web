@@ -1,7 +1,7 @@
 package org.greengin.senseitweb.controllers.users;
 
-import org.greengin.senseitweb.logic.permissions.OpenIdManager;
-import org.greengin.senseitweb.logic.permissions.OpenIdManager.Provider;
+import org.greengin.senseitweb.logic.permissions.OpenIdManagerBean;
+import org.greengin.senseitweb.logic.permissions.OpenIdManagerBean.Provider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 public class LoginController {
 
     @Autowired
-    private OpenIdManager openIdManager;
+    private OpenIdManagerBean openIdManager;
 
     @RequestMapping(value = "/login/redirect", method = RequestMethod.GET)
     protected void redirect(@RequestParam("p") String provider,

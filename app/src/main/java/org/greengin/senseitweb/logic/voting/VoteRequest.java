@@ -1,31 +1,16 @@
 package org.greengin.senseitweb.logic.voting;
 
-import org.greengin.senseitweb.entities.voting.Vote;
+import lombok.Getter;
+import lombok.Setter;
+import org.greengin.senseitweb.entities.rating.Vote;
 
 public class VoteRequest {
-	
-	Long value;
 
-	String comment;
+    @Getter
+    @Setter
+    Long value;
 
-	public Long getValue() {
-		return value;
-	}
-
-	public void setValue(Long value) {
-		this.value = value;
-	}
-
-	public String getComment() {
-		return comment;
-	}
-
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
-	
-	public void update(Vote vote) {
-		vote.setComment(comment);
-		vote.setValue(value);
-	}
+    public void update(Vote vote) {
+        vote.setValue(value);
+    }
 }

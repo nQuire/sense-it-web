@@ -3,24 +3,24 @@ package org.greengin.senseitweb.logic.permissions;
 import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.entities.users.RoleType;
 import org.greengin.senseitweb.entities.users.UserProfile;
-import org.greengin.senseitweb.logic.persistence.CustomEntityManagerFactory;
+import org.greengin.senseitweb.logic.persistence.CustomEntityManagerFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-public class SubscriptionManager {
+public class SubscriptionManagerBean {
 
     @Autowired
-    RoleManager roleManager;
+    RoleManagerBean roleManager;
 
     @Autowired
-    UsersManager usersManager;
+    UsersManagerBean usersManager;
 
 
     @Autowired
-    CustomEntityManagerFactory entityManagerFactory;
+    CustomEntityManagerFactoryBean entityManagerFactory;
 
     public List<UserProfile> projectUsers(Project project, RoleType type) {
         return roleManager.contextUsers(project, type);

@@ -2,9 +2,8 @@ package org.greengin.senseitweb.controllers.activities.senseit;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import com.mangofactory.jsonview.ResponseView;
-import org.greengin.senseitweb.json.mixins.Views;
+import org.greengin.senseitweb.json.Views;
 import org.greengin.senseitweb.logic.project.senseit.JoinedProfilesActions;
 import org.greengin.senseitweb.logic.project.senseit.JoinedProfilesResponse;
 import org.springframework.stereotype.Controller;
@@ -20,7 +19,7 @@ public class SenseItProfilesController extends AbstractSenseItController {
 	@ResponseView(Views.VotableCount.class)
     @ResponseBody
 	public JoinedProfilesResponse get(HttpServletRequest request) {
-		JoinedProfilesActions member = new JoinedProfilesActions(usersManager, entityManagerFactory.createEntityManager(), request);
+		JoinedProfilesActions member = new JoinedProfilesActions(context, request);
 		return member.joinedProfiles();
 	}
 }

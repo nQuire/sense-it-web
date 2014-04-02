@@ -4,12 +4,9 @@ import com.mangofactory.jsonview.ResponseView;
 import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.json.JacksonObjectMapper;
-import org.greengin.senseitweb.json.mixins.Views;
-import org.greengin.senseitweb.logic.data.FileManager;
+import org.greengin.senseitweb.json.Views;
+import org.greengin.senseitweb.logic.ContextBean;
 import org.greengin.senseitweb.logic.permissions.AccessLevel;
-import org.greengin.senseitweb.logic.permissions.SubscriptionManager;
-import org.greengin.senseitweb.logic.permissions.UsersManager;
-import org.greengin.senseitweb.logic.persistence.CustomEntityManagerFactory;
 import org.greengin.senseitweb.logic.project.ProjectActions;
 import org.greengin.senseitweb.logic.project.ProjectRequest;
 import org.greengin.senseitweb.logic.project.ProjectResponse;
@@ -35,31 +32,21 @@ import java.util.Map;
 public class ProjectController {
 
     @Autowired
-    SubscriptionManager subscriptionManager;
-
-    @Autowired
-    CustomEntityManagerFactory entityManagerFactory;
-
-    @Autowired
-    FileManager fileManager;
-
-    @Autowired
-    UsersManager usersManager;
+    ContextBean context;
 
     @Autowired
     JacksonObjectMapper objectMapper;
 
     private ProjectActions createProjectManager(Long projectId, HttpServletRequest request) {
-        return new ProjectActions(projectId, subscriptionManager, fileManager, usersManager, entityManagerFactory.createEntityManager(), request);
+        return new ProjectActions(context, projectId, request);
     }
 
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     public ProjectResponse get(@PathVariable("projectId") Long projectId, HttpServletRequest request) {
-        EntityManager em = entityManagerFactory.createEntityManager();
-        Project project = em.find(Project.class, projectId);
-        AccessLevel access = subscriptionManager.getAccessLevel(project, request);
+        Project project = createProjectManager(projectId, request).get();
+        AccessLevel access = context.getSubscriptionManager().getAccessLevel(project, request);
 
         ProjectResponse response = new ProjectResponse();
         response.setProject(project);
@@ -105,9 +92,8 @@ public class ProjectController {
             e.printStackTrace();
         }
 
-        EntityManager em = entityManagerFactory.createEntityManager();
-        Project project = em.find(Project.class, projectId);
-        return project;
+        EntityManager em = context.createEntityManager();
+        return em.find(Project.class, projectId);
     }
 
     @RequestMapping(value = "/join", method = RequestMethod.POST)

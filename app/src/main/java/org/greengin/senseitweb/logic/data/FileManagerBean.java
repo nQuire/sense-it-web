@@ -14,7 +14,7 @@ import java.io.*;
 
 
 @Service
-public class FileManager implements InitializingBean {
+public class FileManagerBean implements InitializingBean {
 
     @Autowired
     private ServletContext context;

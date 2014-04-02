@@ -6,13 +6,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.servlet.http.HttpServletRequest;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import com.mangofactory.jsonview.ResponseView;
 import org.greengin.senseitweb.entities.users.UserProfile;
-import org.greengin.senseitweb.json.mixins.Views;
-import org.greengin.senseitweb.logic.permissions.OpenIdManager;
-import org.greengin.senseitweb.logic.permissions.UsersManager;
-import org.greengin.senseitweb.logic.persistence.CustomEntityManagerFactory;
+import org.greengin.senseitweb.json.Views;
+import org.greengin.senseitweb.logic.permissions.OpenIdManagerBean;
+import org.greengin.senseitweb.logic.permissions.UsersManagerBean;
+import org.greengin.senseitweb.logic.persistence.CustomEntityManagerFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -25,13 +24,13 @@ public class OpenIdController {
 			UserProfile.class.getName());
 
     @Autowired
-    OpenIdManager openIdManager;
+    OpenIdManagerBean openIdManager;
 
     @Autowired
-    UsersManager usersManager;
+    UsersManagerBean usersManager;
 
     @Autowired
-    CustomEntityManagerFactory entityManagerFactory;
+    CustomEntityManagerFactoryBean entityManagerFactory;
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     @ResponseBody

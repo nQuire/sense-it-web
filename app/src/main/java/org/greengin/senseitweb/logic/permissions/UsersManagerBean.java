@@ -10,18 +10,18 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.greengin.senseitweb.entities.users.OpenIdEntity;
 import org.greengin.senseitweb.entities.users.UserProfile;
-import org.greengin.senseitweb.logic.persistence.CustomEntityManagerFactory;
+import org.greengin.senseitweb.logic.persistence.CustomEntityManagerFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class UsersManager {
+public class UsersManagerBean {
 	static final String OPENID_QUERY = String.format("SELECT p FROM %s p JOIN p.openIds i WHERE i.openId = :oid",
 			UserProfile.class.getName());
 
     @Autowired
-    OpenIdManager openIdManager;
+    OpenIdManagerBean openIdManager;
 
     @Autowired
-    CustomEntityManagerFactory entityManagerFactory;
+    CustomEntityManagerFactoryBean entityManagerFactory;
 
 	public String userToken(HttpServletRequest request) {
 		return openIdManager.getToken(request);

@@ -2,7 +2,7 @@ package org.greengin.senseitweb.logic.moderation;
 
 import javax.persistence.EntityManager;
 
-import org.greengin.senseitweb.entities.voting.VotableEntity;
+import org.greengin.senseitweb.entities.rating.VotableEntity;
 
 public class ModerationManager {
 	EntityManager em;

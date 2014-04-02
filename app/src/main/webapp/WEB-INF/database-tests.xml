@@ -10,7 +10,7 @@
     </bean>
 
 
-    <bean id="entityManagerFactory" class="org.greengin.senseitweb.logic.persistence.CustomEntityManagerFactory">
+    <bean id="entityManagerFactory" class="org.greengin.senseitweb.logic.persistence.CustomEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="persistenceUnitName" value="nquire-it-jpa-tests"/>
         <property name="jpaDialect" ref="jpaDialect"/>

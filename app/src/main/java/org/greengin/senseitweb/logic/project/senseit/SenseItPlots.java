@@ -23,96 +23,87 @@ import org.jfree.ui.RectangleInsets;
 
 public class SenseItPlots {
 
-	static final Font titleFont = new Font("SansSerif", Font.BOLD, 12);
-	static final Font labelFont = new Font("SansSerif", Font.PLAIN, 10);
+    static final Font titleFont = new Font("SansSerif", Font.BOLD, 12);
+    static final Font labelFont = new Font("SansSerif", Font.PLAIN, 10);
 
-	public static byte[] createPlot(SenseItProcessedSeriesVariable data) {
-		if (data.values.size() > 0) {
+    public static byte[] createPlot(SenseItProcessedSeriesVariable data) {
 
-			XYSeriesCollection dataset = new XYSeriesCollection();
+        XYSeriesCollection dataset = new XYSeriesCollection();
+        StringBuffer units = new StringBuffer();
+        String title = "";
 
-			int nv = data.values.firstElement().v.length;
-			long t0 = data.values.firstElement().t;
+        if (data != null) {
+            title = data.name;
+            if (data.values != null && data.values.size() > 0) {
+                int nv = data.values.firstElement().v.length;
+                long t0 = data.values.firstElement().t;
 
-			for (int i = 0; i < nv; i++) {
-				XYSeries series = new XYSeries(" " + (i + 1));
-				for (TimeValue v : data.values) {
-					series.add(v.t - t0, v.v[i]);
-				}
-				dataset.addSeries(series);
-			}
-			
-			StringBuffer units = new StringBuffer();
-			for (Entry<String, Integer> entry : data.units.entrySet()) {
-				if (entry.getValue() > 0) {
-					units.append(entry.getKey());
-					if (entry.getValue() > 1) {
-						units.append(entry.getValue()).append(" ");
-					}
-				}
-			}
-			boolean first = true;
-			for (Entry<String, Integer> entry : data.units.entrySet()) {
-				if (entry.getValue() < 0) {
-					if (first) {
-						units.append("/");
-						first = false;
-					}
-					units.append(entry.getKey());
-					if (entry.getValue() < -1) {
-						units.append(-entry.getValue()).append(" ");
-					}
-				}
-			}
-			
-			JFreeChart chart = ChartFactory.createXYLineChart(data.name, "Time", units.toString(), dataset, PlotOrientation.VERTICAL, false, false, false);
-			chart.getTitle().setFont(titleFont);
-			
-			XYPlot plot = (XYPlot) chart.getPlot();
-			plot.getDomainAxis().setLabelFont(labelFont);
-			plot.getRangeAxis().setLabelFont(labelFont);
-			
-			plot.setAxisOffset(new RectangleInsets(0,  0,  0, 0));
+                for (int i = 0; i < nv; i++) {
+                    XYSeries series = new XYSeries(" " + (i + 1));
+                    for (TimeValue v : data.values) {
+                        series.add(v.t - t0, v.v[i]);
+                    }
+                    dataset.addSeries(series);
+                }
 
-			Color gridLinesColor = new Color(200, 200, 200);
-			Stroke gridLinesStroke = new BasicStroke(1f);
 
-			//plot.setOutlineVisible(false);
+                for (Entry<String, Integer> entry : data.units.entrySet()) {
+                    if (entry.getValue() > 0) {
+                        units.append(entry.getKey());
+                        if (entry.getValue() > 1) {
+                            units.append(entry.getValue()).append(" ");
+                        }
+                    }
+                }
+                boolean first = true;
+                for (Entry<String, Integer> entry : data.units.entrySet()) {
+                    if (entry.getValue() < 0) {
+                        if (first) {
+                            units.append("/");
+                            first = false;
+                        }
+                        units.append(entry.getKey());
+                        if (entry.getValue() < -1) {
+                            units.append(-entry.getValue()).append(" ");
+                        }
+                    }
+                }
+            }
+        }
 
-			plot.setDomainGridlinesVisible(true);
-			plot.setDomainGridlinePaint(gridLinesColor);
-			plot.setDomainGridlineStroke(gridLinesStroke);
-			plot.setRangeGridlinesVisible(true);
-			plot.setRangeGridlinePaint(gridLinesColor);
-			plot.setRangeGridlineStroke(gridLinesStroke);
-			
-			plot.setBackgroundAlpha(.0f);
-			
-			/*for (int i = 0; i < plot.getSeriesCount(); i++) {
-				plot.getRenderer().setSeriesPaint(i, LINE_COLORS[(data.index + i) % LINE_COLORS.length]);
-			}*/
+        JFreeChart chart = ChartFactory.createXYLineChart(title, "Time", units.toString(), dataset, PlotOrientation.VERTICAL, false, false, false);
+        chart.getTitle().setFont(titleFont);
 
-			/*if (plot.getSeriesCount() > 1) {
-				chart.getLegend().setBorder(0, 0, 0, 0);
-			} else {
-				chart.removeLegend();
-			}*/
-			
-			chart.setPadding(new RectangleInsets(0, 0, 0, 0));
+        XYPlot plot = (XYPlot) chart.getPlot();
+        plot.getDomainAxis().setLabelFont(labelFont);
+        plot.getRangeAxis().setLabelFont(labelFont);
 
-			BufferedImage objBufferedImage = chart.createBufferedImage(360, 240);
-			ByteArrayOutputStream bas = new ByteArrayOutputStream();
-			try {
-				ImageIO.write(objBufferedImage, "png", bas);
-				byte[] imageData = bas.toByteArray();
-				return imageData;
-			} catch (IOException e) {
-				e.printStackTrace();
-				return null;
-			}
+        plot.setAxisOffset(new RectangleInsets(0, 0, 0, 0));
 
-		} else {
-			return null;
-		}
-	}
+        Color gridLinesColor = new Color(200, 200, 200);
+        Stroke gridLinesStroke = new BasicStroke(1f);
+
+        plot.setDomainGridlinesVisible(true);
+        plot.setDomainGridlinePaint(gridLinesColor);
+        plot.setDomainGridlineStroke(gridLinesStroke);
+        plot.setRangeGridlinesVisible(true);
+        plot.setRangeGridlinePaint(gridLinesColor);
+        plot.setRangeGridlineStroke(gridLinesStroke);
+
+        plot.setBackgroundAlpha(.0f);
+
+        chart.setPadding(new RectangleInsets(0, 0, 0, 0));
+
+        BufferedImage objBufferedImage = chart.createBufferedImage(360, 240);
+        ByteArrayOutputStream bas = new ByteArrayOutputStream();
+        try {
+            ImageIO.write(objBufferedImage, "png", bas);
+            byte[] imageData = bas.toByteArray();
+            return imageData;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
 }

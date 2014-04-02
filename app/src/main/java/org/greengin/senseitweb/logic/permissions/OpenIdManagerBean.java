@@ -28,7 +28,7 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.List;
 
-public class OpenIdManager implements InitializingBean {
+public class OpenIdManagerBean implements InitializingBean {
 
 
     public enum Provider {

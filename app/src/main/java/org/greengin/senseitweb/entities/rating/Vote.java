@@ -1,4 +1,4 @@
-package org.greengin.senseitweb.entities.voting;
+package org.greengin.senseitweb.entities.rating;
 
 
 import javax.persistence.Basic;
@@ -18,11 +18,6 @@ public class Vote extends AbstractEntity {
     @Getter
     @Setter
     Long value;
-
-	@Basic
-    @Getter
-    @Setter
-	String comment;
 
 	@ManyToOne
     @Getter

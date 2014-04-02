@@ -2,23 +2,18 @@ package org.greengin.senseitweb.tests;
 
 
 import org.apache.commons.io.FileUtils;
-import org.greengin.senseitweb.logic.data.FileManager;
+import org.greengin.senseitweb.logic.data.FileManagerBean;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -26,7 +21,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 public class FileManagerTests {
 
     @Autowired
-    FileManager fileManager;
+    FileManagerBean fileManager;
 
     @Test
     public void testNotNull() {
