@@ -71,7 +71,9 @@
 
     <bean id="objectMapper" class="org.greengin.senseitweb.json.JacksonObjectMapper"/>
 
-    <bean id="voteManager" class="org.greengin.senseitweb.logic.voting.VoteManagerBean"/>
+    <bean id="voteManager" class="org.greengin.senseitweb.logic.rating.VoteManagerBean"/>
+
+    <bean id="commentManager" class="org.greengin.senseitweb.logic.rating.CommentManagerBean"/>
 
     <bean id="context" class="org.greengin.senseitweb.logic.ContextBean"/>
 

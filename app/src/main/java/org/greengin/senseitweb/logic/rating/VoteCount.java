@@ -1,4 +1,4 @@
-package org.greengin.senseitweb.logic.voting;
+package org.greengin.senseitweb.logic.rating;
 
 import java.util.Collection;
 

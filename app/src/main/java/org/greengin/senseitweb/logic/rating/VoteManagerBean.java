@@ -1,4 +1,4 @@
-package org.greengin.senseitweb.logic.voting;
+package org.greengin.senseitweb.logic.rating;
 
 import java.util.List;
 
@@ -8,13 +8,11 @@ import javax.persistence.TypedQuery;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.entities.rating.VotableEntity;
 import org.greengin.senseitweb.entities.rating.Vote;
-import org.greengin.senseitweb.json.Views;
 import org.greengin.senseitweb.logic.persistence.CustomEntityManagerFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class VoteManagerBean {
-	private static final String VOTE_QUERY = String.format(
-			"SELECT v FROM %s v WHERE v.target = :target AND v.user = :user", Vote.class.getName());
+	private static final String VOTE_QUERY = "SELECT v FROM Vote v WHERE v.target = :target AND v.user = :user";
 
     @Autowired
     CustomEntityManagerFactoryBean entityManagerFactory;

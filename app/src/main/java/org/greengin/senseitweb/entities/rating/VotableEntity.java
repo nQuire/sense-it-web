@@ -14,7 +14,7 @@ import lombok.Setter;
 import org.greengin.senseitweb.entities.AbstractEntity;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.logic.moderation.ModerationStatus;
-import org.greengin.senseitweb.logic.voting.VoteCount;
+import org.greengin.senseitweb.logic.rating.VoteCount;
 
 @Entity
 public abstract class VotableEntity extends AbstractEntity {

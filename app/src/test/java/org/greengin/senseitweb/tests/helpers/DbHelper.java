@@ -22,7 +22,7 @@ public class DbHelper {
     public void clear() {
         EntityManager em = context.createEntityManager();
 
-        String[] types = new String[] {"Role", "AbstractEntity"};
+        String[] types = new String[] {"Role", "Project", "AbstractEntity"};
 
         for (String type : types) {
             List<Long> ids = em.createQuery(String.format("SELECT e.id from %s e", type), Long.class).getResultList();

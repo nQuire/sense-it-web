@@ -1,6 +1,7 @@
 package org.greengin.senseitweb.logic.project;
 
 import org.greengin.senseitweb.entities.projects.Project;
+import org.greengin.senseitweb.entities.rating.Comment;
 import org.greengin.senseitweb.entities.users.PermissionType;
 import org.greengin.senseitweb.entities.users.RoleType;
 import org.greengin.senseitweb.entities.users.UserProfile;
@@ -8,10 +9,12 @@ import org.greengin.senseitweb.logic.AbstractContentManager;
 import org.greengin.senseitweb.logic.ContextBean;
 import org.greengin.senseitweb.logic.permissions.AccessLevel;
 import org.greengin.senseitweb.logic.project.senseit.FileMapUpload;
+import org.greengin.senseitweb.logic.rating.CommentRequest;
 
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 public class ProjectActions extends AbstractContentManager {
@@ -58,6 +61,8 @@ public class ProjectActions extends AbstractContentManager {
                     return accessLevel.isAdmin();
                 case PROJECT_EDITION:
                     return accessLevel.isAdmin() && !project.getOpen();
+                case PROJECT_COMMENT:
+                    return hasAccess(PermissionType.PROJECT_ADMIN) || hasAccess(PermissionType.PROJECT_MEMBER_ACTION);
                 default:
                     return false;
             }
@@ -167,5 +172,30 @@ public class ProjectActions extends AbstractContentManager {
         } else {
             return null;
         }
+    }
+
+
+    /**
+     * comment actions
+     */
+
+
+    public List<Comment> comment(CommentRequest request) {
+        if (hasAccess(PermissionType.PROJECT_COMMENT)) {
+            context.getCommentManager().comment(user, project, request);
+            return project.getComments();
+        }
+
+        return null;
+    }
+
+    public List<Comment> deleteComment(Long commentId) {
+        if (hasAccess(PermissionType.PROJECT_COMMENT)) {
+            if (context.getCommentManager().deleteComment(user, project, commentId)) {
+                return project.getComments();
+            }
+        }
+
+        return null;
     }
 }

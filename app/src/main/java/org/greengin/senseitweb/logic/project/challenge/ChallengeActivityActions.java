@@ -17,8 +17,8 @@ import org.greengin.senseitweb.entities.users.PermissionType;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.logic.ContextBean;
 import org.greengin.senseitweb.logic.project.AbstractActivityActions;
-import org.greengin.senseitweb.logic.voting.VoteCount;
-import org.greengin.senseitweb.logic.voting.VoteRequest;
+import org.greengin.senseitweb.logic.rating.VoteCount;
+import org.greengin.senseitweb.logic.rating.VoteRequest;
 
 public class ChallengeActivityActions extends AbstractActivityActions<ChallengeActivity> {
 
@@ -141,7 +141,7 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
             EntityManager em = context.createEntityManager();
 			ChallengeAnswer answer = em.find(ChallengeAnswer.class, answerId);
 			if (answer != null && activity.getAnswers().contains(answer)) {
-                context.getVoteManager().vote(user, answer, voteData);
+                return context.getVoteManager().vote(user, answer, voteData);
 			}
 		}
 

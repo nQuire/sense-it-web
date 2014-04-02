@@ -7,9 +7,8 @@ import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.entities.rating.VotableEntity;
 import org.greengin.senseitweb.logic.ContextBean;
 import org.greengin.senseitweb.logic.project.AbstractActivityActions;
-import org.greengin.senseitweb.logic.voting.VoteManagerBean;
-import org.greengin.senseitweb.logic.voting.VoteCount;
-import org.greengin.senseitweb.logic.voting.VoteRequest;
+import org.greengin.senseitweb.logic.rating.VoteCount;
+import org.greengin.senseitweb.logic.rating.VoteRequest;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -163,7 +162,7 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
             EntityManager em = context.createEntityManager();
             AbstractDataProjectItem item = em.find(AbstractDataProjectItem.class, itemId);
             if (item != null && item.getDataStore() == activity) {
-                context.getVoteManager().vote(user, item, voteData);
+                return context.getVoteManager().vote(user, item, voteData);
             }
         }
 

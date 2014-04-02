@@ -8,8 +8,8 @@ import com.mangofactory.jsonview.ResponseView;
 import org.greengin.senseitweb.entities.activities.challenge.ChallengeAnswer;
 import org.greengin.senseitweb.json.Views;
 import org.greengin.senseitweb.logic.project.challenge.ChallengeActivityActions;
-import org.greengin.senseitweb.logic.voting.VoteCount;
-import org.greengin.senseitweb.logic.voting.VoteRequest;
+import org.greengin.senseitweb.logic.rating.VoteCount;
+import org.greengin.senseitweb.logic.rating.VoteRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 

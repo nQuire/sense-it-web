@@ -1,4 +1,4 @@
-package org.greengin.senseitweb.logic.voting;
+package org.greengin.senseitweb.logic.rating;
 
 import lombok.Getter;
 import lombok.Setter;

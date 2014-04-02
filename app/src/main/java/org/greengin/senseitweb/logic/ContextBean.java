@@ -5,7 +5,8 @@ import org.greengin.senseitweb.logic.data.FileManagerBean;
 import org.greengin.senseitweb.logic.permissions.SubscriptionManagerBean;
 import org.greengin.senseitweb.logic.permissions.UsersManagerBean;
 import org.greengin.senseitweb.logic.persistence.CustomEntityManagerFactoryBean;
-import org.greengin.senseitweb.logic.voting.VoteManagerBean;
+import org.greengin.senseitweb.logic.rating.CommentManagerBean;
+import org.greengin.senseitweb.logic.rating.VoteManagerBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
@@ -30,6 +31,10 @@ public class ContextBean {
     @Autowired
     @Getter
     VoteManagerBean voteManager;
+
+    @Autowired
+    @Getter
+    CommentManagerBean commentManager;
 
     @Autowired
     CustomEntityManagerFactoryBean entityManagerFactory;

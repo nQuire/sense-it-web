@@ -4,7 +4,7 @@ angular.module('senseItServices', null, null).factory('VoteService', ['RestServi
 
     var service = {
         vote: function(path, vote) {
-            return RestService.post(path, {value: vote.value, comment: vote.comment ? vote.comment : ''});
+            return RestService.post(path, {value: vote.value});
         }
     };
 
