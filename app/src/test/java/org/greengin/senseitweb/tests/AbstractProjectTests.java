@@ -9,9 +9,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- * Created by evilfer on 4/1/14.
- */
+
 public abstract class AbstractProjectTests extends TestsBase {
 
     String projectName;
@@ -41,7 +39,7 @@ public abstract class AbstractProjectTests extends TestsBase {
     public void before() {
         super.before();
         author = helper.createUser("author");
-        projectId = helper.createProject(subscriptionManager, author, projectName, type).getId();
+        projectId = helper.createProject(author, projectName, type).getId();
         member = helper.createUser("member");
         member2 = helper.createUser("member2");
         nonMember = helper.createUser("other");
@@ -141,8 +139,11 @@ public abstract class AbstractProjectTests extends TestsBase {
 
     public interface ProjectManipulator {
         void modify(UserProfile user);
+
         void reset(UserProfile user);
+
         void testModified();
+
         void testSame();
     }
 

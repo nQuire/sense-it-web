@@ -30,11 +30,11 @@ public abstract class TestsBase {
     }
 
     public ProjectActions projectActions(Long projectId, UserProfile user) {
-        return new ProjectActions(projectId, subscriptionManager, fileManager, user, true, entityManagerFactory.createEntityManager());
+        return new ProjectActions(context, projectId, user, true);
     }
 
     public AccessLevel accessLevel(Long projectId, UserProfile user) {
-        return subscriptionManager.getAccessLevel(helper.getProject(projectId), user);
+        return context.getSubscriptionManager().getAccessLevel(helper.getProject(projectId), user);
     }
 
 }

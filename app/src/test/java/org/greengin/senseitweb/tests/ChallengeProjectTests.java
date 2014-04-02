@@ -10,7 +10,6 @@ import org.greengin.senseitweb.logic.project.challenge.ChallengeActivityRequest;
 import org.greengin.senseitweb.logic.project.challenge.ChallengeAnswerRequest;
 import org.greengin.senseitweb.logic.project.challenge.NewChallengeAnswerResponse;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -31,7 +30,7 @@ public class ChallengeProjectTests extends AbstractProjectTests {
 
 
     private ChallengeActivityActions challengeActions(UserProfile user) {
-        return new ChallengeActivityActions(projectId, subscriptionManager, fileManager, user, true, entityManagerFactory.createEntityManager());
+        return new ChallengeActivityActions(context, projectId, user, true);
     }
 
     private ChallengeActivity activity() {

@@ -30,10 +30,10 @@ public class UserProjectTests extends TestsBase {
     @Test
     public void testUserCreateProject() {
         UserProfile user = helper.createUser("author");
-        Project project = helper.createProject(subscriptionManager, user);
+        Project project = helper.createProject(user);
         Assert.assertNotNull(project);
 
-        AccessLevel access = subscriptionManager.getAccessLevel(project, user);
+        AccessLevel access = context.getSubscriptionManager().getAccessLevel(project, user);
 
         Assert.assertTrue(access.isAuthor());
         Assert.assertTrue(access.isAdmin());
@@ -43,7 +43,7 @@ public class UserProjectTests extends TestsBase {
     @Test
     public void testOpenProject() {
         UserProfile user = helper.createUser("author");
-        Project project = helper.createProject(subscriptionManager, user);
+        Project project = helper.createProject(user);
         Long projectId = project.getId();
 
         Assert.assertFalse(project.getOpen());
@@ -58,7 +58,7 @@ public class UserProjectTests extends TestsBase {
     @Test
     public void testDeleteProject() {
         UserProfile user = helper.createUser("author");
-        Project project = helper.createProject(subscriptionManager, user);
+        Project project = helper.createProject(user);
         Long projectId = project.getId();
 
         Assert.assertNotNull(helper.getProject(projectId));
@@ -73,7 +73,7 @@ public class UserProjectTests extends TestsBase {
         UserProfile author = helper.createUser("author");
         UserProfile member = helper.createUser("member");
 
-        Long projectId = helper.createProject(subscriptionManager, author).getId();
+        Long projectId = helper.createProject(author).getId();
 
         AccessLevel before = accessLevel(projectId, member);
         Assert.assertFalse(before.isAuthor());
@@ -106,7 +106,7 @@ public class UserProjectTests extends TestsBase {
     @Test
     public void testAuthorModifiesProject() {
         UserProfile user = helper.createUser("author");
-        Long projectId = helper.createProject(subscriptionManager, user).getId();
+        Long projectId = helper.createProject(user).getId();
 
         ProjectRequest request = new ProjectRequest();
         request.setTitle("project2");
@@ -118,7 +118,7 @@ public class UserProjectTests extends TestsBase {
     @Test
     public void testAuthorModifiesAfterOpenProject() {
         UserProfile user = helper.createUser("author");
-        Long projectId = helper.createProject(subscriptionManager, user).getId();
+        Long projectId = helper.createProject(user).getId();
 
         projectActions(projectId, user).setOpen(true);
 
@@ -132,7 +132,7 @@ public class UserProjectTests extends TestsBase {
     @Test
     public void testNotAccessProjectModification() {
         UserProfile author = helper.createUser("author");
-        Long projectId = helper.createProject(subscriptionManager, author).getId();
+        Long projectId = helper.createProject(author).getId();
         UserProfile other = helper.createUser("other");
 
         ProjectRequest request = new ProjectRequest();

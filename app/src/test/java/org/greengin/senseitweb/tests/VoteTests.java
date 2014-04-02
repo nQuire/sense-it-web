@@ -4,7 +4,6 @@ import junit.framework.Assert;
 import org.greengin.senseitweb.entities.projects.ProjectType;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.entities.rating.VotableEntity;
-import org.greengin.senseitweb.logic.voting.VoteManagerBean;
 import org.greengin.senseitweb.logic.voting.VoteCount;
 import org.greengin.senseitweb.logic.voting.VoteRequest;
 import org.junit.Before;
@@ -23,12 +22,6 @@ public class VoteTests extends TestsBase {
     VotableEntity votable;
     UserProfile user1;
     UserProfile user2;
-    VoteManagerBean voteActions;
-
-
-    protected VoteManagerBean voter(UserProfile user) {
-        return new VoteManagerBean(entityManagerFactory.createEntityManager(), user, votable);
-    }
 
     protected VoteCount count(UserProfile user) {
         votable.setSelectedVoteAuthor(user);
@@ -38,7 +31,7 @@ public class VoteTests extends TestsBase {
     protected void vote(UserProfile user, Long value) {
         VoteRequest request = new VoteRequest();
         request.setValue(value);
-        voter(user).vote(request);
+        context.getVoteManager().vote(user, votable, request);
     }
 
     protected void test(UserProfile user, int positive, int negative) {
@@ -68,7 +61,7 @@ public class VoteTests extends TestsBase {
     public void before() {
         super.before();
         UserProfile author = helper.createUser("author");
-        votable = helper.createProject(subscriptionManager, author, "project", ProjectType.CHALLENGE);
+        votable = helper.createProject(author, "project", ProjectType.CHALLENGE);
         user1 = helper.createUser("user1");
         user2 = helper.createUser("user2");
 
