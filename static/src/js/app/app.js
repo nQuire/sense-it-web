@@ -32,6 +32,10 @@ angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'senseItServices'], nul
                 url: '',
                 templateUrl: 'partials/project-view-home.html'
             })
+            .state('project-view.comments', {
+                url: '/comments',
+                templateUrl: 'partials/project-view-comments.html'
+            })
             .state('project-view.data-list', {
                 url: '/data',
                 templateUrl: 'partials/project-view-data-table.html'

@@ -31,8 +31,6 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
                 RestService.setToken(data.token);
             }
 
-            RestService.get('api/senseit/profiles');
-
             if (notify) {
                 service._fireLoginEvent(logged);
             }

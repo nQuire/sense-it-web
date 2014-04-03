@@ -1,9 +1,7 @@
 
 
 
-angular.module('senseItWeb', null, null).controller('CreateCtrl', function ($scope, $state, ProjectService, OpenIdService) {
-    OpenIdService.registerWatcher($scope);
-
+angular.module('senseItWeb', null, null).controller('CreateCtrl', function ($scope, $state, ProjectService) {
     $scope.iunderstand = false;
 
     $scope.form = {

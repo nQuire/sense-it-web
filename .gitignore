@@ -3,3 +3,5 @@ app/src/main/webapp/files*
 app/target
 app/.idea
 static/.idea
+static/node_modules
+

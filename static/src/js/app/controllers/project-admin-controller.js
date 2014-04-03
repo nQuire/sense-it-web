@@ -1,8 +1,7 @@
 
 
 
-angular.module('senseItWeb', null, null).controller('ProjectAdminCtrl', function ($scope, $state, ProjectService, OpenIdService) {
-    OpenIdService.registerWatcher($scope);
+angular.module('senseItWeb', null, null).controller('ProjectAdminCtrl', function ($scope, $state, ProjectService) {
     ProjectService.registerGet($scope, $state.params['projectId']);
 
 

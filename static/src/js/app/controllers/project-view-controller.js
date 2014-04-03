@@ -1,5 +1,4 @@
-angular.module('senseItWeb', null, null).controller('ProjectViewCtrl', function ($scope, $state, ProjectService, OpenIdService) {
-    OpenIdService.registerWatcher($scope);
+angular.module('senseItWeb', null, null).controller('ProjectViewCtrl', function ($scope, $state, ProjectService) {
     ProjectService.registerGet($scope, $state.params['projectId']);
 
 
@@ -28,6 +27,11 @@ angular.module('senseItWeb', null, null).controller('ProjectViewCtrl', function 
                 return 'partials/project-view-challenge.html';
         }
         return null;
+    };
+
+    $scope.commentThread = {
+        type: 'project',
+        id: $state.params['projectId']
     };
 
 });

@@ -29,6 +29,9 @@
     <script src="js/libs/angular.js"></script>
     <script src="js/libs/angular-sanitize.js"></script>
     <script src="js/libs/angular-ui-router.js"></script>
+
+    <script src="../test/lib/angular/angular-mocks.js"></script>
+
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
     <script src="js/libs/oms.min.js"></script>
 
@@ -45,6 +48,8 @@
     <script src="js/helpers/maprenderer.js"></script>
 
     <script src="js/app/app.js"></script>
+
+    <script src="js/app/app-backend.js"></script>
 
     <script src="js/app/directives/side-menu-button.js"></script>
     <script src="js/app/directives/side-menu.js"></script>
@@ -104,7 +109,7 @@
     <script src="js/app/controllers/project-view-senseit-test-upload-controller.js"></script>
 
 </head>
-<body data-ng-app="senseItWeb">
+<body data-ng-app="httpBackendMock">
 
 <div id="layout" data-ng-controller="MainCtrl">
 

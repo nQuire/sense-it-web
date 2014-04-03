@@ -1,5 +1,4 @@
-angular.module('senseItWeb', null, null).controller('ProjectEditCtrl', function ($scope, $state, ProjectService, OpenIdService) {
-    OpenIdService.registerWatcher($scope);
+angular.module('senseItWeb', null, null).controller('ProjectEditCtrl', function ($scope, $state, ProjectService) {
     ProjectService.registerGet($scope, $state.params['projectId']);
 
     $scope.deleteProject = function () {
