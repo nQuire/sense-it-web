@@ -3,6 +3,7 @@ package org.greengin.senseitweb.tests.helpers;
 import org.greengin.senseitweb.entities.AbstractEntity;
 import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.entities.projects.ProjectType;
+import org.greengin.senseitweb.entities.users.OpenIdEntity;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.logic.ContextBean;
 import org.greengin.senseitweb.logic.project.ProjectCreationRequest;
@@ -52,11 +53,14 @@ public class DbHelper {
     }
 
     public UserProfile createUser(String name) {
-        UserProfile user = new UserProfile();
-        user.setName(name);
 
         EntityManager em = context.createEntityManager();
         em.getTransaction().begin();
+        UserProfile user = new UserProfile();
+        user.setName(name);
+        OpenIdEntity openId = new OpenIdEntity();
+        openId.setOpenId(name);
+        user.getOpenIds().add(openId);
         em.persist(user);
         em.getTransaction().commit();
 

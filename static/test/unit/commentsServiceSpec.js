@@ -23,7 +23,9 @@ describe('Comments Service tests', function () {
                     "token": token
                 });
 
-            httpMock.whenGET("api/project/1000/comments").respond([{id: 1001, author: 'evilfer', comment: 'x'}]);
+            httpMock.whenGET("api/project/1000/comments").respond([{id: 1001, user: {id: 1, name: 'evilfer'}, comment: 'x'}]);
+            httpMock.whenDELETE("api/project/1000/comments/1001").respond([]);
+            httpMock.whenPOST("api/project/1000/comments").respond([{id: 1001, user: {id: 1, name: 'evilfer'}, comment: 'x'}, {id: 1002, user: {id: 1, name: 'evilfer'}, comment: 'x'}]);
 
             timeout = $timeout;
         });
@@ -78,6 +80,42 @@ describe('Comments Service tests', function () {
         timeout.flush();
 
         expect(scope.comments.list.length).toBe(1);
+    });
+
+    it('should delete comment', function() {
+        httpMock.expectGET("api/project/1000/comments");
+        commentService.get('project', 1000, scope, scope._update);
+
+        httpMock.flush();
+        timeout.flush();
+
+        expect(scope.comments.list.length).toBe(1);
+
+        httpMock.expectDELETE("api/project/1000/comments/1001");
+        scope.comments.deleteComment(1001);
+
+        httpMock.flush();
+        timeout.flush();
+
+        expect(scope.comments.list.length).toBe(0);
+    });
+
+    it('should post comment', function() {
+        httpMock.expectGET("api/project/1000/comments");
+        commentService.get('project', 1000, scope, scope._update);
+
+        httpMock.flush();
+        timeout.flush();
+
+        expect(scope.comments.list.length).toBe(1);
+
+        httpMock.expectPOST("api/project/1000/comments", '{"comment":"x"}');
+        scope.comments.post('x');
+
+        httpMock.flush();
+        timeout.flush();
+
+        expect(scope.comments.list.length).toBe(2);
     });
 
 });

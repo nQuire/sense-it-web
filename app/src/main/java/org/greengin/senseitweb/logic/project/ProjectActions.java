@@ -179,6 +179,14 @@ public class ProjectActions extends AbstractContentManager {
      * comment actions
      */
 
+    public List<Comment> getComments() {
+        if (hasAccess(PermissionType.PROJECT_COMMENT)) {
+            return project.getComments();
+        }
+
+        return null;
+    }
+
 
     public List<Comment> comment(CommentRequest request) {
         if (hasAccess(PermissionType.PROJECT_COMMENT)) {

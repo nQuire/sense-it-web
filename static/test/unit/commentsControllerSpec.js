@@ -35,8 +35,8 @@ describe('Comments Controller tests', function () {
         timeout.flush();
 
         httpMock.expectGET("api/project/1000/comments").respond([
-            {id: 1001, author: {id: 1, name: 'me', comment: 'c1'}},
-            {id: 1002, author: {id: 2, name: 'other', comment: 'c2'}}
+            {id: 1001, user: {id: 1, name: 'me', comment: 'c1'}},
+            {id: 1002, user: {id: 2, name: 'other', comment: 'c2'}}
         ]);
 
         scope = parentScope.$new();
@@ -71,13 +71,13 @@ describe('Comments Controller tests', function () {
     });
 
     it('should post comment', function() {
-        httpMock.expectPOST("api/project/1000/comments/post").respond([
-            {id: 1001, author: {id: 1, name: 'me', comment: 'c1'}},
-            {id: 1002, author: {id: 2, name: 'other', comment: 'c2'}},
-            {id: 1003, author: {id: 1, name: 'me', comment: 'c3'}}
+        httpMock.expectPOST("api/project/1000/comments", '{"comment":"c3"}').respond([
+            {id: 1001, user: {id: 1, name: 'me', comment: 'c1'}},
+            {id: 1002, user: {id: 2, name: 'other', comment: 'c2'}},
+            {id: 1003, user: {id: 1, name: 'me', comment: 'c3'}}
         ]);
 
-        scope.postComment('c3');
+        scope.posting.postComment('c3');
 
         httpMock.flush();
         timeout.flush();
@@ -86,5 +86,60 @@ describe('Comments Controller tests', function () {
         expect(scope.commentById(1003)).toBeDefined();
         expect(scope.canDelete(1003)).toBe(true);
     });
+
+
+    it('should open form', function() {
+        expect(scope.posting.isOpen).toBe(false);
+        scope.posting.open();
+        expect(scope.posting.isOpen).toBe(true);
+        scope.posting.cancel();
+        expect(scope.posting.isOpen).toBe(false);
+    });
+
+    it('should not submit comment', function() {
+        expect(scope.posting.isOpen).toBe(false);
+        scope.posting.comment = 'c3';
+        scope.posting.submit();
+    });
+
+
+
+    it('should submit non-empty comment', function() {
+        httpMock.expectPOST("api/project/1000/comments", '{"comment":"c3"}').respond([
+            {id: 1001, user: {id: 1, name: 'me', comment: 'c1'}},
+            {id: 1002, user: {id: 2, name: 'other', comment: 'c2'}},
+            {id: 1003, user: {id: 1, name: 'me', comment: 'c3'}}
+        ]);
+
+        scope.posting.open();
+        scope.posting.comment = 'c3';
+        scope.posting.submit();
+
+
+        httpMock.flush();
+        timeout.flush();
+
+        expect(scope.posting.isOpen).toBe(false);
+        scope.posting.open();
+        expect(scope.posting.comment).toBe("");
+        scope.posting.submit();
+        expect(scope.posting.isOpen).toBe(true);
+    });
+
+    it('should delete comment', function() {
+        expect(scope.comments.list.length).toBe(2);
+
+        httpMock.expectDELETE("api/project/1000/comments/1001").respond([
+            {id: 1002, author: {id: 2, name: 'other', comment: 'c2'}}
+        ]);
+
+        scope.posting.deleteComment(1001);
+
+        httpMock.flush();
+        timeout.flush();
+
+        expect(scope.comments.list.length).toBe(1);
+    });
+
 });
 

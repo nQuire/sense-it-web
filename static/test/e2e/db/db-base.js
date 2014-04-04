@@ -29,15 +29,28 @@ exports.module = function () {
                 };
 
                 var project101comments = [
-                    {id: 1001, author: {id: 1, name: '1'}, comment: 'c1'},
-                    {id: 1002, author: {id: 2, name: '2'}, comment: 'c2'}
+                    {id: 1001, user: {id: 1, name: '1'}, comment: 'c1'},
+                    {id: 1002, user: {id: 2, name: '2'}, comment: 'c2'}
                 ];
+
+                var project101commentsAfterPost = [
+                    {id: 1001, user: {id: 1, name: '1'}, comment: 'c1'},
+                    {id: 1002, user: {id: 2, name: '2'}, comment: 'c2'},
+                    {id: 1003, user: {id: 1, name: '1'}, comment: 'c3'}
+                ];
+
+                var project101commentsAfterDelete = [
+                    {id: 1001, user: {id: 1, name: '1'}, comment: 'c1'}
+                ];
+
 
                 return {
                     'api/openid/profile': status,
                     'api/projects': projects,
                     'api/project/101': project101,
-                    'api/project/101/comments': project101comments
+                    'api/project/101/comments': project101comments,
+                    'POST api/project/101/comments': project101commentsAfterPost,
+                    'DELETE api/project/101/comments/1002': project101commentsAfterDelete
                 };
             }
         };

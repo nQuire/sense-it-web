@@ -18,11 +18,17 @@ angular.module('senseItServices', null, null).factory('CommentService', ['RestSe
 
     CommentManager.prototype.post = function (comment) {
         var self = this;
-        return RestService.post(this.path + '/post', {comment: comment}).then(function (data) {
+        return RestService.post(this.path, {comment: comment}).then(function (data) {
             self.list = data;
         });
     };
 
+    CommentManager.prototype.deleteComment = function (commentId) {
+        var self = this;
+        return RestService.delete(this.path + '/' + commentId).then(function (data) {
+            self.list = data;
+        });
+    };
 
     return {
         get: function (type, threadId, scope, updateCallback) {

@@ -1,8 +1,8 @@
 package org.greengin.senseitweb.tests;
 
+import com.jayway.jsonpath.JsonPath;
 import org.greengin.senseitweb.entities.projects.ProjectType;
 import org.greengin.senseitweb.entities.rating.Comment;
-import org.greengin.senseitweb.entities.rating.CommentThreadEntity;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.logic.project.ProjectActions;
 import org.greengin.senseitweb.logic.rating.CommentRequest;
@@ -12,17 +12,23 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("file:src/main/webapp/WEB-INF/mvc-dispatcher-servlet-tests.xml")
 public class CommentTests extends TestsBase {
+
 
     Long threadId;
     UserProfile author;
@@ -41,9 +47,11 @@ public class CommentTests extends TestsBase {
         return actions(user).comment(request);
     }
 
-    private List<Comment> commentDeleteAction(UserProfile user, int index) {
-        return actions(user).deleteComment(helper.getProject(threadId).getComments().get(index).getId());
+    private List<Comment> deleteAction(UserProfile user, int index) {
+        Comment c = helper.getProject(threadId).getComments().get(index);
+        return actions(user).deleteComment(c.getId());
     }
+
 
     private void testCount(int count) {
         assertEquals(count, helper.getProject(threadId).getComments().size());
@@ -136,36 +144,116 @@ public class CommentTests extends TestsBase {
         testExists(c2, false);
     }
 
+    private void testGetAction(int count, boolean open) {
+        List<Comment> list = actions(author).getComments();
+        assertNotNull(list);
+        assertEquals(count, list.size());
+
+
+        list = actions(user1).getComments();
+        if (open) {
+            assertNotNull(list);
+            assertEquals(count, list.size());
+        } else {
+            assertNull(list);
+        }
+
+        list = actions(user3).getComments();
+        assertNull(list);
+    }
+
     @Test
     public void testCommentActions() {
         assertEquals(0, helper.getProject(threadId).getComments().size());
 
         commentAction(user1, "bad");
         testCount(0);
+        testGetAction(0, false);
+
 
         commentAction(author, "a1");
         testCount(1);
         testIs(0, author, "a1");
+        testGetAction(1, false);
 
         commentAction(user2, "bad");
         testCount(1);
+        testGetAction(1, false);
 
         commentAction(user3, "bad");
         testCount(1);
+        testGetAction(1, false);
 
         actions(author).setOpen(true);
+
+        testGetAction(1, true);
 
         commentAction(user1, "11");
         commentAction(user1, "12");
         commentAction(user2, "21");
         testCount(4);
+        testGetAction(4, true);
 
         commentAction(user3, "bad");
         testCount(4);
+        testGetAction(4, true);
 
         testIs(1, user1, "11");
         testIs(2, user1, "12");
         testIs(3, user2, "21");
+
+        deleteAction(user3, 1);
+        testCount(4);
+        deleteAction(user2, 1);
+        testCount(4);
+        deleteAction(user1, 1);
+        testCount(3);
+        testIs(1, user1, "12");
+        testIs(2, user2, "21");
+
+    }
+
+    @Test
+    public void testCommentController() throws Exception {
+        MockMvc mockMvc = mcv();
+
+        testCount(0);
+        testGetAction(0, false);
+
+        actions(author).setOpen(true);
+
+        testGetAction(0, true);
+
+        String basePath = "/api/project/" + threadId + "/comments";
+
+        mockMvc.perform(loginGet(basePath, author, true)).andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$", hasSize(0)));
+
+        CommentRequest request = new CommentRequest();
+        request.setComment("c1");
+
+        MvcResult result = mockMvc.perform(loginPost(basePath, request, user1, true))
+                .andDo(print()).andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].comment", is("c1")))
+                .andReturn();
+
+        int id = JsonPath.read(result.getResponse().getContentAsString(), "$[0].id");
+
+        mockMvc.perform(loginDelete(basePath + "/" + id, user2, true))
+                .andExpect(status().isOk())
+                .andExpect(content().string("null"));
+
+        testCount(1);
+
+        mockMvc.perform(loginDelete(basePath + "/" + id, user1, true))
+                .andDo(print()).andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$", hasSize(0)));
+
+        testCount(0);
     }
 
 }

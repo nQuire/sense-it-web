@@ -15,4 +15,6 @@
     </div>
 </div>
 
-<div data-ng-include="'partials/comments.html'"></div>
+<div data-ng-if="status.logged && (access.admin || (access.member && project.open))">
+    <div data-ng-include="'partials/comments.html'"></div>
+</div>

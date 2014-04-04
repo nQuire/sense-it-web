@@ -2,6 +2,7 @@ package org.greengin.senseitweb.controllers.projects;
 
 import com.mangofactory.jsonview.ResponseView;
 import org.greengin.senseitweb.entities.projects.Project;
+import org.greengin.senseitweb.entities.rating.Comment;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.json.JacksonObjectMapper;
 import org.greengin.senseitweb.json.Views;
@@ -11,6 +12,7 @@ import org.greengin.senseitweb.logic.project.ProjectActions;
 import org.greengin.senseitweb.logic.project.ProjectRequest;
 import org.greengin.senseitweb.logic.project.ProjectResponse;
 import org.greengin.senseitweb.logic.project.senseit.FileMapUpload;
+import org.greengin.senseitweb.logic.rating.CommentRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +24,7 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -125,6 +128,28 @@ public class ProjectController {
     @ResponseView(value = Views.User.class)
     public Collection<UserProfile> users(@PathVariable("projectId") Long projectId, HttpServletRequest request) {
         return createProjectManager(projectId, request).getUsers();
+    }
+
+
+    @RequestMapping(value = "/comments", method = RequestMethod.GET)
+    @ResponseBody
+    @ResponseView(value = Views.User.class)
+    public List<Comment> comments(@PathVariable("projectId") Long projectId, HttpServletRequest request) {
+        return createProjectManager(projectId, request).getComments();
+    }
+
+    @RequestMapping(value = "/comments", method = RequestMethod.POST)
+    @ResponseBody
+    @ResponseView(value = Views.User.class)
+    public List<Comment> commentsPost(@PathVariable("projectId") Long projectId, @RequestBody CommentRequest data, HttpServletRequest request) {
+        return createProjectManager(projectId, request).comment(data);
+    }
+
+    @RequestMapping(value = "/comments/{commentId}", method = RequestMethod.DELETE)
+    @ResponseBody
+    @ResponseView(value = Views.User.class)
+    public List<Comment> commentsDelete(@PathVariable("projectId") Long projectId, @PathVariable("commentId") Long commentId, HttpServletRequest request) {
+        return createProjectManager(projectId, request).deleteComment(commentId);
     }
 
 }

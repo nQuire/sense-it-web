@@ -5,6 +5,8 @@ import lombok.Setter;
 import org.greengin.senseitweb.entities.rating.Comment;
 import org.greengin.senseitweb.entities.rating.Vote;
 
+import java.util.Date;
+
 public class CommentRequest {
 
     @Getter
@@ -12,6 +14,7 @@ public class CommentRequest {
     String comment;
 
     public void update(Comment comment) {
+        comment.setDate(new Date());
         comment.setComment(this.comment);
     }
 }

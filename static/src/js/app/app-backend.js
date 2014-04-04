@@ -13,7 +13,14 @@ angular.module('senseItWebDev', ['senseItWeb', 'ngMockE2E', 'e2eDB']).run(functi
 
     for (var request in e2eDbRequests.requests) {
         if (e2eDbRequests.requests.hasOwnProperty(request)) {
-            $httpBackend.whenGET(request).respond(e2eDbRequests.requests[request]);
+            var parts = request.split(" ");
+            if (parts.length == 2 && parts[0] === 'POST') {
+                $httpBackend.whenPOST(parts[1]).respond(e2eDbRequests.requests[request]);
+            } else if (parts.length == 2 && parts[0] === 'DELETE') {
+                $httpBackend.whenDELETE(parts[1]).respond(e2eDbRequests.requests[request]);
+            } else {
+                $httpBackend.whenGET(request).respond(e2eDbRequests.requests[request]);
+            }
         }
     }
 });

@@ -11,6 +11,7 @@ import org.greengin.senseitweb.entities.activities.senseit.SenseItSeries;
 import org.greengin.senseitweb.entities.activities.senseit.SensorInput;
 import org.greengin.senseitweb.entities.data.AbstractDataProjectItem;
 import org.greengin.senseitweb.entities.projects.Project;
+import org.greengin.senseitweb.entities.rating.Comment;
 import org.greengin.senseitweb.entities.users.OpenIdEntity;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.entities.rating.VotableEntity;
@@ -37,6 +38,7 @@ public class JacksonObjectMapper extends ObjectMapper {
 
         addMixIn(VotableEntity.class, VotableEntityMixIn.class);
         addMixIn(Vote.class, VoteMixIn.class);
+        addMixIn(Comment.class, CommentMixIn.class);
 
         addMixIn(AbstractDataProjectItem.class, AbstractDataProjectItemMixIn.class);
 
