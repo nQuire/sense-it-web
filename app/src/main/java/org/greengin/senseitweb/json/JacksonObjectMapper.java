@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.greengin.senseitweb.entities.activities.challenge.ChallengeActivity;
 import org.greengin.senseitweb.entities.activities.challenge.ChallengeAnswer;
+import org.greengin.senseitweb.entities.activities.challenge.ChallengeOutcome;
 import org.greengin.senseitweb.entities.activities.senseit.SenseItAnalysis;
 import org.greengin.senseitweb.entities.activities.senseit.SenseItSeries;
 import org.greengin.senseitweb.entities.activities.senseit.SensorInput;
@@ -35,6 +36,7 @@ public class JacksonObjectMapper extends ObjectMapper {
         addMixIn(Project.class, ProjectMixIn.class);
         addMixIn(ChallengeActivity.class, ChallengeActivityMixIn.class);
         addMixIn(ChallengeAnswer.class, ChallengeAnswerMixIn.class);
+        addMixIn(ChallengeOutcome.class, ChallengeOutcomeMixIn.class);
 
         addMixIn(VotableEntity.class, VotableEntityMixIn.class);
         addMixIn(Vote.class, VoteMixIn.class);

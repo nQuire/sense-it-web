@@ -1,10 +1,11 @@
-package org.greengin.senseitweb.tests;
+package org.greengin.senseitweb.tests.projects;
 
 
 import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.logic.permissions.AccessLevel;
 import org.greengin.senseitweb.logic.project.ProjectRequest;
+import org.greengin.senseitweb.tests.TestsBase;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

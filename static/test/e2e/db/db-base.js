@@ -23,10 +23,33 @@ exports.module = function () {
                     }
                 ];
 
+                var initialAccess = id ? {member: member, admin: admin, author: admin} : {member: false, admin: false, author: false};
+                var accessAfterJoin = id ? {member: true, admin: admin, author: admin} : {member: false, admin: false, author: false};
+                var accessAfterLeave = id ? {member: false, admin: admin, author: admin} : {member: false, admin: false, author: false};
+
                 var project101 = {
                     project: projects[0],
-                    access: id ? {member: member, admin: admin, author: admin} : {member: false, admin: false, author: false}
+                    access: initialAccess
                 };
+
+
+
+                var project101afterOpen = {
+                    id: 101,
+                    title: 'p101',
+                    type: 'challenge',
+                    activity: {},
+                    open: true
+                };
+
+                var project101afterClose = {
+                    id: 101,
+                    title: 'p101',
+                    type: 'challenge',
+                    activity: {},
+                    open: false
+                };
+
 
                 var project101comments = [
                     {id: 1001, user: {id: 1, name: '1'}, comment: 'c1'},
@@ -48,9 +71,13 @@ exports.module = function () {
                     'api/openid/profile': status,
                     'api/projects': projects,
                     'api/project/101': project101,
+                    'PUT api/project/101/admin/open': project101afterOpen,
+                    'PUT api/project/101/admin/close': project101afterClose,
                     'api/project/101/comments': project101comments,
                     'POST api/project/101/comments': project101commentsAfterPost,
-                    'DELETE api/project/101/comments/1002': project101commentsAfterDelete
+                    'DELETE api/project/101/comments/1002': project101commentsAfterDelete,
+                    'POST api/project/101/join': accessAfterJoin,
+                    'POST api/project/101/leave': accessAfterLeave
                 };
             }
         };

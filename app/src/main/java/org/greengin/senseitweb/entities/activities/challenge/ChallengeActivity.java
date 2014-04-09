@@ -32,7 +32,7 @@ public class ChallengeActivity extends AbstractActivity {
     @Setter
     ChallengeActivityStage stage = ChallengeActivityStage.PROPOSAL;
 
-    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL)
     @Getter
     @Setter
     ChallengeOutcome outcome = new ChallengeOutcome();

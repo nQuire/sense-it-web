@@ -15,11 +15,11 @@ public abstract class AbstractProjectTests extends TestsBase {
     String projectName;
     ProjectType type;
 
-    UserProfile author;
-    UserProfile member;
-    UserProfile member2;
-    UserProfile nonMember;
-    Long projectId;
+    protected UserProfile author;
+    protected UserProfile member;
+    protected UserProfile member2;
+    protected UserProfile nonMember;
+    protected Long projectId;
 
 
     protected Project project() {

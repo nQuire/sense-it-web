@@ -3,14 +3,24 @@
 <div data-ng-if="status.logged">
     <div data-ng-if="project.open">
 
-        <div data-ng-if="!access.member">
-            <button class="pure-button pure-button-primary" data-ng-click="joinProject()">Join project</button>
+        <p>{{project.description.teaser}}</p>
+
+        <img data-ng-if="project.description.image" data-ng-src="{{'files/image/' + project.description.image}}"
+             style="max-height: 200px; max-width: 200px;"/>
+
+        <div data-ng-if="project.description.html">
+            <p data-ng-bind-html="project.description.description"></p>
         </div>
-        <div data-ng-if="access.member">
-            <button class="pure-button pure-button-primary" data-ng-click="leaveProject()">Leave project
-            </button>
+        <div data-ng-if="!project.description.html">
+            <p style="white-space: pre;">{{project.description.description}}</p>
         </div>
+
+        <p >
+            <button data-ng-if="!access.member" class="pure-button pure-button-primary" data-ng-click="joinProject()">Join project</button>
+            <button data-ng-if="access.member" class="pure-button pure-button-primary" data-ng-click="leaveProject()">Leave project</button>
+        </p>
     </div>
+
     <div data-ng-if="!project.open">
         <p>This project is still being edited by its author.</p>
     </div>

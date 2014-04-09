@@ -164,7 +164,6 @@ describe('Project Comments', function () {
         expectCannotComment('nomember');
     });
 
-
     describe('As author', function () {
         beforeEach(function () {
             var e2eDBModule = require('./db/p101_admin');

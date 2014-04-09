@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
-<div data-ng-if="projectServiceData.ready">
+
+<div data-ng-if="projectServiceData.ready && status.logged && access.admin && !project.open">
     <div class="header">
         <h1>Edit project: {{project.title}}</h1>
     </div>

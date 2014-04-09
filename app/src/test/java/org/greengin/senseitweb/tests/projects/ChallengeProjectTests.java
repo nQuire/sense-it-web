@@ -1,4 +1,4 @@
-package org.greengin.senseitweb.tests;
+package org.greengin.senseitweb.tests.projects;
 
 
 import org.greengin.senseitweb.entities.activities.challenge.ChallengeActivity;
@@ -9,6 +9,7 @@ import org.greengin.senseitweb.logic.project.challenge.ChallengeActivityActions;
 import org.greengin.senseitweb.logic.project.challenge.ChallengeActivityRequest;
 import org.greengin.senseitweb.logic.project.challenge.ChallengeAnswerRequest;
 import org.greengin.senseitweb.logic.project.challenge.NewChallengeAnswerResponse;
+import org.greengin.senseitweb.tests.AbstractProjectTests;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

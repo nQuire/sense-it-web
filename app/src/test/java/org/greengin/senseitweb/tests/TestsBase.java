@@ -42,7 +42,6 @@ public abstract class TestsBase {
 
     @Before
     public void before() {
-
         helper = new DbHelper(context);
         helper.clear();
     }

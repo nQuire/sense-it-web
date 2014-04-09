@@ -233,7 +233,7 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 		if (hasAccess(PermissionType.PROJECT_ADMIN)
 				|| (hasAccess(PermissionType.PROJECT_MEMBER_ACTION) && activity.getStage() == ChallengeActivityStage.OUTCOME)) {
 			return activity.getOutcome();
-		} 
+		}
 		
 		return null;
 	}

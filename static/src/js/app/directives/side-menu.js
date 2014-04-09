@@ -10,9 +10,11 @@ angular.module('senseItWeb', null, null).directive('siwSideMenu', function ($sta
             $scope.projectId = false;
 
             $scope.state = $state;
-            $scope.$watch('state.current', function () {
+            var listener = $scope.$watch('state.current', function () {
                 $scope._updateMenu();
             }, true);
+
+            $scope.$on('$destroy', listener);
 
             $scope.active = function (state) {
                 return $scope.state.current.name.indexOf(state) === 0;
@@ -64,7 +66,12 @@ angular.module('senseItWeb', null, null).directive('siwSideMenu', function ($sta
                     $scope._closeProjectItems();
                     $scope.projectId = projectId;
 
-                    $scope.cancelProjectGet = ProjectService.registerGet($scope, $scope.projectId);
+                    $scope.cancelProjectGet = ProjectService.registerGet($scope, $scope.projectId, function() {
+                        console.log($scope);
+                        if ($scope.project == false) {
+                            $scope._setProject(null);
+                        }
+                    });
                 }
             };
 

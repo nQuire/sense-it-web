@@ -7,25 +7,56 @@
         <fieldset>
             <label for="title">Project title</label>
             <input id="title" type="text" placeholder="Title" data-ng-model="form.values.title">
-        </fieldset>
 
-        <div data-ng-include="'partials/description-editor.html'"></div>
+            <label for="image">Background image:</label>
 
-        <fieldset>
-            <button class="pure-button pure-button-primary pure-button-small"
-                    data-ng-disabled="form.okButtonDisabled()"
-                    data-ng-click="form.save()">
-                Save
-            </button>
-            <button class="pure-button pure-button-primary pure-button-small"
-                    data-ng-disabled="form.resetButtonDisabled()"
-                    data-ng-click="form.cancel()">
-                Cancel
-            </button>
+            <div id="image"
+                 data-siw-file-select-widget
+                 data-ng-attr-original="{{project.description.image}}"
+                 data-ng-attr-filekey="image"></div>
+
+            <label for="teaser">Teaser</label>
+            <input id="teaser" type="text" placeholder="Teaser" data-ng-model="form.values.description.teaser">
+
+            <label for="html">Use HTML format</label>
+            <input id="html" type="checkbox" data-ng-model="form.values.description.html">
+
+            <label for="description">Description</label>
+            <textarea id="description" data-ng-model="form.values.description.description"></textarea>
+
+            <p>
+                <button class="pure-button pure-button-primary pure-button-small"
+                        data-ng-disabled="form.okButtonDisabled()"
+                        data-ng-click="form.save()">
+                    Save
+                </button>
+                <button class="pure-button pure-button-primary pure-button-small"
+                        data-ng-disabled="form.resetButtonDisabled()"
+                        data-ng-click="form.cancel()">
+                    Cancel
+                </button>
+            </p>
         </fieldset>
     </form>
 </div>
 <div data-ng-if="!form.isOpen()">
+    <p>Title: {{project.title}}</p>
+
+    <p>Image: {{project.description.image}}</p>
+
+    <p>Teaser: {{project.description.teaser}}</p>
+
+    <div data-ng-if="project.description.html">
+        <p>Description (HTML):</p>
+
+        <p data-ng-bind-html="project.description.description"></p>
+    </div>
+    <div data-ng-if="!project.description.html">
+        <p>Description (plain text):</p>
+
+        <p style="white-space: pre;">{{project.description.description}}</p>
+    </div>
+
 
     <p>
         <button class="pure-button pure-button-primary pure-button-small" data-ng-click="form.open()">

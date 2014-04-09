@@ -4,7 +4,7 @@ angular.module('senseItWeb', null, null).controller('ProjectEditCtrl', function 
     $scope.deleteProject = function () {
         ProjectService.deleteProject($scope.project.id).then(function (deleted) {
             if (deleted) {
-                $state.go('projects');
+                $state.go('home');
             }
         });
     };

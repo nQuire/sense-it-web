@@ -27,8 +27,8 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
      *
      * @param method
      * @param projectId
-     * @param path
-     * @param data
+     * @param [path=null]
+     * @param [data=null]
      * @param [files=null]
      * @returns {*}
      */
@@ -130,16 +130,6 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
         return service.projectsRequest('post', false, data);
     };
 
-    service.deleteProject = function (projectId) {
-        return service.projectRequest('delete', projectId).then(function(deleted) {
-            if (deleted) {
-                service._projectData[projectId].project = null;
-                service._projectData[projectId].access = null;
-                service._projectData[projectId].ready = true;
-            }
-            return deleted;
-        });
-    };
 
     service._subscriptionAction = function (projectId, action) {
         return service.projectRequest('post', projectId, action).then(function (data) {
@@ -192,6 +182,17 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
             title: project.title,
             description: project.description
         }, files);
+    };
+
+    service.deleteProject = function (projectId) {
+        return service.projectRequest('delete', projectId).then(function(deleted) {
+            if (deleted) {
+                service._projectData[projectId].project = null;
+                service._projectData[projectId].access = null;
+                service._projectData[projectId].ready = true;
+            }
+            return deleted;
+        });
     };
 
     service.openProject = function(projectId) {

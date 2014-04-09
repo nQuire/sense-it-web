@@ -16,6 +16,8 @@ angular.module('senseItWebDev', ['senseItWeb', 'ngMockE2E', 'e2eDB']).run(functi
             var parts = request.split(" ");
             if (parts.length == 2 && parts[0] === 'POST') {
                 $httpBackend.whenPOST(parts[1]).respond(e2eDbRequests.requests[request]);
+            } else if (parts.length == 2 && parts[0] === 'PUT') {
+                $httpBackend.whenPUT(parts[1]).respond(e2eDbRequests.requests[request]);
             } else if (parts.length == 2 && parts[0] === 'DELETE') {
                 $httpBackend.whenDELETE(parts[1]).respond(e2eDbRequests.requests[request]);
             } else {

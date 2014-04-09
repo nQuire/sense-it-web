@@ -1,4 +1,4 @@
-package org.greengin.senseitweb.tests;
+package org.greengin.senseitweb.tests.projects;
 
 
 import org.greengin.senseitweb.controllers.users.ProfileRequest;
@@ -12,6 +12,7 @@ import org.greengin.senseitweb.logic.project.challenge.ChallengeActivityRequest;
 import org.greengin.senseitweb.logic.project.challenge.ChallengeAnswerRequest;
 import org.greengin.senseitweb.logic.project.senseit.SenseItActivityActions;
 import org.greengin.senseitweb.logic.project.senseit.SenseItProfileRequest;
+import org.greengin.senseitweb.tests.TestsBase;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
