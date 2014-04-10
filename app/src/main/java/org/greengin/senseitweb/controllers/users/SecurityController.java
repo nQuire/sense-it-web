@@ -2,7 +2,7 @@ package org.greengin.senseitweb.controllers.users;
 
 import org.greengin.senseitweb.logic.permissions.RegistrationResponse;
 import org.greengin.senseitweb.logic.permissions.Status2Response;
-import org.greengin.senseitweb.logic.permissions.UserServiceBean;
+import org.greengin.senseitweb.logic.social.UserServiceBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,8 +28,8 @@ public class SecurityController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     @ResponseBody
-    public Status2Response checkLogin(HttpServletRequest request, HttpServletResponse response) {
-        return userServiceBean.status(request, response);
+    public Status2Response checkLogin() {
+        return userServiceBean.status();
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)

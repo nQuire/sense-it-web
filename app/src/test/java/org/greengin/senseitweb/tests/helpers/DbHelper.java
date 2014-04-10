@@ -10,9 +10,25 @@ import org.greengin.senseitweb.logic.project.ProjectCreationRequest;
 import org.greengin.senseitweb.logic.project.ProjectListActions;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.List;
 
 public class DbHelper {
+
+    private final String userConnectionTableDrop = "DROP TABLE IF EXISTS UserConnection;";
+    private final String userConnectionTableCreate = "create table UserConnection (userId varchar(255) not null,\n" +
+            "\tproviderId varchar(255) not null,\n" +
+            "\tproviderUserId varchar(255),\n" +
+            "\trank int not null,\n" +
+            "\tdisplayName varchar(255),\n" +
+            "\tprofileUrl varchar(512),\n" +
+            "\timageUrl varchar(512),\n" +
+            "\taccessToken varchar(255) not null,\n" +
+            "\tsecret varchar(255),\n" +
+            "\trefreshToken varchar(255),\n" +
+            "\texpireTime bigint,\n" +
+            "\tprimary key (userId, providerId, providerUserId));";
+    private final String userConnectionTableIndex = "create unique index UserConnectionRank on UserConnection(userId, providerId, rank);";
 
     ContextBean context;
 
@@ -22,6 +38,12 @@ public class DbHelper {
 
     public void clear() {
         EntityManager em = context.createEntityManager();
+
+        em.getTransaction().begin();
+        em.createNativeQuery(userConnectionTableDrop).executeUpdate();
+        em.createNativeQuery(userConnectionTableCreate).executeUpdate();
+        em.createNativeQuery(userConnectionTableIndex).executeUpdate();
+        em.getTransaction().commit();
 
         String[] types = new String[] {"Role", "Project", "AbstractEntity"};
 

@@ -66,7 +66,7 @@ public class OpenIdManagerBean implements InitializingBean {
     @Override
     public void afterPropertiesSet() {
         this.realm = serverBaseURL;
-        this.returnUrl = this.realm + senseItBasePath + "login/response";
+        this.returnUrl = this.realm + senseItBasePath + "/login/response";
         this.random = new SecureRandom();
 
         String serverHost = serverProxyHostName;

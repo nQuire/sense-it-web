@@ -1,14 +1,14 @@
 package org.greengin.senseitweb.entities.users;
 
+import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import org.greengin.senseitweb.entities.AbstractEntity;
 import org.hibernate.annotations.Loader;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Basic;
-import javax.persistence.Entity;
-import javax.persistence.Lob;
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Vector;
@@ -24,8 +24,11 @@ public class UserProfile2 extends AbstractEntity implements UserDetails {
     @Setter
     String password;
 
-    @Lob
-    Collection<? extends GrantedAuthority> authorities = new Vector<GrantedAuthority>();
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
+    @Getter
+    @Setter
+    @NonNull
+    Collection<UserGrantedAuthority> authorities = new Vector<UserGrantedAuthority>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -61,4 +64,14 @@ public class UserProfile2 extends AbstractEntity implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
+    public void addAuthority(@NonNull String providerUserId) {
+        UserGrantedAuthority authority = new UserGrantedAuthority();
+        authority.setAuthority(providerUserId);
+        if (!authorities.contains(authority)) {
+            authorities.add(authority);
+        }
+    }
+
 }

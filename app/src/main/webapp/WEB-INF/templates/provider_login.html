@@ -11,8 +11,7 @@
 
     <form name="facebook-form-redirection" th:action="${signin_url}" method="POST">
 		<button type="submit">Sign in with <span th:text="${provider}"></span></button>
-		<input type="hidden" name="scope"
-			value="email,user_likes,friends_likes,publish_stream" />
+		<input type="hidden" name="scope" th:value="${scopes}" />
 	</form>
 	
 </body>

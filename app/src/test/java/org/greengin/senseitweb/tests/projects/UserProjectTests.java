@@ -17,7 +17,7 @@ import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration("file:src/main/webapp/WEB-INF/mvc-dispatcher-servlet-tests.xml")
+@ContextConfiguration("file:src/main/webapp/WEB-INF/applicationContext-tests.xml")
 public class UserProjectTests extends TestsBase {
 
 
