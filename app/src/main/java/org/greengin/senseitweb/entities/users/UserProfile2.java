@@ -2,12 +2,16 @@ package org.greengin.senseitweb.entities.users;
 
 import lombok.Setter;
 import org.greengin.senseitweb.entities.AbstractEntity;
+import org.hibernate.annotations.Loader;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.Vector;
 
 @Entity
 public class UserProfile2 extends AbstractEntity implements UserDetails {
@@ -20,10 +24,12 @@ public class UserProfile2 extends AbstractEntity implements UserDetails {
     @Setter
     String password;
 
+    @Lob
+    Collection<? extends GrantedAuthority> authorities = new Vector<GrantedAuthority>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return authorities;
     }
 
     @Override

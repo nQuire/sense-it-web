@@ -64,6 +64,7 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
 
         return result;
     }
+
     public Status2Response status(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return createResponse(auth);
@@ -77,7 +78,7 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
             SecurityContextHolder.getContext().setAuthentication(auth);
             securityContextRepository.saveContext(SecurityContextHolder.getContext(), request, response);
             rememberMeServices.loginSuccess(request, response, auth);
-            
+
         } catch (BadCredentialsException ex) {
             auth = null;
         }
@@ -85,7 +86,25 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
         return createResponse(auth);
     }
 
-    public RegistrationResponse createUser(String username, String password, HttpServletRequest request, HttpServletResponse response) {
+    public boolean createUser(String username) {
+        try {
+            loadUserByUsername(username);
+            return false;
+        } catch (UsernameNotFoundException e) {
+            UserProfile2 user = new UserProfile2();
+            user.setUsername(username);
+            user.setPassword(null);
+
+            EntityManager em = customEntityManagerFactory.createEntityManager();
+            em.getTransaction().begin();
+            em.persist(user);
+            em.getTransaction().commit();
+
+            return true;
+        }
+    }
+
+    public RegistrationResponse registerUser(String username, String password, HttpServletRequest request, HttpServletResponse response) {
         RegistrationResponse result = new RegistrationResponse();
         try {
             loadUserByUsername(username);

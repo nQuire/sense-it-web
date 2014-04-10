@@ -5,7 +5,7 @@
             http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="/WEB-INF/nquireit.properties"/>
+        <property name="location" value="/WEB-INF/nquireit-tests.properties"/>
     </bean>
 
     <import resource="nquireit.xml"/>

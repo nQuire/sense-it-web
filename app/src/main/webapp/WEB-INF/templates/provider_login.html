@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Home</title>
+</head>
+<body>
+<h1>
+	Welcome!  
+</h1>
+
+    <form name="facebook-form-redirection" th:action="${signin_url}" method="POST">
+		<button type="submit">Sign in with <span th:text="${provider}"></span></button>
+		<input type="hidden" name="scope"
+			value="email,user_likes,friends_likes,publish_stream" />
+	</form>
+	
+</body>
+</html>

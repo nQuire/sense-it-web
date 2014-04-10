@@ -1,5 +1,5 @@
-app/src/main/webapp/WEB-INF/database.xml
-app/src/main/webapp/WEB-INF/security.xml
+app/src/main/webapp/WEB-INF/nquireit.properties
+app/src/main/webapp/WEB-INF/nquireit-tests.properties
 app/src/main/webapp/files*
 app/target
 app/.idea

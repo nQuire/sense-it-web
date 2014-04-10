@@ -41,6 +41,6 @@ public class SecurityController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
     public RegistrationResponse performRegister(@RequestParam("j_username") String username, @RequestParam("j_password") String password, HttpServletRequest request, HttpServletResponse response) {
-        return userServiceBean.createUser(username, password, request, response);
+        return userServiceBean.registerUser(username, password, request, response);
     }
 }

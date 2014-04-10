@@ -1,8 +1,10 @@
 <beans xmlns:sec="http://www.springframework.org/schema/security"
        xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-             http://www.springframework.org/schema/security	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+             http://www.springframework.org/schema/security	http://www.springframework.org/schema/security/spring-security-3.2.xsd
+             http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
 
 
 
@@ -29,6 +31,25 @@
         <sec:authentication-provider user-service-ref="userService"/>
     </sec:authentication-manager>
 
+
+    <bean id="textEncryptor" class="org.springframework.security.crypto.encrypt.Encryptors" factory-method="noOpText" />
+
+    <bean name="socialSignInAdapter" class="org.greengin.senseitweb.logic.social.SocialSignInAdapter"/>
+
+    <bean name="accountConnectionSignUp" class="org.greengin.senseitweb.logic.social.AccountConnectionSignUp"/>
+
+    <bean id="usersConnectionRepository" class="org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository">
+        <constructor-arg ref="dataSource" />
+        <constructor-arg ref="connectionFactoryLocator" />
+        <constructor-arg ref="textEncryptor" />
+        <property name="connectionSignUp" ref="accountConnectionSignUp" />
+    </bean>
+
+    <bean id="connectionRepository" factory-method="createConnectionRepository" factory-bean="usersConnectionRepository" scope="request">
+        <constructor-arg value="#{request.userPrincipal.name}" />
+        <aop:scoped-proxy proxy-target-class="false" />
+    </bean>
+
     <bean id="connectionFactoryLocator" class="org.springframework.social.connect.support.ConnectionFactoryRegistry">
         <property name="connectionFactories">
             <list>
@@ -38,6 +59,15 @@
                 </bean>
             </list>
         </property>
+    </bean>
+
+    <bean id="facebook" factory-bean="connectionRepository" factory-method="findPrimaryConnection" scope="request">
+        <constructor-arg value="org.springframework.social.facebook.api.Facebook" />
+        <aop:scoped-proxy proxy-target-class="false" />
+    </bean>
+
+    <bean class="org.springframework.social.connect.web.ProviderSignInController">
+        <property name="signInUrl" value="/social/facebook/login" />
     </bean>
 
 </beans>
