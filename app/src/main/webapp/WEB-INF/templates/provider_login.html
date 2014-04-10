@@ -2,17 +2,18 @@
 
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<title>Home</title>
+    <title>Home</title>
 </head>
 <body>
 <h1>
-	Welcome!  
+    Welcome!
 </h1>
 
-    <form name="facebook-form-redirection" th:action="${signin_url}" method="POST">
-		<button type="submit">Sign in with <span th:text="${provider}"></span></button>
-		<input type="hidden" name="scope" th:value="${scopes}" />
-	</form>
-	
+<div th:text="${signin_url}"></div>
+<form name="facebook-form-redirection" th:action="${signin_url}" method="POST">
+    <button type="submit">Sign in with <span th:text="${provider}"></span></button>
+    <input type="hidden" name="scope" th:value="${scopes}"/>
+</form>
+
 </body>
 </html>

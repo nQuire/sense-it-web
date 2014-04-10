@@ -10,6 +10,7 @@
     <properties>
         <spring.version>4.0.0.RELEASE</spring.version>
         <org.springframework.security.version>3.2.3.RELEASE</org.springframework.security.version>
+        <org.springframework.social.version>1.1.0.RC1</org.springframework.social.version>
     </properties>
 
     <repositories>
@@ -17,6 +18,10 @@
             <id>spring.social.google</id>
             <name>Spring Social Google</name>
             <url>https://github.com/GabiAxel/maven/raw/master/</url>
+        </repository>
+        <repository>
+            <id>spring-milestones</id>
+            <url>http://repo.springsource.org/libs-milestone/</url>
         </repository>
     </repositories>
 
@@ -130,17 +135,17 @@
         <dependency>
             <groupId>org.springframework.social</groupId>
             <artifactId>spring-social-core</artifactId>
-            <version>1.0.3.RELEASE</version>
+            <version>${org.springframework.social.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.social</groupId>
             <artifactId>spring-social-web</artifactId>
-            <version>1.0.3.RELEASE</version>
+            <version>${org.springframework.social.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.social</groupId>
             <artifactId>spring-social-facebook</artifactId>
-            <version>1.0.3.RELEASE</version>
+            <version>${org.springframework.social.version}</version>
         </dependency>
 
         <dependency>
@@ -148,6 +153,19 @@
             <artifactId>spring-social-google</artifactId>
             <version>1.0.0.M3</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+            <version>4.3.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.3.2</version>
+        </dependency>
+
 
 
         <dependency>

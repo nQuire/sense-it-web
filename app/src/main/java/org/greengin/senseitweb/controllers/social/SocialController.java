@@ -48,7 +48,7 @@ public class SocialController {
             scopes = "email";
         }
 
-        model.addAttribute("signin_url", String.format("/%ssignin/%s", serverPath, provider));
+        model.addAttribute("signin_url", String.format("/%s/signin/%s", serverPath, provider));
         model.addAttribute("provider", provider);
         model.addAttribute("scopes", scopes);
 		return "provider_login";

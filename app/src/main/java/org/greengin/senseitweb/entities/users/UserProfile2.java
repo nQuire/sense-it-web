@@ -25,7 +25,6 @@ public class UserProfile2 extends AbstractEntity implements UserDetails {
     String password;
 
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
-    @Getter
     @Setter
     @NonNull
     Collection<UserGrantedAuthority> authorities = new Vector<UserGrantedAuthority>();

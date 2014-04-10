@@ -7,7 +7,6 @@
              http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
 
 
-
     <bean id="userService"
           class="org.greengin.senseitweb.logic.social.UserServiceBean">
     </bean>
@@ -24,7 +23,7 @@
     </bean>
 
     <sec:http auto-config="true">
-        <sec:anonymous />
+        <sec:anonymous/>
     </sec:http>
 
     <sec:authentication-manager alias="authenticationManager">
@@ -32,49 +31,50 @@
     </sec:authentication-manager>
 
 
-    <bean id="textEncryptor" class="org.springframework.security.crypto.encrypt.Encryptors" factory-method="noOpText" />
+    <bean id="textEncryptor" class="org.springframework.security.crypto.encrypt.Encryptors" factory-method="noOpText"/>
 
     <bean name="socialInAdapter" class="org.greengin.senseitweb.logic.social.SocialAdapter"/>
 
     <bean id="usersConnectionRepository" class="org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository">
-        <constructor-arg ref="dataSource" />
-        <constructor-arg ref="connectionFactoryLocator" />
-        <constructor-arg ref="textEncryptor" />
-        <property name="connectionSignUp" ref="socialInAdapter" />
+        <constructor-arg ref="dataSource"/>
+        <constructor-arg ref="connectionFactoryLocator"/>
+        <constructor-arg ref="textEncryptor"/>
+        <property name="connectionSignUp" ref="socialInAdapter"/>
     </bean>
 
-    <bean id="connectionRepository" factory-method="createConnectionRepository" factory-bean="usersConnectionRepository" scope="request">
-        <constructor-arg value="#{request.userPrincipal.name}" />
-        <aop:scoped-proxy proxy-target-class="false" />
+    <bean id="connectionRepository" factory-method="createConnectionRepository" factory-bean="usersConnectionRepository"
+          scope="request">
+        <constructor-arg value="#{request.userPrincipal.name}"/>
+        <aop:scoped-proxy proxy-target-class="false"/>
     </bean>
 
     <bean id="connectionFactoryLocator" class="org.springframework.social.connect.support.ConnectionFactoryRegistry">
         <property name="connectionFactories">
             <list>
                 <bean class="org.springframework.social.facebook.connect.FacebookConnectionFactory">
-                    <constructor-arg value="${facebook.clientId}" />
-                    <constructor-arg value="${facebook.clientSecret}" />
+                    <constructor-arg value="${facebook.clientId}"/>
+                    <constructor-arg value="${facebook.clientSecret}"/>
                 </bean>
                 <bean class="org.springframework.social.google.connect.GoogleConnectionFactory">
-                    <constructor-arg value="${google.consumerKey}" />
-                    <constructor-arg value="${google.consumerSecret}" />
+                    <constructor-arg value="${google.consumerKey}"/>
+                    <constructor-arg value="${google.consumerSecret}"/>
                 </bean>
             </list>
         </property>
     </bean>
 
     <bean id="facebook" factory-bean="connectionRepository" factory-method="findPrimaryConnection" scope="request">
-        <constructor-arg value="org.springframework.social.facebook.api.Facebook" />
-        <aop:scoped-proxy proxy-target-class="false" />
+        <constructor-arg value="org.springframework.social.facebook.api.Facebook"/>
+        <aop:scoped-proxy proxy-target-class="false"/>
     </bean>
 
     <bean id="google" factory-bean="connectionRepository" factory-method="findPrimaryConnection" scope="request">
-        <constructor-arg value="org.springframework.social.google.api.Google" />
-        <aop:scoped-proxy proxy-target-class="false" />
+        <constructor-arg value="org.springframework.social.google.api.Google"/>
+        <aop:scoped-proxy proxy-target-class="false"/>
     </bean>
 
-    <bean class="org.springframework.social.connect.web.ProviderSignInController">
-        <property name="applicationUrl" value="${server.baseURL}${server.path}" />
+    <bean class="org.greengin.senseitweb.controllers.social.CustomProviderSignInController">
+        <property name="applicationUrlBase" value="${server.baseURL}${server.path}"/>
         <property name="signUpUrl" value="/${server.path}/social/new"/>
         <property name="postSignInUrl" value="/${server.path}/social/welcome"/>
     </bean>
