@@ -1,10 +1,12 @@
 package org.greengin.senseitweb.logic.persistence;
 
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
 import javax.persistence.EntityManager;
 
 public class CustomEntityManagerFactoryBean extends LocalContainerEntityManagerFactoryBean {
+
 
     private EntityManager entityManager;
 

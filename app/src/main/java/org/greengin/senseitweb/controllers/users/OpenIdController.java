@@ -7,6 +7,7 @@ import javax.persistence.TypedQuery;
 import javax.servlet.http.HttpServletRequest;
 
 import com.mangofactory.jsonview.ResponseView;
+import org.greengin.senseitweb.logic.permissions.StatusResponse;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.json.Views;
 import org.greengin.senseitweb.logic.permissions.OpenIdManagerBean;

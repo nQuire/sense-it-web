@@ -18,9 +18,8 @@ public class SubscriptionManagerBean {
     @Autowired
     UsersManagerBean usersManager;
 
-
     @Autowired
-    CustomEntityManagerFactoryBean entityManagerFactory;
+    CustomEntityManagerFactoryBean customEntityManagerFactory;
 
     public List<UserProfile> projectUsers(Project project, RoleType type) {
         return roleManager.contextUsers(project, type);

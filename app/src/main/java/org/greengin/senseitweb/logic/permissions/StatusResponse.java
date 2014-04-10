@@ -1,4 +1,4 @@
-package org.greengin.senseitweb.controllers.users;
+package org.greengin.senseitweb.logic.permissions;
 
 import lombok.Getter;
 import lombok.Setter;

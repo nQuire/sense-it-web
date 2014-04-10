@@ -126,7 +126,7 @@ public class OpenIdManagerBean implements InitializingBean {
                 break;
             case GOOGLE:
             default:
-                nextUrl = "https://www.google.com/accounts/o8/id";
+                nextUrl = "https://www.googleapis.com/plus/v1/people/me";
                 break;
         }
 

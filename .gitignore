@@ -1,4 +1,5 @@
 app/src/main/webapp/WEB-INF/database.xml
+app/src/main/webapp/WEB-INF/security.xml
 app/src/main/webapp/files*
 app/target
 app/.idea

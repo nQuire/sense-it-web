@@ -1,0 +1,43 @@
+<beans xmlns:sec="http://www.springframework.org/schema/security"
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+             http://www.springframework.org/schema/security	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+
+
+    <bean id="userService"
+          class="org.greengin.senseitweb.logic.permissions.UserServiceBean">
+    </bean>
+
+    <bean id="securityContextRepository"
+          class="org.springframework.security.web.context.HttpSessionSecurityContextRepository"/>
+
+    <bean id="rememberMeServices"
+          class="org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices">
+        <property name="userDetailsService" ref="userService"/>
+        <property name="tokenValiditySeconds" value="3600"/>
+        <property name="cookieName" value="NQUIRE_IT_TOKEN"/>
+        <property name="key" value="xxxxxxx"/>
+    </bean>
+
+    <sec:http auto-config="true">
+        <sec:anonymous />
+    </sec:http>
+
+    <sec:authentication-manager alias="authenticationManager">
+        <sec:authentication-provider user-service-ref="userService"/>
+    </sec:authentication-manager>
+
+    <bean id="connectionFactoryLocator" class="org.springframework.social.connect.support.ConnectionFactoryRegistry">
+        <property name="connectionFactories">
+            <list>
+                <bean class="org.springframework.social.facebook.connect.FacebookConnectionFactory">
+                    <constructor-arg value="${facebook.clientId}" />
+                    <constructor-arg value="${facebook.clientSecret}" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>
