@@ -8,7 +8,7 @@ angular.module('senseItWeb', null, null).controller('ProjectViewDataCtrl', funct
                 return siwCompare.string(a.title, b.title);
             },
             'author': function (a, b) {
-                return siwCompare.string(a.author.name, b.author.name);
+                return siwCompare.string(a.author.username, b.author.username);
             },
             'votes': function (a, b) {
                 return siwCompare.voteCount(a.voteCount, b.voteCount);

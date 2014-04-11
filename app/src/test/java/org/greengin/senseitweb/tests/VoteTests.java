@@ -2,8 +2,8 @@ package org.greengin.senseitweb.tests;
 
 import junit.framework.Assert;
 import org.greengin.senseitweb.entities.projects.ProjectType;
-import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.entities.rating.VotableEntity;
+import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.logic.rating.VoteCount;
 import org.greengin.senseitweb.logic.rating.VoteRequest;
 import org.junit.Before;

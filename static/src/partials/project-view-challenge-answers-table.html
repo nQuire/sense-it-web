@@ -35,7 +35,7 @@
         </thead>
         <tbody>
         <tr data-ng-repeat="answer in sortedItems()">
-            <td data-ng-if="answerData.showAuthor">{{answer.author.name}}</td>
+            <td data-ng-if="answerData.showAuthor">{{answer.author.username}}</td>
             <td data-ng-if="answerData.showVoting">
                 <div data-siw-vote-widget data-vote-manager="voteManager" data-vote-target="answer"></div>
             </td>

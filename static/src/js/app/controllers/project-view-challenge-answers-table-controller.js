@@ -54,7 +54,7 @@ angular.module('senseItWeb', null, null).controller('ProjectViewChallengeAnswers
     var sort = {};
     if ($scope.answerData.showAuthor) {
         sort['author'] = function (a, b) {
-            return siwCompare.string(a.author.name, b.author.name);
+            return siwCompare.string(a.author.username, b.author.username);
         };
     }
     if ($scope.answerData.showVoting) {

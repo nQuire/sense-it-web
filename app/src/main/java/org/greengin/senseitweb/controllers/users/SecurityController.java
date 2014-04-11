@@ -1,8 +1,8 @@
 package org.greengin.senseitweb.controllers.users;
 
-import org.greengin.senseitweb.logic.permissions.RegistrationResponse;
-import org.greengin.senseitweb.logic.permissions.Status2Response;
-import org.greengin.senseitweb.logic.social.UserServiceBean;
+import org.greengin.senseitweb.logic.users.RegistrationResponse;
+import org.greengin.senseitweb.logic.users.StatusResponse;
+import org.greengin.senseitweb.logic.users.UserServiceBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,22 +20,23 @@ public class SecurityController {
     @Autowired
     UserServiceBean userServiceBean;
 
-
-
-    @RequestMapping(method = RequestMethod.GET)
-    public void login() {
-    }
-
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(value = "/status", method = RequestMethod.GET)
     @ResponseBody
-    public Status2Response checkLogin() {
-        return userServiceBean.status();
+    public StatusResponse checkLogin(HttpServletRequest request) {
+        return userServiceBean.status(request.getSession());
     }
+
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public Status2Response performLogin(@RequestParam("j_username") String username, @RequestParam("j_password") String password, HttpServletRequest request, HttpServletResponse response) {
+    public StatusResponse performLogin(@RequestParam("j_username") String username, @RequestParam("j_password") String password, HttpServletRequest request, HttpServletResponse response) {
         return userServiceBean.login(username, password, request, response);
+    }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    @ResponseBody
+    public StatusResponse performLogout(HttpServletRequest request, HttpServletResponse response) {
+        return userServiceBean.logout(request, response);
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)

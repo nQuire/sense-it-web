@@ -80,7 +80,7 @@ angular.module('senseItServices', null, null).factory('RestService', ['$http', f
             return service._promiserequest($http.delete(path));
         },
         setToken: function(token) {
-            $http.defaults.headers.common.token = token;
+            $http.defaults.headers.common["nquire-it-token"] = token;
         }
     };
 

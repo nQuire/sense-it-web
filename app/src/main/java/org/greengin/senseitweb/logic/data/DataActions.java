@@ -3,8 +3,8 @@ package org.greengin.senseitweb.logic.data;
 import org.greengin.senseitweb.entities.data.AbstractDataProjectItem;
 import org.greengin.senseitweb.entities.data.DataCollectionActivity;
 import org.greengin.senseitweb.entities.users.PermissionType;
-import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.entities.rating.VotableEntity;
+import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.logic.ContextBean;
 import org.greengin.senseitweb.logic.project.AbstractActivityActions;
 import org.greengin.senseitweb.logic.rating.VoteCount;
@@ -94,7 +94,7 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
         if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION)) {
             EntityManager em = context.createEntityManager();
             K item = em.find(type, itemId);
-            if (item != null && item.getDataStore() == activity && item.getAuthor().getId() == user.getId()) {
+            if (item != null && item.getDataStore() == activity && item.getAuthor().getId().equals(user.getId())) {
                 em.getTransaction().begin();
                 try {
                     manipulator.onUpdate(project, activity, item);
@@ -115,7 +115,7 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
         if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION)) {
             EntityManager em = context.createEntityManager();
             K item = em.find(type, itemId);
-            if (item != null && item.getDataStore() == activity && item.getAuthor().getId() == user.getId()) {
+            if (item != null && item.getDataStore() == activity && item.getAuthor().getId().equals(user.getId())) {
                 try {
                     em.getTransaction().begin();
                     manipulator.onDelete(project, activity, item);

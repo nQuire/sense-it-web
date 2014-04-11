@@ -28,7 +28,7 @@ public class Comment extends AbstractEntity {
 	@ManyToOne
     @Getter
     @Setter
-	UserProfile user;
+    UserProfile user;
 
 	@ManyToOne
     @Getter

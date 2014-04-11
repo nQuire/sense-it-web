@@ -3,7 +3,7 @@
 
 <div class="comment-list" data-ng-controller="CommentsCtrl">
     <div class="comment" data-ng-repeat="comment in comments.list">
-        <div class="comment-author">{{comment.author.name}}</div>
+        <div class="comment-author">{{comment.author.username}}</div>
         <div class="comment-date">{{comment.date | date:'medium'}}</div>
         <div class="comment-text">{{comment.comment}}</div>
         <div data-ng-if="canDelete(comment.id)">

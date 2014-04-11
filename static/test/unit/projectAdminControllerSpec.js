@@ -17,9 +17,9 @@ describe('Comments Controller tests', function () {
 
 
 
-        httpMock.expectGET("api/openid/profile").respond({
+        httpMock.expectGET("api/security/status").respond({
             "logged": true,
-            "profile": {"id": 1, "name": "me", "openIds": [
+            "profile": {"id": 1, "username": "me", "openIds": [
                 {"id": 2, "openId": "https://example.com/id?id=me", "email": "me@example.com"}
             ]},
             "token": token

@@ -7,7 +7,7 @@ import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.json.JacksonObjectMapper;
 import org.greengin.senseitweb.json.Views;
 import org.greengin.senseitweb.logic.ContextBean;
-import org.greengin.senseitweb.logic.permissions.AccessLevel;
+import org.greengin.senseitweb.logic.users.AccessLevel;
 import org.greengin.senseitweb.logic.project.ProjectActions;
 import org.greengin.senseitweb.logic.project.ProjectRequest;
 import org.greengin.senseitweb.logic.project.ProjectResponse;
@@ -49,7 +49,7 @@ public class ProjectController {
     @ResponseBody
     public ProjectResponse get(@PathVariable("projectId") Long projectId, HttpServletRequest request) {
         Project project = createProjectManager(projectId, request).get();
-        AccessLevel access = context.getSubscriptionManager().getAccessLevel(project, request);
+        AccessLevel access = context.getSubscriptionManager().getAccessLevel(project);
 
         ProjectResponse response = new ProjectResponse();
         response.setProject(project);

@@ -2,7 +2,6 @@ package org.greengin.senseitweb.logic.project.senseit;
 
 import java.util.Vector;
 
-import javax.naming.Context;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +15,6 @@ import org.greengin.senseitweb.entities.users.RoleType;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.logic.AbstractContentManager;
 import org.greengin.senseitweb.logic.ContextBean;
-import org.greengin.senseitweb.logic.permissions.UsersManagerBean;
 import org.greengin.senseitweb.utils.NamedObject;
 
 public class JoinedProfilesActions extends AbstractContentManager {

@@ -9,7 +9,7 @@ angular.module('senseItWeb', null, null).controller('ProjectAdminUsersCtrl', fun
         },
         sort: {
             'username': function (a, b) {
-                return siwCompare.string(a.name, b.name);
+                return siwCompare.string(a.username, b.username);
             }
         }
     };

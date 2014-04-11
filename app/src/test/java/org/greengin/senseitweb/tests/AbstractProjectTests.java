@@ -3,7 +3,7 @@ package org.greengin.senseitweb.tests;
 import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.entities.projects.ProjectType;
 import org.greengin.senseitweb.entities.users.UserProfile;
-import org.greengin.senseitweb.logic.permissions.AccessLevel;
+import org.greengin.senseitweb.logic.users.AccessLevel;
 import org.greengin.senseitweb.logic.project.ProjectActions;
 import org.junit.Assert;
 import org.junit.Before;

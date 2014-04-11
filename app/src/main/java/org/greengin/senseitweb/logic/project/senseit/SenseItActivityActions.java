@@ -6,9 +6,6 @@ import org.greengin.senseitweb.entities.users.PermissionType;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.logic.ContextBean;
 import org.greengin.senseitweb.logic.data.DataActions;
-import org.greengin.senseitweb.logic.data.FileManagerBean;
-import org.greengin.senseitweb.logic.permissions.SubscriptionManagerBean;
-import org.greengin.senseitweb.logic.permissions.UsersManagerBean;
 import org.greengin.senseitweb.logic.project.senseit.transformations.SenseItProcessedSeriesVariable;
 
 import javax.persistence.EntityManager;

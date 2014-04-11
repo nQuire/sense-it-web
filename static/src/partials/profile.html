@@ -11,10 +11,7 @@
                 data-ng-click="login('google')">Log in with Google
         </button>
         <button class="pure-button pure-button-primary"
-                data-ng-click="login('yahoo')">Log in with Yahoo
-        </button>
-        <button class="pure-button pure-button-primary"
-                data-ng-click="login('ou')">Log in with The Open University
+                data-ng-click="login('facebook')">Log in with Facebook
         </button>
     </div>
 
@@ -30,9 +27,10 @@
             <div data-ng-if="form.isOpen()">
                 <form class="pure-form pure-form-stacked">
                     <fieldset>
-                        <label for="name">User name</label> <input id="name" type="text"
+                        <label for="username">User name</label> <input id="username" type="text"
                                                                    placeholder="User name"
-                                                                   data-ng-model="form.values.name">
+                                                                   data-ng-model="form.values.username">
+                        <span data-ng-if="formError" class="profile-username-error">{{formErrorText()}}</span>
 
                         <button class="pure-button pure-button-primary pure-button-small"
                                 data-ng-disabled="form.okButtonDisabled()" data-ng-click="form.save()">
@@ -46,7 +44,7 @@
                 </form>
             </div>
             <div data-ng-if="!form.isOpen()">
-                <p>Name: {{status.profile.name}}</p>
+                <p>Name: <span>{{status.profile.username}}</span></p>
 
                 <button class="pure-button pure-button-primary pure-button-small"
                         data-ng-click="form.open()">Edit

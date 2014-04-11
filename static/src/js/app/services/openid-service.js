@@ -19,8 +19,9 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
         }
     };
 
-    service._openIdRequest = function (path, logged, notify) {
-        return RestService.get(path).then(function (data) {
+    service._openIdRequest = function (path, logged, notify, method) {
+
+        return RestService[method ? method : 'get'](path).then(function (data) {
             service.status = {
                 logged: data.logged,
                 profile: data.profile,
@@ -39,17 +40,26 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
 
 
     service.update = function () {
-        return service._openIdRequest('api/openid/profile', true, true);
+        return service._openIdRequest('api/security/status', true, true);
     };
 
     service.logout = function () {
-        return service._openIdRequest('api/openid/logout', false, true);
+        return service._openIdRequest('api/security/logout', false, true, 'post');
     };
 
     service.saveProfile = function () {
-        return RestService.put('api/openid/profile', {
-            name: service.status.profile.name
-        });
+        return RestService.put('api/security/profile', {
+            username: service.status.profile.username
+        }).then(function (data) {
+                if (data && data.profile) {
+                    service.status = {
+                        logged: true,
+                        profile: data.profile,
+                        ready: true
+                    };
+                }
+                return data;
+            });
     };
 
     /**
@@ -77,7 +87,7 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
     service.update();
 
     RestService.registerErrorListener(function () {
-        return service._openIdRequest('api/openid/profile', true, false);
+        return service._openIdRequest('api/security/profile', true, false);
     });
 
     return service;

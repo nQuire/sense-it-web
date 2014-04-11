@@ -1,4 +1,4 @@
-package org.greengin.senseitweb.logic.permissions;
+package org.greengin.senseitweb.logic.users;
 
 import org.greengin.senseitweb.entities.AbstractEntity;
 import org.greengin.senseitweb.entities.users.Role;
@@ -24,7 +24,7 @@ public class RoleManagerBean {
 
 
     @Autowired
-    UsersManagerBean usersManager;
+    UserServiceBean usersManager;
 
 
     @Autowired

@@ -17,9 +17,9 @@ describe('Comments Controller tests', function () {
 
 
 
-        httpMock.expectGET("api/openid/profile").respond({
+        httpMock.expectGET("api/security/status").respond({
             "logged": true,
-            "profile": {"id": 1, "name": "me", "openIds": [
+            "profile": {"id": 1, "username": "me", "openIds": [
                 {"id": 2, "openId": "https://example.com/id?id=me", "email": "me@example.com"}
             ]},
             "token": token
@@ -35,8 +35,8 @@ describe('Comments Controller tests', function () {
         timeout.flush();
 
         httpMock.expectGET("api/project/1000/comments").respond([
-            {id: 1001, user: {id: 1, name: 'me', comment: 'c1'}},
-            {id: 1002, user: {id: 2, name: 'other', comment: 'c2'}}
+            {id: 1001, user: {id: 1, username: 'me', comment: 'c1'}},
+            {id: 1002, user: {id: 2, username: 'other', comment: 'c2'}}
         ]);
 
         scope = parentScope.$new();
@@ -72,9 +72,9 @@ describe('Comments Controller tests', function () {
 
     it('should post comment', function() {
         httpMock.expectPOST("api/project/1000/comments", '{"comment":"c3"}').respond([
-            {id: 1001, user: {id: 1, name: 'me', comment: 'c1'}},
-            {id: 1002, user: {id: 2, name: 'other', comment: 'c2'}},
-            {id: 1003, user: {id: 1, name: 'me', comment: 'c3'}}
+            {id: 1001, user: {id: 1, username: 'me', comment: 'c1'}},
+            {id: 1002, user: {id: 2, username: 'other', comment: 'c2'}},
+            {id: 1003, user: {id: 1, username: 'me', comment: 'c3'}}
         ]);
 
         scope.posting.postComment('c3');
@@ -106,9 +106,9 @@ describe('Comments Controller tests', function () {
 
     it('should submit non-empty comment', function() {
         httpMock.expectPOST("api/project/1000/comments", '{"comment":"c3"}').respond([
-            {id: 1001, user: {id: 1, name: 'me', comment: 'c1'}},
-            {id: 1002, user: {id: 2, name: 'other', comment: 'c2'}},
-            {id: 1003, user: {id: 1, name: 'me', comment: 'c3'}}
+            {id: 1001, user: {id: 1, username: 'me', comment: 'c1'}},
+            {id: 1002, user: {id: 2, username: 'other', comment: 'c2'}},
+            {id: 1003, user: {id: 1, username: 'me', comment: 'c3'}}
         ]);
 
         scope.posting.open();
@@ -130,7 +130,7 @@ describe('Comments Controller tests', function () {
         expect(scope.comments.list.length).toBe(2);
 
         httpMock.expectDELETE("api/project/1000/comments/1001").respond([
-            {id: 1002, author: {id: 2, name: 'other', comment: 'c2'}}
+            {id: 1002, author: {id: 2, username: 'other', comment: 'c2'}}
         ]);
 
         scope.posting.deleteComment(1001);

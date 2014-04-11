@@ -4,9 +4,16 @@
 	<title>Welcome</title>
 </head>
 <body>
-<h1>
-    Message: <span th:text="${message}"></span>
-    Status: <span th:text="${status}"></span>
-</h1>
+<p>
+    Logged as: <span th:text="${user}"></span>
+</p>
+<p>Google: <span th:text="${google}"></span></p>
+<p>Facebook: <span th:text="${facebook}"></span></p>
+
+
+<script>
+    window.opener.handleOpenIdResponse();
+   // window.close();
+</script>
 </body>
 </html>

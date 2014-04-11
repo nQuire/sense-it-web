@@ -2,13 +2,12 @@ package org.greengin.senseitweb.logic.project.senseit.transformations;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map.Entry;
 import java.util.Vector;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.inject.Inject;
+
 import org.greengin.senseitweb.entities.activities.senseit.SenseItActivity;
 import org.greengin.senseitweb.entities.activities.senseit.SenseItTransformation;
 import org.greengin.senseitweb.entities.activities.senseit.SensorInput;

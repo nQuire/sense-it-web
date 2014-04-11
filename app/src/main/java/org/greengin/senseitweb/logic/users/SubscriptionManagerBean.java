@@ -1,4 +1,4 @@
-package org.greengin.senseitweb.logic.permissions;
+package org.greengin.senseitweb.logic.users;
 
 import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.entities.users.RoleType;
@@ -7,7 +7,6 @@ import org.greengin.senseitweb.logic.persistence.CustomEntityManagerFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public class SubscriptionManagerBean {
@@ -16,7 +15,7 @@ public class SubscriptionManagerBean {
     RoleManagerBean roleManager;
 
     @Autowired
-    UsersManagerBean usersManager;
+    UserServiceBean usersManager;
 
     @Autowired
     CustomEntityManagerFactoryBean customEntityManagerFactory;
@@ -39,8 +38,8 @@ public class SubscriptionManagerBean {
         roleManager.addRoleInTransaction(em, project, user, RoleType.ADMIN);
     }
 
-    public AccessLevel getAccessLevel(Project project, HttpServletRequest request) {
-        UserProfile user = usersManager.currentUser(request);
+    public AccessLevel getAccessLevel(Project project) {
+        UserProfile user = usersManager.currentUser();
         return getAccessLevel(project, user);
     }
 
@@ -80,7 +79,7 @@ public class SubscriptionManagerBean {
 
 
     public void subscribe(EntityManager em, UserProfile user, Project project, RoleType type) {
-        roleManager.addRole(em, user, project, RoleType.MEMBER);
+        roleManager.addRole(em, user, project, type);
     }
 
     public void unsubscribe(EntityManager em, UserProfile user, Project project, RoleType type) {

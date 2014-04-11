@@ -2,8 +2,8 @@ package org.greengin.senseitweb.logic.rating;
 
 import java.util.Collection;
 
-import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.entities.rating.Vote;
+import org.greengin.senseitweb.entities.users.UserProfile;
 
 public class VoteCount {
 	
@@ -26,7 +26,7 @@ public class VoteCount {
 				negative++;
 			}
 			
-			if (selectedVoteAuthor != null && selectedVoteAuthor.getId() == vote.getUser().getId()) {
+			if (selectedVoteAuthor != null && selectedVoteAuthor.getId().equals(vote.getUser().getId())) {
 				myVote = vote;
 			}
 		}

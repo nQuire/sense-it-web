@@ -13,9 +13,9 @@ describe('Project Membership tests', function () {
             token = 'tkn';
             http = $http;
             httpMock = $httpBackend;
-            httpMock.whenGET("api/openid/profile").respond({
+            httpMock.whenGET("api/security/status").respond({
                 "logged": true,
-                "profile": {"id": 1, "name": "evilfer", "openIds": [
+                "profile": {"id": 1, "username": "evilfer", "openIds": [
                     {"id": 2, "openId": "https://example.com/id?id=evf", "email": "evilfer@gmail.com"}
                 ]},
                 "token": token
@@ -24,7 +24,7 @@ describe('Project Membership tests', function () {
             timeout = $timeout;
         });
 
-        httpMock.expectGET("api/openid/profile");
+        httpMock.expectGET("api/security/status");
         openidService.update();
         httpMock.flush();
         timeout.flush();
@@ -54,7 +54,7 @@ describe('Project Membership tests', function () {
 
 
     it('should have token', function () {
-        expect(http.defaults.headers.common.token).toBe(token);
+        expect(http.defaults.headers.common['nquire-it-token']).toBe(token);
     });
 
     describe('for non-members', function() {

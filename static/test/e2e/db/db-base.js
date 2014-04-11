@@ -5,7 +5,7 @@ exports.module = function () {
             requests: function (id, admin, member, projectOpen) {
                 var status = id ? {
                     logged: true,
-                    profile: {id: id, name: id.toString(), openIds: []},
+                    profile: {id: id, name: id.toString(), authorities: []},
                     token: 'tkn'
                 } : {
                     logged: false,
@@ -52,23 +52,23 @@ exports.module = function () {
 
 
                 var project101comments = [
-                    {id: 1001, user: {id: 1, name: '1'}, comment: 'c1'},
-                    {id: 1002, user: {id: 2, name: '2'}, comment: 'c2'}
+                    {id: 1001, user: {id: 1, username: '1'}, comment: 'c1'},
+                    {id: 1002, user: {id: 2, username: '2'}, comment: 'c2'}
                 ];
 
                 var project101commentsAfterPost = [
-                    {id: 1001, user: {id: 1, name: '1'}, comment: 'c1'},
-                    {id: 1002, user: {id: 2, name: '2'}, comment: 'c2'},
-                    {id: 1003, user: {id: 1, name: '1'}, comment: 'c3'}
+                    {id: 1001, user: {id: 1, username: '1'}, comment: 'c1'},
+                    {id: 1002, user: {id: 2, username: '2'}, comment: 'c2'},
+                    {id: 1003, user: {id: 1, username: '1'}, comment: 'c3'}
                 ];
 
                 var project101commentsAfterDelete = [
-                    {id: 1001, user: {id: 1, name: '1'}, comment: 'c1'}
+                    {id: 1001, user: {id: 1, username: '1'}, comment: 'c1'}
                 ];
 
 
                 return {
-                    'api/openid/profile': status,
+                    'api/security/status': status,
                     'api/projects': projects,
                     'api/project/101': project101,
                     'PUT api/project/101/admin/open': project101afterOpen,

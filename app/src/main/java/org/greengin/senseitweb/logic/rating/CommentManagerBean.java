@@ -2,15 +2,12 @@ package org.greengin.senseitweb.logic.rating;
 
 import org.greengin.senseitweb.entities.rating.Comment;
 import org.greengin.senseitweb.entities.rating.CommentThreadEntity;
-import org.greengin.senseitweb.entities.rating.VotableEntity;
 import org.greengin.senseitweb.entities.rating.Vote;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.logic.persistence.CustomEntityManagerFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-import java.util.List;
 
 public class CommentManagerBean {
 	private static final String VOTE_QUERY = String.format(

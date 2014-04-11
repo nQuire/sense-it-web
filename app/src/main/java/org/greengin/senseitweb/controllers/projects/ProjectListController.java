@@ -12,7 +12,7 @@ import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.json.Views;
 import org.greengin.senseitweb.logic.ContextBean;
-import org.greengin.senseitweb.logic.permissions.AccessLevel;
+import org.greengin.senseitweb.logic.users.AccessLevel;
 import org.greengin.senseitweb.logic.project.ProjectCreationRequest;
 import org.greengin.senseitweb.logic.project.ProjectListActions;
 import org.greengin.senseitweb.logic.project.ProjectResponse;
@@ -50,10 +50,10 @@ public class ProjectListController {
 
     @RequestMapping(value = "/access", method = RequestMethod.POST)
     @ResponseBody
-    public Map<Long, AccessLevel> getAccess(@RequestBody List<Long> projectIds, HttpServletRequest request) {
+    public Map<Long, AccessLevel> getAccess(@RequestBody List<Long> projectIds) {
         HashMap<Long, AccessLevel> levels = new HashMap<Long, AccessLevel>();
 
-        UserProfile user = context.getUsersManager().currentUser(request);
+        UserProfile user = context.getUsersManager().currentUser();
         EntityManager em = context.createEntityManager();
 
         for (Long id : projectIds) {
@@ -65,10 +65,10 @@ public class ProjectListController {
 
     @RequestMapping(value = "/reload", method = RequestMethod.POST)
     @ResponseBody
-    public Map<Long, ProjectResponse> reload(@RequestBody List<Long> projectIds, HttpServletRequest request) {
+    public Map<Long, ProjectResponse> reload(@RequestBody List<Long> projectIds) {
         HashMap<Long, ProjectResponse> projects = new HashMap<Long, ProjectResponse>();
 
-        UserProfile user = context.getUsersManager().currentUser(request);
+        UserProfile user = context.getUsersManager().currentUser();
         EntityManager em = context.createEntityManager();
 
         for (Long id : projectIds) {

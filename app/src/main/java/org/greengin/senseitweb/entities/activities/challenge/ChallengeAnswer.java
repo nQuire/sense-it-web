@@ -3,8 +3,8 @@ package org.greengin.senseitweb.entities.activities.challenge;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
-import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.entities.rating.VotableEntity;
+import org.greengin.senseitweb.entities.users.UserProfile;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.Basic;

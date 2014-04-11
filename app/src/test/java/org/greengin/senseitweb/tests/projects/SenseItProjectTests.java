@@ -1,15 +1,9 @@
 package org.greengin.senseitweb.tests.projects;
 
 
-import org.greengin.senseitweb.controllers.users.ProfileRequest;
-import org.greengin.senseitweb.entities.activities.challenge.ChallengeActivity;
-import org.greengin.senseitweb.entities.activities.challenge.ChallengeActivityStage;
 import org.greengin.senseitweb.entities.activities.senseit.SenseItActivity;
 import org.greengin.senseitweb.entities.projects.ProjectType;
 import org.greengin.senseitweb.entities.users.UserProfile;
-import org.greengin.senseitweb.logic.permissions.AccessLevel;
-import org.greengin.senseitweb.logic.project.challenge.ChallengeActivityRequest;
-import org.greengin.senseitweb.logic.project.challenge.ChallengeAnswerRequest;
 import org.greengin.senseitweb.logic.project.senseit.SenseItActivityActions;
 import org.greengin.senseitweb.logic.project.senseit.SenseItProfileRequest;
 import org.greengin.senseitweb.tests.TestsBase;

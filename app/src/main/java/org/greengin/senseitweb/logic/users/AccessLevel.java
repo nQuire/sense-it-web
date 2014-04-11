@@ -1,4 +1,4 @@
-package org.greengin.senseitweb.logic.permissions;
+package org.greengin.senseitweb.logic.users;
 
 import org.greengin.senseitweb.entities.users.RoleType;
 

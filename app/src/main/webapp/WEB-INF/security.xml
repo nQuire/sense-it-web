@@ -8,7 +8,7 @@
 
 
     <bean id="userService"
-          class="org.greengin.senseitweb.logic.social.UserServiceBean">
+          class="org.greengin.senseitweb.logic.users.UserServiceBean">
     </bean>
 
     <bean id="securityContextRepository"
@@ -33,9 +33,9 @@
 
     <bean id="textEncryptor" class="org.springframework.security.crypto.encrypt.Encryptors" factory-method="noOpText"/>
 
-    <bean name="socialInAdapter" class="org.greengin.senseitweb.logic.social.SocialAdapter"/>
+    <bean name="socialInAdapter" class="org.greengin.senseitweb.logic.users.SocialAdapter"/>
 
-    <bean id="usersConnectionRepository" class="org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository">
+    <bean id="usersConnectionRepository" class="org.greengin.senseitweb.logic.users.TestJdbcUsersConnectionRepository">
         <constructor-arg ref="dataSource"/>
         <constructor-arg ref="connectionFactoryLocator"/>
         <constructor-arg ref="textEncryptor"/>
@@ -51,13 +51,13 @@
     <bean id="connectionFactoryLocator" class="org.springframework.social.connect.support.ConnectionFactoryRegistry">
         <property name="connectionFactories">
             <list>
-                <bean class="org.springframework.social.facebook.connect.FacebookConnectionFactory">
-                    <constructor-arg value="${facebook.clientId}"/>
-                    <constructor-arg value="${facebook.clientSecret}"/>
-                </bean>
                 <bean class="org.springframework.social.google.connect.GoogleConnectionFactory">
                     <constructor-arg value="${google.consumerKey}"/>
                     <constructor-arg value="${google.consumerSecret}"/>
+                </bean>
+                <bean class="org.springframework.social.facebook.connect.FacebookConnectionFactory">
+                    <constructor-arg value="${facebook.clientId}"/>
+                    <constructor-arg value="${facebook.clientSecret}"/>
                 </bean>
             </list>
         </property>
@@ -70,13 +70,13 @@
 
     <bean id="google" factory-bean="connectionRepository" factory-method="findPrimaryConnection" scope="request">
         <constructor-arg value="org.springframework.social.google.api.Google"/>
-        <aop:scoped-proxy proxy-target-class="false"/>
+        <aop:scoped-proxy proxy-target-class="true"/>
     </bean>
 
-    <bean class="org.greengin.senseitweb.controllers.social.CustomProviderSignInController">
-        <property name="applicationUrlBase" value="${server.baseURL}${server.path}"/>
-        <property name="signUpUrl" value="/${server.path}/social/new"/>
-        <property name="postSignInUrl" value="/${server.path}/social/welcome"/>
+    <bean class="org.greengin.senseitweb.controllers.users.CustomProviderSignInController">
+        <property name="applicationUrlBase" value="${server.appUrl}"/>
+        <property name="signUpUrl" value="${server.appUrl}/social/new"/>
+        <property name="postSignInUrl" value="${server.appUrl}/social/welcome"/>
     </bean>
 
 </beans>

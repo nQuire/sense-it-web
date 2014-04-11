@@ -14,23 +14,23 @@ describe('Comments Service tests', function () {
             token = 'tkn';
             http = $http;
             httpMock = $httpBackend;
-            httpMock.whenGET("api/openid/profile").respond(
+            httpMock.whenGET("api/security/status").respond(
                 {
                     "logged": true,
-                    "profile": {"id": 1, "name": "evilfer", "openIds": [
+                    "profile": {"id": 1, "username": "evilfer", "openIds": [
                         {"id": 2, "openId": "https://example.com/id?id=evf", "email": "evilfer@gmail.com"}
                     ]},
                     "token": token
                 });
 
-            httpMock.whenGET("api/project/1000/comments").respond([{id: 1001, user: {id: 1, name: 'evilfer'}, comment: 'x'}]);
+            httpMock.whenGET("api/project/1000/comments").respond([{id: 1001, user: {id: 1, username: 'evilfer'}, comment: 'x'}]);
             httpMock.whenDELETE("api/project/1000/comments/1001").respond([]);
-            httpMock.whenPOST("api/project/1000/comments").respond([{id: 1001, user: {id: 1, name: 'evilfer'}, comment: 'x'}, {id: 1002, user: {id: 1, name: 'evilfer'}, comment: 'x'}]);
+            httpMock.whenPOST("api/project/1000/comments").respond([{id: 1001, user: {id: 1, username: 'evilfer'}, comment: 'x'}, {id: 1002, user: {id: 1, username: 'evilfer'}, comment: 'x'}]);
 
             timeout = $timeout;
         });
 
-        httpMock.expectGET("api/openid/profile");
+        httpMock.expectGET("api/security/status");
         openidService.update();
         httpMock.flush();
         timeout.flush();
@@ -61,7 +61,7 @@ describe('Comments Service tests', function () {
 
 
     it('should have token', function () {
-        expect(http.defaults.headers.common.token).toBe(token);
+        expect(http.defaults.headers.common['nquire-it-token']).toBe(token);
     });
 
     it('should receive comments', function() {

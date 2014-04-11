@@ -1,13 +1,14 @@
-package org.greengin.senseitweb.logic.permissions;
+package org.greengin.senseitweb.logic.users;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.greengin.senseitweb.logic.users.StatusResponse;
 
 public class RegistrationResponse {
 
     @Getter
     @Setter
-    Status2Response response;
+    StatusResponse response;
 
     @Getter
     @Setter

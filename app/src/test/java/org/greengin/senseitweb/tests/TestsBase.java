@@ -3,7 +3,7 @@ package org.greengin.senseitweb.tests;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.logic.ContextBean;
-import org.greengin.senseitweb.logic.permissions.AccessLevel;
+import org.greengin.senseitweb.logic.users.AccessLevel;
 import org.greengin.senseitweb.logic.project.ProjectActions;
 import org.greengin.senseitweb.tests.helpers.DbHelper;
 import org.junit.Before;
@@ -59,10 +59,8 @@ public abstract class TestsBase {
     }
     protected MockHttpServletRequestBuilder login(MockHttpServletRequestBuilder builder, UserProfile user, boolean tokenOk) {
         MockHttpSession mockSession = new MockHttpSession(wac.getServletContext(), UUID.randomUUID().toString());
-        mockSession.setAttribute("openid", user.getName());
-        mockSession.setAttribute("token", "token");
-
-        return builder.session(mockSession).header("token", tokenOk ? "token" : "bad");
+        context.getUsersManager().login(user, mockSession, "token");
+        return builder.session(mockSession).header("nquire-it-token", tokenOk ? "token" : "bad");
     }
 
     protected MockHttpServletRequestBuilder loginPost(String path, Object body, UserProfile user, boolean tokenOk) throws Exception {

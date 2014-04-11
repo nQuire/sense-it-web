@@ -1,4 +1,4 @@
-package org.greengin.senseitweb.controllers.social;
+package org.greengin.senseitweb.controllers.users;
 
 import lombok.Getter;
 import lombok.Setter;

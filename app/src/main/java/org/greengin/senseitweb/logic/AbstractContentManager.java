@@ -17,8 +17,9 @@ public class AbstractContentManager {
     protected ContextBean context;
 
     public AbstractContentManager(ContextBean context, HttpServletRequest request) {
-        this(context, context.getUsersManager().currentUser(request), context.getUsersManager().checkToken(request));
+        this(context, context.getUsersManager().currentUser(), context.getUsersManager().checkToken(request));
     }
+
 
     public AbstractContentManager(ContextBean context, UserProfile user, boolean tokenOk) {
         this.context = context;
@@ -27,7 +28,6 @@ public class AbstractContentManager {
         this.tokenOk = tokenOk;
         this.loggedWithToken = loggedIn && tokenOk;
     }
-
 
 	public UserProfile getCurrentUser() {
 		return user;

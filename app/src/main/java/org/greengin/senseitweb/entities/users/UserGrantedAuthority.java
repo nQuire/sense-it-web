@@ -16,19 +16,31 @@ import javax.persistence.Entity;
 public class UserGrantedAuthority extends AbstractEntity implements GrantedAuthority {
 
     @Basic
+    @Getter
     @Setter
     @NonNull
-    String authority;
+    String providerId;
+
+    @Basic
+    @Getter
+    @Setter
+    @NonNull
+    String providerUserId;
 
 
     @Override
     @NonNull
     public String getAuthority() {
-        return authority;
+        return String.format("%s:%s", providerId, providerUserId);
     }
 
     @Override
     public boolean equals(Object obj) {
-        return obj != null && obj instanceof UserGrantedAuthority && getAuthority().equals(((UserGrantedAuthority) obj).getAuthority());
+        if (obj == null || !(obj instanceof UserGrantedAuthority)) {
+            return false;
+        }
+
+        UserGrantedAuthority a = (UserGrantedAuthority) obj;
+        return providerId.equals(a.providerId) && providerUserId.equals(a.providerUserId);
     }
 }

@@ -22,7 +22,7 @@ public class Vote extends AbstractEntity {
 	@ManyToOne
     @Getter
     @Setter
-	UserProfile user;
+    UserProfile user;
 
 	@ManyToOne
     @Getter
