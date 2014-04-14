@@ -19,12 +19,15 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
         }
     };
 
-    service._openIdRequest = function (path, logged, notify, method) {
+    service._openIdRequest = function (path, logged, notify, method, data) {
+        var _method = method ? method : 'get';
+        var promise = data ? RestService[_method](path, data) : RestService[_method](path);
 
-        return RestService[method ? method : 'get'](path).then(function (data) {
+        return promise.then(function (data) {
             service.status = {
                 logged: data.logged,
                 profile: data.profile,
+                connections: data.connections,
                 ready: true
             };
 
@@ -35,6 +38,8 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
             if (notify) {
                 service._fireLoginEvent(logged);
             }
+
+            return data;
         });
     };
 
@@ -48,18 +53,9 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
     };
 
     service.saveProfile = function () {
-        return RestService.put('api/security/profile', {
+        return service._openIdRequest('api/security/profile', true, false, 'put', {
             username: service.status.profile.username
-        }).then(function (data) {
-                if (data && data.profile) {
-                    service.status = {
-                        logged: true,
-                        profile: data.profile,
-                        ready: true
-                    };
-                }
-                return data;
-            });
+        });
     };
 
     /**

@@ -1,5 +1,6 @@
 package org.greengin.senseitweb.logic.users;
 
+import com.sun.corba.se.impl.encoding.OSFCodeSetRegistry;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.logic.persistence.CustomEntityManagerFactoryBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -16,6 +17,7 @@ import org.springframework.security.web.authentication.logout.CookieClearingLogo
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.security.web.authentication.rememberme.AbstractRememberMeServices;
 import org.springframework.security.web.context.SecurityContextRepository;
+import org.springframework.social.connect.Connection;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -25,13 +27,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class UserServiceBean implements UserDetailsService, InitializingBean {
 
-    static final String UPDATE_USER_CONNECTIONS = "UPDATE UserConnection SET userId = ? WHERE userId = ?";
-
-    static final String AUTHORITY_QUERY = "SELECT u FROM UserProfile u JOIN u.authorities a WHERE a.providerId = :provider AND a.providerUserId = :user";
+    static final String AUTHORITY_QUERY = "SELECT userId FROM UserConnection WHERE providerId = ? AND providerUserId = ?";
 
     private final static String USER_QUERY = "SELECT u from UserProfile u WHERE LOWER(u.username)=LOWER(:username)";
 
@@ -47,6 +49,7 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
     @Autowired
     RememberMeServices rememberMeServices;
 
+
     SecureRandom random;
 
     @Override
@@ -60,24 +63,37 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
         }
     }
 
-    public UserProfile loadUserByProviderUserId(String providerId, String id) {
-        TypedQuery<UserProfile> query = customEntityManagerFactory.createEntityManager().createQuery(AUTHORITY_QUERY, UserProfile.class);
-        query.setParameter("provider", providerId);
-        query.setParameter("user", id);
+    private UserProfile loadUserByProviderUserId(String providerId, String id) {
+        Query query = customEntityManagerFactory.createEntityManager().createNativeQuery(AUTHORITY_QUERY);
+
+        query.setParameter(1, providerId);
+        query.setParameter(2, id);
         try {
-            return query.getSingleResult();
-        } catch (Exception e) {
-            return null;
+            Object obj = query.getSingleResult();
+            return loadUserByUsername((String) obj);
+        } catch (Exception ignored) {
         }
+
+        return null;
     }
 
-    private StatusResponse createResponse(Authentication auth, HttpSession session) {
+    private StatusResponse createResponse(Authentication auth, HashMap<String, Connection<?>> connections, HttpSession session) {
         StatusResponse result = new StatusResponse();
+        result.getConnections().clear();
 
         if (auth != null && auth.getPrincipal() != null && auth.getPrincipal() instanceof UserProfile) {
             result.setLogged(true);
             result.setProfile((UserProfile) auth.getPrincipal());
             result.setToken((String) session.getAttribute("nquire-it-token"));
+
+            for (Map.Entry<String, Connection<?>> entry : connections.entrySet()) {
+                if (entry.getValue() != null) {
+                    StatusConnectionResponse scr = new StatusConnectionResponse();
+                    scr.setProvider(entry.getKey());
+//                    scr.setProviderProfileUrl(entry.getValue().getProfileUrl());
+                    result.getConnections().put(entry.getKey(), scr);
+                }
+            }
         } else {
             result.setLogged(false);
             result.setProfile(null);
@@ -86,7 +102,7 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
         return result;
     }
 
-    private boolean usernameIsAvailable(String username) {
+    public boolean usernameIsAvailable(String username) {
         try {
             loadUserByUsername(username);
             return false;
@@ -95,9 +111,9 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
         }
     }
 
-    public StatusResponse status(HttpSession session) {
+    public StatusResponse status(HashMap<String, Connection<?>> connections, HttpSession session) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return createResponse(auth, session);
+        return createResponse(auth, connections, session);
     }
 
     public UserProfile currentUser() {
@@ -129,7 +145,7 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
         rememberMeServices.loginSuccess(request, response, auth);
     }
 
-    public StatusResponse login(String username, String password, HttpServletRequest request, HttpServletResponse response) {
+    public StatusResponse login(String username, String password, HashMap<String, Connection<?>> connections, HttpServletRequest request, HttpServletResponse response) {
         Authentication auth;
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
         try {
@@ -142,46 +158,42 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
             auth = null;
         }
 
-        return createResponse(auth, request.getSession());
+        return createResponse(auth, connections, request.getSession());
     }
 
-    public StatusResponse logout(HttpServletRequest request, HttpServletResponse response) {
+    public StatusResponse logout(HashMap<String, Connection<?>> connections, HttpServletRequest request, HttpServletResponse response) {
         CookieClearingLogoutHandler cookieClearingLogoutHandler = new CookieClearingLogoutHandler(AbstractRememberMeServices.SPRING_SECURITY_REMEMBER_ME_COOKIE_KEY);
         SecurityContextLogoutHandler securityContextLogoutHandler = new SecurityContextLogoutHandler();
         cookieClearingLogoutHandler.logout(request, response, null);
         securityContextLogoutHandler.logout(request, response, null);
 
-        return status(request.getSession());
+        return status(connections, request.getSession());
     }
 
-    public boolean providerSignIn(String username, String providerId, String providerUserId) {
-        String id = String.format("%s:%s", providerId, providerUserId);
-
-        String initialUsername;
-
-        if (usernameIsAvailable(username)) {
-            initialUsername = username;
+    public UserProfile providerSignIn(String username, String providerId, String providerUserId) {
+        UserProfile existingUser = loadUserByProviderUserId(providerId, providerUserId);
+        if (existingUser != null) {
+            return existingUser;
         } else {
-            initialUsername = id;
+            String initialUsername = username;
             for (int i = 1; !usernameIsAvailable(initialUsername); i++) {
-                initialUsername = String.format("%s(%d)", id, i);
+                initialUsername = String.format("%s(%d)", username, i);
             }
+
+            UserProfile user = new UserProfile();
+            user.setUsername(initialUsername);
+            user.setPassword(null);
+
+            EntityManager em = customEntityManagerFactory.createEntityManager();
+            em.getTransaction().begin();
+            em.persist(user);
+            em.getTransaction().commit();
+
+            return user;
         }
-
-        UserProfile user = new UserProfile();
-        user.setUsername(initialUsername);
-        user.setPassword(null);
-        user.addAuthority(providerId, providerUserId);
-
-        EntityManager em = customEntityManagerFactory.createEntityManager();
-        em.getTransaction().begin();
-        em.persist(user);
-        em.getTransaction().commit();
-
-        return true;
     }
 
-    public RegistrationResponse registerUser(String username, String password, HttpServletRequest request, HttpServletResponse response) {
+    public RegistrationResponse registerUser(String username, String password, HashMap<String, Connection<?>> connections, HttpServletRequest request, HttpServletResponse response) {
         RegistrationResponse result = new RegistrationResponse();
         try {
             loadUserByUsername(username);
@@ -197,7 +209,7 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
             em.persist(user);
             em.getTransaction().commit();
 
-            result.setResponse(login(username, password, request, response));
+            result.setResponse(login(username, password, connections, request, response));
             result.setExplanation(null);
         }
 
@@ -209,38 +221,5 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
         random = new SecureRandom();
     }
 
-    public ProfileUpdateResponse updateProfile(ProfileRequest data) {
-        UserProfile profile = currentUser();
-        if (profile == null || data.getUsername() == null) {
-            return null;
-        }
 
-        ProfileUpdateResponse response = new ProfileUpdateResponse();
-        response.setProfile(profile);
-        response.setExplanation(null);
-
-        if (!data.getUsername().equals(profile.getUsername())) {
-
-            if (data.getUsername().length() == 0) {
-                response.setExplanation("username_empty");
-            } else if (!usernameIsAvailable(data.getUsername())) {
-                response.setExplanation("username_not_available");
-            } else {
-                EntityManager em = customEntityManagerFactory.createEntityManager();
-
-                em.getTransaction().begin();
-
-                Query query = em.createNativeQuery(UPDATE_USER_CONNECTIONS);
-                query.setParameter(1, data.getUsername());
-                query.setParameter(2, profile.getUsername());
-                query.executeUpdate();
-
-                profile.setUsername(data.getUsername());
-
-                em.getTransaction().commit();
-            }
-        }
-
-        return response;
-    }
 }

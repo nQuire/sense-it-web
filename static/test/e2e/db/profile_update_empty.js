@@ -5,11 +5,16 @@ exports.module = function () {
                 'api/security/status': {
                     logged: true,
                     profile: {id: 1, username: 'me', authorities: []},
-                    token: 'tkn'
+                    connections: {},
+                    token: 'tkn',
+                    responses: {}
                 },
                 'PUT api/security/profile': {
+                    logged: true,
                     profile: {id: 1, username: 'me', authorities: []},
-                    explanation: 'username_empty'
+                    connections: {},
+                    token: 'tkn',
+                    responses: {'username': 'username_empty'}
                 }
             }
         };

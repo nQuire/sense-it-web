@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Comments Controller tests', function () {
+describe('Profile Controller tests', function () {
     var token, rootScope, controllerService, httpMock, timeout;
     var parentScope, parentCtrl, scope, ctrl;
 
@@ -50,8 +50,10 @@ describe('Comments Controller tests', function () {
 
     it('should update profile', function () {
         httpMock.expectPUT("api/security/profile", {username: 'me2'}).respond({
+            logged: true,
             profile: {"id": 1, "username": "me2", "authorities": []},
-            explanation: null
+            connections: {},
+            responses: {}
         });
 
         scope.form.open();
@@ -84,8 +86,10 @@ describe('Comments Controller tests', function () {
 
     it('should indicate update error', function() {
         httpMock.expectPUT("api/security/profile", {username: 'me2'}).respond({
+            logged: true,
             profile: {"id": 1, "username": "me", "authorities": []},
-            explanation: 'username_not_available'
+            connections: {},
+            responses: {'username': 'username_not_available'}
         });
 
         scope.form.open();
@@ -100,8 +104,11 @@ describe('Comments Controller tests', function () {
         expect(scope.formError).toBe('username_not_available');
 
         httpMock.expectPUT("api/security/profile", {username: 'me3'}).respond({
+            logged: true,
             profile: {"id": 1, "username": "me3", "authorities": []},
-            explanation: null
+            connections: {},
+            responses: {}
+
         });
 
         scope.form.open();

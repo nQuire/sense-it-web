@@ -52,9 +52,6 @@ angular.module('senseItWeb', null, null).directive('siwSideMenu', function ($sta
                     || $scope.state.current.name.indexOf('project-edit') == 0
                     || $scope.state.current.name.indexOf('project-admin') == 0;
 
-                console.log(projectPath);
-                console.log($scope.state.params.projectId);
-
                 if (projectPath) {
                     console.log('update project path');
                     $scope._setProject($scope.state.params.projectId);

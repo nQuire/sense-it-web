@@ -59,8 +59,10 @@ describe('Project Service Admin tests', function () {
     it('should request update', function() {
         openidService.status.profile.username = 'evilfer2';
         httpMock.expectPUT('api/security/profile', {username: 'evilfer2'}).respond({
+            logged: true,
             profile: {"id": 1, "username": "evilfer", "authorities": []},
-            explanation: null
+            connections: [],
+            responses: {}
         });
         openidService.saveProfile();
         httpMock.flush();

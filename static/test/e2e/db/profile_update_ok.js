@@ -8,8 +8,11 @@ exports.module = function () {
                     token: 'tkn'
                 },
                 'PUT api/security/profile': {
+                    logged: true,
                     profile: {id: 1, username: 'available', authorities: []},
-                    explanation: null
+                    connections: {},
+                    token: 'tkn',
+                    responses: {}
                 }
             }
         };

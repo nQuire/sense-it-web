@@ -18,18 +18,19 @@ public class SocialAdapter implements SignInAdapter, ConnectionSignUp {
 
     public String signIn(String localUserId, Connection<?> connection, NativeWebRequest request) {
         UserProfile current = userServiceBean.currentUser();
+
         if (current == null) {
             HttpServletRequest servletRequest = (HttpServletRequest) request.getNativeRequest();
             HttpServletResponse servletResponse = (HttpServletResponse) request.getNativeResponse();
 
             org.springframework.social.connect.UserProfile profile = connection.fetchUserProfile();
             ConnectionData data = connection.createData();
-            userServiceBean.providerSignIn(profile.getUsername(), data.getProviderId(), data.getProviderUserId());
-            UserProfile user = userServiceBean.loadUserByProviderUserId(data.getProviderId(), data.getProviderUserId());
+            UserProfile user = userServiceBean.providerSignIn(profile.getUsername(), data.getProviderId(), data.getProviderUserId());
             if (user != null) {
                 userServiceBean.login(user, servletRequest, servletResponse);
             }
         }
+
         return null;
     }
 

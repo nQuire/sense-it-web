@@ -1,13 +1,12 @@
 package org.greengin.senseitweb.entities.users;
 
-import lombok.NonNull;
 import lombok.Setter;
 import org.greengin.senseitweb.entities.AbstractEntity;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Vector;
 
 @Entity
 public class UserProfile extends AbstractEntity implements UserDetails {
@@ -20,14 +19,9 @@ public class UserProfile extends AbstractEntity implements UserDetails {
     @Setter
     String password;
 
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
-    @Setter
-    @NonNull
-    List<UserGrantedAuthority> authorities = new Vector<UserGrantedAuthority>();
-
     @Override
-    public List<? extends UserGrantedAuthority> getAuthorities() {
-        return authorities;
+    public List<? extends GrantedAuthority> getAuthorities() {
+        return null;
     }
 
     @Override
@@ -60,15 +54,6 @@ public class UserProfile extends AbstractEntity implements UserDetails {
         return true;
     }
 
-
-    public void addAuthority(@NonNull String providerId, @NonNull String providerUserId) {
-        UserGrantedAuthority authority = new UserGrantedAuthority();
-        authority.setProviderId(providerId);
-        authority.setProviderUserId(providerUserId);
-        if (!authorities.contains(authority)) {
-            authorities.add(authority);
-        }
-    }
 
     @Override
     public boolean equals(Object obj) {

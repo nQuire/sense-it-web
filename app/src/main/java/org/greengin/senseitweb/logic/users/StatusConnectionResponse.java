@@ -1,17 +1,21 @@
 package org.greengin.senseitweb.logic.users;
 
-
 import lombok.Getter;
 import lombok.Setter;
 import org.greengin.senseitweb.entities.users.UserProfile;
 
-public class ProfileUpdateResponse {
+public class StatusConnectionResponse {
 
     @Getter
     @Setter
-    UserProfile profile;
+    String provider;
 
     @Getter
     @Setter
-    String explanation;
+    boolean active;
+
+    @Getter
+    @Setter
+    String providerProfileUrl;
+
 }

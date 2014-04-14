@@ -10,7 +10,7 @@ import java.util.Collection;
 
 public abstract class UserProfileMixIn {
     @JsonIgnore Collection<Role> roles;
-    @JsonView(Views.UserOpenIds.class) abstract Collection<? extends GrantedAuthority> getAuthorities();
+    @JsonIgnore abstract Collection<? extends GrantedAuthority> getAuthorities();
 
     @JsonIgnore String password;
     @JsonIgnore abstract boolean isAccountNonExpired();

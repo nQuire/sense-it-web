@@ -9,8 +9,8 @@ angular.module('senseItWeb', null, null).controller('ProfileCtrl', function ($sc
     $scope.form = new SiwFormManager($scope.status.profile, [ 'username' ], function () {
         $scope.status.newUser = false;
         $scope.openIdService.saveProfile().then(function (data) {
-            $scope.formError = data.explanation;
-            if (data.explanation) {
+            $scope.formError = data.responses.username || null;
+            if ($scope.formError) {
                 $scope.form.open();
             }
         });
