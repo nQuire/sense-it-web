@@ -1,27 +1,17 @@
 package org.greengin.senseitweb.logic.users;
 
-import org.greengin.senseitweb.entities.projects.Project;
-import org.greengin.senseitweb.entities.rating.Comment;
-import org.greengin.senseitweb.entities.users.PermissionType;
-import org.greengin.senseitweb.entities.users.RoleType;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.logic.AbstractContentManager;
 import org.greengin.senseitweb.logic.ContextBean;
-import org.greengin.senseitweb.logic.project.ProjectRequest;
-import org.greengin.senseitweb.logic.project.senseit.FileMapUpload;
-import org.greengin.senseitweb.logic.rating.CommentRequest;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 
 public class UserProfileActions extends AbstractContentManager {
 
     static final String UPDATE_USER_CONNECTIONS = "UPDATE UserConnection SET userId = ? WHERE userId = ?";
-
+    static final String DELETE_USER_CONNECTION = "DELETE FROM UserConnection WHERE userId = ? AND providerId = ?";
 
 
     public UserProfileActions(ContextBean context, UserProfile user, boolean tokenOk) {
@@ -62,6 +52,60 @@ public class UserProfileActions extends AbstractContentManager {
         } else {
             return false;
         }
+    }
+
+    public boolean deleteConnection(StatusResponse currentStatus, String providerId) {
+        if (user != null && loggedWithToken && currentStatus.getProfile() != null) {
+
+            if ((currentStatus.getProfile().getPassword() != null && currentStatus.getProfile().getPassword().length() > 0)
+                    || currentStatus.getConnections().size() > 1) {
+                EntityManager em = context.createEntityManager();
+
+                em.getTransaction().begin();
+
+                Query query = em.createNativeQuery(DELETE_USER_CONNECTION);
+                query.setParameter(1, currentStatus.getProfile().getUsername());
+                query.setParameter(2, providerId);
+                query.executeUpdate();
+
+                em.getTransaction().commit();
+
+                currentStatus.getConnections().remove(providerId);
+            }
+
+            return true;
+        }
+        return false;
+    }
+
+
+    public boolean setPassword(StatusResponse currentStatus, PasswordRequest data) {
+        if (user != null && loggedWithToken && currentStatus.getProfile() != null &&
+                data.getNewPassword() != null) {
+
+            if ((user.isPasswordSet() && user.getPassword().equals(data.getOldPassword())) ||
+                    (!user.isPasswordSet() && "".equals(data.getOldPassword()))) {
+
+                if (data.getNewPassword().length() < 6) {
+                    currentStatus.getResponses().put("newpassword", "too_short");
+                } else if (data.getNewPassword().equals(user.getUsername())) {
+                    currentStatus.getResponses().put("newpassword", "same_as_username");
+                } else {
+
+
+                    EntityManager em = context.createEntityManager();
+
+                    em.getTransaction().begin();
+                    user.setPassword(data.getNewPassword());
+                    em.getTransaction().commit();
+                }
+            } else {
+                currentStatus.getResponses().put("oldpassword", "bad_password");
+            }
+
+            return true;
+        }
+        return false;
     }
 
 }

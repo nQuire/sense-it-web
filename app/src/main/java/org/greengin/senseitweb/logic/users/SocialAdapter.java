@@ -17,18 +17,14 @@ public class SocialAdapter implements SignInAdapter, ConnectionSignUp {
     UserServiceBean userServiceBean;
 
     public String signIn(String localUserId, Connection<?> connection, NativeWebRequest request) {
-        UserProfile current = userServiceBean.currentUser();
+        HttpServletRequest servletRequest = (HttpServletRequest) request.getNativeRequest();
+        HttpServletResponse servletResponse = (HttpServletResponse) request.getNativeResponse();
 
-        if (current == null) {
-            HttpServletRequest servletRequest = (HttpServletRequest) request.getNativeRequest();
-            HttpServletResponse servletResponse = (HttpServletResponse) request.getNativeResponse();
-
-            org.springframework.social.connect.UserProfile profile = connection.fetchUserProfile();
-            ConnectionData data = connection.createData();
-            UserProfile user = userServiceBean.providerSignIn(profile.getUsername(), data.getProviderId(), data.getProviderUserId());
-            if (user != null) {
-                userServiceBean.login(user, servletRequest, servletResponse);
-            }
+        org.springframework.social.connect.UserProfile profile = connection.fetchUserProfile();
+        ConnectionData data = connection.createData();
+        UserProfile user = userServiceBean.providerSignIn(profile.getUsername(), data.getProviderId(), data.getProviderUserId());
+        if (user != null) {
+            userServiceBean.login(user, servletRequest, servletResponse);
         }
 
         return null;
@@ -38,7 +34,9 @@ public class SocialAdapter implements SignInAdapter, ConnectionSignUp {
         UserProfile current = userServiceBean.currentUser();
         if (current == null) {
             org.springframework.social.connect.UserProfile profile = connection.fetchUserProfile();
-            return profile.getUsername();
+            ConnectionData data = connection.createData();
+            UserProfile user = userServiceBean.providerSignIn(profile.getUsername(), data.getProviderId(), data.getProviderUserId());
+            return user.getUsername();
         } else {
             return current.getUsername();
         }

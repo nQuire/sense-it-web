@@ -54,6 +54,9 @@ public class UserProfile extends AbstractEntity implements UserDetails {
         return true;
     }
 
+    public boolean isPasswordSet() {
+        return password != null && password.length() > 0;
+    }
 
     @Override
     public boolean equals(Object obj) {

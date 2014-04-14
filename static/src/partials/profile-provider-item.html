@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+
+
+<div data-ng-if="connectionExists">
+    <p>{{providerName}}: <a href="{{profileUrl}}" target="_blank">{{profileUrl}}</a></p>
+    <p><button class="pure-button pure-button-primary pure-button-xsmall" data-ng-click="deleteConnection(providerId)">Delete {{providerName}} connection</button></p>
+</div>
+<div data-ng-if="!connectionExists">
+    <p>{{providerName}}: No connection for provider {{providerName}}.</p>
+    <p><button class="pure-button pure-button-primary pure-button-xsmall" data-ng-click="login(providerId)">Link with {{providerName}}</button></p>
+</div>

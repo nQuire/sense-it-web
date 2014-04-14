@@ -52,9 +52,20 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
         return service._openIdRequest('api/security/logout', false, true, 'post');
     };
 
+    service.deleteConnection = function(providerId) {
+        return service._openIdRequest('api/security/connection/' + providerId, true, true, 'delete');
+    };
+
     service.saveProfile = function () {
         return service._openIdRequest('api/security/profile', true, false, 'put', {
             username: service.status.profile.username
+        });
+    };
+
+    service.setPassword = function(oldPassword, newPassword) {
+        return service._openIdRequest('api/security/password', true, false, 'put', {
+            oldPassword: oldPassword,
+            newPassword: newPassword
         });
     };
 

@@ -7,7 +7,9 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.greengin.senseitweb.json.Views;
 import org.greengin.senseitweb.logic.ContextBean;
 import org.greengin.senseitweb.logic.users.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +27,6 @@ import org.springframework.web.bind.annotation.*;
  */
 @Controller
 public class ProfileController {
-
-
 
 
     @Inject
@@ -48,7 +48,7 @@ public class ProfileController {
 
     private HashMap<String, Connection<?>> getConnections() {
         HashMap<String, Connection<?>> connections = new HashMap<String, Connection<?>>();
-        for (Connection<?> c : new Connection<?>[] {google, facebook}) {
+        for (Connection<?> c : new Connection<?>[]{google, facebook}) {
             try {
                 if (c.test()) {
                     ConnectionData data = c.createData();
@@ -63,9 +63,9 @@ public class ProfileController {
     }
 
 
-
     @RequestMapping(value = "/api/security/profile", method = RequestMethod.PUT)
     @ResponseBody
+    @JsonView(value = Views.UserProfileData.class)
     public StatusResponse update(@RequestBody ProfileRequest data, HttpServletRequest request) {
         StatusResponse response = context.getUsersManager().status(getConnections(), request.getSession());
         boolean completed = new UserProfileActions(context, request).updateProfile(response, data);
@@ -73,9 +73,9 @@ public class ProfileController {
     }
 
 
-
     @RequestMapping(value = "/api/security/status", method = RequestMethod.GET)
     @ResponseBody
+    @JsonView(value = Views.UserProfileData.class)
     public StatusResponse checkLogin(HttpServletRequest request) {
         return context.getUsersManager().status(getConnections(), request.getSession());
     }
@@ -83,23 +83,43 @@ public class ProfileController {
 
     @RequestMapping(value = "/api/security/login", method = RequestMethod.POST)
     @ResponseBody
+    @JsonView(value = Views.UserProfileData.class)
     public StatusResponse performLogin(@RequestParam("j_username") String username, @RequestParam("j_password") String password, HttpServletRequest request, HttpServletResponse response) {
         return context.getUsersManager().login(username, password, getConnections(), request, response);
     }
 
     @RequestMapping(value = "/api/security/logout", method = RequestMethod.POST)
     @ResponseBody
+    @JsonView(value = Views.UserProfileData.class)
     public StatusResponse performLogout(HttpServletRequest request, HttpServletResponse response) {
         return context.getUsersManager().logout(getConnections(), request, response);
     }
 
     @RequestMapping(value = "/api/security/register", method = RequestMethod.POST)
     @ResponseBody
+    @JsonView(value = Views.UserProfileData.class)
     public RegistrationResponse performRegister(@RequestParam("j_username") String username, @RequestParam("j_password") String password, HttpServletRequest request, HttpServletResponse response) {
         return context.getUsersManager().registerUser(username, password, getConnections(), request, response);
     }
 
+    @RequestMapping(value = "/api/security/connection/{providerId}", method = RequestMethod.DELETE)
+    @ResponseBody
+    @JsonView(value = Views.UserProfileData.class)
+    public StatusResponse deleteConnection(@PathVariable("providerId") String providerId, HttpServletRequest request) {
+        StatusResponse response = context.getUsersManager().status(getConnections(), request.getSession());
+        boolean completed = new UserProfileActions(context, request).deleteConnection(response, providerId);
+        return completed ? response : null;
+    }
 
+
+    @RequestMapping(value = "/api/security/password", method = RequestMethod.PUT)
+    @ResponseBody
+    @JsonView(value = Views.UserProfileData.class)
+    public StatusResponse setPassword(@RequestBody PasswordRequest data, HttpServletRequest request) {
+        StatusResponse response = context.getUsersManager().status(getConnections(), request.getSession());
+        boolean completed = new UserProfileActions(context, request).setPassword(response, data);
+        return completed ? response : null;
+    }
 
 
     @RequestMapping(value = "/social/{provider}/login", method = RequestMethod.GET)
@@ -135,7 +155,7 @@ public class ProfileController {
 
         try {
             model.addAttribute("user", mapper.writeValueAsString(status));
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

@@ -1,6 +1,5 @@
 package org.greengin.senseitweb.logic.users;
 
-import com.sun.corba.se.impl.encoding.OSFCodeSetRegistry;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.logic.persistence.CustomEntityManagerFactoryBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -20,6 +19,7 @@ import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.social.connect.Connection;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.servlet.http.HttpServletRequest;
@@ -64,14 +64,21 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
     }
 
     private UserProfile loadUserByProviderUserId(String providerId, String id) {
-        Query query = customEntityManagerFactory.createEntityManager().createNativeQuery(AUTHORITY_QUERY);
+
+        EntityManager em = customEntityManagerFactory.createEntityManager();
+        Query query = em.createNativeQuery(AUTHORITY_QUERY);
 
         query.setParameter(1, providerId);
         query.setParameter(2, id);
         try {
+            em.getTransaction().begin();
             Object obj = query.getSingleResult();
+            em.getTransaction().commit();
             return loadUserByUsername((String) obj);
-        } catch (Exception ignored) {
+        } catch (NoResultException e) {
+            em.getTransaction().rollback();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return null;
@@ -90,7 +97,7 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
                 if (entry.getValue() != null) {
                     StatusConnectionResponse scr = new StatusConnectionResponse();
                     scr.setProvider(entry.getKey());
-//                    scr.setProviderProfileUrl(entry.getValue().getProfileUrl());
+                    scr.setProviderProfileUrl(entry.getValue().getProfileUrl());
                     result.getConnections().put(entry.getKey(), scr);
                 }
             }
