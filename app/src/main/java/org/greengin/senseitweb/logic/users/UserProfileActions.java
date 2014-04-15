@@ -83,7 +83,7 @@ public class UserProfileActions extends AbstractContentManager {
         if (user != null && loggedWithToken && currentStatus.getProfile() != null &&
                 data.getNewPassword() != null) {
 
-            if ((user.isPasswordSet() && user.getPassword().equals(data.getOldPassword())) ||
+            if ((user.isPasswordSet() && context.getUsersManager().matchPassword(user, data.getOldPassword())) ||
                     (!user.isPasswordSet() && "".equals(data.getOldPassword()))) {
 
                 if (data.getNewPassword().length() < 6) {
@@ -91,12 +91,10 @@ public class UserProfileActions extends AbstractContentManager {
                 } else if (data.getNewPassword().equals(user.getUsername())) {
                     currentStatus.getResponses().put("newpassword", "same_as_username");
                 } else {
-
-
                     EntityManager em = context.createEntityManager();
 
                     em.getTransaction().begin();
-                    user.setPassword(data.getNewPassword());
+                    context.getUsersManager().setPassword(user, data.getNewPassword());
                     em.getTransaction().commit();
                 }
             } else {

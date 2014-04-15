@@ -24,7 +24,7 @@ angular.module('senseItWeb', null, null).controller('ProfileCtrl', function ($sc
         $scope.openIdService.logout();
     };
 
-    $scope.login = function (provider) {
+    $scope.providerLogin = function (provider) {
         window.handleOpenIdResponse = function () {
             $scope.openIdService.update();
         };
@@ -46,6 +46,40 @@ angular.module('senseItWeb', null, null).controller('ProfileCtrl', function ($sc
                 return 'Username not available (already taken)';
             default:
                 return '';
+        }
+    };
+
+
+    $scope.login = {
+        editing: {username: '', password: ''},
+        error: {
+            username: false,
+            password: false
+        },
+        clearPassword: function () {
+            var p = this.editing.password;
+            this.editing.password = "";
+            return p;
+        },
+        submit: function () {
+            var ok = true;
+
+            if (this.editing.username.length == 0) {
+                this.error.username = 'Username cannot be empty.';
+                ok = false;
+            }
+            if (this.editing.password.length == 0) {
+                this.error.password = 'Password cannot be empty.';
+                ok = false;
+            }
+
+            if (ok) {
+                var error = this.error;
+                error.username = null;
+                OpenIdService.login(this.editing.username, this.clearPassword(), function(data) {
+                    error.password = data == 'false' ? 'Username & password do not match.' : null;
+                });
+            }
         }
     };
 

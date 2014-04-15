@@ -4,20 +4,25 @@ import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.logic.persistence.CustomEntityManagerFactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.dao.SaltSource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.logout.CookieClearingLogoutHandler;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.security.web.authentication.rememberme.AbstractRememberMeServices;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.social.connect.Connection;
+import org.springframework.social.facebook.api.Facebook;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -48,6 +53,9 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
 
     @Autowired
     RememberMeServices rememberMeServices;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
 
     SecureRandom random;
@@ -152,7 +160,7 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
         rememberMeServices.loginSuccess(request, response, auth);
     }
 
-    public StatusResponse login(String username, String password, HashMap<String, Connection<?>> connections, HttpServletRequest request, HttpServletResponse response) {
+    public Boolean login(String username, String password, HttpServletRequest request, HttpServletResponse response) {
         Authentication auth;
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
         try {
@@ -165,7 +173,8 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
             auth = null;
         }
 
-        return createResponse(auth, connections, request.getSession());
+
+        return auth != null && auth.getPrincipal() != null && auth.getPrincipal() instanceof UserProfile;
     }
 
     public StatusResponse logout(HashMap<String, Connection<?>> connections, HttpServletRequest request, HttpServletResponse response) {
@@ -187,40 +196,25 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
                 initialUsername = String.format("%s(%d)", username, i);
             }
 
-            UserProfile user = new UserProfile();
-            user.setUsername(initialUsername);
-            user.setPassword(null);
-
-            EntityManager em = customEntityManagerFactory.createEntityManager();
-            em.getTransaction().begin();
-            em.persist(user);
-            em.getTransaction().commit();
-
-            return user;
+            return createUser(initialUsername, null);
         }
     }
 
-    public RegistrationResponse registerUser(String username, String password, HashMap<String, Connection<?>> connections, HttpServletRequest request, HttpServletResponse response) {
-        RegistrationResponse result = new RegistrationResponse();
+
+    public StatusResponse registerUser(String username, String password, HashMap<String, Connection<?>> connections, HttpServletRequest request) {
         try {
             loadUserByUsername(username);
-            result.setResponse(null);
-            result.setExplanation("username exists");
+            StatusResponse result = new StatusResponse();
+            result.setLogged(false);
+            result.setProfile(null);
+            result.getResponses().put("registration", "username_exists");
+            return result;
         } catch (UsernameNotFoundException e) {
-            UserProfile user = new UserProfile();
-            user.setUsername(username);
-            user.setPassword(password);
+            UserProfile user = createUser(username, password);
+            login(user, request.getSession());
 
-            EntityManager em = customEntityManagerFactory.createEntityManager();
-            em.getTransaction().begin();
-            em.persist(user);
-            em.getTransaction().commit();
-
-            result.setResponse(login(username, password, connections, request, response));
-            result.setExplanation(null);
+            return status(connections, request.getSession());
         }
-
-        return result;
     }
 
     @Override
@@ -228,5 +222,26 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
         random = new SecureRandom();
     }
 
+
+
+    public boolean matchPassword(UserProfile user, String password) {
+        return passwordEncoder.matches(password, user.getPassword());
+    }
+
+    public void setPassword(UserProfile user, String password) {
+        user.setPassword(passwordEncoder.encode(password));
+    }
+
+    private UserProfile createUser(String username, String password) {
+        UserProfile user = new UserProfile();
+        user.setUsername(username);
+        user.setPassword(password != null ? passwordEncoder.encode(password) : null);
+
+        EntityManager em = customEntityManagerFactory.createEntityManager();
+        em.getTransaction().begin();
+        em.persist(user);
+        em.getTransaction().commit();
+        return user;
+    }
 
 }

@@ -48,11 +48,21 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
         return service._openIdRequest('api/security/status', true, true);
     };
 
+    service.login = function (username, password, callback) {
+        return RestService.post('api/security/login', {
+            username: username,
+            password: password
+        }).then(function (data) {
+                service.update();
+                callback(data);
+            });
+    };
+
     service.logout = function () {
         return service._openIdRequest('api/security/logout', false, true, 'post');
     };
 
-    service.deleteConnection = function(providerId) {
+    service.deleteConnection = function (providerId) {
         return service._openIdRequest('api/security/connection/' + providerId, true, true, 'delete');
     };
 
@@ -62,7 +72,7 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
         });
     };
 
-    service.setPassword = function(oldPassword, newPassword) {
+    service.setPassword = function (oldPassword, newPassword) {
         return service._openIdRequest('api/security/password', true, false, 'put', {
             oldPassword: oldPassword,
             newPassword: newPassword

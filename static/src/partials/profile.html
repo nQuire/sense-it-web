@@ -7,19 +7,43 @@
 <div class="content">
 
     <div data-ng-if="!status.logged">
-        <button class="pure-button pure-button-primary"
-                data-ng-click="login('google')">Log in with Google
+
+        <p>
+        <button class="pure-button pure-button-primary" data-ng-click="providerLogin('google')">
+            Log in with Google
         </button>
-        <button class="pure-button pure-button-primary"
-                data-ng-click="login('facebook')">Log in with Facebook
+        <button class="pure-button pure-button-primary" data-ng-click="providerLogin('facebook')">
+            Log in with Facebook
         </button>
+        <button class="pure-button pure-button-primary" data-ng-click="providerLogin('twitter')">
+            Log in with Twitter
+        </button>
+        </p>
+
+        <form class="pure-form pure-form-stacked">
+            <fieldset>
+                <label for="login_username">Username:</label>
+                <input id="login_username" type="text"
+                       data-ng-model="login.editing.username" />
+                <span data-ng-if="login.error.username" class="profile-login-username-error">{{login.error.username}}</span>
+
+                <label for="login_password">Password:</label>
+                <input id="login_password" type="password"
+                       data-ng-model="login.editing.password" />
+                <span data-ng-if="login.error.password" class="profile-login-password-error">{{login.error.password}}</span>
+
+                <button class="pure-button pure-button-primary pure-button-small" data-ng-click="login.submit()">
+                    Login
+                </button>
+            </fieldset>
+        </form>
     </div>
 
     <div data-ng-if="status.logged">
         <div data-ng-if="status.ready">
             <p>
-                <button class="pure-button pure-button-primary pure-button-small"
-                        data-ng-click="logout()">Logout
+                <button class="pure-button pure-button-primary pure-button-small" data-ng-click="logout()">
+                    Logout
                 </button>
             </p>
 
@@ -94,6 +118,8 @@
                     data-ng-attr-provider="google"></li>
                 <li data-siw-profile-provider-item
                     data-ng-attr-provider="facebook"></li>
+                <li data-siw-profile-provider-item
+                    data-ng-attr-provider="twitter"></li>
             </ul>
         </div>
     </div>

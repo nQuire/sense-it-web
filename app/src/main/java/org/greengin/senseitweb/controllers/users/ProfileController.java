@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionData;
 import org.springframework.social.facebook.api.Facebook;
+import org.springframework.social.google.api.Google;
+import org.springframework.social.twitter.api.Twitter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -35,8 +37,11 @@ public class ProfileController {
 
     @Inject
     @Qualifier("google")
-    Connection<?> google;
+    Connection<Google> google;
 
+    @Inject
+    @Qualifier("twitter")
+    Connection<Twitter> twitter;
 
     @Value("${server.appUrl}")
     String serverPath;
@@ -48,14 +53,13 @@ public class ProfileController {
 
     private HashMap<String, Connection<?>> getConnections() {
         HashMap<String, Connection<?>> connections = new HashMap<String, Connection<?>>();
-        for (Connection<?> c : new Connection<?>[]{google, facebook}) {
+        for (Connection<?> c : new Connection<?>[]{google, facebook, twitter}) {
             try {
                 if (c.test()) {
                     ConnectionData data = c.createData();
                     connections.put(data.getProviderId(), c);
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (Exception ignored) {
             }
         }
 
@@ -84,8 +88,8 @@ public class ProfileController {
     @RequestMapping(value = "/api/security/login", method = RequestMethod.POST)
     @ResponseBody
     @JsonView(value = Views.UserProfileData.class)
-    public StatusResponse performLogin(@RequestParam("j_username") String username, @RequestParam("j_password") String password, HttpServletRequest request, HttpServletResponse response) {
-        return context.getUsersManager().login(username, password, getConnections(), request, response);
+    public Boolean performLogin(@RequestBody LoginRequest data, HttpServletRequest request, HttpServletResponse response) {
+        return context.getUsersManager().login(data.getUsername(), data.getPassword(), request, response);
     }
 
     @RequestMapping(value = "/api/security/logout", method = RequestMethod.POST)
@@ -98,8 +102,8 @@ public class ProfileController {
     @RequestMapping(value = "/api/security/register", method = RequestMethod.POST)
     @ResponseBody
     @JsonView(value = Views.UserProfileData.class)
-    public RegistrationResponse performRegister(@RequestParam("j_username") String username, @RequestParam("j_password") String password, HttpServletRequest request, HttpServletResponse response) {
-        return context.getUsersManager().registerUser(username, password, getConnections(), request, response);
+    public StatusResponse performRegister(@RequestParam("j_username") String username, @RequestParam("j_password") String password, HttpServletRequest request) {
+        return context.getUsersManager().registerUser(username, password, getConnections(), request);
     }
 
     @RequestMapping(value = "/api/security/connection/{providerId}", method = RequestMethod.DELETE)
@@ -129,6 +133,8 @@ public class ProfileController {
         if ("facebook".equals(provider)) {
             scopes = "email,user_likes,friends_likes,publish_stream";
         } else if ("google".equals(provider)) {
+            scopes = "email";
+        } else if ("twitter".equals(provider)) {
             scopes = "email";
         }
 
