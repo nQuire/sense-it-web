@@ -1,0 +1,66 @@
+
+.project-item {
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 1em;
+  padding: 1em;
+  margin-bottom: 1em;
+}
+
+.project-item.project-type-challenge {
+  border-color: rgb(128, 100, 162);
+}
+
+.project-item.project-type-senseit {
+  border-color: rgb(79, 129, 189);
+}
+
+.project-item.project-type-spotit {
+  border-color: rgb(155, 187, 89);
+}
+
+
+.project-item > .project-item-image-container,
+.project-item > .project-item-image-container > img{
+  width: 100%;
+}
+
+.project-item > .project-item-image-container {
+  overflow: hidden;
+  position: relative;
+
+  letter-spacing: -0.31em; /* webkit */
+  *letter-spacing: normal; /* reset IE < 8 */
+  word-spacing: -0.43em; /* IE < 8 && gecko */
+}
+
+.project-item > .project-item-image-container:before,
+.project-item > .project-item-image-container > img{
+  /* vertically center the image */
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.project-item > .project-item-image-container:before {
+  /* pseudo element to vertically align image to */
+  content: "";
+
+  /* Magic Number */
+  /* Set this to your desired height(to width) ratio */
+  padding-top: 75%; /* % of original image width */
+}
+.project-item > .project-item-image-container > img {
+  /* removes(sorta) image from the flow */
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
+
+
+.project-item-title,
+.project-item-author,
+.project-item-data-count,
+.project-item-data-label {
+  text-align: center;
+}

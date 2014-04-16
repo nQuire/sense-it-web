@@ -4,31 +4,17 @@
     <meta charset="utf-8">
     <title>Sense It</title>
 
-    <link rel="stylesheet" href="css/pure-min.css">
-    <link rel="stylesheet" href="css/pure-ext.css">
+    <link rel="stylesheet" href="css/nquire-it-bootstrap.css">
     <link rel="stylesheet" href="css/font-opensans.css">
-    <link rel="stylesheet" href="css/font-awesome.css">
-
-    <link rel="stylesheet" href="css/app.css">
-    <link rel="stylesheet" href="css/dropdown.css">
-    <link rel="stylesheet" href="css/project-list.css">
-    <link rel="stylesheet" href="css/voting.css">
-    <link rel="stylesheet" href="css/senseit.css">
-
-    <!--[if lte IE 8]>
-    <link rel="stylesheet" href="css/side-menu-old-ie.css">
-    <![endif]-->
-    <!--[if gt IE 8]><!-->
-    <link rel="stylesheet" href="css/side-menu.css">
-    <!--<![endif]-->
-    <link rel="stylesheet" href="css/side-menu-submenu.css">
-    <link rel="stylesheet" href="css/tables.css">
-
 
     <script src="js/libs/jquery-2.1.0.min.js"></script>
+    <script src="js/libs/bootstrap.js"></script>
     <script src="js/libs/angular.js"></script>
     <script src="js/libs/angular-sanitize.js"></script>
     <script src="js/libs/angular-ui-router.js"></script>
+
+    <script src="../backend-mockup/angular-mocks.js"></script>
+
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
     <script src="js/libs/oms.min.js"></script>
 
@@ -46,15 +32,11 @@
 
     <script src="js/app/app.js"></script>
 
-    <script src="js/app/directives/side-menu-button.js"></script>
-    <script src="js/app/directives/side-menu.js"></script>
-    <script src="js/app/directives/vote-widget.js"></script>
-    <script src="js/app/directives/file-select-widget.js"></script>
-    <script src="js/app/directives/table-widget.js"></script>
-    <script src="js/app/directives/map.js"></script>
-    <script src="js/app/directives/project-description.js"></script>
-    <script src="js/app/directives/youtube.js"></script>
-    <script src="js/app/directives/profile-provider-item.js"></script>
+    <script src="../backend-mockup/app-backend.js"></script>
+
+    <script src="../backend-mockup/maps/loggedout.js"></script>
+    <script src="../backend-mockup/maps/projects.js"></script>
+
 
     <script src="js/app/services/services-module.js"></script>
     <script src="js/app/services/rest-service.js"></script>
@@ -69,8 +51,21 @@
     <script src="js/app/services/project-challenge-participant-service.js"></script>
     <script src="js/app/services/project-challenge-outcome-service.js"></script>
 
-    <script src="js/app/controllers/main-controller.js"></script>
-    <script src="js/app/controllers/home-controller.js"></script>
+
+    <script src="js/app/directives/side-menu-button.js"></script>
+    <script src="js/app/directives/side-menu.js"></script>
+    <script src="js/app/directives/vote-widget.js"></script>
+    <script src="js/app/directives/file-select-widget.js"></script>
+    <script src="js/app/directives/table-widget.js"></script>
+    <script src="js/app/directives/map.js"></script>
+    <script src="js/app/directives/project-description.js"></script>
+    <script src="js/app/directives/youtube.js"></script>
+    <script src="js/app/directives/profile-provider-item.js"></script>
+
+
+    <script src="js/app/controllers/layout/main-controller.js"></script>
+    <script src="js/app/controllers/layout/navbar-controller.js"></script>
+
     <script src="js/app/controllers/login-controller.js"></script>
     <script src="js/app/controllers/profile-controller.js"></script>
     <script src="js/app/controllers/data-project-menu-controller.js"></script>
@@ -105,17 +100,7 @@
     <script src="js/app/controllers/project-view-senseit-test-upload-controller.js"></script>
 
 </head>
-<body data-ng-app="senseItWeb">
-
-<div id="layout" data-ng-controller="MainCtrl">
-
-    <a id="menuLink" data-siw-side-menu-button></a>
-
-    <div id="menu" data-siw-side-menu></div>
-
-    <div id="main" data-ui-view></div>
-</div>
-
-
+<body data-ng-app="senseItWebDev">
+    <div data-ng-include="'partials/layout/main.html'"></div>
 </body>
 </html>
