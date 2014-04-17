@@ -4,9 +4,8 @@
     <meta charset="utf-8">
     <title>Sense It</title>
 
-    <link rel="stylesheet" href="css/nquire-it-bootstrap.css">
     <link rel="stylesheet" href="css/font-opensans.css">
-    <link rel="stylesheet" href="css/project-list.css">
+    <link rel="stylesheet" href="css/nquire-it-bootstrap.css">
 
     <script src="js/libs/jquery-2.1.0.min.js"></script>
     <script src="js/libs/bootstrap.js"></script>
@@ -78,8 +77,12 @@
     <script src="js/app/controllers/project-admin-controller.js"></script>
     <script src="js/app/controllers/project-admin-users-controller.js"></script>
     <script src="js/app/controllers/project-admin-challenge-controller.js"></script>
+
+
+        <script src="js/app/controllers/project/project-controller.js"></script>
+        <script src="js/app/controllers/project/project-view-controller.js"></script>
+
     <script src="js/app/controllers/project-view-challenge-outcome-controller.js"></script>
-    <script src="js/app/controllers/project-view-controller.js"></script>
     <script src="js/app/controllers/project-view-data-controller.js"></script>
     <script src="js/app/controllers/project-view-senseit-controller.js"></script>
     <script src="js/app/controllers/project-view-senseit-analysis-controller.js"></script>

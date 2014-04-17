@@ -6,26 +6,76 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-xs-12 col-sm-3 col-sm-push-9">
-            bla bla bla
+            <div class="sidebar-nav">
+                <div class="navbar navbar-default" role="navigation">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                data-target=".sidebar-navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <span class="visible-xs navbar-brand">Category:</span>
+                    </div>
+                    <div class="navbar-collapse collapse sidebar-navbar-collapse">
+                        <ul class="nav navbar-nav">
+                            <li><a href="#">All <span class="badge">{{projectList.categories.all}}</span></a></li>
+                            <li class="active"><a href="#">Win-it <span class="badge">{{projectList.categories.challenge}}</span></a>
+                            </li>
+                            <li><a href="#">Sense-it <span class="badge">{{projectList.categories.senseit}}</span></a>
+                            </li>
+                            <li><a href="#">Spot-it <span class="badge">{{projectList.categories.spotit}}</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--/.nav-collapse -->
+                </div>
+
+                <div class="navbar navbar-default" role="navigation">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                data-target=".sidebar-navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <span class="visible-xs navbar-brand">Topic:</span>
+                    </div>
+                    <div class="navbar-collapse collapse sidebar-navbar-collapse">
+                        <ul class="nav navbar-nav">
+                            <li><a href="#">Cars <span class="badge">23</span></a></li>
+                            <li class="active"><a href="#">Wildlife <span class="badge">11</span></a></li>
+                            <li><a href="#">Schools <span class="badge">4</span></a></li>
+                            <li><a href="#">Noise <span class="badge">21</span></a></li>
+                        </ul>
+                    </div>
+                    <!--/.nav-collapse -->
+                </div>
+            </div>
         </div>
+
+
         <div class="col-xs-12 col-sm-9 col-sm-pull-3">
             <div class="row">
-                <div data-ng-repeat="project in projects" class="col-xs-12 col-sm-6 col-md-4">
-                    <div class="project-item" data-ng-class="projectClass(project)">
-                        <div class="project-item-image-container">
-                            <img src="" data-ng-src="{{project.description.image}}"/>
+                <div data-ng-repeat="projectData in projectList.projects" class="col-xs-12 col-sm-6 col-md-4">
+                    <div class="project-item" data-ng-class="projectClass(projectData)">
+                        <div class="project-item-image-container"
+                             data-ui-sref="project.view.home({projectId: projectData.project.id})">
+                            <img src="" data-ng-src="{{projectData.project.description.image}}"/>
                         </div>
                         <div class="project-item-title">
-                            {{project.title}}
+                            {{projectData.project.title}}
                         </div>
                         <div class="project-item-author">
-                            by {{project.author.username}}
+                            by {{projectData.project.author.username}}
                         </div>
                         <div class="project-item-teaser">
-                            {{project.description.teaser}}
+                            {{projectData.project.description.teaser}}
                         </div>
 
-                        <div class="row" data-ng-include="dataItemsTemplate(project)"></div>
+                        <div class="row" data-ng-include="dataItemsTemplate(projectData)"></div>
                     </div>
                 </div>
             </div>

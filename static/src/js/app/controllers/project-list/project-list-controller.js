@@ -1,25 +1,18 @@
 
 
 
-angular.module('senseItWeb', null, null).controller('ProjectListCtrl', function ($scope, $state, RestService) {
+angular.module('senseItWeb', null, null).controller('ProjectListCtrl', function ($scope, $state, ProjectService) {
 
-    $scope.projects = {};
-    $scope.loading = false;
+    ProjectService.watchList($scope);
+    $scope.projectListWatcher.query('all');
 
-    $scope._update = function() {
-        $scope.loading = true;
-        RestService.get("api/projects").then(function(data) {
-            $scope.loading = false;
-            $scope.projects = data;
-        });
+
+    $scope.projectClass = function(projectData) {
+        return 'project-type-' + projectData.project.type;
     };
 
-    $scope.projectClass = function(project) {
-        return 'project-type-' + project.type;
-    };
-
-    $scope.projectTypeLabel = function(project) {
-        switch (project.type) {
+    $scope.projectTypeLabel = function(projectData) {
+        switch (projectData.project.type) {
             case 'senseit':
                 return 'Sense-it';
             case 'challenge':
@@ -29,10 +22,8 @@ angular.module('senseItWeb', null, null).controller('ProjectListCtrl', function 
         }
     };
 
-    $scope._update();
-
-    $scope.dataItemsTemplate = function(project) {
-        return 'partials/projects/project-data-' + project.type + '.html';
+    $scope.dataItemsTemplate = function(projectData) {
+        return 'partials/project/data/project-data-' + projectData.project.type + '.html';
     };
 });
 

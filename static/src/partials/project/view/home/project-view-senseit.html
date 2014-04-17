@@ -4,7 +4,7 @@
     <div data-ng-controller="ProjectViewSenseItCtrl">
 
 
-        <div data-ng-if="status.logged && project.open && access.member">
+        <div data-ng-if="showProjectViewMenu()">
             <div class="pure-menu pure-menu-open pure-menu-horizontal" data-ng-controller="DataProjectMenuCtrl">
                 <ul>
                     <li data-ng-class="itemClass('project-view.home')">

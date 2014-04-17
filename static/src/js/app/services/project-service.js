@@ -2,153 +2,154 @@
 
 angular.module('senseItServices', null, null).factory('ProjectService', ['RestService', 'OpenIdService', function (RestService, OpenIdService) {
 
-    var service = {
-        _projectData: {}
-    };
+    var utils = {
+        composePath: function (path, suffix) {
+            return path + (suffix ? '/' + suffix : '');
+        },
+        /**
+         *
+         * @param method
+         * @param path
+         * @param data
+         * @param [files=null]
+         * @returns {*}
+         * @private
+         */
+        request: function (method, path, data, files) {
+            return data ? RestService[method](path, data, files) : RestService[method](path);
+        },
+        /**
+         *
+         * @param method
+         * @param projectId
+         * @param [path=null]
+         * @param [data=null]
+         * @param [files=null]
+         * @returns {*}
+         */
+        projectRequest: function (method, projectId, path, data, files) {
+            var _path = utils.composePath('api/project/' + projectId, path);
+            return utils.request(method, _path, data, files);
+        },
 
-    service._composePath = function(path, suffix) {
-        return path + (suffix ? '/' + suffix : '');
-    };
-
-    /**
-     *
-     * @param method
-     * @param path
-     * @param data
-     * @param [files=null]
-     * @returns {*}
-     * @private
-     */
-    service._request = function(method, path, data, files) {
-        return data ? RestService[method](path, data, files) : RestService[method](path);
-    };
-
-    /**
-     *
-     * @param method
-     * @param projectId
-     * @param [path=null]
-     * @param [data=null]
-     * @param [files=null]
-     * @returns {*}
-     */
-    service.projectRequest = function(method, projectId, path, data, files) {
-        var _path = service._composePath('api/project/' + projectId, path);
-        return service._request(method, _path, data, files);
-    };
-
-    service.projectsRequest = function(method, path, data) {
-        var _path = service._composePath('api/projects', path);
-        return service._request(method, _path, data);
-    };
-
-
-    service._reload = function() {
-        var ids = [];
-        for (var id in service._projectData) {
-            ids.push(id);
-        }
-
-        if (ids.length > 0) {
-            service.projectsRequest('post', 'reload', ids).then(function(data) {
-                for (var id in service._projectData) {
-                    service._projectData[id].project = null;
-                    service._projectData[id].access = null;
-                    service._projectData[id].ready = true;
-                }
-
-                for (var id in data) {
-                    service._projectData[id].access = data[id].access;
-                    service._projectData[id].project = data[id].project;
-                }
-            });
-        }
-    }
-
-    service._load = function (id) {
-        service.projectRequest('get', id).then(function(data) {
-            service._projectData[id].project = data.project;
-            service._projectData[id].access = data.access;
-            service._projectData[id].ready = true;
-        });
-    };
-
-    service._resetAccess = function () {
-        for (var id in service._projectData) {
-            for (var type in service._projectData[id].access) {
-                service._projectData[id].access[type] = false;
-            }
+        /**
+         *
+         * @param method
+         * @param [path=null]
+         * @param [data=null]
+         * @returns {*}
+         */
+        projectsRequest: function (method, path, data) {
+            var _path = this.composePath('api/projects', path);
+            return this.request(method, _path, data);
         }
     };
 
-    service._updateAccess = function () {
-        var ids = [];
-        for (var id in service._projectData) {
-            ids.push(id);
-        }
 
-        if (ids.length > 0) {
-            service.projectsRequest('post', 'access', ids).then(function(data) {
-                for (var id in data) {
-                    service._projectData[id].access = data[id];
-                }
-            });
-        }
-    };
+    var ProjectListWatcher = function (scope, callback) {
+        var self = this;
 
-    service.registerGet = function (scope, projectId, callback) {
-        if (!(projectId in service._projectData)) {
-            service._projectData[projectId] = {
-                ready: false,
-                project: null,
-                access: null
-            };
-            service._load(projectId);
-        }
+        this.data = {projects: [], categories: {}, ready: true};
+        this._query = false;
 
-        scope.projectServiceData = service._projectData[projectId];
+        scope.projectList = this.data;
 
-        var listener = scope.$watch('projectServiceData', function () {
-            scope.project = scope.projectServiceData.project;
-            scope.access = scope.projectServiceData.access;
+        var destroyWatch = scope.$watch('projectList', callback, true);
 
-            if (callback) {
-                callback();
-            }
-        }, true);
+        var openIdListener = function () {
+            self._reload();
+        };
 
         scope.$on('$destroy', function () {
-            listener();
+            OpenIdService.removeListener(openIdListener);
+            destroyWatch();
+        });
+        OpenIdService.registerListener(openIdListener);
+    };
+
+    ProjectListWatcher.prototype._reload = function () {
+        this.data.ready = false;
+        var self = this;
+        RestService.get('api/projects').then(function (data) {
+            self.data.ready = true;
+            self.data.projects = data.list;
+            self.data.categories = data.categories;
+        });
+    };
+
+
+    ProjectListWatcher.prototype.query = function (query) {
+        this._query = query;
+        this._reload();
+    };
+
+    var ProjectWatcher = function (scope, projectId) {
+        var self = this;
+        this.projectId = projectId;
+
+        this.data = {project: null, access: null, data: null, ready: false};
+
+        scope.projectData = this.data;
+
+        var destroyWatch = scope.$watch('projectData', null, true);
+
+        var openIdListener = function () {
+            self._reload();
+        };
+
+        scope.$on('$destroy', function () {
+            OpenIdService.removeListener(openIdListener);
+            destroyWatch();
         });
 
-        return listener;
+        OpenIdService.registerListener(openIdListener);
+
+        this._reload();
+    };
+
+    ProjectWatcher.prototype._reload = function () {
+        this.data.ready = false;
+        var self = this;
+        utils.projectRequest('get', this.projectId).then(function (data) {
+            self.data.ready = true;
+            self.data.project = data.project;
+            self.data.access = data.access;
+            self.data.data = data.data;
+        });
     };
 
 
-
-    service.createProject = function (data) {
-        return service.projectsRequest('post', false, data);
-    };
-
-
-    service._subscriptionAction = function (projectId, action) {
-        return service.projectRequest('post', projectId, action).then(function (data) {
+    ProjectWatcher.prototype._subscriptionAction = function (action) {
+        var self = this;
+        return utils.projectRequest('post', this.projectId, action).then(function (data) {
             if (data) {
-                service._projectData[projectId].access = data;
+                self.data.access = data;
             }
             return true;
         });
     };
 
-    service.joinProject = function(projectId) {
-        return service._subscriptionAction(projectId, 'join');
-    };
-    service.leaveProject = function(projectId) {
-        return service._subscriptionAction(projectId, 'leave');
+    ProjectWatcher.prototype.joinProject = function () {
+        return this._subscriptionAction('join');
     };
 
+    ProjectWatcher.prototype.leaveProject = function () {
+        return this._subscriptionAction('leave');
+    };
 
 
+    ProjectWatcher.prototype.deleteProject = function (projectId) {
+        var self = this;
+        return utils.projectRequest('delete', this.projectId).then(function (deleted) {
+            if (deleted) {
+                self.data.project = null;
+                self.data.access = null;
+                self.data.data = null;
+                self.data.ready = true;
+            }
+            return deleted;
+        });
+    };
 
     /**
      *
@@ -160,13 +161,17 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
      * @returns {object}
      * @private
      */
-    service.updateProjectAction = function (method, projectId, path, data, files) {
-        return service.projectRequest(method, projectId, path, data, files).then(function(data) {
-            service._projectData[projectId].project = data;
+    ProjectWatcher.prototype._updateProjectAction = function (method, path, data, files) {
+        var self = this;
+        return utils.projectRequest(method, this.projectId, path, data, files).then(function (data) {
+            self.data.ready = true;
+            self.data.project = data.project;
+            self.data.access = data.access;
+            self.data.data = data.data;
+
             return true;
         });
     };
-
 
     /**
      *
@@ -175,46 +180,37 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
      * @returns {object}
      * @private
      */
-    service.saveMetadata = function (projectId, files) {
-        var project = service._projectData[projectId].project;
-
-        return service.updateProjectAction('post', projectId, 'metadata', {
-            title: project.title,
-            description: project.description
+    ProjectWatcher.prototype.saveMetadata = function (files) {
+        return this._updateProjectAction('post', 'metadata', {
+            title: this.data.project.title,
+            description: this.data.project.description
         }, files);
     };
 
-    service.deleteProject = function (projectId) {
-        return service.projectRequest('delete', projectId).then(function(deleted) {
-            if (deleted) {
-                service._projectData[projectId].project = null;
-                service._projectData[projectId].access = null;
-                service._projectData[projectId].ready = true;
-            }
-            return deleted;
-        });
+
+    ProjectWatcher.prototype.openProject = function () {
+        return this._updateProjectAction('put', 'admin/open');
+    };
+    ProjectWatcher.prototype.closeProject = function () {
+        return this._updateProjectAction('put', 'admin/close');
     };
 
-    service.openProject = function(projectId) {
-        return service.updateProjectAction('put', projectId, 'admin/open');
-    };
-    service.closeProject = function(projectId) {
-        return service.updateProjectAction('put', projectId, 'admin/close');
+    ProjectWatcher.prototype.getUsers = function () {
+        return utils.projectRequest('get', this.projectId, 'admin/users');
     };
 
-    service.getUsers = function(projectId) {
-        return service.projectRequest('get', projectId, 'admin/users');
-    };
 
-    OpenIdService.registerListener(function (logged) {
-        if (logged) {
-            service._updateAccess();
-        } else {
-            service._resetAccess();
+    return {
+        watchList: function (scope, callback) {
+            scope.projectListWatcher = new ProjectListWatcher(scope, callback || null);
+        },
+        watchProject: function (scope, projectId) {
+            scope.projectWatcher = new ProjectWatcher(scope, projectId);
+        },
+        createProject: function (data) {
+            return utils.projectsRequest('post', false, data);
         }
-    });
+    };
 
-    RestService.registerErrorListener(service._reload);
 
-    return service;
 }]);

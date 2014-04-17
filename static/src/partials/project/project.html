@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<div data-ng-if="projectData.ready">
+    <h1>{{projectData.project.title}}</h1>
+    <h2>by {{projectData.project.author.username}}</h2>
+
+    <div data-ng-if="showProjectMenu()">
+        <ul class="nav nav-pills">
+            <li data-ng-class="{'active' : projectMenuIsActive('view')}" data-ui-sref="project.view.home"><a href="#">Participate</a></li>
+            <li data-ng-class="{'active' : projectMenuIsActive('admin')}" data-ui-sref="project.admin"><a href="#">Admin</a></li>
+            <li data-ng-class="{'active' : projectMenuIsActive('edit')}" data-ui-sref="project.edit.home"><a href="#">Edit</a></li>
+        </ul>
+    </div>
+
+    <div data-ui-view></div>
+
+</div>
+<div data-ng-if="!projectData.ready">
+    <div class="header">
+        <div class="throbber"></div>
+        <h2>Loading...</h2>
+    </div>
+</div>

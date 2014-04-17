@@ -3,6 +3,15 @@
 describe('Project Service Admin tests', function () {
     var token, openidService, projectService, httpMock, http, timeout, scope;
 
+
+    var projectResponse = function (member) {
+        return {
+            project: {id: 101, title: 'PIRATE Telescope', author: {id: 1, username: 'The Open University'}, type: 'challenge', activity: {}, description: {teaser: 'har har har', image: 'http://pirate.open.ac.uk/PIRATE_files/IMG_2861_CDK17_web.JPG'}, open: true},
+            access: {member: member, admin: true, author: true},
+            data: {members: 30, responses: 23}
+        };
+    };
+
     beforeEach(function () {
         module('senseItWeb');
 
@@ -45,13 +54,9 @@ describe('Project Service Admin tests', function () {
         spyOn(scope, '$watch').andCallThrough();
 
 
-        httpMock.expectGET("api/project/1000").respond({
-            project: {id: 1000, title: "title", description: {}, type: "", activity: null, open: false},
-            access: {member: true, admin: true, author: true}
-        });
+        httpMock.expectGET("api/project/101").respond(projectResponse(true));
 
-
-        projectService.registerGet(scope, 1000);
+        projectService.watchProject(scope, 101);
         httpMock.flush();
         timeout.flush();
     });
@@ -67,37 +72,34 @@ describe('Project Service Admin tests', function () {
     });
 
     it('should delete project', function () {
-        expect(projectService._projectData[1000].project).toBeTruthy();
+        expect(scope.projectData.project).toBeTruthy();
         scope.$watch.reset();
 
-        httpMock.expectDELETE("api/project/1000").respond(true);
+        httpMock.expectDELETE("api/project/101").respond(true);
 
-        projectService.deleteProject(1000);
+        scope.projectWatcher.deleteProject();
 
         httpMock.flush();
         timeout.flush();
 
-        expect(projectService._projectData[1000].project).toBe(null);
+        expect(scope.projectData.project).toBe(null);
     });
 
 
     it('should update project', function () {
-        expect(projectService._projectData[1000].project).toBeTruthy();
+        expect(scope.projectData.project).toBeTruthy();
 
-        projectService._projectData[1000].project.title = 'title!';
-        projectService._projectData[1000].project.description = {'k': 'v'};
+        scope.projectData.project.title = 'title!';
+        scope.projectData.project.description = {'k': 'v'};
 
-        httpMock.expectPOST("api/project/1000/metadata", {title: 'title!', description: {'k': 'v'}}).respond(
-            {id: 1000, title: "title!", description: {}, type: "", activity: null}
-        );
+        httpMock.expectPOST("api/project/101/metadata", {title: 'title!', description: {'k': 'v'}}).respond(projectResponse(true));
 
-
-        projectService.saveMetadata(1000);
+        scope.projectWatcher.saveMetadata();
 
         httpMock.flush();
         timeout.flush();
 
-        expect(projectService._projectData[1000].project).toBeTruthy();
+        expect(scope.projectData.project).toBeTruthy();
     });
 
 

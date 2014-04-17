@@ -13,6 +13,14 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
         service.listeners.push(listener);
     };
 
+    service.removeListener = function (listener) {
+        var index = service.listeners.indexOf(listener);
+        if (index >= 0) {
+            service.listeners.splice(index, 1);
+        }
+    };
+
+
     service._fireLoginEvent = function (logged) {
         for (var i = 0; i < service.listeners.length; i++) {
             service.listeners[i](logged);

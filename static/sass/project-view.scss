@@ -1,0 +1,31 @@
+@import "../bootstrap-sass-3.1.1/vendor/assets/stylesheets/bootstrap";
+
+.project-description-block {
+  height: auto;
+
+  padding: .5em;
+}
+
+.project-description-block > div {
+
+  @media (min-width: $screen-xs-min) {
+    height: auto;
+  }
+
+  @media (min-width: $screen-sm-min) {
+    height: 289px;
+  }
+
+  @media (min-width: $screen-md-min) {
+    height: 371px;
+  }
+
+  @media (min-width: $screen-lg-min) {
+    height: 446px;
+  }
+
+  padding: 1em;
+
+  border: 2px solid #808080;
+  border-radius: 1em;
+}

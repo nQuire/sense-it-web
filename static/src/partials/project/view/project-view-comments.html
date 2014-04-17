@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+
+<div data-ng-if="!status.logged" class="comments-noaccess-project-nologged">
+    <a data-ui-sref="profile">Login</a> to participate in this discussion.
+</div>
+
+<div data-ng-if="status.logged && !projectData.access.admin">
+    <div data-ng-if="!project.open" class="comments-noaccess-project-closed">
+        This project is still being edited by its author.
+    </div>
+    <div data-ng-if="projectData.project.open">
+        <div data-ng-if="!projectData.access.member" class="comments-noaccess-project-nomember">
+            <a data-ui-sref="project.view.home">Join</a> this project to participate in this discussion.
+        </div>
+    </div>
+</div>
+
+<div data-ng-if="status.logged && (projectData.access.admin || (projectData.access.member && projectData.project.open))">
+    <div data-ng-include="'partials/comments.html'"></div>
+</div>
