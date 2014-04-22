@@ -6,7 +6,18 @@ describe('Project Service Admin tests', function () {
 
     var projectResponse = function (member) {
         return {
-            project: {id: 101, title: 'PIRATE Telescope', author: {id: 1, username: 'The Open University'}, type: 'challenge', activity: {}, description: {teaser: 'har har har', image: 'http://pirate.open.ac.uk/PIRATE_files/IMG_2861_CDK17_web.JPG'}, open: true},
+            project: {id: 101, title: 'PIRATE Telescope', author: {id: 1, username: 'The Open University'}, type: 'challenge', activity: {},
+                description: {
+                    teaser: 'har har har',
+                    image: 'http://pirate.open.ac.uk/PIRATE_files/IMG_2861_CDK17_web.JPG',
+                    blocks: [
+                        {type: 'text', title: 'Why', content: 'Because we love telescopes.'},
+                        {type: 'www',where: 'Majorca, Spain / Outer space',when: 'May 2014',who: 'The Open University'},
+                        {type: 'text', title: 'How', content: 'Just propose a good idea on how to use the PIRATE Telescope. If you are selected, you will be able to use the telescope for one night.'}
+                    ]
+                },
+                open: true
+            },
             access: {member: member, admin: true, author: true},
             data: {members: 30, responses: 23}
         };

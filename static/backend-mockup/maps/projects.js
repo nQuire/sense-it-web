@@ -15,7 +15,12 @@ var _projects = {
                 },
                 description: {
                     teaser: 'har har har',
-                    image: 'http://pirate.open.ac.uk/PIRATE_files/IMG_2861_CDK17_web.JPG'
+                    image: 'http://pirate.open.ac.uk/PIRATE_files/IMG_2861_CDK17_web.JPG',
+                    blocks: [
+                        {type: 'text', title: 'Why', content: 'Because we love telescopes.'},
+                        {type: 'www',where: 'Majorca, Spain / Outer space',when: 'May 2014',who: 'The Open University'},
+                        {type: 'text', title: 'How', content: 'Just propose a good idea on how to use the PIRATE Telescope. If you are selected, you will be able to use the telescope for one night.'}
+                    ]
                 },
                 open: true
             },
@@ -105,7 +110,7 @@ var _projects = {
                         {type: 'text', title: 'How', content: 'Just propose a good idea on how to use the PIRATE Telescope. If you are selected, you will be able to use the telescope for one night.'}
                     ]
                 },
-                open: true
+                open: false
             },
             access: {
                 member: true,

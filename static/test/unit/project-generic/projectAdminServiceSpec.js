@@ -3,6 +3,14 @@
 describe('Project Service Admin tests', function () {
     var token, openidService, projectService, httpMock, http, timeout, scope;
 
+    var projectResponse = function (member) {
+        return {
+            project: {id: 101, title: 'PIRATE Telescope', author: {id: 1, username: 'The Open University'}, type: 'challenge', activity: {}, description: {teaser: 'har har har', image: 'http://pirate.open.ac.uk/PIRATE_files/IMG_2861_CDK17_web.JPG'}, open: true},
+            access: {member: member, admin: true, author: true},
+            data: {members: 30, responses: 23}
+        };
+    };
+
     beforeEach(function () {
         module('senseItWeb');
 
@@ -45,13 +53,9 @@ describe('Project Service Admin tests', function () {
         spyOn(scope, '$watch').andCallThrough();
 
 
-        httpMock.expectGET("api/project/1000").respond({
-            project: {id: 1000, title: "title", description: {}, type: "", activity: null},
-            access: {member: true, admin: true, author: true}
-        });
+        httpMock.expectGET("api/project/101").respond(projectResponse(true));
 
-
-        projectService.registerGet(scope, 1000);
+        projectService.watchProject(scope, 101);
         httpMock.flush();
         timeout.flush();
     });
@@ -67,30 +71,31 @@ describe('Project Service Admin tests', function () {
     });
 
     it('should receive project', function () {
-        expect(scope.projectServiceData.project).toBeDefined();
-        expect(scope.projectServiceData.access).toBeDefined();
+        expect(scope.projectData.project).toBeDefined();
+        expect(scope.projectData.access).toBeDefined();
+        expect(scope.projectData.data).toBeDefined();
 
         expect(scope.$watch).toHaveBeenCalled();
         expect(scope.$on).toHaveBeenCalled();
     });
 
     it('should request open', function() {
-        httpMock.expectPUT("api/project/1000/admin/open").respond({});
-        projectService.openProject(1000);
+        httpMock.expectPUT("api/project/101/admin/open").respond({});
+        scope.projectWatcher.openProject();
 
         httpMock.flush();
         timeout.flush();
 
-        httpMock.expectPUT("api/project/1000/admin/close").respond({});
-        projectService.closeProject(1000);
+        httpMock.expectPUT("api/project/101/admin/close").respond({});
+        scope.projectWatcher.closeProject();
 
         httpMock.flush();
         timeout.flush();
     });
 
     it('should request users', function() {
-        httpMock.expectGET("api/project/1000/admin/users").respond([]);
-        projectService.getUsers(1000);
+        httpMock.expectGET("api/project/101/admin/users").respond([]);
+        scope.projectWatcher.getUsers();
 
         httpMock.flush();
         timeout.flush();

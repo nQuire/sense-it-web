@@ -1,25 +1,22 @@
 <!DOCTYPE html>
 
-<div data-ng-if="projectServiceData.ready && status.logged && access.admin">
-    <div class="header">
-        <h1>{{project.title}}</h1>
-    </div>
+<div data-ng-if="projectData.ready && status.logged && projectData.access.admin">
     <div class="content">
         <h2 class="content-subhead">Project administration</h2>
 
-        <div data-ng-if="project.open">
+        <div data-ng-if="projectData.project.open">
             <button class="pure-button pure-button-primary" data-ng-click="closeProject()">
                 Close project
             </button>
 
-            <div data-ng-switch="project.type">
+            <div data-ng-switch="projectData.project.type">
                 <div data-ng-switch-when="challenge">
-                    <div data-ng-include="'partials/project-admin-challenge.html'"
+                    <div data-ng-include="'partials/project/admin/project-admin-challenge.html'"
                          data-ng-controller="ProjectAdminChallengeCtrl"></div>
                 </div>
             </div>
         </div>
-        <div data-ng-if="!project.open">
+        <div data-ng-if="!projectData.project.open">
             <button class="pure-button pure-button-primary" data-ng-click="openProject()">
                 Open project
             </button>
@@ -33,7 +30,7 @@
 
 </div>
 
-<div data-ng-if="!projectServiceData.ready">
+<div data-ng-if="!projectData.ready">
     <div class="header">
         <div class="throbber"></div>
         <h2>Loading...</h2>

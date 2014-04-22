@@ -74,13 +74,18 @@
     <script src="js/app/controllers/data-project-menu-controller.js"></script>
     <script src="js/app/controllers/description-editor-controller.js"></script>
     <script src="js/app/controllers/comments-controller.js"></script>
-    <script src="js/app/controllers/project-admin-controller.js"></script>
     <script src="js/app/controllers/project-admin-users-controller.js"></script>
     <script src="js/app/controllers/project-admin-challenge-controller.js"></script>
 
 
         <script src="js/app/controllers/project/project-controller.js"></script>
         <script src="js/app/controllers/project/project-view-controller.js"></script>
+    <script src="js/app/controllers/project/project-admin-controller.js"></script>
+
+    <script src="js/app/controllers/project/edit/project-edit-controller.js"></script>
+    <script src="js/app/controllers/project/edit/project-edit-menu-controller.js"></script>
+    <script src="js/app/controllers/project/edit/project-edit-metadata-controller.js"></script>
+
 
     <script src="js/app/controllers/project-view-challenge-outcome-controller.js"></script>
     <script src="js/app/controllers/project-view-data-controller.js"></script>
@@ -92,9 +97,6 @@
     <script src="js/app/controllers/project-view-challenge-stage-proposal-controller.js"></script>
     <script src="js/app/controllers/project-view-challenge-stage-vote-controller.js"></script>
     <script src="js/app/controllers/project-view-challenge-stage-outcome-controller.js"></script>
-    <script src="js/app/controllers/project-edit-controller.js"></script>
-    <script src="js/app/controllers/project-edit-menu-controller.js"></script>
-    <script src="js/app/controllers/project-edit-metadata-controller.js"></script>
     <script src="js/app/controllers/project-edit-senseit-controller.js"></script>
     <script src="js/app/controllers/project-edit-senseit-profile-controller.js"></script>
     <script src="js/app/controllers/project-edit-senseit-sensor-controller.js"></script>

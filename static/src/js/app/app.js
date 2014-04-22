@@ -60,18 +60,18 @@ angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'senseItServices'], nul
         })
         .state('project.admin', {
             url: '/admin',
-            templateUrl: 'partials/project-admin.html',
+            templateUrl: 'partials/project/admin/project-admin.html',
             controller: 'ProjectAdminCtrl'
         })
         .state('project.edit', {
             abstract: true,
             url: '/edit',
-            templateUrl: 'partials/project-edit.html',
+            templateUrl: 'partials/project/edit/project-edit.html',
             controller: 'ProjectEditCtrl'
         })
         .state('project.edit.home', {
             url: '',
-            templateUrl: 'partials/project-edit-metadata.html',
+            templateUrl: 'partials/project/edit/project-edit-metadata.html',
             controller: 'ProjectEditMetadataCtrl'
         })
         .state('project.edit.senseit', {

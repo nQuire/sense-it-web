@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Project List Controller tests', function () {
+describe('Project View Controller tests', function () {
 
     var projectResponse = function (member) {
         return {
@@ -12,7 +12,7 @@ describe('Project List Controller tests', function () {
 
 
     var token, rootScope, controllerService, httpMock, timeout, state;
-    var parentScope, parentCtrl, scope, ctrl;
+    var parentScope, parentCtrl, projectScope, projectCtrl, scope, ctrl;
 
     beforeEach(function () {
         module('senseItWeb');
@@ -36,14 +36,14 @@ describe('Project List Controller tests', function () {
 
         parentScope = rootScope.$new();
         parentCtrl = controllerService('MainCtrl', {$scope: parentScope});
-        parentScope.commentThread = {type: 'project', id: 1000};
 
         httpMock.flush();
         timeout.flush();
 
         httpMock.expectGET("api/project/101").respond(projectResponse(false));
+        httpMock.expectGET("partials/projects/projects.html").respond(200);
 
-        scope = parentScope.$new();
+        projectScope = parentScope.$new();
 
         state = {
             go: function () {
@@ -53,7 +53,11 @@ describe('Project List Controller tests', function () {
 
         spyOn(state, 'go').andCallThrough();
 
-        ctrl = controllerService('ProjectViewCtrl', {$scope: scope, $state: state});
+        projectCtrl = controllerService('ProjectCtrl', {$scope: projectScope, $state: state});
+
+        scope = projectScope.$new();
+        ctrl = controllerService('ProjectViewCtrl', {$scope: scope});
+
 
         httpMock.flush();
         timeout.flush();
@@ -76,6 +80,7 @@ describe('Project List Controller tests', function () {
         expect(scope.projectData.project).toBeDefined();
         expect(scope.projectData.ready).toBe(true);
         expect(scope.projectData.access).toBeDefined();
+        expect(scope.projectData.data).toBeDefined();
     });
 
     it('should try to join', function () {

@@ -138,7 +138,7 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
     };
 
 
-    ProjectWatcher.prototype.deleteProject = function (projectId) {
+    ProjectWatcher.prototype.deleteProject = function (callback) {
         var self = this;
         return utils.projectRequest('delete', this.projectId).then(function (deleted) {
             if (deleted) {
@@ -146,6 +146,9 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
                 self.data.access = null;
                 self.data.data = null;
                 self.data.ready = true;
+                if (callback) {
+                    callback();
+                }
             }
             return deleted;
         });
