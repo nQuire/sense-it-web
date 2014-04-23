@@ -78,7 +78,7 @@ public class ProjectCommentTests extends TestsBase {
     public void before() {
         super.before();
         author = helper.createUser("author");
-        threadId = helper.createProject(author, "project", ProjectType.CHALLENGE).getId();
+        threadId = helper.createProject(author, ProjectType.CHALLENGE).getId();
         user1 = helper.createUser("user1");
         user2 = helper.createUser("user2");
         user3 = helper.createUser("user3");

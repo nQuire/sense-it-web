@@ -1,15 +1,55 @@
 angular.module('senseItWeb', null, null).controller('ProjectEditMetadataCtrl', function ($scope, $state, ProjectService) {
 
+    $scope.metadataEdit = true;
 
-    $scope.update = function () {
-        if ($scope.project) {
-            $scope.form.setObject($scope.project);
+    $scope.metadataBlockButtons = function (block) {
+        if ($scope.form.isOpen(block)) {
+            return 'open';
+        } else if ($scope.form.isOpen()) {
+            return false;
+        } else {
+            return 'close';
         }
     };
 
-    $scope.form = new SiwFormManager($scope.project, ['title', 'description'], function () {
-        ProjectService.saveMetadata($scope.project.id, $scope.form.files);
-    });
+    $scope.addMetadataBlock = function (type) {
+        var block;
+        switch (type) {
+            case 'text':
+                block = {type: 'text', header: 'Title', content: 'Text'};
+                break;
+            case 'www':
+                block = {type: 'www', where: "Where?", who: "Who?", when: 'When?'};
+                break;
+            default:
+                block = null;
+        }
+
+        if (block != null) {
+            $scope.projectData.project.description.blocks.push(block);
+            $scope.projectWatcher.saveMetadata();
+        }
+    };
+
+    $scope.moveMetadataBlock = function (index, up) {
+        var blocks = $scope.projectData.project.description.blocks;
+        var otherIndex = index + (up ? -1 : 1);
+        if (index >= 0 && index < blocks.length && otherIndex >= 0 && otherIndex < blocks.length) {
+            var temp = blocks[otherIndex];
+            blocks[otherIndex] = blocks[index];
+            blocks[index] = temp;
+            $scope.projectWatcher.saveMetadata();
+        }
+    };
+
+    $scope.form = new SiwFormManager(function () {
+            return $scope.projectData.project;
+        }, ['title', 'description'],
+        function () {
+            $scope.projectWatcher.saveMetadata($scope.form.files);
+        }
+    );
+
 
     $scope.filelistener = {
         set: function (key, file) {
@@ -23,13 +63,5 @@ angular.module('senseItWeb', null, null).controller('ProjectEditMetadataCtrl', f
         }
     };
 
-
-    var listener = $scope.$watch('project', function () {
-        $scope.update();
-    }, true);
-
-    $scope.$on('$destroy', listener);
-
-    $scope.update();
 });
 

@@ -15,7 +15,7 @@ angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'senseItServices'], nul
         })
         .state('create', {
             url: '/create',
-            templateUrl: 'partials/create.html',
+            templateUrl: 'partials/projects/create.html',
             controller: 'CreateCtrl'
         })
         .state('project', {

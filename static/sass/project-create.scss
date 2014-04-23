@@ -1,0 +1,50 @@
+@import "colors";
+
+
+.project-create-type {
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 1em;
+  padding: 1em;
+  cursor: pointer;
+}
+
+.project-create-type-challenge {
+  @extend .project-create-type;
+  border-color: $color-project-type-challenge-dark;
+  background-color: $color-project-type-challenge-light;
+
+  &.selected {
+    background-color: $color-project-type-challenge-normal;
+  }
+}
+
+.project-create-type-senseit {
+  @extend .project-create-type;
+  border-color: $color-project-type-senseit-dark;
+  background-color: $color-project-type-senseit-light;
+
+  &.selected {
+    background-color: $color-project-type-senseit-normal;
+  }
+}
+
+.project-create-type-spotit {
+  @extend .project-create-type;
+  border-color: $color-project-type-spotit-dark;
+  background-color: $color-project-type-spotit-light;
+
+  &.selected {
+    background-color: $color-project-type-spotit-normal;
+  }
+}
+
+.project-create-header {
+  font-style: bold;
+  text-align: center;
+}
+
+.project-create-doit {
+  text-align: center;
+}
+

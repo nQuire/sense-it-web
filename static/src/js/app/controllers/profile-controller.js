@@ -1,23 +1,19 @@
 angular.module('senseItWeb', null, null).controller('ProfileCtrl', function ($scope, $window, OpenIdService) {
 
-    OpenIdService.registerWatcher($scope, function () {
-        console.log('status changed');
-        if ($scope.status.profile) {
-            $scope.form.setObject($scope.status.profile);
+    $scope.form = new SiwFormManager(function () {
+            return $scope.status.profile;
+        }, [ 'username' ], function () {
+            $scope.status.newUser = false;
+            $scope.openIdService.saveProfile().then(function (data) {
+                $scope.formError = data.responses.username || null;
+                if ($scope.formError) {
+                    $scope.form.open();
+                }
+            });
+        }, function () {
+            $scope.formError = null;
         }
-    });
-
-    $scope.form = new SiwFormManager($scope.status.profile, [ 'username' ], function () {
-        $scope.status.newUser = false;
-        $scope.openIdService.saveProfile().then(function (data) {
-            $scope.formError = data.responses.username || null;
-            if ($scope.formError) {
-                $scope.form.open();
-            }
-        });
-    }, function () {
-        $scope.formError = null;
-    });
+    );
 
 
     $scope.logout = function () {
@@ -76,7 +72,7 @@ angular.module('senseItWeb', null, null).controller('ProfileCtrl', function ($sc
             if (ok) {
                 var error = this.error;
                 error.username = null;
-                OpenIdService.login(this.editing.username, this.clearPassword(), function(data) {
+                OpenIdService.login(this.editing.username, this.clearPassword(), function (data) {
                     error.password = data == 'false' ? 'Username & password do not match.' : null;
                 });
             }

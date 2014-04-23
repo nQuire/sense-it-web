@@ -2,11 +2,11 @@
 
 .project-description-block {
   height: auto;
-
   padding: .5em;
 }
 
 .project-description-block > div {
+  position: relative;
 
   @media (min-width: $screen-xs-min) {
     height: auto;
@@ -28,4 +28,11 @@
 
   border: 2px solid #808080;
   border-radius: 1em;
+}
+
+.project-description-block-edit-controls {
+  position: absolute;
+  background-color: rgba(255, 255, 255, .5);
+  top: .5em;
+  right: .5em;
 }

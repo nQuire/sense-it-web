@@ -1,5 +1,6 @@
 
 @import "image-crop";
+@import "colors";
 
 .project-item {
   border-style: solid;
@@ -10,15 +11,15 @@
 }
 
 .project-item.project-type-challenge {
-  border-color: rgb(128, 100, 162);
+  border-color: $color-project-type-challenge-dark;
 }
 
 .project-item.project-type-senseit {
-  border-color: rgb(79, 129, 189);
+  border-color: $color-project-type-senseit-dark;
 }
 
 .project-item.project-type-spotit {
-  border-color: rgb(155, 187, 89);
+  border-color: $color-project-type-spotit-dark;
 }
 
 

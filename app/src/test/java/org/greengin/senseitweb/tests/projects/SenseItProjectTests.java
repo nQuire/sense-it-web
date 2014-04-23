@@ -30,7 +30,7 @@ public class SenseItProjectTests extends TestsBase {
     public void before() {
         super.before();
         author = helper.createUser("author");
-        projectId = helper.createProject(author, "senseit", ProjectType.SENSEIT).getId();
+        projectId = helper.createProject(author, ProjectType.SENSEIT).getId();
         member = helper.createUser("member");
         member2 = helper.createUser("member2");
         nonMember = helper.createUser("other");

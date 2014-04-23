@@ -3,35 +3,17 @@
 <div data-ng-if="status.logged">
     <div data-ng-if="projectData.project.open">
 
+        <p>
+            <button data-ng-if="!projectData.access.member" class="pure-button pure-button-primary"
+                    data-ng-click="joinProject()">Join project
+            </button>
+            <button data-ng-if="projectData.access.member" class="pure-button pure-button-primary"
+                    data-ng-click="leaveProject()">Leave project
+            </button>
+        </p>
 
-        <p>{{project.description.teaser}}</p>
+        <div data-ng-include="'partials/project/metadata/project-metadata.html'"></div>
 
-        <div class="container">
-            <div class="row">
-                <div class="project-description-block col-sm-6 col-xs-12">
-
-                    <div class="image-crop">
-                        <img src data-ng-src="{{projectData.project.description.image}}"/>
-                    </div>
-
-                </div>
-                <div data-ng-repeat="block in projectData.project.description.blocks"
-                     class="project-description-block col-sm-6 col-xs-12">
-
-                    <div data-ng-switch="block.type">
-                        <div data-ng-switch-when="www">
-                            www
-                        </div>
-                        <div data-ng-switch-when="text" class="project-description-block-text">
-                            <div class="project-description-block-text-title">{{block.title}}</div>
-                            <div class="project-description-block-text-text"
-                                 data-ng-bind-html="block.content"></div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
 
 
         <div data-ng-if="projectData.project.description.html">
@@ -41,14 +23,7 @@
             <p style="white-space: pre;">{{project.description.description}}</p>
         </div>
 
-        <p>
-            <button data-ng-if="!projectData.access.member" class="pure-button pure-button-primary"
-                    data-ng-click="joinProject()">Join project
-            </button>
-            <button data-ng-if="projectData.access.member" class="pure-button pure-button-primary"
-                    data-ng-click="leaveProject()">Leave project
-            </button>
-        </p>
+
     </div>
 
     <div data-ng-if="!projectData.project.open">

@@ -1,0 +1,18 @@
+.project-create-type {
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 1em;
+  padding: 1em;
+  margin-bottom: 1em; }
+
+.project-create-type-challenge {
+  border-color: #8064a2;
+  background-color: white; }
+
+.project-create-type-senseit {
+  border-color: #4f81bd;
+  background-color: white; }
+
+.project-create-type-spotit {
+  border-color: #9bbb59;
+  background-color: white; }

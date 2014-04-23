@@ -2,17 +2,15 @@
 
 
 angular.module('senseItWeb', null, null).controller('ProjectEditChallengeCtrl', function ($scope, ProjectChallengeEditorService) {
-    var listener = $scope.$watch('project', function() {
-        $scope.activity = $scope.project.activity;
-        $scope.form.setObject($scope.activity);
-    });
 
     $scope.$on('$destroy', function () {
         listener();
     });
 
-    $scope.form = new SiwFormManager($scope.activity, ['maxAnswers'], function() {
-        ProjectChallengeEditorService.updateActivity($scope.project.id, $scope.activity);
+    $scope.form = new SiwFormManager(function() {
+        return $scope.projectData.project.activity;
+    }, ['maxAnswers'], function() {
+        ProjectChallengeEditorService.updateActivity($scope.project.id, $scope.projectData.project.activity);
     });
 });
 

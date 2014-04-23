@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public enum RoleType {
     NONE,
     LOGGED_IN,
-	AUTHOR,
 	ADMIN,
 	MEMBER;
 	

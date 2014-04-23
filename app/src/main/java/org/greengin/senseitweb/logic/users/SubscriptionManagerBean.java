@@ -20,6 +20,10 @@ public class SubscriptionManagerBean {
     @Autowired
     CustomEntityManagerFactoryBean customEntityManagerFactory;
 
+    public long projectUserCount(Project project, RoleType type) {
+        return roleManager.contextUserCount(project, type);
+    }
+
     public List<UserProfile> projectUsers(Project project, RoleType type) {
         return roleManager.contextUsers(project, type);
     }
@@ -34,7 +38,6 @@ public class SubscriptionManagerBean {
 
 
     public void projectCreatedInTransaction(EntityManager em, Project project, UserProfile user) {
-        roleManager.addRoleInTransaction(em, project, user, RoleType.AUTHOR);
         roleManager.addRoleInTransaction(em, project, user, RoleType.ADMIN);
     }
 
@@ -53,9 +56,6 @@ public class SubscriptionManagerBean {
         if (project != null && user != null) {
             for (RoleType role : roleManager.userRoles(user, project)) {
                 switch (role) {
-                    case AUTHOR:
-                        level.setAuthor(true);
-                        break;
                     case ADMIN:
                         level.setAdmin(true);
                         break;

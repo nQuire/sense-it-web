@@ -10377,6 +10377,7 @@ button.close {
   padding: .5em; }
 
 .project-description-block > div {
+  position: relative;
   padding: 1em;
   border: 2px solid #808080;
   border-radius: 1em; }
@@ -10392,3 +10393,41 @@ button.close {
   @media (min-width: 1200px) {
     .project-description-block > div {
       height: 446px; } }
+
+.project-description-block-edit-controls {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.5);
+  top: .5em;
+  right: .5em; }
+
+.project-create-type, .project-create-type-challenge, .project-create-type-senseit, .project-create-type-spotit {
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 1em;
+  padding: 1em;
+  cursor: pointer; }
+
+.project-create-type-challenge {
+  border-color: #8064a2;
+  background-color: #e8e3ef; }
+  .project-create-type-challenge.selected {
+    background-color: #b4a4c8; }
+
+.project-create-type-senseit {
+  border-color: #4f81bd;
+  background-color: #e3ebf5; }
+  .project-create-type-senseit.selected {
+    background-color: #99b6d9; }
+
+.project-create-type-spotit {
+  border-color: #9bbb59;
+  background-color: #f2f6ea; }
+  .project-create-type-spotit.selected {
+    background-color: #c7d9a1; }
+
+.project-create-header {
+  font-style: bold;
+  text-align: center; }
+
+.project-create-doit {
+  text-align: center; }

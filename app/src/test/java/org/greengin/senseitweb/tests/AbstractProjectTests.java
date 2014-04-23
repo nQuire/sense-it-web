@@ -12,7 +12,6 @@ import org.junit.Test;
 
 public abstract class AbstractProjectTests extends TestsBase {
 
-    String projectName;
     ProjectType type;
 
     protected UserProfile author;
@@ -30,8 +29,7 @@ public abstract class AbstractProjectTests extends TestsBase {
         return projectActions(projectId, user);
     }
 
-    public AbstractProjectTests(String projectName, ProjectType type) {
-        this.projectName = projectName;
+    public AbstractProjectTests(ProjectType type) {
         this.type = type;
     }
 
@@ -39,7 +37,7 @@ public abstract class AbstractProjectTests extends TestsBase {
     public void before() {
         super.before();
         author = helper.createUser("author");
-        projectId = helper.createProject(author, projectName, type).getId();
+        projectId = helper.createProject(author, type).getId();
         member = helper.createUser("member");
         member2 = helper.createUser("member2");
         nonMember = helper.createUser("other");
@@ -58,19 +56,15 @@ public abstract class AbstractProjectTests extends TestsBase {
         AccessLevel member2Access = accessLevel(projectId, member2);
         AccessLevel nonMemberAccess = accessLevel(projectId, nonMember);
 
-        Assert.assertTrue(authorAccess.isAuthor());
         Assert.assertTrue(authorAccess.isAdmin());
         Assert.assertFalse(authorAccess.isMember());
 
-        Assert.assertFalse(memberAccess.isAuthor());
         Assert.assertFalse(memberAccess.isAdmin());
         Assert.assertTrue(memberAccess.isMember());
 
-        Assert.assertFalse(member2Access.isAuthor());
         Assert.assertFalse(member2Access.isAdmin());
         Assert.assertTrue(member2Access.isMember());
 
-        Assert.assertFalse(nonMemberAccess.isAuthor());
         Assert.assertFalse(nonMemberAccess.isAdmin());
         Assert.assertFalse(nonMemberAccess.isMember());
     }

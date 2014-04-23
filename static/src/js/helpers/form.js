@@ -7,17 +7,16 @@
  * @private
  */
 var SiwFormManager = function (object, keys, saveCallback, cancelCallback) {
-    this.object = object;
+    this.getObject = !(object && object.constructor && object.call && object.apply) ? function() {
+        return object;
+    } : object;
+
     this.keys = keys;
     this._isOpen = false;
     this.values = {};
     this.saveCallback = saveCallback;
     this.cancelCallback = cancelCallback;
     this.files = {};
-};
-
-SiwFormManager.prototype.setObject = function (object) {
-    this.object = object;
 };
 
 SiwFormManager.prototype.setFile = function(name, file) {
@@ -39,14 +38,23 @@ SiwFormManager.prototype._copyValues = function (from, to) {
     }
 };
 
-SiwFormManager.prototype.open = function () {
+/**
+ *
+ * @param [mode=null]
+ */
+SiwFormManager.prototype.open = function (mode) {
     this.files = {};
-    this._copyValues(this.object, this.values);
-    this._isOpen = true;
+    this._copyValues(this.getObject(), this.values);
+    this._isOpen = mode || true;
 };
 
-SiwFormManager.prototype.isOpen = function () {
-    return this._isOpen;
+/**
+ *
+ * @param [mode=null]
+ * @returns {boolean}
+ */
+SiwFormManager.prototype.isOpen = function (mode) {
+    return mode ? this._isOpen == mode : this._isOpen;
 };
 
 SiwFormManager.prototype._close = function () {
@@ -61,7 +69,7 @@ SiwFormManager.prototype.cancel = function () {
 };
 
 SiwFormManager.prototype.save = function () {
-    this._copyValues(this.values, this.object);
+    this._copyValues(this.values, this.getObject());
     this._close();
     if (this.saveCallback) {
         this.saveCallback();

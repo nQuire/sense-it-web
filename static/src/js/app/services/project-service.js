@@ -86,15 +86,18 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
     var ProjectWatcher = function (scope, projectId) {
         var self = this;
         this.projectId = projectId;
+        this.scope = scope;
 
-        this.data = {project: null, access: null, data: null, ready: false};
+        this.data = {project: null, access: null, data: null, ready: false, reloading: false};
 
         scope.projectData = this.data;
 
-        var destroyWatch = scope.$watch('projectData', null, true);
+        var destroyWatch = scope.$watch('projectData', function() {
+            console.log('project controller updated');
+        }, true);
 
         var openIdListener = function () {
-            self._reload();
+                self._reload();
         };
 
         scope.$on('$destroy', function () {
@@ -108,13 +111,17 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
     };
 
     ProjectWatcher.prototype._reload = function () {
-        this.data.ready = false;
+        console.log('project reloading');
         var self = this;
         utils.projectRequest('get', this.projectId).then(function (data) {
+            console.log('project reloaded start');
+            self.data.ready = false;
             self.data.ready = true;
             self.data.project = data.project;
             self.data.access = data.access;
             self.data.data = data.data;
+
+            console.log('project reloaded done');
         });
     };
 
@@ -172,6 +179,8 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
             self.data.access = data.access;
             self.data.data = data.data;
 
+            console.log('service updated');
+
             return true;
         });
     };
@@ -210,8 +219,8 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
         watchProject: function (scope, projectId) {
             scope.projectWatcher = new ProjectWatcher(scope, projectId);
         },
-        createProject: function (data) {
-            return utils.projectsRequest('post', false, data);
+        createProject: function (type) {
+            return utils.projectsRequest('post', false, {type: type});
         }
     };
 

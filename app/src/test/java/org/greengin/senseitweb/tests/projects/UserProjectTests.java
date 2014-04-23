@@ -4,7 +4,7 @@ package org.greengin.senseitweb.tests.projects;
 import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.logic.users.AccessLevel;
-import org.greengin.senseitweb.logic.project.ProjectRequest;
+import org.greengin.senseitweb.logic.project.metadata.ProjectRequest;
 import org.greengin.senseitweb.tests.TestsBase;
 import org.junit.Assert;
 import org.junit.Test;
@@ -36,7 +36,6 @@ public class UserProjectTests extends TestsBase {
 
         AccessLevel access = context.getSubscriptionManager().getAccessLevel(project, user);
 
-        Assert.assertTrue(access.isAuthor());
         Assert.assertTrue(access.isAdmin());
         Assert.assertFalse(access.isMember());
     }
@@ -77,14 +76,12 @@ public class UserProjectTests extends TestsBase {
         Long projectId = helper.createProject(author).getId();
 
         AccessLevel before = accessLevel(projectId, member);
-        Assert.assertFalse(before.isAuthor());
         Assert.assertFalse(before.isAdmin());
         Assert.assertFalse(before.isMember());
 
         projectActions(projectId, member).join();
 
         AccessLevel afterJoin1 = accessLevel(projectId, member);
-        Assert.assertFalse(afterJoin1.isAuthor());
         Assert.assertFalse(afterJoin1.isAdmin());
         Assert.assertFalse(afterJoin1.isMember());
 
@@ -92,14 +89,12 @@ public class UserProjectTests extends TestsBase {
         projectActions(projectId, member).join();
 
         AccessLevel afterJoin2 = accessLevel(projectId, member);
-        Assert.assertFalse(afterJoin2.isAuthor());
         Assert.assertFalse(afterJoin2.isAdmin());
         Assert.assertTrue(afterJoin2.isMember());
 
         projectActions(projectId, member).leave();
 
         AccessLevel afterLeave = accessLevel(projectId, member);
-        Assert.assertFalse(afterLeave.isAuthor());
         Assert.assertFalse(afterLeave.isAdmin());
         Assert.assertFalse(afterLeave.isMember());
     }

@@ -61,7 +61,7 @@ public class VoteTests extends TestsBase {
     public void before() {
         super.before();
         UserProfile author = helper.createUser("author");
-        votable = helper.createProject(author, "project", ProjectType.CHALLENGE);
+        votable = helper.createProject(author, ProjectType.CHALLENGE);
         user1 = helper.createUser("user1");
         user2 = helper.createUser("user2");
 

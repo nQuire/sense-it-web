@@ -12,9 +12,10 @@ import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.json.Views;
 import org.greengin.senseitweb.logic.ContextBean;
+import org.greengin.senseitweb.logic.project.ProjectActions;
+import org.greengin.senseitweb.logic.project.ProjectListResponse;
 import org.greengin.senseitweb.logic.users.AccessLevel;
 import org.greengin.senseitweb.logic.project.ProjectCreationRequest;
-import org.greengin.senseitweb.logic.project.ProjectListActions;
 import org.greengin.senseitweb.logic.project.ProjectResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,14 +32,14 @@ public class ProjectListController {
     ContextBean context;
 
 
-    private ProjectListActions createProjectManager(HttpServletRequest request) {
-        return new ProjectListActions(context, request);
+    private ProjectActions createProjectManager(HttpServletRequest request) {
+        return new ProjectActions(context, null, request);
     }
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     @ResponseView(Views.VotableCount.class)
-    public List<Project> projectList(HttpServletRequest request) {
+    public ProjectListResponse projectList(HttpServletRequest request) {
         return createProjectManager(request).getProjects();
     }
 

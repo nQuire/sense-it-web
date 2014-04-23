@@ -1,0 +1,53 @@
+<h1>Create new mission</h1>
+
+<p>Select the type of mission...</p>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10">
+            <div class="row">
+                <div class="col-xs-4">
+                    <div class="project-create-type-challenge" data-ng-class="{selected: selected('challenge')}"
+                         data-ng-click="select('challenge')">
+                        <div class="project-create-header">Win-it</div>
+                        <div class="project-create-description">
+                            Missions that ask you to give a creative response to a challenge, such as how would you
+                            attract
+                            bees in gardens.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <div class="project-create-type-senseit"
+                         data-ng-class="{selected: selected('senseit')}" data-ng-click="select('senseit')">
+                        <div class="project-create-header">Sense-it</div>
+                        <div class="project-create-description">
+                            Missions that ask you to spot and take images such as find weird signs in your area.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <div class="project-create-type-spotit"
+                         data-ng-class="{selected: selected('spotit')}" data-ng-click="select('spotit')">
+                        <div class="project-create-header">Spot-it</div>
+                        <div class="project-create-description">
+                            Missions that ask you to use your phone or tablet and collect data from sensors for missions
+                            such as Where is the fastest lift in UK.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div data-ng-if="openIdService.status.logged">
+    <div class="project-create-doit">
+        <button class="btn btn-primary" data-ng-disabled="createDisabled" data-ng-click="create()">
+            Start your mission
+        </button>
+    </div>
+</div>
+<div data-ng-if="!openIdService.status.logged">
+    <p>Sorry, you need to <a data-ui-sref="profile">login</a> before you can start creating projects.</p>
+</div>

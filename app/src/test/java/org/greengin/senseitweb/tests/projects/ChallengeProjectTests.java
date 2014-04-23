@@ -26,7 +26,7 @@ public class ChallengeProjectTests extends AbstractProjectTests {
 
 
     public ChallengeProjectTests() {
-        super("challenge", ProjectType.CHALLENGE);
+        super(ProjectType.CHALLENGE);
     }
 
 

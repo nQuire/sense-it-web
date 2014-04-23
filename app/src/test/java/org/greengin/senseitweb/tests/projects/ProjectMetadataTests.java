@@ -1,8 +1,9 @@
 package org.greengin.senseitweb.tests.projects;
 
 
+import org.greengin.senseitweb.entities.projects.ProjectDescription;
 import org.greengin.senseitweb.entities.projects.ProjectType;
-import org.greengin.senseitweb.logic.project.ProjectRequest;
+import org.greengin.senseitweb.logic.project.metadata.ProjectRequest;
 import org.greengin.senseitweb.tests.AbstractProjectTests;
 
 import org.junit.Test;
@@ -22,7 +23,7 @@ public class ProjectMetadataTests extends AbstractProjectTests {
 
 
     public ProjectMetadataTests() {
-        super("challenge", ProjectType.CHALLENGE);
+        super(ProjectType.CHALLENGE);
     }
 
     @Test
@@ -30,10 +31,6 @@ public class ProjectMetadataTests extends AbstractProjectTests {
         assertNotNull(project().getDescription());
     }
 
-    @Test
-    public void testEmpty() {
-        assertEquals(0, project().getDescription().size());
-    }
 
     @Test
     public void testTitleChange() {
@@ -52,20 +49,18 @@ public class ProjectMetadataTests extends AbstractProjectTests {
     public void testMetadataChange() {
         assertEquals("challenge", project().getTitle());
 
-        HashMap<String, String> metadata = new HashMap<String, String>();
-        metadata.put("k", "v");
+        ProjectDescription description = new ProjectDescription();
+        description.setTeaser("teaser");
 
         ProjectRequest request = new ProjectRequest();
         request.setTitle(null);
-        request.setDescription(metadata);
+        request.setDescription(description);
 
         projectActions(author).updateMetadata(request, null);
 
         assertEquals("challenge", project().getTitle());
         assertNotNull(project().getDescription());
-        assertEquals(1, project().getDescription().size());
-        assertTrue(project().getDescription().containsKey("k"));
-        assertEquals("v", project().getDescription().get("k"));
+        assertEquals("teaser", project().getDescription().getTeaser());
     }
 
 }

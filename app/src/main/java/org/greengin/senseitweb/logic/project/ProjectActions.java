@@ -1,23 +1,27 @@
 package org.greengin.senseitweb.logic.project;
 
 import org.greengin.senseitweb.entities.projects.Project;
+import org.greengin.senseitweb.entities.projects.ProjectDescription;
 import org.greengin.senseitweb.entities.rating.Comment;
 import org.greengin.senseitweb.entities.users.PermissionType;
 import org.greengin.senseitweb.entities.users.RoleType;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.logic.AbstractContentManager;
 import org.greengin.senseitweb.logic.ContextBean;
+import org.greengin.senseitweb.logic.project.metadata.ProjectRequest;
 import org.greengin.senseitweb.logic.users.AccessLevel;
 import org.greengin.senseitweb.logic.project.senseit.FileMapUpload;
 import org.greengin.senseitweb.logic.rating.CommentRequest;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
+import java.util.*;
 
 public class ProjectActions extends AbstractContentManager {
+
+    static final String PROJECTS_QUERY = String.format("SELECT p FROM %s p", Project.class.getName());
 
     protected Long projectId;
     protected Project project;
@@ -39,10 +43,80 @@ public class ProjectActions extends AbstractContentManager {
     private void setProject(Long projectId) {
         EntityManager em = context.createEntityManager();
         this.projectId = projectId;
-        this.project = em.find(Project.class, projectId);
+        this.project = projectId != null ? em.find(Project.class, projectId) : null;
         this.projectExists = this.project != null;
 
         this.accessLevel = context.getSubscriptionManager().getAccessLevel(project, user);
+    }
+
+
+
+
+    private ProjectResponse projectResponse(Project project) {
+        ProjectResponse response = new ProjectResponse();
+
+        HashMap<String, Long> data = new HashMap<String, Long>();
+        data.put("members", context.getSubscriptionManager().projectUserCount(project, RoleType.MEMBER));
+
+        response.setProject(project);
+        response.setAccess(context.getSubscriptionManager().getAccessLevel(project, user));
+        response.setData(data);
+
+        return response;
+    }
+
+    /**
+     * any user actions *
+     */
+    public ProjectListResponse getProjects() {
+        List<ProjectResponse> filtered = new Vector<ProjectResponse>();
+        HashMap<String, Long> categories = new HashMap<String, Long>();
+
+        categories.put("challenge", 0l);
+        categories.put("senseit", 0l);
+        categories.put("spotit", 0l);
+
+        if (hasAccess(PermissionType.BROWSE)) {
+            EntityManager em = context.createEntityManager();
+            TypedQuery<Project> query = em.createQuery(PROJECTS_QUERY, Project.class);
+            List<Project> all = query.getResultList();
+            for (Project p : all) {
+                AccessLevel access = context.getSubscriptionManager().getAccessLevel(p, user);
+                if (access.isAdmin() || p.getOpen()) {
+                    filtered.add(projectResponse(p));
+                    String type = p.getType().getValue();
+                    categories.put(type, categories.get(type) + 1);
+                }
+            }
+        }
+
+        ProjectListResponse response = new ProjectListResponse();
+        response.setList(filtered);
+        response.setCategories(categories);
+
+        return response;
+    }
+
+    /**
+     * registered user actions *
+     */
+    public Long createProject(ProjectCreationRequest projectData) {
+        if (hasAccess(PermissionType.CREATE_PROJECT)) {
+            EntityManager em = context.createEntityManager();
+            em.getTransaction().begin();
+            Project project = new Project();
+            project.setTitle("New project");
+            project.setOpen(false);
+            project.setAuthor(user);
+            projectData.initProject(project);
+            em.persist(project);
+            context.getSubscriptionManager().projectCreatedInTransaction(em, project, user);
+            em.getTransaction().commit();
+
+            return project.getId();
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -76,10 +150,10 @@ public class ProjectActions extends AbstractContentManager {
      */
 
 
-    public Project get() {
+    public ProjectResponse get() {
         if (accessLevel.isAdmin() || project.getOpen()) {
             project.setSelectedVoteAuthor(user);
-            return project;
+            return projectResponse(project);
         } else {
             return null;
         }
@@ -112,13 +186,13 @@ public class ProjectActions extends AbstractContentManager {
      * admin actions *
      */
 
-    public Project setOpen(Boolean open) {
+    public ProjectResponse setOpen(Boolean open) {
         if (hasAccess(PermissionType.PROJECT_ADMIN)) {
             EntityManager em = context.createEntityManager();
             em.getTransaction().begin();
             project.setOpen(open);
             em.getTransaction().commit();
-            return project;
+            return projectResponse(project);
         }
 
         return null;
@@ -137,26 +211,47 @@ public class ProjectActions extends AbstractContentManager {
      * editor actions *
      */
 
-    public Project updateMetadata(ProjectRequest data, FileMapUpload files) {
+    public ProjectResponse updateMetadata(ProjectRequest data, FileMapUpload files) {
         if (hasAccess(PermissionType.PROJECT_EDITION)) {
             if (files != null && data.getDescription() != null) {
                 String fileContext = projectId.toString();
                 for (Map.Entry<String, FileMapUpload.FileData> entry : files.getData().entrySet()) {
                     try {
                         context.getFileManager().uploadFile(fileContext, entry.getValue().filename, entry.getValue().data);
-                        data.getDescription().put(entry.getKey(), fileContext + "/" + entry.getValue().filename);
-                    } catch (Exception e) {
-                        data.getDescription().put(entry.getKey(), null);
+                        if ("image".equals(entry.getKey())) {
+                            data.getDescription().setImage(fileContext + "/" + entry.getValue().filename);
+                        }
+                    } catch (Exception ignored) {
                     }
                 }
             }
 
             EntityManager em = context.createEntityManager();
             em.getTransaction().begin();
-            data.updateProject(project);
+            project.setTitle(data.getTitle());
+            if (project.getDescription() == null) {
+                project.setDescription(new ProjectDescription());
+            }
+            project.getDescription().setTeaser(data.getDescription().getTeaser());
+
+            if (files != null && files.getData().containsKey("image")) {
+                FileMapUpload.FileData file = files.getData().get("image");
+                String fileContext = projectId.toString();
+                try {
+                    context.getFileManager().uploadFile(fileContext, file.filename, file.data);
+                    data.getDescription().setImage(fileContext + "/" + file.filename);
+                } catch (IOException exception) {
+                    project.getDescription().setImage(null);
+                }
+            } else {
+                project.getDescription().setImage(data.getDescription().getImage());
+            }
+
+            project.getDescription().setBlocks(data.getDescription().getBlocks());
+
             em.getTransaction().commit();
 
-            return project;
+            return projectResponse(project);
         } else {
             return null;
         }

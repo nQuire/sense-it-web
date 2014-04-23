@@ -13,7 +13,6 @@
     <script src="js/libs/angular-sanitize.js"></script>
     <script src="js/libs/angular-ui-router.js"></script>
 
-    <script src="../backend-mockup/angular-mocks.js"></script>
 
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
     <script src="js/libs/oms.min.js"></script>
@@ -32,13 +31,14 @@
 
     <script src="js/app/app.js"></script>
 
-    <script src="../backend-mockup/app-backend.js"></script>
+ <?php if(isset($_REQUEST['maps'])) {
+    echo "<script src=\"../backend-mockup/angular-mocks.js\"></script>\n";
+    echo "<script src=\"../backend-mockup/app-backend.js\"></script>\n";
+            foreach(explode(',', $_REQUEST['maps']) as $map) {
+                echo "<script src=\"../backend-mockup/maps/$map.js\"></script>\n";
+            }
 
-    <?php
-        foreach(explode(',', $_REQUEST['maps']) as $map) {
-            echo "<script src=\"../backend-mockup/maps/$map.js\"></script>\n";
-        }
-    ?>
+    } ?>
 
 
     <script src="js/app/services/services-module.js"></script>
@@ -68,7 +68,9 @@
 
     <script src="js/app/controllers/layout/main-controller.js"></script>
     <script src="js/app/controllers/layout/navbar-controller.js"></script>
+
     <script src="js/app/controllers/project-list/project-list-controller.js"></script>
+    <script src="js/app/controllers/project-list/create-controller.js"></script>
 
     <script src="js/app/controllers/profile-controller.js"></script>
     <script src="js/app/controllers/data-project-menu-controller.js"></script>
@@ -103,12 +105,18 @@
     <script src="js/app/controllers/project-edit-senseit-analysis-controller.js"></script>
     <script src="js/app/controllers/project-edit-challenge-controller.js"></script>
     <script src="js/app/controllers/project-edit-challenge-field-controller.js"></script>
-    <script src="js/app/controllers/create-controller.js"></script>
 
     <script src="js/app/controllers/project-view-senseit-test-upload-controller.js"></script>
 
 </head>
-<body data-ng-app="senseItWebDev">
+
+<?php if(isset($_REQUEST['maps'])) {
+    echo "<body data-ng-app=\"senseItWebDev\">\n";
+    } else {
+        echo "<body data-ng-app=\"senseItWeb\">\n";
+        }
+        ?>
+
 
     <div class="container" data-ng-controller="MainCtrl">
         <div data-ng-include="'partials/layout/navbar.html'"></div>

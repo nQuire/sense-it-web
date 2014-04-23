@@ -5,8 +5,8 @@ import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.entities.projects.ProjectType;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.logic.ContextBean;
+import org.greengin.senseitweb.logic.project.ProjectActions;
 import org.greengin.senseitweb.logic.project.ProjectCreationRequest;
-import org.greengin.senseitweb.logic.project.ProjectListActions;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -43,7 +43,7 @@ public class DbHelper {
         em.createNativeQuery(userConnectionTableIndex).executeUpdate();
         em.getTransaction().commit();
 
-        String[] types = new String[] {"Role", "Project", "AbstractEntity"};
+        String[] types = new String[]{"Role", "Project", "AbstractEntity"};
 
         for (String type : types) {
             List<Long> ids = em.createQuery(String.format("SELECT e.id from %s e", type), Long.class).getResultList();
@@ -85,15 +85,14 @@ public class DbHelper {
     }
 
     public Project createProject(UserProfile user) {
-        return createProject(user, "project1", ProjectType.SENSEIT);
+        return createProject(user, ProjectType.SENSEIT);
     }
 
-    public Project createProject( UserProfile user, String title, ProjectType type) {
+    public Project createProject(UserProfile user, ProjectType type) {
         ProjectCreationRequest projectRequest = new ProjectCreationRequest();
         projectRequest.setType(type);
-        projectRequest.setTitle(title);
 
-        ProjectListActions actions = new ProjectListActions(context, user, true);
+        ProjectActions actions = new ProjectActions(context, null, user, true);
         Long id = actions.createProject(projectRequest);
         return context.createEntityManager().find(Project.class, id);
     }

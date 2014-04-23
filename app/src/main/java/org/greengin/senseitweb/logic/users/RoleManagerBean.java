@@ -18,7 +18,9 @@ public class RoleManagerBean {
 	
 	private static final String USER_HAS_QUERY = "SELECT CASE WHEN (COUNT(r) > 0) THEN 1 ELSE 0 END FROM Role r WHERE r.context= :context AND r.user = :user AND r.type = :type";
 
-	private static final String USER_QUERY = "SELECT u FROM Role r INNER JOIN r.user u WHERE r.context = :context AND r.type = :type";
+    private static final String USER_QUERY = "SELECT u FROM Role r INNER JOIN r.user u WHERE r.context = :context AND r.type = :type";
+
+    private static final String USER_QUERY_COUNT = "SELECT COUNT(u) FROM Role r INNER JOIN r.user u WHERE r.context = :context AND r.type = :type";
 
 	private static final String SEARCH_ROLE_QUERY = "SELECT r FROM Role r WHERE r.context = :context AND r.user = :user AND r.type = :type";
 
@@ -30,13 +32,21 @@ public class RoleManagerBean {
     @Autowired
     CustomEntityManagerFactoryBean entityManagerFactory;
 
-	public List<UserProfile> contextUsers(AbstractEntity context, RoleType type) {
-		EntityManager em = entityManagerFactory.createEntityManager();
-		TypedQuery<UserProfile> query = em.createQuery(USER_QUERY, UserProfile.class);
-		query.setParameter("context", context);
-		query.setParameter("type", type);
-		return query.getResultList();
-	}
+    public long contextUserCount(AbstractEntity context, RoleType type) {
+        EntityManager em = entityManagerFactory.createEntityManager();
+        TypedQuery<Long> query = em.createQuery(USER_QUERY_COUNT, Long.class);
+        query.setParameter("context", context);
+        query.setParameter("type", type);
+        return query.getSingleResult();
+    }
+
+    public List<UserProfile> contextUsers(AbstractEntity context, RoleType type) {
+        EntityManager em = entityManagerFactory.createEntityManager();
+        TypedQuery<UserProfile> query = em.createQuery(USER_QUERY, UserProfile.class);
+        query.setParameter("context", context);
+        query.setParameter("type", type);
+        return query.getResultList();
+    }
 
     public List<RoleType> userRoles(UserProfile user, AbstractEntity context) {
         Vector<RoleType> roles = new Vector<RoleType>();

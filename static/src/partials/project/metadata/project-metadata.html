@@ -1,0 +1,112 @@
+
+
+<div data-ng-if="metadataEdit">
+    <div data-ng-if="form.isOpen('title')">
+        <p>Title: <input type="text" data-ng-model="form.values.title"/></p>
+
+        <p>Teaser: <input type="text" data-ng-model="form.values.description.teaser"/></p>
+
+        <p class="btn-group">
+            <button type="button" class="btn btn-default" data-ng-click="form.save()">Save</button>
+            <button type="button" class="btn btn-default" data-ng-click="form.cancel()">Cancel</button>
+        </p>
+    </div>
+    <div data-ng-if="!form.isOpen('title')">
+        <p>Title: {{projectData.project.title}}</p>
+
+        <p>Teaser: {{projectData.project.description.teaser}}</p>
+
+        <p data-ng-if="!form.isOpen()" class="btn-group">
+            <button type="button" class="btn btn-default" data-ng-click="form.open('title')">Edit</button>
+        </p>
+    </div>
+</div>
+
+{{form._isOpen}}
+
+<div class="container">
+    <div class="row">
+        <div class="project-description-block col-sm-6 col-xs-12">
+            <div>
+                <div data-ng-if="!metadataEdit || !form.isOpen('image')">
+                    <div class="image-crop">
+                        <img src data-ng-src="{{projectData.project.description.image}}"/>
+                    </div>
+                </div>
+                <div data-ng-if="metadataEdit && form.isOpen('image')">
+
+                    edit
+                </div>
+
+                <div data-ng-switch="metadataBlockButtons('image')">
+                    <div data-ng-switch-when="close">
+                        <div class="project-description-block-edit-controls btn-group">
+                            <button type="button" class="btn btn-default" data-ng-click="form.open('image')">Edit
+                            </button>
+                        </div>
+                    </div>
+                    <div data-ng-switch-when="open">
+                        <div class="project-description-block-edit-controls btn-group">
+                            <button type="button" class="btn btn-default" data-ng-click="form.save()">Save</button>
+                            <button type="button" class="btn btn-default" data-ng-click="form.cancel()">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div data-ng-repeat="block in projectData.project.description.blocks"
+             class="project-description-block col-sm-6 col-xs-12">
+            <div>
+                <div data-ng-if="!metadataEdit || !form.isOpen('block:' + $index)">
+                    <div data-ng-switch="block.type">
+                        <div data-ng-switch-when="www">
+                            www
+                        </div>
+                        <div data-ng-switch-when="text" class="project-description-block-text">
+                            <div class="project-description-block-text-header">{{block.header}}</div>
+                            <div class="project-description-block-text-text" data-ng-bind-html="block.content"></div>
+                        </div>
+                    </div>
+                </div>
+                <div data-ng-if="metadataEdit && form.isOpen('block:' + $index)">
+                    edit
+                </div>
+                <div data-ng-switch="metadataBlockButtons('block:' + $index)">
+                    <div data-ng-switch-when="close">
+                        <div class="project-description-block-edit-controls btn-group">
+                            <button type="button" class="btn btn-default" data-ng-click="form.open('block:' + $index)">
+                                Edit
+                            </button>
+                            <button type="button" class="btn btn-default" data-ng-disabled="$last"
+                                    data-ng-click="moveMetadataBlock($index, false)">Move down
+                            </button>
+                            <button type="button" class="btn btn-default" data-ng-disabled="$index < 1"
+                                    data-ng-click="moveMetadataBlock($index, true)">Move up
+                            </button>
+                            <button type="button" class="btn btn-default" data-ng-click="deleteMetadataBlock($index)">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                    <div data-ng-switch-when="open">
+                        <div class="project-description-block-edit-controls btn-group">
+                            <button type="button" class="btn btn-default" data-ng-click="form.save()">Save</button>
+                            <button type="button" class="btn btn-default" data-ng-click="form.cancel()">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div data-ng-if="metadataEdit && !form.isOpen()" class="btn-group dropup">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+        Add description block <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+        <li><a href data-ng-click="addMetadataBlock('text')">Free text</a></li>
+        <li><a href data-ng-click="addMetadataBlock('www')">Who - Where - When block</a></li>
+    </ul>
+</div>

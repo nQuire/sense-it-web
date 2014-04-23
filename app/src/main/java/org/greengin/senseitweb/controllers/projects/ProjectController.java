@@ -1,7 +1,6 @@
 package org.greengin.senseitweb.controllers.projects;
 
 import com.mangofactory.jsonview.ResponseView;
-import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.entities.rating.Comment;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.json.JacksonObjectMapper;
@@ -9,7 +8,7 @@ import org.greengin.senseitweb.json.Views;
 import org.greengin.senseitweb.logic.ContextBean;
 import org.greengin.senseitweb.logic.users.AccessLevel;
 import org.greengin.senseitweb.logic.project.ProjectActions;
-import org.greengin.senseitweb.logic.project.ProjectRequest;
+import org.greengin.senseitweb.logic.project.metadata.ProjectRequest;
 import org.greengin.senseitweb.logic.project.ProjectResponse;
 import org.greengin.senseitweb.logic.project.senseit.FileMapUpload;
 import org.greengin.senseitweb.logic.rating.CommentRequest;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.DefaultMultipartHttpServletRequest;
 
-import javax.persistence.EntityManager;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -48,13 +46,7 @@ public class ProjectController {
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     public ProjectResponse get(@PathVariable("projectId") Long projectId, HttpServletRequest request) {
-        Project project = createProjectManager(projectId, request).get();
-        AccessLevel access = context.getSubscriptionManager().getAccessLevel(project);
-
-        ProjectResponse response = new ProjectResponse();
-        response.setProject(project);
-        response.setAccess(access);
-        return response;
+        return createProjectManager(projectId, request).get();
     }
 
 
@@ -66,13 +58,13 @@ public class ProjectController {
 
     @RequestMapping(value = "/metadata", method = RequestMethod.POST)
     @ResponseBody
-    public Project update(@PathVariable("projectId") Long projectId, @RequestBody ProjectRequest projectData, HttpServletRequest request) {
+    public ProjectResponse update(@PathVariable("projectId") Long projectId, @RequestBody ProjectRequest projectData, HttpServletRequest request) {
         return createProjectManager(projectId, request).updateMetadata(projectData, null);
     }
 
     @RequestMapping(value = "/metadata/files", method = RequestMethod.POST)
     @ResponseBody
-    public Project updateFiles(@PathVariable("projectId") Long projectId, HttpServletRequest request) {
+    public ProjectResponse updateFiles(@PathVariable("projectId") Long projectId, HttpServletRequest request) {
         try {
             DefaultMultipartHttpServletRequest multiPartRequest = (DefaultMultipartHttpServletRequest) request;
             ProjectRequest projectData = objectMapper.readValue(multiPartRequest.getParameter("body"), ProjectRequest.class);
@@ -95,8 +87,7 @@ public class ProjectController {
             e.printStackTrace();
         }
 
-        EntityManager em = context.createEntityManager();
-        return em.find(Project.class, projectId);
+        return null;
     }
 
     @RequestMapping(value = "/join", method = RequestMethod.POST)
@@ -113,13 +104,13 @@ public class ProjectController {
 
     @RequestMapping(value = "/admin/open", method = RequestMethod.PUT)
     @ResponseBody
-    public Project open(@PathVariable("projectId") Long projectId, HttpServletRequest request) {
+    public ProjectResponse open(@PathVariable("projectId") Long projectId, HttpServletRequest request) {
         return createProjectManager(projectId, request).setOpen(true);
     }
 
     @RequestMapping(value = "/admin/close", method = RequestMethod.PUT)
     @ResponseBody
-    public Project close(@PathVariable("projectId") Long projectId, HttpServletRequest request) {
+    public ProjectResponse close(@PathVariable("projectId") Long projectId, HttpServletRequest request) {
         return createProjectManager(projectId, request).setOpen(false);
     }
 
