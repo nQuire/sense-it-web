@@ -213,21 +213,9 @@ public class ProjectActions extends AbstractContentManager {
 
     public ProjectResponse updateMetadata(ProjectRequest data, FileMapUpload files) {
         if (hasAccess(PermissionType.PROJECT_EDITION)) {
-            if (files != null && data.getDescription() != null) {
-                String fileContext = projectId.toString();
-                for (Map.Entry<String, FileMapUpload.FileData> entry : files.getData().entrySet()) {
-                    try {
-                        context.getFileManager().uploadFile(fileContext, entry.getValue().filename, entry.getValue().data);
-                        if ("image".equals(entry.getKey())) {
-                            data.getDescription().setImage(fileContext + "/" + entry.getValue().filename);
-                        }
-                    } catch (Exception ignored) {
-                    }
-                }
-            }
-
             EntityManager em = context.createEntityManager();
             em.getTransaction().begin();
+
             project.setTitle(data.getTitle());
             if (project.getDescription() == null) {
                 project.setDescription(new ProjectDescription());
@@ -237,11 +225,15 @@ public class ProjectActions extends AbstractContentManager {
             if (files != null && files.getData().containsKey("image")) {
                 FileMapUpload.FileData file = files.getData().get("image");
                 String fileContext = projectId.toString();
-                try {
-                    context.getFileManager().uploadFile(fileContext, file.filename, file.data);
-                    data.getDescription().setImage(fileContext + "/" + file.filename);
-                } catch (IOException exception) {
+                if (file == null) {
                     project.getDescription().setImage(null);
+                } else {
+                    try {
+                        context.getFileManager().uploadFile(fileContext, file.filename, file.data);
+                        project.getDescription().setImage(fileContext + "/" + file.filename);
+                    } catch (IOException exception) {
+                        project.getDescription().setImage(null);
+                    }
                 }
             } else {
                 project.getDescription().setImage(data.getDescription().getImage());

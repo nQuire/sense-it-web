@@ -65,6 +65,8 @@
     <script src="js/app/directives/youtube.js"></script>
     <script src="js/app/directives/profile-provider-item.js"></script>
 
+    <script src="js/app/filters/uploaded-image-filter.js"></script>
+
 
     <script src="js/app/controllers/layout/main-controller.js"></script>
     <script src="js/app/controllers/layout/navbar-controller.js"></script>

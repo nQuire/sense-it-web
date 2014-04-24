@@ -260,7 +260,7 @@ th {
 
 html {
   font-size: 62.5%;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+  -webkit-tap-highlight-color: transparent; }
 
 body {
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -2131,7 +2131,6 @@ input[type="button"].btn-block {
   font-family: 'Glyphicons Halflings';
   src: url("bootstrap/glyphicons-halflings-regular.eot");
   src: url("bootstrap/glyphicons-halflings-regular.eot?#iefix") format("embedded-opentype"), url("bootstrap/glyphicons-halflings-regular.woff") format("woff"), url("bootstrap/glyphicons-halflings-regular.ttf") format("truetype"), url("bootstrap/glyphicons-halflings-regular.svg#glyphicons_halflingsregular") format("svg"); }
-
 .glyphicon {
   position: relative;
   top: 1px;
@@ -3912,14 +3911,12 @@ a.thumbnail.active {
 
   to {
     background-position: 0 0; } }
-
 @keyframes progress-bar-stripes {
   from {
     background-position: 40px 0; }
 
   to {
     background-position: 0 0; } }
-
 .progress {
   overflow: hidden;
   height: 20px;
@@ -4819,7 +4816,7 @@ button.close {
     border-radius: 10px;
     cursor: pointer;
     background-color: #000 \9;
-    background-color: rgba(0, 0, 0, 0); }
+    background-color: transparent; }
   .carousel-indicators .active {
     margin: 0;
     width: 12px;
@@ -4900,7 +4897,6 @@ button.close {
 
 @-ms-viewport {
   width: device-width; }
-
 .visible-xs, .visible-sm, .visible-md, .visible-lg {
   display: none !important; }
 
@@ -5321,28 +5317,50 @@ button.close {
   .sidebar-nav .navbar li a {
     padding-top: 12px;
     padding-bottom: 12px; } }
+.btn-file {
+  position: relative;
+  overflow: hidden; }
+
+.btn-file input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 999px;
+  text-align: right;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  outline: none;
+  background: white;
+  cursor: inherit;
+  display: block; }
+
 .image-crop, .project-item > .project-item-image-container,
 .image-crop > img,
-.project-item > .project-item-image-container > img {
-  cursor: pointer;
+.project-item > .project-item-image-container > img,
+.image-crop > div,
+.project-item > .project-item-image-container > div {
   width: 100%; }
 
 .image-crop, .project-item > .project-item-image-container {
   overflow: hidden;
   position: relative;
-  letter-spacing: -0.31em;
-  /* webkit */
-  *letter-spacing: normal;
-  /* reset IE < 8 */
-  word-spacing: -0.43em;
-  /* IE < 8 && gecko */ }
+  /*  letter-spacing: -0.31em; /* webkit */
+  /*  *letter-spacing: normal; /* reset IE < 8 */
+  /*  word-spaci ng: -0.43em; /* IE < 8 && gecko */ }
 
 .image-crop:before, .project-item > .project-item-image-container:before,
+.image-crop > div,
+.project-item > .project-item-image-container > div,
 .image-crop > img,
 .project-item > .project-item-image-container > img {
   /* vertically center the image */
   display: inline-block;
   vertical-align: middle; }
+
+.image-crop > div, .project-item > .project-item-image-container > div {
+  height: 100%; }
 
 .image-crop:before, .project-item > .project-item-image-container:before {
   /* pseudo element to vertically align image to */
@@ -5352,7 +5370,9 @@ button.close {
   padding-top: 75%;
   /* % of original image width */ }
 
-.image-crop > img, .project-item > .project-item-image-container > img {
+.image-crop > img, .project-item > .project-item-image-container > img,
+.image-crop > div,
+.project-item > .project-item-image-container > div {
   /* removes(sorta) image from the flow */
   position: absolute;
   top: 0px;
@@ -5645,7 +5665,7 @@ th {
 
 html {
   font-size: 62.5%;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+  -webkit-tap-highlight-color: transparent; }
 
 body {
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -7516,7 +7536,6 @@ input[type="button"].btn-block {
   font-family: 'Glyphicons Halflings';
   src: url("bootstrap/glyphicons-halflings-regular.eot");
   src: url("bootstrap/glyphicons-halflings-regular.eot?#iefix") format("embedded-opentype"), url("bootstrap/glyphicons-halflings-regular.woff") format("woff"), url("bootstrap/glyphicons-halflings-regular.ttf") format("truetype"), url("bootstrap/glyphicons-halflings-regular.svg#glyphicons_halflingsregular") format("svg"); }
-
 .glyphicon {
   position: relative;
   top: 1px;
@@ -9297,14 +9316,12 @@ a.thumbnail.active {
 
   to {
     background-position: 0 0; } }
-
 @keyframes progress-bar-stripes {
   from {
     background-position: 40px 0; }
 
   to {
     background-position: 0 0; } }
-
 .progress {
   overflow: hidden;
   height: 20px;
@@ -10204,7 +10221,7 @@ button.close {
     border-radius: 10px;
     cursor: pointer;
     background-color: #000 \9;
-    background-color: rgba(0, 0, 0, 0); }
+    background-color: transparent; }
   .carousel-indicators .active {
     margin: 0;
     width: 12px;
@@ -10285,7 +10302,6 @@ button.close {
 
 @-ms-viewport {
   width: device-width; }
-
 .visible-xs, .visible-sm, .visible-md, .visible-lg {
   display: none !important; }
 
@@ -10399,6 +10415,10 @@ button.close {
   background-color: rgba(255, 255, 255, 0.5);
   top: .5em;
   right: .5em; }
+
+.project-metadata-no-image-title {
+  background-color: #ddd;
+  text-align: center; }
 
 .project-create-type, .project-create-type-challenge, .project-create-type-senseit, .project-create-type-spotit {
   border-style: solid;

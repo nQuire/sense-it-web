@@ -1,9 +1,7 @@
 
-
-
 .image-crop,
-.image-crop > img{
-  cursor: pointer;
+.image-crop > img,
+.image-crop > div {
   width: 100%;
 }
 
@@ -11,16 +9,21 @@
   overflow: hidden;
   position: relative;
 
-  letter-spacing: -0.31em; /* webkit */
-  *letter-spacing: normal; /* reset IE < 8 */
-  word-spacing: -0.43em; /* IE < 8 && gecko */
+/*  letter-spacing: -0.31em; /* webkit */
+/*  *letter-spacing: normal; /* reset IE < 8 */
+/*  word-spaci ng: -0.43em; /* IE < 8 && gecko */
 }
 
 .image-crop:before,
-.image-crop > img{
+.image-crop > div,
+.image-crop > img {
   /* vertically center the image */
   display: inline-block;
   vertical-align: middle;
+}
+
+.image-crop > div {
+  height: 100%;
 }
 
 .image-crop:before {
@@ -31,7 +34,9 @@
   /* Set this to your desired height(to width) ratio */
   padding-top: 75%; /* % of original image width */
 }
-.image-crop > img {
+
+.image-crop > img,
+.image-crop > div {
   /* removes(sorta) image from the flow */
   position: absolute;
   top: 0px;

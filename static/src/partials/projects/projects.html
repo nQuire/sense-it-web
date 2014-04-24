@@ -63,7 +63,7 @@
                     <div class="project-item" data-ng-class="projectClass(projectData)">
                         <div class="project-item-image-container"
                              data-ui-sref="project.view.home({projectId: projectData.project.id})">
-                            <img src="" data-ng-src="{{projectData.project.description.image}}"/>
+                            <img src="" data-ng-src="{{projectData.project.description.image | uploadedImage}}"/>
                         </div>
                         <div class="project-item-title">
                             {{projectData.project.title}}

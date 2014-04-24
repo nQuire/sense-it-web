@@ -1,4 +1,3 @@
-
 function SiwClone(obj) {
     if (obj == null) {
         return null;
@@ -10,7 +9,9 @@ function SiwClone(obj) {
     } else if (typeof (obj) == 'object') {
         temp = obj.constructor();
         for (var key in obj) {
-            temp[key] = SiwClone(obj[key]);
+            if (obj.hasOwnProperty(key) && key != "$$hashKey") {
+                temp[key] = SiwClone(obj[key]);
+            }
         }
     } else {
         temp = obj;

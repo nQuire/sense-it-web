@@ -1,5 +1,3 @@
-
-
 <div data-ng-if="metadataEdit">
     <div data-ng-if="form.isOpen('title')">
         <p>Title: <input type="text" data-ng-model="form.values.title"/></p>
@@ -22,7 +20,7 @@
     </div>
 </div>
 
-{{form._isOpen}}
+{{projectData.project.description.image}}
 
 <div class="container">
     <div class="row">
@@ -30,12 +28,25 @@
             <div>
                 <div data-ng-if="!metadataEdit || !form.isOpen('image')">
                     <div class="image-crop">
-                        <img src data-ng-src="{{projectData.project.description.image}}"/>
+                        <img data-ng-if="projectData.project.description.image" src=""
+                             data-ng-src="{{projectData.project.description.image | uploadedImage }}"/>
+
+                        <div data-ng-if="!projectData.project.description.image"
+                             class="project-metadata-no-image-title">
+                            {{projectData.project.title}}
+                        </div>
                     </div>
                 </div>
                 <div data-ng-if="metadataEdit && form.isOpen('image')">
+                    <form role="form">
+                        <div class="form-group">
+                            <label for="file-select-input-image">Email address</label>
 
-                    edit
+                            <div id="file-select-input-image" data-siw-file-select-widget data-ng-attr-filekey="image"
+                                 data-ng-attr-original="{{form.values.description.image}}">
+                            </div>
+                        </div>
+                    </form>
                 </div>
 
                 <div data-ng-switch="metadataBlockButtons('image')">
