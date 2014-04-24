@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <div data-ng-if="showProjectViewMenu()">
-    <div class="pure-menu pure-menu-open pure-menu-horizontal" data-ng-controller="DataProjectMenuCtrl">
+    <div data-ng-controller="DataProjectMenuCtrl">
         <ul class="nav nav-tabs">
             <li data-ng-class="{'active' : projectViewMenuIsActive('home')}" data-ui-sref="project.view.home"><a href="#">
                 <span data-ng-switch="projectData.project.type">

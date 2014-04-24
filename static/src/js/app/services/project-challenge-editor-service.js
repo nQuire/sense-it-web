@@ -2,33 +2,44 @@
 
 angular.module('senseItServices', null, null).factory('ProjectChallengeEditorService', ['RestService', 'ProjectService', function (RestService, ProjectService) {
 
-    var service = {
+
+
+    var ProjectChallengeEditor = function(projectWatcher) {
+        this.projectWatcher = projectWatcher;
     };
 
 
-    service.createField = function (projectId, field) {
-        return ProjectService.updateProjectAction('post', projectId, 'challenge/fields', {
+
+
+
+    ProjectChallengeEditor.prototype.createField = function (field) {
+        return this.projectWatcher.updateProjectAction('post', 'challenge/fields', {
             label: field.label,
             type: field.type
         });
     };
 
-    service.updateField = function (projectId, field) {
-        return ProjectService.updateProjectAction('put', projectId, 'challenge/field/' + field.id, {
+    ProjectChallengeEditor.prototype.updateField = function (field) {
+        return this.projectWatcher.updateProjectAction('put', 'challenge/field/' + field.id, {
             label: field.label,
             type: field.type
         });
     };
 
-    service.deleteField = function (projectId, fieldId) {
-        return ProjectService.updateProjectAction('delete', projectId, 'challenge/field/' + fieldId);
+    ProjectChallengeEditor.prototype.deleteField = function (fieldId) {
+        return this.projectWatcher.updateProjectAction('delete', 'challenge/field/' + fieldId);
     };
 
-    service.updateActivity = function(projectId, activity) {
-        return ProjectService.updateProjectAction('put', projectId, 'challenge', {
+    ProjectChallengeEditor.prototype.updateActivity = function(activity) {
+        return this.projectWatcher.updateProjectAction('put', 'challenge', {
             maxAnswers: activity.maxAnswers
         });
     };
 
-    return service;
+    return {
+        challengeEditor: function(projectWatcher) {
+            return new ProjectChallengeEditor(projectWatcher);
+        }
+    };
+
 }]);

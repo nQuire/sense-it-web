@@ -1,4 +1,4 @@
-angular.module('senseItWeb', null, null).controller('ProjectEditChallengeFieldCtrl', function ($scope, ProjectChallengeEditorService) {
+angular.module('senseItWeb', null, null).controller('ProjectEditChallengeFieldCtrl', function ($scope) {
     $scope.isNew = typeof $scope.field === 'undefined';
     if ($scope.isNew) {
         $scope.field = {};
@@ -6,11 +6,11 @@ angular.module('senseItWeb', null, null).controller('ProjectEditChallengeFieldCt
 
     $scope.form = new SiwFormManager($scope.field, ['label', 'type'], function () {
         var method = $scope.isNew ? 'createField' : 'updateField';
-        ProjectChallengeEditorService[method]($scope.project.id, $scope.field);
+        $scope.challengeEditor[method]($scope.field);
     });
 
     $scope.deleteProfile = function() {
-        ProjectChallengeEditorService.deleteField($scope.project.id, $scope.field.id);
+        $scope.challengeEditor.deleteField($scope.field.id);
     };
 
 });

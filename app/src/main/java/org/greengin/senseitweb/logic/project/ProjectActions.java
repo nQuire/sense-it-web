@@ -52,7 +52,7 @@ public class ProjectActions extends AbstractContentManager {
 
 
 
-    private ProjectResponse projectResponse(Project project) {
+    protected ProjectResponse projectResponse(Project project) {
         ProjectResponse response = new ProjectResponse();
 
         HashMap<String, Long> data = new HashMap<String, Long>();

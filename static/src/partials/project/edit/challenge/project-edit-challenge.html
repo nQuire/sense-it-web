@@ -8,12 +8,12 @@
 <p>Challenge projects define the fields that users have to complete to prepare their proposal.</p>
 
 <ul>
-    <li data-ng-repeat="field in activity.fields">
-        <div data-ng-include="'partials/project-edit-challenge-field.html'" data-ng-controller="ProjectEditChallengeFieldCtrl"></div>
+    <li data-ng-repeat="field in projectData.project.activity.fields">
+        <div data-ng-include="'partials/project/edit/challenge/project-edit-challenge-field.html'" data-ng-controller="ProjectEditChallengeFieldCtrl"></div>
     </li>
 </ul>
 
-<div data-ng-include="'partials/project-edit-challenge-newfield.html'" data-ng-controller="ProjectEditChallengeFieldCtrl"></div>
+<div data-ng-include="'partials/project/edit/challenge/project-edit-challenge-newfield.html'" data-ng-controller="ProjectEditChallengeFieldCtrl"></div>
 
 
 <div data-ng-if="form.isOpen()">
@@ -33,7 +33,7 @@
     </form>
 </div>
 <div data-ng-if="!form.isOpen()">
-    <p>Max answers per participant: {{activity.maxAnswers}}</p>
+    <p>Max answers per participant: {{projectData.project.activity.maxAnswers}}</p>
     <button class="pure-button pure-button-primary pure-button-small" data-ng-click="form.open()">Edit</button>
 </div>
 

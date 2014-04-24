@@ -171,7 +171,7 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
      * @returns {object}
      * @private
      */
-    ProjectWatcher.prototype._updateProjectAction = function (method, path, data, files) {
+    ProjectWatcher.prototype.updateProjectAction = function (method, path, data, files) {
         var self = this;
         return utils.projectRequest(method, this.projectId, path, data, files).then(function (data) {
             self.data.ready = true;
@@ -193,7 +193,7 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
      * @private
      */
     ProjectWatcher.prototype.saveMetadata = function (files) {
-        return this._updateProjectAction('post', 'metadata', {
+        return this.updateProjectAction('post', 'metadata', {
             title: this.data.project.title,
             description: SiwClone(this.data.project.description)
         }, files);
@@ -201,10 +201,10 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
 
 
     ProjectWatcher.prototype.openProject = function () {
-        return this._updateProjectAction('put', 'admin/open');
+        return this.updateProjectAction('put', 'admin/open');
     };
     ProjectWatcher.prototype.closeProject = function () {
-        return this._updateProjectAction('put', 'admin/close');
+        return this.updateProjectAction('put', 'admin/close');
     };
 
     ProjectWatcher.prototype.getUsers = function () {

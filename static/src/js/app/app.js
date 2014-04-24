@@ -76,12 +76,12 @@ angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'senseItServices'], nul
         })
         .state('project.edit.senseit', {
             url: '/senseit',
-            templateUrl: 'partials/project-edit-senseit.html',
+            templateUrl: 'partials/project/edit/challenge/project-edit-senseit.html',
             controller: 'ProjectEditSenseItCtrl'
         })
         .state('project.edit.challenge', {
             url: '/challenge',
-            templateUrl: 'partials/project-edit-challenge.html',
+            templateUrl: 'partials/project/edit/challenge/project-edit-challenge.html',
             controller: 'ProjectEditChallengeCtrl'
         })
         .state('profile', {

@@ -61,7 +61,6 @@
     <script src="js/app/directives/file-select-widget.js"></script>
     <script src="js/app/directives/table-widget.js"></script>
     <script src="js/app/directives/map.js"></script>
-    <script src="js/app/directives/project-description.js"></script>
     <script src="js/app/directives/youtube.js"></script>
     <script src="js/app/directives/profile-provider-item.js"></script>
 
@@ -82,13 +81,15 @@
     <script src="js/app/controllers/project-admin-challenge-controller.js"></script>
 
 
-        <script src="js/app/controllers/project/project-controller.js"></script>
-        <script src="js/app/controllers/project/project-view-controller.js"></script>
+    <script src="js/app/controllers/project/project-controller.js"></script>
+    <script src="js/app/controllers/project/project-view-controller.js"></script>
     <script src="js/app/controllers/project/project-admin-controller.js"></script>
 
     <script src="js/app/controllers/project/edit/project-edit-controller.js"></script>
     <script src="js/app/controllers/project/edit/project-edit-menu-controller.js"></script>
     <script src="js/app/controllers/project/edit/project-edit-metadata-controller.js"></script>
+    <script src="js/app/controllers/project/edit/challenge/project-edit-challenge-controller.js"></script>
+    <script src="js/app/controllers/project/edit/challenge/project-edit-challenge-field-controller.js"></script>
 
 
     <script src="js/app/controllers/project-view-challenge-outcome-controller.js"></script>
@@ -105,8 +106,6 @@
     <script src="js/app/controllers/project-edit-senseit-profile-controller.js"></script>
     <script src="js/app/controllers/project-edit-senseit-sensor-controller.js"></script>
     <script src="js/app/controllers/project-edit-senseit-analysis-controller.js"></script>
-    <script src="js/app/controllers/project-edit-challenge-controller.js"></script>
-    <script src="js/app/controllers/project-edit-challenge-field-controller.js"></script>
 
     <script src="js/app/controllers/project-view-senseit-test-upload-controller.js"></script>
 

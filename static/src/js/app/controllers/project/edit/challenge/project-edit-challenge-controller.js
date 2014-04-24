@@ -3,14 +3,13 @@
 
 angular.module('senseItWeb', null, null).controller('ProjectEditChallengeCtrl', function ($scope, ProjectChallengeEditorService) {
 
-    $scope.$on('$destroy', function () {
-        listener();
-    });
+    $scope.challengeEditor = ProjectChallengeEditorService.challengeEditor($scope.projectWatcher);
 
     $scope.form = new SiwFormManager(function() {
         return $scope.projectData.project.activity;
     }, ['maxAnswers'], function() {
-        ProjectChallengeEditorService.updateActivity($scope.project.id, $scope.projectData.project.activity);
+        $scope.challengeEditor.updateActivity($scope.projectData.project.activity);
     });
+
 });
 

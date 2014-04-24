@@ -20,8 +20,6 @@
     </div>
 </div>
 
-{{projectData.project.description.image}}
-
 <div class="container">
     <div class="row">
         <div class="project-description-block col-sm-6 col-xs-12">
@@ -72,7 +70,9 @@
                 <div data-ng-if="!metadataEdit || !form.isOpen('block:' + $index)">
                     <div data-ng-switch="block.type">
                         <div data-ng-switch-when="www">
-                            www
+                            <div data-ng-if="block.who">Who: {{block.who}}</div>
+                            <div data-ng-if="block.where">Where: {{block.where}}</div>
+                            <div data-ng-if="block.when">When: {{block.when}}</div>
                         </div>
                         <div data-ng-switch-when="text" class="project-description-block-text">
                             <div class="project-description-block-text-header">{{block.header}}</div>
@@ -81,7 +81,40 @@
                     </div>
                 </div>
                 <div data-ng-if="metadataEdit && form.isOpen('block:' + $index)">
-                    edit
+                    <div data-ng-switch="block.type">
+                        <div data-ng-switch-when="www">
+                            <form role="form">
+                                <div class="form-group">
+                                    <label for="block-www-who">Who: </label>
+                                    <input id="block-www-who" type="text"
+                                           data-ng-model="form.values.description.blocks[$index].who"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="block-www-where">Where: </label>
+                                    <input id="block-www-where" type="text"
+                                           data-ng-model="form.values.description.blocks[$index].where"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="block-www-when">Who: </label>
+                                    <input id="block-www-when" type="date"
+                                           data-ng-model="form.values.description.blocks[$index].when"/>
+                                </div>
+                            </form>
+                        </div>
+                        <div data-ng-switch-when="text" class="project-description-block-text">
+                            <form role="form">
+                                <div class="form-group">
+                                    <label for="block-text-header">Header: </label>
+                                    <input id="block-text-header" type="text"
+                                           data-ng-model="form.values.description.blocks[$index].header"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="block-text-content">Text: </label>
+                                    <textarea id="block-text-content" data-ng-model="form.values.description.blocks[$index].content"></textarea>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 <div data-ng-switch="metadataBlockButtons('block:' + $index)">
                     <div data-ng-switch-when="close">
@@ -90,10 +123,12 @@
                                 Edit
                             </button>
                             <button type="button" class="btn btn-default" data-ng-disabled="$last"
-                                    data-ng-click="moveMetadataBlock($index, false)">Move down
+                                    data-ng-click="moveMetadataBlock($index, false)">
+                                Move down
                             </button>
                             <button type="button" class="btn btn-default" data-ng-disabled="$index < 1"
-                                    data-ng-click="moveMetadataBlock($index, true)">Move up
+                                    data-ng-click="moveMetadataBlock($index, true)">
+                                Move up
                             </button>
                             <button type="button" class="btn btn-default" data-ng-click="deleteMetadataBlock($index)">
                                 Delete

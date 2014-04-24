@@ -17,6 +17,7 @@ import org.greengin.senseitweb.entities.users.PermissionType;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.logic.ContextBean;
 import org.greengin.senseitweb.logic.project.AbstractActivityActions;
+import org.greengin.senseitweb.logic.project.ProjectResponse;
 import org.greengin.senseitweb.logic.rating.VoteCount;
 import org.greengin.senseitweb.logic.rating.VoteRequest;
 
@@ -164,19 +165,19 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 
 	/** editor actions **/
 
-	public Project updateActivity(ChallengeActivityRequest activityData) {
+	public ProjectResponse updateActivity(ChallengeActivityRequest activityData) {
 		if (hasAccess(PermissionType.PROJECT_EDITION)) {
             EntityManager em = context.createEntityManager();
 			em.getTransaction().begin();
 			activityData.update(activity);
 			em.getTransaction().commit();
-			return project;
+			return projectResponse(project);
 		}
 
 		return null;
 	}
 
-	public Project createField(ChallengeFieldRequest fieldData) {
+	public ProjectResponse createField(ChallengeFieldRequest fieldData) {
 		if (hasAccess(PermissionType.PROJECT_EDITION)) {
             EntityManager em = context.createEntityManager();
 			em.getTransaction().begin();
@@ -184,13 +185,13 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 			fieldData.update(field);
 			activity.getFields().add(field);
 			em.getTransaction().commit();
-			return project;
+			return projectResponse(project);
 		}
 		
 		return null;
 	}
 
-	public Project updateField(Long fieldId, ChallengeFieldRequest fieldData) {
+	public ProjectResponse updateField(Long fieldId, ChallengeFieldRequest fieldData) {
 		if (hasAccess(PermissionType.PROJECT_EDITION)) {
             EntityManager em = context.createEntityManager();
 			ChallengeField field = em.find(ChallengeField.class, fieldId);
@@ -199,13 +200,13 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 			fieldData.update(field);
 			em.getTransaction().commit();
 			
-			return project;
+			return projectResponse(project);
 		}
 		
 		return null;
 	}
 
-	public Project deleteField(Long fieldId) {
+	public ProjectResponse deleteField(Long fieldId) {
 		if (hasAccess(PermissionType.PROJECT_EDITION)) {
             EntityManager em = context.createEntityManager();
 			ChallengeField field = em.find(ChallengeField.class, fieldId);
@@ -214,8 +215,10 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 			activity.getFields().remove(field);
 			em.getTransaction().commit();
 		}
-		return project;
+		return projectResponse(project);
 	}
+
+    /** outcome actions **/
 
 	public ChallengeOutcome updateOutcome(ChallengeOutcomeRequest outcomeData) {
 		if (hasAccess(PermissionType.PROJECT_ADMIN)) {
