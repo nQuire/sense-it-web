@@ -1,23 +1,23 @@
 
-table.pure-table.sortable-table th {
+table.sortable-table th {
   cursor: pointer;
 }
 
-table.pure-table.sortable-table th.ascending:after {
+table.sortable-table th.ascending:after {
   content: ' ▲';
   font-size: .75em;
 }
 
-table.pure-table.sortable-table th.descending:after {
+table.sortable-table th.descending:after {
   content: ' ▼';
   font-size: .75em;
 }
 
-table.pure-table td.selectable {
+table td.selectable {
   cursor: pointer;
 }
 
-table.pure-table tr.selected {
+table tr.selected {
   background: #519251;
   color: white;
 }

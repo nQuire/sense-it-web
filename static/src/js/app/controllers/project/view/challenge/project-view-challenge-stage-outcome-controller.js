@@ -19,7 +19,7 @@ angular.module('senseItWeb', null, null).controller('ProjectViewChallengeStageOu
         showPublished: false
     };
 
-    ProjectChallengeParticipantService.getVotedAnswers($scope.project.id).then(function (answers) {
+    $scope.challengeParticipant.getVotedAnswers().then(function (answers) {
         $scope.answerData.answers = answers;
         $scope.answerData.answersReady = true;
     });

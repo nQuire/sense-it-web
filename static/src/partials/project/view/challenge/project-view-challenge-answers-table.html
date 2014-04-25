@@ -18,7 +18,7 @@
 </div>
 
 <div data-ng-if="answerData.answersReady">
-    <table data-siw-sortable-table-widget data-table-data="tableData" class="pure-table">
+    <table data-siw-sortable-table-widget data-table-data="tableData" class="table table-bordered">
         <thead>
         <tr>
             <th data-ng-if="answerData.showAuthor" data-ng-class="headerClass('author')"
@@ -41,12 +41,12 @@
             </td>
             <td>{{answerTeaser(answer)}}</td>
             <td>
-                <button class="pure-button pure-button-primary pure-button-xsmall"
+                <button class="btn btn-default"
                         data-ng-click="itemView.open(answer)">
                     Open
                 </button>
-                <button data-ng-if="answerData.selectable" class="pure-button pure-button-xsmall"
-                        data-ng-class="answer.id == answerData.selectedAnswer ? 'pure-button-active' : 'pure-button-primary'"
+                <button data-ng-if="answerData.selectable" class="btn"
+                        data-ng-class="answer.id == answerData.selectedAnswer ? 'btn-primary btn-active' : 'btn-default'"
                         data-ng-click="answerData.selectCallback(answer)">Select</button>
             </td>
         </tr>
@@ -56,10 +56,10 @@
 
     <div data-ng-if="answerData.editable">
         <div data-ng-if="maxAnswersReached()">
-            <p>You have created the maximum number of allowed answers: {{project.activity.maxAnswers}}.</p>
+            <p>You have created the maximum number of allowed answers: {{projectData.project.activity.maxAnswers}}.</p>
         </div>
         <div data-ng-if="!maxAnswersReached()">
-            <p>You can create up to {{project.activity.maxAnswers}} answers.</p>
+            <p>You can create up to {{projectData.project.activity.maxAnswers}} answers.</p>
             <button class="pure-button pure-button-primary" data-ng-click="itemView.openNew()">
                 Create new answer
             </button>

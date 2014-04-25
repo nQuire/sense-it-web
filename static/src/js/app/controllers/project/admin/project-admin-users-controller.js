@@ -1,5 +1,6 @@
 angular.module('senseItWeb', null, null).controller('ProjectAdminUsersCtrl', function ($scope, ProjectService) {
 
+
     $scope.tableData = {
         items: null,
         selectCallback: function (user) {
@@ -23,7 +24,7 @@ angular.module('senseItWeb', null, null).controller('ProjectAdminUsersCtrl', fun
         }
     }
 
-    ProjectService.getUsers($scope.project.id).then(function (users) {
+    $scope.projectWatcher.getUsers().then(function (users) {
         $scope.tableData.items = users;
         $scope.usersReady = true;
     });

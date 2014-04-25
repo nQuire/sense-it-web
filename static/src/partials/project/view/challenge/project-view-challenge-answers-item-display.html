@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<p data-ng-repeat="field in project.activity.fields">{{field.label}}: {{itemView.answer.fieldValues[field.id]}}</p>
+<p data-ng-repeat="field in projectData.project.activity.fields">{{field.label}}: {{itemView.answer.fieldValues[field.id]}}</p>
 
 <p data-ng-if="answerData.showPublished">{{itemView.answer.published ? 'Published' : 'Not published yet'}}.</p>
 

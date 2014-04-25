@@ -1,20 +1,25 @@
 'use strict';
 
-angular.module('senseItServices', null, null).factory('ProjectChallengeAdminService', ['ProjectService', 'RestService', function (ProjectService, RestService) {
+angular.module('senseItServices', null, null).factory('ProjectChallengeAdminService', ['ProjectService', function (ProjectService) {
 
-    var service = {
+    var ProjectChallengeAdmin = function(projectWatcher) {
+        this.projectWatcher = projectWatcher;
     };
 
 
-    service.setStage = function(projectId, stage) {
-        return ProjectService.updateProjectAction('put', projectId, 'challenge/admin/stage', {
+    ProjectChallengeAdmin.prototype.setStage = function(stage) {
+        return this.projectWatcher.updateProjectAction('put', 'challenge/admin/stage', {
             stage: stage
         });
     };
 
-    service.getVotedAnswers = function(projectId) {
-        return ProjectService.projectRequest('get', projectId, 'challenge/admin/answers');
+    ProjectChallengeAdmin.prototype.getVotedAnswers = function() {
+        return this.projectWatcher.projectRequest('get', 'challenge/admin/answers');
     };
 
-    return service;
+    return {
+        challengeAdmin: function(projectWatcher) {
+            return new ProjectChallengeAdmin(projectWatcher);
+        }
+    };
 }]);

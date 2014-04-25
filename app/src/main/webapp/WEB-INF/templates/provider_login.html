@@ -9,7 +9,6 @@
     Welcome!
 </h1>
 
-<div th:text="${signin_url}"></div>
 <form name="oauth-form-redirection" th:action="${signin_url}" method="POST">
     <button type="submit">Sign in with <span th:text="${provider}"></span></button>
     <input type="hidden" name="scope" th:value="${scopes}"/>

@@ -147,8 +147,6 @@ public class ProfileController {
 
     @RequestMapping(value = "/social/new")
     public String newuser(Locale locale, Model model) {
-        String message = "at new!";
-        model.addAttribute("message", message);
         return "welcome_user";
     }
 

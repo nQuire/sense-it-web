@@ -56,7 +56,7 @@ angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'senseItServices'], nul
         })
         .state('project.view.challenge', {
             url: '/challenge',
-            templateUrl: 'partials/project-view-challenge-work.html'
+            templateUrl: 'partials/project/view/challenge/project-view-challenge-work.html'
         })
         .state('project.admin', {
             url: '/admin',

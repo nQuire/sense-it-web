@@ -1,6 +1,6 @@
 
-@import "../bootstrap-sass-3.1.1/vendor/assets/stylesheets/bootstrap";
-@import "../bootstrap-sass-3.1.1/vendor/assets/stylesheets/bootstrap/theme";
+@import "bootstrap-sass-3.1.1/vendor/assets/stylesheets/bootstrap";
+@import "bootstrap-sass-3.1.1/vendor/assets/stylesheets/bootstrap/theme";
 
 @import "sidebar-nav";
 @import "file-widget";
@@ -9,5 +9,8 @@
 @import "project-list";
 @import "project-view";
 @import "project-create";
+
+@import "voting";
+@import "tables";
 
 

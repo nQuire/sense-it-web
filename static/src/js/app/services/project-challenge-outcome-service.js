@@ -2,21 +2,32 @@
 
 angular.module('senseItServices', null, null).factory('ProjectChallengeOutcomeService', ['ProjectService', function (ProjectService) {
 
-    var service = {
-        getOutcome: function(projectId) {
-            return ProjectService.projectRequest('get', projectId, 'challenge/outcome');
-        },
-        selectAnswer: function(projectId, answerId) {
-            return ProjectService.projectRequest('put', projectId, 'challenge/outcome', {
-                answerId: answerId
-            });
-        },
-        setExplanation: function(projectId, explanation) {
-            return ProjectService.projectRequest('put', projectId, 'challenge/outcome', {
-                explanation: explanation
-            });
+    var ProjectChallengeOutcome = function (projectWatcher) {
+        this.projectWatcher = projectWatcher;
+    };
+
+
+    ProjectChallengeOutcome.prototype.getOutcome = function () {
+        return this.projectWatcher.projectRequest('get', 'challenge/outcome');
+    };
+
+    ProjectChallengeOutcome.prototype.selectAnswer = function (answerId) {
+        return this.projectWatcher.projectRequest('put', 'challenge/outcome', {
+            answerId: answerId
+        });
+    };
+
+    ProjectChallengeOutcome.prototype.setExplanation = function (explanation) {
+        return this.projectWatcher.projectRequest('put', 'challenge/outcome', {
+            explanation: explanation
+        });
+    };
+
+
+    return {
+        challengeOutcome: function (projectWatcher) {
+            return new ProjectChallengeOutcome(projectWatcher);
         }
     };
 
-    return service;
 }]);

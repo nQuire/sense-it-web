@@ -1,9 +1,9 @@
-angular.module('senseItWeb', null, null).controller('ProjectViewChallengeAnswersItemCtrl', function ($scope, ProjectChallengeParticipantService) {
-    if ($scope.answerData.editable) {
+angular.module('senseItWeb', null, null).controller('ProjectViewChallengeAnswersItemCtrl', function ($scope) {
 
+    if ($scope.answerData.editable && $scope.challengeParticipant) {
         var editCallback = function () {
             if ($scope.itemView.isNew) {
-                ProjectChallengeParticipantService.newAnswer($scope.project.id, $scope.itemView.answer).then(function (data) {
+                $scope.challengeParticipant.newAnswer($scope.itemView.answer).then(function (data) {
                     if (data.newAnswer >= 0) {
                         $scope.itemView.updateAnswers(data.answers);
                         $scope.itemView.openById(data.newAnswer);
@@ -12,7 +12,7 @@ angular.module('senseItWeb', null, null).controller('ProjectViewChallengeAnswers
                     }
                 });
             } else {
-                ProjectChallengeParticipantService.updateAnswer($scope.project.id, $scope.itemView.answer).then(function (answers) {
+                $scope.challengeParticipant.updateAnswer($scope.itemView.answer).then(function (answers) {
                     $scope.itemView.updateAnswers(answers);
                 });
             }

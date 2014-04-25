@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+
+<div data-ng-controller="ProjectViewChallengeCtrl">
+    <div data-ng-switch="projectData.project.activity.stage">
+        <div data-ng-switch-when="proposal">
+            <div data-ng-include="'partials/project/view/challenge/project-view-challenge-stage-proposal.html'"
+                 data-ng-controller="ProjectViewChallengeStageProposalCtrl"></div>
+        </div>
+        <div data-ng-switch-when="voting">
+            <div data-ng-include="'partials/project/view/challenge/project-view-challenge-stage-vote.html'"
+                 data-ng-controller="ProjectViewChallengeStageVoteCtrl"></div>
+        </div>
+        <div data-ng-switch-when="outcome">
+            <div data-ng-include="'partials/project/view/challenge/project-view-challenge-stage-outcome.html'"
+                 data-ng-controller="ProjectViewChallengeStageOutcomeCtrl"></div>
+        </div>
+    </div>
+</div>

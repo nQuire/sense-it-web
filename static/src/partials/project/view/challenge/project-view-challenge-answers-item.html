@@ -3,7 +3,7 @@
 <div data-ng-if="form.isOpen()">
     <form class="pure-form pure-form-stacked">
         <fieldset>
-            <div data-ng-repeat="field in project.activity.fields">
+            <div data-ng-repeat="field in projectData.project.activity.fields">
                 <label for="{{field.id}}">{{field.label}}</label>
 
                 <div data-ng-switch="field.type">
@@ -37,7 +37,7 @@
 
 </div>
 <div data-ng-if="!form.isOpen() && !itemView.isNew">
-    <div data-ng-include="'partials/project-view-challenge-answers-item-display.html'"></div>
+    <div data-ng-include="'partials/project/view/challenge/project-view-challenge-answers-item-display.html'"></div>
 
     <p>
         <button data-ng-if="answerData.editable" class="pure-button pure-button-primary pure-button-small"

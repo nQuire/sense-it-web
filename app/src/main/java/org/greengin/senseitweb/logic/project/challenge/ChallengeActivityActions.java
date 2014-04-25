@@ -151,13 +151,13 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 
 	/** admin actions **/
 
-	public Project setStage(ChallengeActivityStage stage) {
+	public ProjectResponse setStage(ChallengeActivityStage stage) {
 		if (hasAccess(PermissionType.PROJECT_ADMIN)) {
             EntityManager em = context.createEntityManager();
 			em.getTransaction().begin();
 			activity.setStage(stage);
 			em.getTransaction().commit();
-			return project;
+			return projectResponse(project);
 		}
 		
 		return null;

@@ -1,31 +1,44 @@
 <!DOCTYPE html>
 
-<div data-ng-include="'partials/project-view-challenge-outcome.html'" data-ng-controller="ProjectViewChallengeOutcomeCtrl"></div>
+<div data-ng-include="'partials/project/view/challenge/project-view-challenge-outcome.html'"
+     data-ng-controller="ProjectViewChallengeOutcomeCtrl"></div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Challenge administration</h3>
+    </div>
+    <div class="panel-body">
+        <div class="btn-group">
+            <button class="btn"
+                    data-ng-class="stageButtonClass('proposal')"
+                    data-ng-click="setStage('proposal')">
+                Proposal stage
+            </button>
+            <button class="btn"
+                    data-ng-class="stageButtonClass('voting')"
+                    data-ng-click="setStage('voting')">
+                Voting stage
+            </button>
+            <button class="btn"
+                    data-ng-class="stageButtonClass('outcome')"
+                    data-ng-click="setStage('outcome')">
+                Outcome stage
+            </button>
+        </div>
+    </div>
+</div>
 
 
-<h2 class="content-subhead">Challenge administration</h2>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Answer administration</h3>
+    </div>
+    <div class="panel-body">
+        <div data-ng-include="'partials/project/view/challenge/project-view-challenge-answers.html'"
+             data-ng-controller="ProjectViewChallengeAnswersCtrl"></div>
+    </div>
+</div>
 
-
-<button class="pure-button"
-        data-ng-class="stageButtonClass('proposal')"
-        data-ng-click="setStage('proposal')">
-    Proposal stage
-</button>
-<button class="pure-button"
-        data-ng-class="stageButtonClass('voting')"
-        data-ng-click="setStage('voting')">
-    Voting stage
-</button>
-<button class="pure-button"
-        data-ng-class="stageButtonClass('outcome')"
-        data-ng-click="setStage('outcome')">
-    Outcome stage
-</button>
-
-
-<h2 class="content-subhead">Answer administration</h2>
-<div data-ng-include="'partials/project-view-challenge-answers.html'"
-     data-ng-controller="ProjectViewChallengeAnswersCtrl"></div>
-
-<div data-ng-include="'partials/project-admin-users.html'" data-ng-controller="ProjectAdminUsersCtrl"></div>
+<div data-ng-include="'partials/project/admin/project-admin-users.html'"
+     data-ng-controller="ProjectAdminUsersCtrl"></div>
 

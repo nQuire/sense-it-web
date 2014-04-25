@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /*! normalize.css v3.0.0 | MIT License | git.io/normalize */
 html {
   font-family: sans-serif;
@@ -10451,3 +10452,44 @@ button.close {
 
 .project-create-doit {
   text-align: center; }
+
+i.vote-icon {
+  margin: 0 .25em;
+  padding: .25em;
+  border-radius: .25em; }
+
+i.vote-icon.enabled {
+  cursor: pointer; }
+
+i.vote-icon {
+  color: #666;
+  background: transparent; }
+
+i.vote-icon.selected {
+  background: #519251;
+  color: white; }
+
+i.vote-icon.not-selected {
+  color: #aaa; }
+
+i.vote-icon.enabled:hover {
+  background: #519251;
+  color: #aaa; }
+
+table.sortable-table th {
+  cursor: pointer; }
+
+table.sortable-table th.ascending:after {
+  content: ' ▲';
+  font-size: .75em; }
+
+table.sortable-table th.descending:after {
+  content: ' ▼';
+  font-size: .75em; }
+
+table td.selectable {
+  cursor: pointer; }
+
+table tr.selected {
+  background: #519251;
+  color: white; }

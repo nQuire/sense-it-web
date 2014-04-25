@@ -1,4 +1,4 @@
-angular.module('senseItWeb', null, null).controller('ProjectViewChallengeStageProposalCtrl', function ($scope, ProjectChallengeParticipantService) {
+angular.module('senseItWeb', null, null).controller('ProjectViewChallengeStageProposalCtrl', function ($scope) {
 
     $scope.answerData = {
         answersReady: false,
@@ -11,7 +11,7 @@ angular.module('senseItWeb', null, null).controller('ProjectViewChallengeStagePr
     };
 
 
-    ProjectChallengeParticipantService.getAnswers($scope.project.id).then(function (answers) {
+    $scope.challengeParticipant.getAnswers().then(function (answers) {
         $scope.answerData.answers = answers;
         $scope.answerData.answersReady = true;
     });

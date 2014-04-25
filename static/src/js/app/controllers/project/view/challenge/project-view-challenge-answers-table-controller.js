@@ -1,9 +1,9 @@
 angular.module('senseItWeb', null, null).controller('ProjectViewChallengeAnswersTableCtrl', function ($scope) {
 
     var titleField = -1;
-    for (var i = 0; i < $scope.project.activity.fields.length; i++) {
-        if ($scope.project.activity.fields[i].type === 'title') {
-            titleField = $scope.project.activity.fields[i].id;
+    for (var i = 0; i < $scope.projectData.project.activity.fields.length; i++) {
+        if ($scope.projectData.project.activity.fields[i].type === 'title') {
+            titleField = $scope.projectData.project.activity.fields[i].id;
             break;
         }
     }
@@ -47,7 +47,7 @@ angular.module('senseItWeb', null, null).controller('ProjectViewChallengeAnswers
 
     if ($scope.answerData.editable) {
         $scope.maxAnswersReached = function() {
-            return $scope.project.activity.maxAnswers <= $scope.answerData.answers.length;
+            return $scope.projectData.project.activity.maxAnswers <= $scope.answerData.answers.length;
         };
     }
 

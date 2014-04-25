@@ -110,6 +110,10 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
         this._reload();
     };
 
+    ProjectWatcher.prototype.projectRequest = function (method, path, data) {
+        return utils.projectRequest(method, this.projectId, path, data);
+    };
+
     ProjectWatcher.prototype._reload = function () {
         console.log('project reloading');
         var self = this;

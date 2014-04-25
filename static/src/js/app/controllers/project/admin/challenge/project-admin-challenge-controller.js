@@ -1,4 +1,6 @@
-angular.module('senseItWeb', null, null).controller('ProjectAdminChallengeCtrl', function ($scope, ProjectChallengeAdminService, ProjectChallengeOutcomeService) {
+angular.module('senseItWeb', null, null).controller('ProjectAdminChallengeCtrl', function ($scope, ProjectChallengeAdminService) {
+
+    $scope.challengeAdmin = ProjectChallengeAdminService.challengeAdmin($scope.projectWatcher);
 
     $scope.outcomeData = {
         editable: true,
@@ -68,17 +70,17 @@ angular.module('senseItWeb', null, null).controller('ProjectAdminChallengeCtrl',
     };
 
     $scope.setStage = function (stage) {
-        if (stage != $scope.project.activity.stage) {
-            ProjectChallengeAdminService.setStage($scope.project.id, stage);
+        if (stage != $scope.projectData.project.activity.stage) {
+            $scope.challengeAdmin.setStage(stage);
         }
     };
 
     $scope.stageButtonClass = function (stage) {
-        return stage == $scope.project.activity.stage ? 'pure-button-active' : 'pure-button-primary';
+        return stage == $scope.projectData.project.activity.stage ? 'btn-primary active' : 'btn-default';
     };
 
 
-    ProjectChallengeAdminService.getVotedAnswers($scope.project.id).then(function (answers) {
+    $scope.challengeAdmin.getVotedAnswers().then(function (answers) {
         $scope.answerData.answers = answers;
         $scope.answerData.answersReady = true;
     });

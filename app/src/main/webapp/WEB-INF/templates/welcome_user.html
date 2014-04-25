@@ -1,19 +1,13 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
 	<title>Welcome</title>
 </head>
 <body>
-<p>
-    Logged as: <span th:text="${user}"></span>
-</p>
-<p>Google: <span th:text="${google}"></span></p>
-<p>Facebook: <span th:text="${facebook}"></span></p>
-
 
 <script>
-    window.opener.handleOpenIdResponse();
-   // window.close();
+   window.opener.handleOpenIdResponse();
+   window.close();
 </script>
 </body>
 </html>
