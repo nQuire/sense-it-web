@@ -29,8 +29,7 @@ public class FileController {
         response.setContentType("image/" + FilenameUtils.getExtension(path));
         try {
             IOUtils.copy(new FileInputStream(file), response.getOutputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
         }
 
     }

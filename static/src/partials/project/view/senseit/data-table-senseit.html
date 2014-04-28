@@ -1,11 +1,12 @@
-<table data-siw-sortable-table-widget data-table-data="dataList" class="pure-table">
+<table data-siw-sortable-table-widget data-table-data="dataList" class="table table-bordered">
     <thead>
     <tr>
         <th data-ng-class="headerClass('title')" data-ng-click="headerSort('title')">Title</th>
         <th data-ng-class="headerClass('author')" data-ng-click="headerSort('author')">Author</th>
         <th data-ng-class="headerClass('votes')" data-ng-click="headerSort('votes')">Votes</th>
         <th data-ng-repeat="v in dataInfo.tableVariables"
-            data-ng-class="headerClass(v.id)" data-ng-click="headerSort(v.id)">{{v.label()}}</th>
+            data-ng-class="headerClass(v.id)" data-ng-click="headerSort(v.id)">{{v.label()}}
+        </th>
         <th></th>
     </tr>
     </thead>
@@ -20,13 +21,15 @@
             {{dataInfo.tableValue(item, v)}}
         </td>
         <td>
-            <button data-ng-click="plots.togglePlot(item)"
-                    class="pure-button pure-button-primary pure-button-xsmall">
-                {{plots.plotOpen(item) ? 'Close plot' : 'Open plot'}}
-            </button>
-            <button data-ng-if="item.author.id == status.profile.id" data-ng-click="deleteData(item)"
-                    class="pure-button pure-button-primary pure-button-xsmall">Delete
-            </button>
+            <div class="btn-group">
+                <button class="btn btn-default" data-ng-click="plots.togglePlot(item)">
+                    {{plots.plotOpen(item) ? 'Close plot' : 'Open plot'}}
+                </button>
+                <button data-ng-if="item.author.id == status.profile.id"
+                        class="btn btn-default" data-ng-click="deleteData(item)">
+                    Delete
+                </button>
+            </div>
         </td>
     </tr>
     <tr data-ng-repeat-end data-ng-if="plots.plotOpen(item)">

@@ -52,7 +52,7 @@ angular.module('senseItWeb', null, null).controller('ProjectViewSenseItCtrl', fu
             this._open[item.id] = ! this._open[item.id];
         },
         url: function(item, v) {
-            return 'api/project/' + $scope.project.id + '/senseit/data/' + item.id + '/' + v.id + '.png';
+            return 'api/project/' + $scope.projectData.project.id + '/senseit/data/' + item.id + '/' + v.id + '.png';
         }
     }
 

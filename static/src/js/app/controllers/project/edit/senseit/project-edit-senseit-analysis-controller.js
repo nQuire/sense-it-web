@@ -9,7 +9,9 @@ angular.module('senseItWeb', null, null).controller('ProjectEditSenseItAnalysisC
 
     $scope.txForm = new SiwFormManager(function () {
         return $scope.projectData.project.activity.profile;
-    }, ['tx'], $scope.updateProfile, function () {
+    }, ['tx'], function () {
+        $scope.senseitEditor.updateProfile($scope.projectData.project.activity.profile);
+    }, function () {
         $scope.txEdit.reset();
     });
 

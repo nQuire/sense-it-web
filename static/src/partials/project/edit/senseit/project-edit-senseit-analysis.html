@@ -12,20 +12,23 @@
             <span data-ng-if="!txEdit.editable(variable)">{{variable.label()}}</span>
             <span data-ng-if="variable.editable">
                 : {{ variable.txLabel() }} (
-                <span data-ng-repeat="(inputvar_index, v) in transformations.inputVariables(variable)">
+                <span data-ng-repeat="(input_index, v) in transformations.inputVariables(variable)">
                     <span data-ng-if="txEdit.editable(variable)">
                         <span data-ng-if="!$first">, </span>
-                        <span class="siw-dropdown">
-                            <button class="pure-button pure-button-xsmall">{{ v ? v.label() : '?'}}</button>
-                            <div class="siw-dropdown-menu pure-menu pure-menu-open">
-                                <ul>
-                                    <li data-ng-repeat="av in transformations.availableInputVariables(variable, inputvar_index)">
-                                        <a href=""
-                                           data-ng-click="txEdit.setInputVariable(variable.tx, av.id, inputvar_index)">{{av.label()}}</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </span>
+
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                {{ v ? v.label() : '?'}} <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li data-ng-repeat="av in transformations.availableInputVariables(variable, input_index)">
+                                    <a href="" data-ng-click="txEdit.setInputVariable(variable.tx, av.id, input_index)">
+                                        {{av.label()}}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
                     </span>
                     <span data-ng-if="!txEdit.editable(variable)">
                         <span data-ng-if="!$first">, </span><span>{{ v ? v.label() : '?'}}</span>
@@ -34,7 +37,7 @@
             )
             </span>
             <span>: {{variable.outputLabel()}}</span>
-            <button data-ng-if="txEdit.editable(variable)" class="pure-button pure-button-primary pure-button-small"
+            <button data-ng-if="txEdit.editable(variable)" class="btn btn-default"
                     data-ng-click="txEdit.deleteVariable(variable)">
                 Delete
             </button>
@@ -42,24 +45,27 @@
     </ul>
 
     <div data-ng-if="txForm.isOpen()">
-        <div class="siw-dropdown">
-            <button class="pure-button pure-button-xsmall">Add transformation</button>
-            <div class="siw-dropdown-menu pure-menu pure-menu-open">
-                <ul>
-                    <li data-ng-repeat="(t, label) in availableTransformations">
-                        <a href="" data-ng-click="txEdit.createVariable(t)">{{label}}</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
         <p>
-            <button class="pure-button pure-button-primary pure-button-small"
+
+        <div class="btn-group dropup">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                Add transformation <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li data-ng-repeat="(t, label) in availableTransformations">
+                    <a href="" data-ng-click="txEdit.createVariable(t)">{{label}}</a>
+                </li>
+            </ul>
+        </div>
+        </p>
+
+        <p class="btn-group">
+            <button class="btn btn-default"
                     data-ng-disabled="txForm.okButtonDisabled()"
                     data-ng-click="txForm.save()">
                 Save
             </button>
-            <button class="pure-button pure-button-primary pure-button-small"
+            <button class="btn btn-default"
                     data-ng-disabled="txForm.resetButtonDisabled()"
                     data-ng-click="txForm.cancel()">
                 Cancel
@@ -68,9 +74,7 @@
     </div>
     <div data-ng-if="!txForm.isOpen()">
         <p>
-            <button class="pure-button pure-button-primary" data-ng-click="txEdit.open()">
-                Edit
-            </button>
+            <button class="btn btn-default" data-ng-click="txEdit.open()">Edit</button>
         </p>
     </div>
 </div>

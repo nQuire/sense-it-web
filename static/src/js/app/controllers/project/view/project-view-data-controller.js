@@ -19,7 +19,7 @@ angular.module('senseItWeb', null, null).controller('ProjectViewDataCtrl', funct
     $scope.dataVoteManager = {
         votingEnabled: true,
         getPath: function(target) {
-            return 'api/project/' + $scope.project.id + '/' + $scope.project.type + '/data/vote/' + target.id;
+            return 'api/project/' + $scope.projectData.project.id + '/' + $scope.projectData.project.type + '/data/vote/' + target.id;
         }
     };
 

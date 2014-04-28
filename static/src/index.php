@@ -93,7 +93,6 @@
     <script src="js/app/controllers/project/view/challenge/project-view-challenge-stage-outcome-controller.js"></script>
 
     <script src="js/app/controllers/project/view/senseit/project-view-senseit-controller.js"></script>
-    <script src="js/app/controllers/project/view/senseit/project-view-senseit-analysis-controller.js"></script>
 
     <script src="js/app/controllers/project/admin/project-admin-controller.js"></script>
     <script src="js/app/controllers/project/admin/project-admin-users-controller.js"></script>
