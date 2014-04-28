@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>Sense It</title>
 
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700&subset=latin,latin-ext,cyrillic-ext,cyrillic,greek-ext,vietnamese,greek' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700&subset=latin,latin-ext,cyrillic-ext,cyrillic,greek-ext,vietnamese,greek' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="css/font-awesome.css" type='text/css'>
     <link rel="stylesheet" href="css/nquire-it-bootstrap.css" type='text/css'>
 
@@ -49,7 +49,7 @@
     <script src="js/app/services/project-data-service.js"></script>
     <script src="js/app/services/vote-service.js"></script>
     <script src="js/app/services/comment-service.js"></script>
-    <script src="js/app/services/project-senseit-service.js"></script>
+    <script src="js/app/services/project-senseit-editor-service.js"></script>
     <script src="js/app/services/project-challenge-editor-service.js"></script>
     <script src="js/app/services/project-challenge-admin-service.js"></script>
     <script src="js/app/services/project-challenge-participant-service.js"></script>
@@ -81,6 +81,7 @@
 
     <script src="js/app/controllers/project/project-controller.js"></script>
     <script src="js/app/controllers/project/view/project-view-controller.js"></script>
+    <script src="js/app/controllers/project/view/project-view-data-controller.js"></script>
     <script src="js/app/controllers/project/view/challenge/project-view-challenge-outcome-controller.js"></script>
     <script src="js/app/controllers/project/view/challenge/project-view-challenge-answers-controller.js"></script>
     <script src="js/app/controllers/project/view/challenge/project-view-challenge-answers-table-controller.js"></script>
@@ -91,6 +92,9 @@
     <script src="js/app/controllers/project/view/challenge/project-view-challenge-stage-vote-controller.js"></script>
     <script src="js/app/controllers/project/view/challenge/project-view-challenge-stage-outcome-controller.js"></script>
 
+    <script src="js/app/controllers/project/view/senseit/project-view-senseit-controller.js"></script>
+    <script src="js/app/controllers/project/view/senseit/project-view-senseit-analysis-controller.js"></script>
+
     <script src="js/app/controllers/project/admin/project-admin-controller.js"></script>
     <script src="js/app/controllers/project/admin/project-admin-users-controller.js"></script>
     <script src="js/app/controllers/project/admin/challenge/project-admin-challenge-controller.js"></script>
@@ -100,17 +104,12 @@
     <script src="js/app/controllers/project/edit/project-edit-metadata-controller.js"></script>
     <script src="js/app/controllers/project/edit/challenge/project-edit-challenge-controller.js"></script>
     <script src="js/app/controllers/project/edit/challenge/project-edit-challenge-field-controller.js"></script>
+    <script src="js/app/controllers/project/edit/senseit/project-edit-senseit-controller.js"></script>
+    <script src="js/app/controllers/project/edit/senseit/project-edit-senseit-profile-controller.js"></script>
+    <script src="js/app/controllers/project/edit/senseit/project-edit-senseit-sensor-controller.js"></script>
+    <script src="js/app/controllers/project/edit/senseit/project-edit-senseit-analysis-controller.js"></script>
 
 
-    <script src="js/app/controllers/project-view-data-controller.js"></script>
-    <script src="js/app/controllers/project-view-senseit-controller.js"></script>
-    <script src="js/app/controllers/project-view-senseit-analysis-controller.js"></script>
-    <script src="js/app/controllers/project-edit-senseit-controller.js"></script>
-    <script src="js/app/controllers/project-edit-senseit-profile-controller.js"></script>
-    <script src="js/app/controllers/project-edit-senseit-sensor-controller.js"></script>
-    <script src="js/app/controllers/project-edit-senseit-analysis-controller.js"></script>
-
-    <script src="js/app/controllers/project-view-senseit-test-upload-controller.js"></script>
 
 </head>
 

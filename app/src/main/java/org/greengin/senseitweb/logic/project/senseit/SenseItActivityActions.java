@@ -6,6 +6,7 @@ import org.greengin.senseitweb.entities.users.PermissionType;
 import org.greengin.senseitweb.entities.users.UserProfile;
 import org.greengin.senseitweb.logic.ContextBean;
 import org.greengin.senseitweb.logic.data.DataActions;
+import org.greengin.senseitweb.logic.project.ProjectResponse;
 import org.greengin.senseitweb.logic.project.senseit.transformations.SenseItProcessedSeriesVariable;
 
 import javax.persistence.EntityManager;
@@ -44,21 +45,21 @@ public class SenseItActivityActions extends DataActions<SenseItSeries, SenseItAn
      */
 
 
-    public Project updateProfile(SenseItProfileRequest profileData) {
+    public ProjectResponse updateProfile(SenseItProfileRequest profileData) {
         if (hasAccess(PermissionType.PROJECT_EDITION)) {
             EntityManager em = context.createEntityManager();
             em.getTransaction().begin();
             profileData.updateProfile(activity.getProfile());
             em.getTransaction().commit();
 
-            return project;
+            return projectResponse(project);
         }
 
         return null;
     }
 
 
-    public Project createSensor(SensorInputRequest inputData) {
+    public ProjectResponse createSensor(SensorInputRequest inputData) {
         if (hasAccess(PermissionType.PROJECT_EDITION)) {
             EntityManager em = context.createEntityManager();
             em.getTransaction().begin();
@@ -71,13 +72,13 @@ public class SenseItActivityActions extends DataActions<SenseItSeries, SenseItAn
             activity.getProfile().getSensorInputs().add(input);
             em.getTransaction().commit();
 
-            return project;
+            return projectResponse(project);
         }
 
         return null;
     }
 
-    public Project updateSensor(Long inputId, SensorInputRequest inputData) {
+    public ProjectResponse updateSensor(Long inputId, SensorInputRequest inputData) {
         if (hasAccess(PermissionType.PROJECT_EDITION)) {
             EntityManager em = context.createEntityManager();
             SensorInput input = em.find(SensorInput.class, inputId);
@@ -86,13 +87,13 @@ public class SenseItActivityActions extends DataActions<SenseItSeries, SenseItAn
             inputData.updateInput(input);
             em.getTransaction().commit();
 
-            return project;
+            return projectResponse(project);
         }
 
         return null;
     }
 
-    public Project deleteSensor(Long inputId) {
+    public ProjectResponse deleteSensor(Long inputId) {
         if (hasAccess(PermissionType.PROJECT_EDITION)) {
             EntityManager em = context.createEntityManager();
             SensorInput input = em.find(SensorInput.class, inputId);
@@ -101,11 +102,10 @@ public class SenseItActivityActions extends DataActions<SenseItSeries, SenseItAn
             activity.getProfile().getSensorInputs().remove(input);
             em.getTransaction().commit();
 
-            return project;
+            return projectResponse(project);
         }
 
         return null;
     }
-
 
 }

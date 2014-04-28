@@ -1,12 +1,10 @@
 angular.module('senseItWeb', null, null).controller('ProjectViewSenseItCtrl', function ($scope) {
 
-    $scope.templates.home = 'partials/project-view-senseit-home.html';
-    $scope.templates.dataTable = 'partials/data-table-senseit.html';
-    $scope.templates.analysis = 'partials/project-view-senseit-analysis.html';
-    $scope.templates.analysisTable = 'partials/data-analysis-table-senseit.html';
+    $scope.templates.home = 'partials/project/view/senseit/project-view-senseit-home.html';
+    $scope.templates.dataTable = 'partials/project/view/senseit/data-table-senseit.html';
 
 
-    $scope.transformations = new SiwSenseItTransformations($scope.project.activity.profile.sensorInputs, $scope.project.activity.profile.tx);
+    $scope.transformations = new SiwSenseItTransformations($scope.projectData.project.activity.profile.sensorInputs, $scope.projectData.project.activity.profile.tx);
 
     $scope.dataInfo = {
         type: 'senseit',
@@ -30,7 +28,7 @@ angular.module('senseItWeb', null, null).controller('ProjectViewSenseItCtrl', fu
     }
 
 
-    if ($scope.project.activity.profile.geolocated) {
+    if ($scope.projectData.project.activity.profile.geolocated) {
         $scope.mapData = {
             mapVariables: $scope.dataInfo.tableVariables.map(function(v) {
                 return {id: v.id, label: v.label(), weight: v.weight};

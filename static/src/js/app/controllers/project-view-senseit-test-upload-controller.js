@@ -2,7 +2,6 @@ angular.module('senseItWeb', null, null).controller('ProjectViewSenseItTestUploa
 
     $scope.setFile = function (element) {
         $scope.$apply(function (scope) {
-            console.log('files:', element.files);
             scope.file = element.files.length > 0 ? element.files[0] : null;
         });
     };
@@ -19,8 +18,6 @@ angular.module('senseItWeb', null, null).controller('ProjectViewSenseItTestUploa
                 headers: {'Content-Type': undefined}
             }).
                 success(function (data, status, headers, config) {
-                    console.log(data);
-                    console.log(status);
                     alert("success!");
                 }).
                 error(function (data, status, headers, config) {

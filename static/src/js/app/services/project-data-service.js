@@ -2,45 +2,33 @@
 
 angular.module('senseItServices', null, null).factory('ProjectDataService', ['ProjectService', function (ProjectService) {
 
-    var service = {
+    var ProjectDataService = function (projectWatcher) {
+        this.projectWatcher = projectWatcher;
     };
 
-    service._itemRequest = function(itemType, method, projectId, type, dataId, data) {
-        var path = type + '/' + itemType + (dataId ? '/' + dataId : '');
-        return ProjectService.projectRequest(method, projectId, path, data);
+
+    ProjectDataService.prototype._dataRequest = function (method, dataId, data) {
+        var path = this.projectWatcher.data.project.type + '/data' + (dataId ? '/' + dataId : '');
+        return this.projectWatcher.projectRequest(method, path, data);
     };
 
-    service._dataRequest = function(method, projectId, type, dataId, data) {
-        return service._itemRequest('data', method, projectId, type, dataId, data);
+
+    ProjectDataService.prototype.loadData = function () {
+        return this._dataRequest('get', false, false);
     };
 
-    service._analysisRequest = function(method, projectId, type, dataId, data) {
-        return service._itemRequest('analysis', method, projectId, type, dataId, data);
+    ProjectDataService.prototype.createData = function (data) {
+        return this._dataRequest('post', false, data);
     };
 
-    service.loadData = function(project) {
-        return service._dataRequest('get', project.id, project.type, false, false);
+    ProjectDataService.prototype.deleteData = function (project, data) {
+        return this._dataRequest('delete', data.id, false);
     };
 
-    service.createData = function(project, data) {
-        return service._dataRequest('post', project.id, project.type, false, data);
-    };
 
-    service.deleteData = function(project, data) {
-        return service._dataRequest('delete', project.id, project.type, data.id, false);
+    return {
+        dataService: function (projectWatcher) {
+            return new ProjectDataService(projectWatcher);
+        }
     };
-
-    service.loadAnalysis = function(project) {
-        return service._analysisRequest('get', project.id, project.type, false, false);
-    };
-
-    service.createAnalysis = function(project, data) {
-        return service._analysisRequest('post', project.id, project.type, false, data);
-    };
-
-    service.updateAnalysis = function(project, analysisId, data) {
-        return service._analysisRequest('put', project.id, project.type, analysisId, data);
-    };
-
-    return service;
 }]);

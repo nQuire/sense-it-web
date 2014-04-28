@@ -53,7 +53,6 @@ angular.module('senseItWeb', null, null).directive('siwSideMenu', function ($sta
                     || $scope.state.current.name.indexOf('project-admin') == 0;
 
                 if (projectPath) {
-                    console.log('update project path');
                     $scope._setProject($scope.state.params.projectId);
                 }
             };
@@ -64,7 +63,6 @@ angular.module('senseItWeb', null, null).directive('siwSideMenu', function ($sta
                     $scope.projectId = projectId;
 
                     $scope.cancelProjectGet = ProjectService.registerGet($scope, $scope.projectId, function() {
-                        console.log($scope);
                         if ($scope.project == false) {
                             $scope._setProject(null);
                         }

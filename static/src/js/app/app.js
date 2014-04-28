@@ -40,19 +40,11 @@ angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'senseItServices'], nul
         })
         .state('project.view.data-list', {
             url: '/data',
-            templateUrl: 'partials/project-view-data-table.html'
-        })
-        .state('project.view.analysis-list', {
-            url: '/analysis',
-            templateUrl: 'partials/project-view-data-analysis-table.html'
-        })
-        .state('project.view.analysis-view', {
-            url: '/analysis/{analysisId}',
-            templateUrl: 'partials/project-view-data-analysis-view.html'
+            templateUrl: 'partials/project/view/data/project-view-data-table.html'
         })
         .state('project.view.data-map', {
             url: '/map',
-            templateUrl: 'partials/project-view-data-map.html'
+            templateUrl: 'partials/project/view/data/project-view-data-map.html'
         })
         .state('project.view.challenge', {
             url: '/challenge',
@@ -76,7 +68,7 @@ angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'senseItServices'], nul
         })
         .state('project.edit.senseit', {
             url: '/senseit',
-            templateUrl: 'partials/project/edit/challenge/project-edit-senseit.html',
+            templateUrl: 'partials/project/edit/senseit/project-edit-senseit.html',
             controller: 'ProjectEditSenseItCtrl'
         })
         .state('project.edit.challenge', {

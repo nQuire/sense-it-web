@@ -3,6 +3,7 @@ package org.greengin.senseitweb.controllers.activities.senseit;
 import javax.servlet.http.HttpServletRequest;
 
 import org.greengin.senseitweb.entities.projects.Project;
+import org.greengin.senseitweb.logic.project.ProjectResponse;
 import org.greengin.senseitweb.logic.project.senseit.SensorInputRequest;
 import org.greengin.senseitweb.logic.project.senseit.SenseItProfileRequest;
 import org.springframework.stereotype.Controller;
@@ -15,25 +16,25 @@ public class SenseItActivityController extends AbstractSenseItController {
 
     @RequestMapping(value = "/profile", method = RequestMethod.PUT)
     @ResponseBody
-	public Project updateProfile(@PathVariable("projectId") Long projectId, @RequestBody SenseItProfileRequest profileData, HttpServletRequest request) {
+	public ProjectResponse updateProfile(@PathVariable("projectId") Long projectId, @RequestBody SenseItProfileRequest profileData, HttpServletRequest request) {
 		return createManager(projectId, request).updateProfile(profileData);
 	}
 
     @RequestMapping(value = "/inputs", method = RequestMethod.POST)
     @ResponseBody
-	public Project create(@PathVariable("projectId") Long projectId, @RequestBody SensorInputRequest inputData, HttpServletRequest request) {
+	public ProjectResponse create(@PathVariable("projectId") Long projectId, @RequestBody SensorInputRequest inputData, HttpServletRequest request) {
         return createManager(projectId, request).createSensor(inputData);
 	}
 
     @RequestMapping(value = "/input/{inputId}", method = RequestMethod.PUT)
     @ResponseBody
-	public Project update(@PathVariable("projectId") Long projectId, @PathVariable("inputId") Long inputId, @RequestBody SensorInputRequest inputData, HttpServletRequest request) {
+	public ProjectResponse update(@PathVariable("projectId") Long projectId, @PathVariable("inputId") Long inputId, @RequestBody SensorInputRequest inputData, HttpServletRequest request) {
         return createManager(projectId, request).updateSensor(inputId, inputData);
 	}
 
     @RequestMapping(value = "/input/{inputId}", method = RequestMethod.DELETE)
     @ResponseBody
-	public Project delete(@PathVariable("projectId") Long projectId, @PathVariable("inputId") Long inputId, HttpServletRequest request) {
+	public ProjectResponse delete(@PathVariable("projectId") Long projectId, @PathVariable("inputId") Long inputId, HttpServletRequest request) {
         return createManager(projectId, request).deleteSensor(inputId);
 	}
 

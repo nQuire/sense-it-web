@@ -1,4 +1,4 @@
-angular.module('senseItWeb', null, null).controller('ProjectEditSenseItAnalysisCtrl', function ($scope, $state, ProjectDataService) {
+angular.module('senseItWeb', null, null).controller('ProjectEditSenseItAnalysisCtrl', function ($scope) {
 
     $scope.availableTransformations = {};
     for (var t in SiwSenseItSensorData.transformations) {
@@ -7,7 +7,9 @@ angular.module('senseItWeb', null, null).controller('ProjectEditSenseItAnalysisC
         }
     }
 
-    $scope.txForm = new SiwFormManager($scope.project.activity.profile, ['tx'], $scope.updateProfile, function () {
+    $scope.txForm = new SiwFormManager(function () {
+        return $scope.projectData.project.activity.profile;
+    }, ['tx'], $scope.updateProfile, function () {
         $scope.txEdit.reset();
     });
 
@@ -72,5 +74,4 @@ angular.module('senseItWeb', null, null).controller('ProjectEditSenseItAnalysisC
             this.updateFormValue();
         }
     }
-})
-;
+});

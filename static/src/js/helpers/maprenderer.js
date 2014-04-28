@@ -68,7 +68,6 @@ SiwMapRenderer.prototype.init = function () {
 
 
     this.oms.addListener('click', function (marker, event) {
-        console.log('oms');
         self.markers[marker.series_id].infowindow.open(self.map, marker);
     });
 
