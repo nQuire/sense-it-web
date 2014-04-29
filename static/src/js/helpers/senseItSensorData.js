@@ -137,6 +137,19 @@ var SiwSenseItSensorData = {
                 },
                 "units": {
                 }
+            },
+            "avg": {
+                "name": "Average",
+                "data": {
+                    "[x]": "x",
+                    "[tx]": "tx",
+                    "[xy]": "xy",
+                    "[txy]": "txy",
+                    "[xyz]": "xxy",
+                    "[txyz]": "txyz"
+                },
+                "units": {
+                }
             }
         },
         getUnits: function (sensor, index) {

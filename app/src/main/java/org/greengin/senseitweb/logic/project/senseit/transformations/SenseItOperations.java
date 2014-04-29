@@ -11,16 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.greengin.senseitweb.entities.activities.senseit.SenseItActivity;
 import org.greengin.senseitweb.entities.activities.senseit.SenseItTransformation;
 import org.greengin.senseitweb.entities.activities.senseit.SensorInput;
-import org.greengin.senseitweb.logic.project.senseit.transformations.maths.Abs;
-import org.greengin.senseitweb.logic.project.senseit.transformations.maths.Derivative;
-import org.greengin.senseitweb.logic.project.senseit.transformations.maths.FilterCC;
-import org.greengin.senseitweb.logic.project.senseit.transformations.maths.GetX;
-import org.greengin.senseitweb.logic.project.senseit.transformations.maths.GetY;
-import org.greengin.senseitweb.logic.project.senseit.transformations.maths.GetZ;
-import org.greengin.senseitweb.logic.project.senseit.transformations.maths.Integrate;
-import org.greengin.senseitweb.logic.project.senseit.transformations.maths.Max;
-import org.greengin.senseitweb.logic.project.senseit.transformations.maths.Min;
-import org.greengin.senseitweb.logic.project.senseit.transformations.maths.Modulus;
+import org.greengin.senseitweb.logic.project.senseit.transformations.maths.*;
 import org.greengin.senseitweb.utils.TimeValue;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +36,8 @@ public class SenseItOperations implements InitializingBean {
 		ops.put("getz", new GetZ());
 		ops.put("removecc", new FilterCC());
 		ops.put("max", new Max());
-		ops.put("min", new Min());
+        ops.put("min", new Min());
+        ops.put("avg", new Average());
 	}
 
     @Autowired
@@ -94,7 +86,7 @@ public class SenseItOperations implements InitializingBean {
             SenseItDataSensor sensorData = data.sensorTypes.get(input.getSensor());
             if (sensorData != null) {
                 String label = String.format("%s raw data", sensorData.name);
-                SenseItProcessedSeriesVariable var = new SenseItProcessedSeriesVariable(index++, label, series.get(input.getId()));
+                SenseItProcessedSeriesVariable var = new SenseItProcessedSeriesVariable(index++, label, series.get(input.getId()), sensorData.getOutput());
                 var.units.apply(sensorData.units);
                 processed.values.put(String.valueOf(input.getId()), var);
             }
@@ -112,6 +104,7 @@ public class SenseItOperations implements InitializingBean {
 						SenseItProcessedSeriesVariable input = null;
 						Vector<Vector<TimeValue>> inputs = new Vector<Vector<TimeValue>>();
 						boolean good = true;
+                        String inputDataType = null;
 						for (String inputId : tx.getInputs()) {
 							input = processed.values.get(inputId);
 							if (input == null) {
@@ -119,13 +112,19 @@ public class SenseItOperations implements InitializingBean {
 								break;
 							} else {
 								inputs.add(input.values);
+                                if (inputDataType == null) {
+                                    inputDataType = input.type;
+                                }
 							}
 						}
 
 						if (good) {
-							SenseItProcessedSeriesVariable result = new SenseItProcessedSeriesVariable(index++, tx.getName());
-							if (op.process(inputs, result.values)) {
-								SenseItDataTransformation txData = data.transformations.get(tx.getType());
+                            Vector<TimeValue> resultValues = new Vector<TimeValue>();
+							if (op.process(inputs, resultValues)) {
+                                SenseItDataTransformation txData = data.transformations.get(tx.getType());
+                                String outputDataType = txData.getData().get(inputDataType);
+                                SenseItProcessedSeriesVariable result = new SenseItProcessedSeriesVariable(index++, tx.getName(), resultValues, outputDataType);
+
 								if (input != null) {
 									result.units.apply(input.units);
 								}
@@ -145,12 +144,11 @@ public class SenseItOperations implements InitializingBean {
 	public static HashMap<String, TimeValue> tableVariables(SenseItProcessedSeries data, SenseItActivity activity) {
 		HashMap<String, TimeValue> values = new HashMap<String, TimeValue>();
 		for (SenseItTransformation tx : activity.getProfile().getTx()) {
-			String type = tx.getType();
-			if ("max".equals(type) || "min".equals(type)) {
-				String id = tx.getId();
-				SenseItProcessedSeriesVariable var = data.values.get(id);
-				values.put(id, var != null && var.values.size() > 0 ? var.values.firstElement() : null);
-			}
+            String id = tx.getId();
+            SenseItProcessedSeriesVariable var = data.values.get(id);
+            if (var != null && !var.type.startsWith("[")) {
+                values.put(id, var.values.size() > 0 ? var.values.firstElement() : null);
+            }
 		}
 
 		return values;
