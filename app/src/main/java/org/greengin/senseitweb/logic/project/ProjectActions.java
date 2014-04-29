@@ -2,6 +2,7 @@ package org.greengin.senseitweb.logic.project;
 
 import org.greengin.senseitweb.entities.projects.Project;
 import org.greengin.senseitweb.entities.projects.ProjectDescription;
+import org.greengin.senseitweb.entities.projects.ProjectType;
 import org.greengin.senseitweb.entities.rating.Comment;
 import org.greengin.senseitweb.entities.users.PermissionType;
 import org.greengin.senseitweb.entities.users.RoleType;
@@ -21,7 +22,8 @@ import java.util.*;
 
 public class ProjectActions extends AbstractContentManager {
 
-    static final String PROJECTS_QUERY = String.format("SELECT p FROM %s p", Project.class.getName());
+    static final String PROJECTS_QUERY = String.format("SELECT p FROM Project p");
+    static final String TYPED_PROJECTS_QUERY = String.format("SELECT p FROM Project p WHERE p.type = :type");
 
     protected Long projectId;
     protected Project project;
@@ -93,6 +95,27 @@ public class ProjectActions extends AbstractContentManager {
         ProjectListResponse response = new ProjectListResponse();
         response.setList(filtered);
         response.setCategories(categories);
+
+        return response;
+    }
+
+    public List<SimpleProjectResponse> getProjectsSimple(String type) {
+        List<SimpleProjectResponse> response = new Vector<SimpleProjectResponse>();
+
+        if (hasAccess(PermissionType.BROWSE)) {
+            EntityManager em = context.createEntityManager();
+            TypedQuery<Project> query = em.createQuery(TYPED_PROJECTS_QUERY, Project.class);
+            query.setParameter("type", ProjectType.create(type));
+
+            List<Project> all = query.getResultList();
+            for (Project p : all) {
+                SimpleProjectResponse spr = new SimpleProjectResponse();
+                spr.setId(p.getId());
+                spr.setTitle(p.getTitle());
+                spr.setJoined(context.getSubscriptionManager().is(RoleType.MEMBER, p, user));
+                response.add(spr);
+            }
+        }
 
         return response;
     }
