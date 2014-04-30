@@ -74,7 +74,7 @@ public class RoleManagerBean {
 	public boolean is(RoleType type, AbstractEntity context, UserProfile user) {
 		if (context != null && user != null) {
 			EntityManager em = entityManagerFactory.createEntityManager();
-			TypedQuery<Long> query = em.createQuery(USER_HAS_QUERY, Long.class);
+			TypedQuery<Integer> query = em.createQuery(USER_HAS_QUERY, Integer.class);
 			query.setParameter("context", context);
 			query.setParameter("user", user);
 			query.setParameter("type", type);

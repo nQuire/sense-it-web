@@ -1,13 +1,15 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-	<title>Welcome</title>
+    <title>Welcome</title>
 </head>
 <body>
 
 <script>
-   window.opener.handleOpenIdResponse();
-   window.close();
+    if (window.opener && window.opener.handleOpenIdResponse) {
+        window.opener.handleOpenIdResponse();
+    }
+    window.close();
 </script>
 </body>
 </html>

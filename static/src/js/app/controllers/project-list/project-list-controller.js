@@ -6,6 +6,7 @@ angular.module('senseItWeb', null, null).controller('ProjectListCtrl', function 
     ProjectService.watchList($scope);
     $scope.projectListWatcher.query('all');
 
+    $scope.testData = $scope.projectListWatcher.querySimple('senseit');
 
     $scope.projectClass = function(projectData) {
         return 'project-type-' + projectData.project.type;

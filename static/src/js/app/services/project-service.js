@@ -83,6 +83,16 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
         this._reload();
     };
 
+    ProjectListWatcher.prototype.querySimple = function (type) {
+        return RestService.get('api/projects/' + type);
+    };
+
+    ProjectListWatcher.prototype.query = function (query) {
+        this._query = query;
+        this._reload();
+    };
+
+
     var ProjectWatcher = function (scope, projectId) {
         var self = this;
         this.projectId = projectId;

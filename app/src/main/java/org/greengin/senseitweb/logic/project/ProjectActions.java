@@ -113,6 +113,7 @@ public class ProjectActions extends AbstractContentManager {
                 spr.setId(p.getId());
                 spr.setTitle(p.getTitle());
                 spr.setJoined(context.getSubscriptionManager().is(RoleType.MEMBER, p, user));
+                spr.setAuthor(p.getAuthor().getUsername());
                 response.add(spr);
             }
         }

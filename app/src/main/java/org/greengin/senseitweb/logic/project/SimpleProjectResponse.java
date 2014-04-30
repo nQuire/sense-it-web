@@ -14,6 +14,10 @@ public class SimpleProjectResponse {
 
     @Getter
     @Setter
+    String author;
+
+    @Getter
+    @Setter
     boolean joined;
 
 }
