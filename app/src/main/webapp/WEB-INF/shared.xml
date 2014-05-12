@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
             http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
-    <context:component-scan base-package="org.greengin.senseitweb.controllers"/>
+    <context:component-scan base-package="org.greengin.nquireit.controllers"/>
     <context:component-scan base-package="com.mangofactory.jsonview"/>
 
     <bean id="templateResolver"
@@ -35,31 +35,31 @@
 
 
     <bean id="roleManager"
-          class="org.greengin.senseitweb.logic.users.RoleManagerBean">
+          class="org.greengin.nquireit.logic.users.RoleManagerBean">
     </bean>
 
     <bean id="subscriptionManager"
-          class="org.greengin.senseitweb.logic.users.SubscriptionManagerBean">
+          class="org.greengin.nquireit.logic.users.SubscriptionManagerBean">
     </bean>
 
     <bean id="fileManager"
-          class="org.greengin.senseitweb.logic.data.FileManagerBean">
+          class="org.greengin.nquireit.logic.data.FileManagerBean">
         <property name="basePath" value="files"/>
     </bean>
 
     <bean id="senseItOperations"
-          class="org.greengin.senseitweb.logic.project.senseit.transformations.SenseItOperations">
+          class="org.greengin.nquireit.logic.project.senseit.transformations.SenseItOperations">
     </bean>
 
     <bean class="com.mangofactory.jsonview.JsonViewSupportFactoryBean"/>
 
-    <bean id="objectMapper" class="org.greengin.senseitweb.json.JacksonObjectMapper"/>
+    <bean id="objectMapper" class="org.greengin.nquireit.json.JacksonObjectMapper"/>
 
-    <bean id="voteManager" class="org.greengin.senseitweb.logic.rating.VoteManagerBean"/>
+    <bean id="voteManager" class="org.greengin.nquireit.logic.rating.VoteManagerBean"/>
 
-    <bean id="commentManager" class="org.greengin.senseitweb.logic.rating.CommentManagerBean"/>
+    <bean id="commentManager" class="org.greengin.nquireit.logic.rating.CommentManagerBean"/>
 
-    <bean id="context" class="org.greengin.senseitweb.logic.ContextBean">
+    <bean id="context" class="org.greengin.nquireit.logic.ContextBean">
         <property name="httpProxyHost" value="${server.proxyHost}"/>
         <property name="httpProxyPort" value="${server.proxyPort}"/>
     </bean>

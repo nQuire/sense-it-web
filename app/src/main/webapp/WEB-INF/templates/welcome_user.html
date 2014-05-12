@@ -6,8 +6,10 @@
 <body>
 
 <script>
-    if (window.opener && window.opener.handleOpenIdResponse) {
-        window.opener.handleOpenIdResponse();
+    if (window.opener) {
+        if (window.opener.handleOpenIdResponse) {
+            window.opener.handleOpenIdResponse();
+        }
     }
     window.close();
 </script>

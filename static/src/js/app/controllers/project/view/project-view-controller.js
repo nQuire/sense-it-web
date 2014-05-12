@@ -40,6 +40,8 @@ angular.module('senseItWeb', null, null).controller('ProjectViewCtrl', function 
                     return 'partials/project/view/home/project-view-senseit.html';
                 case 'challenge':
                     return 'partials/project/view/home/project-view-challenge.html';
+                case 'spotit':
+                    return 'partials/project/view/home/project-view-spotit.html';
             }
         }
         return null;

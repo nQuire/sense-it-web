@@ -8,7 +8,7 @@
 
 
     <bean id="userService"
-          class="org.greengin.senseitweb.logic.users.UserServiceBean">
+          class="org.greengin.nquireit.logic.users.UserServiceBean">
     </bean>
 
     <bean id="securityContextRepository"
@@ -45,7 +45,7 @@
         <constructor-arg value="${security.encryptSalt}"/>
     </bean>
 
-    <bean name="socialInAdapter" class="org.greengin.senseitweb.logic.users.SocialAdapter"/>
+    <bean name="socialInAdapter" class="org.greengin.nquireit.logic.users.SocialAdapter"/>
 
     <bean id="usersConnectionRepository" class="org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository">
         <constructor-arg ref="dataSource"/>
@@ -92,7 +92,7 @@
         <aop:scoped-proxy proxy-target-class="true"/>
     </bean>
 
-    <bean class="org.greengin.senseitweb.controllers.users.CustomProviderSignInController">
+    <bean class="org.greengin.nquireit.controllers.users.CustomProviderSignInController">
         <property name="applicationUrlBase" value="${server.appUrl}"/>
         <property name="signUpUrl" value="${server.appUrl}/social/new"/>
         <property name="postSignInUrl" value="${server.appUrl}/social/welcome"/>
