@@ -72,7 +72,7 @@
     <script src="js/app/controllers/layout/navbar-controller.js"></script>
 
     <script src="js/app/controllers/project-list/project-list-controller.js"></script>
-    <script src="js/app/controllers/project-list/create-controller.js"></script>
+    <script src="js/htapp/controllers/project-list/create-controller.js"></script>
 
     <script src="js/app/controllers/profile-controller.js"></script>
     <script src="js/app/controllers/data-project-menu-controller.js"></script>
@@ -93,6 +93,8 @@
     <script src="js/app/controllers/project/view/challenge/project-view-challenge-stage-outcome-controller.js"></script>
 
     <script src="js/app/controllers/project/view/senseit/project-view-senseit-controller.js"></script>
+
+    <script src="js/app/controllers/project/view/spotit/project-view-spotit-controller.js"></script>
 
     <script src="js/app/controllers/project/admin/project-admin-controller.js"></script>
     <script src="js/app/controllers/project/admin/project-admin-users-controller.js"></script>

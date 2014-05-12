@@ -8,7 +8,6 @@ angular.module('senseItWeb', null, null).controller('ProjectViewSenseItCtrl', fu
 
     $scope.dataInfo = {
         type: 'senseit',
-        tableTemplateURL: 'partials/data-table-senseit.html',
         tableVariables: $scope.transformations.nonSequenceVariables(),
         plotVariables: $scope.transformations.sequenceVariables(),
         tableValue: function(item, variable) {
