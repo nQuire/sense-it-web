@@ -36,13 +36,13 @@ public class SenseItSeries extends AbstractDataProjectItem {
     @Setter
     @NonNull
 	HashMap<Long, String> sensors = new HashMap<Long, String>();
-	
-	@Lob
+
+    @Lob
     @Getter
     @Setter
     @NonNull
-	HashMap<Long, Vector<TimeValue>> data = new HashMap<Long, Vector<TimeValue>>();
-	
+    HashMap<Long, Vector<TimeValue>> data = new HashMap<Long, Vector<TimeValue>>();
+
 	transient SenseItProcessedSeries processData;
 
 

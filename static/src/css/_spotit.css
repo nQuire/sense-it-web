@@ -1,0 +1,45 @@
+.image-crop, .spotit-observation,
+.image-crop > img,
+.spotit-observation > img,
+.image-crop > div,
+.spotit-observation > div {
+  width: 100%; }
+
+.image-crop, .spotit-observation {
+  overflow: hidden;
+  position: relative;
+  /*  letter-spacing: -0.31em; /* webkit */
+  /*  *letter-spacing: normal; /* reset IE < 8 */
+  /*  word-spaci ng: -0.43em; /* IE < 8 && gecko */ }
+
+.image-crop:before, .spotit-observation:before,
+.image-crop > div,
+.spotit-observation > div,
+.image-crop > img,
+.spotit-observation > img {
+  /* vertically center the image */
+  display: inline-block;
+  vertical-align: middle; }
+
+.image-crop > div, .spotit-observation > div {
+  height: 100%; }
+
+.image-crop:before, .spotit-observation:before {
+  /* pseudo element to vertically align image to */
+  content: "";
+  /* Magic Number */
+  /* Set this to your desired height(to width) ratio */
+  padding-top: 75%;
+  /* % of original image width */ }
+
+.image-crop > img, .spotit-observation > img,
+.image-crop > div,
+.spotit-observation > div {
+  /* removes(sorta) image from the flow */
+  position: absolute;
+  top: 0px;
+  left: 0px; }
+
+.spotit-observation > div {
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.5); }

@@ -49,14 +49,8 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
         if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION)) {
             EntityManager em = context.createEntityManager();
 
-            String queryStr = String.format(ITEMS_QUERY, type.getName());
-
-            TypedQuery<K> query = em.createQuery(queryStr, type);
-            query.setParameter("dataStore", activity);
-            Collection<K> list = query.getResultList();
-            for (VotableEntity item : list) {
+            String queryStr = String.format(ITEMS_QUERY, type.getName()); TypedQuery<K> query = em.createQuery(queryStr, type); query.setParameter("dataStore", activity); Collection<K> list = query.getResultList(); for (VotableEntity item : list)
                 item.setSelectedVoteAuthor(user);
-            }
             return list;
         }
 

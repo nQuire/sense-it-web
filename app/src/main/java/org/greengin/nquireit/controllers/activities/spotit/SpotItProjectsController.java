@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
+import java.util.HashMap;
 
 @Controller
 @RequestMapping(value = "/api/spotit/projects")
@@ -25,7 +26,7 @@ public class SpotItProjectsController extends AbstractSenseItController {
     @RequestMapping(method = RequestMethod.GET)
 	@ResponseView(Views.VotableCount.class)
     @ResponseBody
-	public Collection<JoinedProjectResponse> get(HttpServletRequest request) {
+	public HashMap<Long, JoinedProjectResponse> get(HttpServletRequest request) {
 		return new JoinedProjectsActions(context, request).joinedProjects();
 	}
 

@@ -64,5 +64,7 @@
         <property name="httpProxyPort" value="${server.proxyPort}"/>
     </bean>
 
+    <bean id="starter" init-method="start" class="org.greengin.nquireit.logic.update.ModelUpdaterBean" lazy-init="false"/>
+
 
 </beans>

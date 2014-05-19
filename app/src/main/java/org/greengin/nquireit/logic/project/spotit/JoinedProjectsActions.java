@@ -17,6 +17,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
@@ -34,9 +35,9 @@ public class JoinedProjectsActions extends AbstractContentManager {
 
     /** logged in user actions **/
 
-	public Collection<JoinedProjectResponse> joinedProjects() {
+	public HashMap<Long, JoinedProjectResponse> joinedProjects() {
 		if (hasAccess(PermissionType.BROWSE)) {
-            List<JoinedProjectResponse> projects = new Vector<JoinedProjectResponse>();
+            HashMap<Long, JoinedProjectResponse> projects = new HashMap<Long, JoinedProjectResponse>();
 
             EntityManager em = context.createEntityManager();
 
@@ -54,7 +55,7 @@ public class JoinedProjectsActions extends AbstractContentManager {
                         projectResponse.setGeolocated(true);
                         projectResponse.setDescription(p.getDescription().getTeaser());
 
-                        projects.add(projectResponse);
+                        projects.put(p.getId(), projectResponse);
                     }
                 }
 			}

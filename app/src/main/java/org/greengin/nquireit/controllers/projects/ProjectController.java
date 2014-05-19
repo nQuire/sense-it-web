@@ -6,7 +6,7 @@ import org.greengin.nquireit.entities.users.UserProfile;
 import org.greengin.nquireit.json.JacksonObjectMapper;
 import org.greengin.nquireit.json.Views;
 import org.greengin.nquireit.logic.ContextBean;
-import org.greengin.nquireit.logic.files.FileUtils;
+import org.greengin.nquireit.logic.files.RequestsUtils;
 import org.greengin.nquireit.logic.users.AccessLevel;
 import org.greengin.nquireit.logic.project.ProjectActions;
 import org.greengin.nquireit.logic.project.metadata.ProjectRequest;
@@ -16,15 +16,12 @@ import org.greengin.nquireit.logic.rating.CommentRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.support.DefaultMultipartHttpServletRequest;
 
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/api/project/{projectId}")
@@ -70,8 +67,8 @@ public class ProjectController {
     @ResponseView(value = Views.UserName.class)
     public ProjectResponse updateFiles(@PathVariable("projectId") Long projectId, HttpServletRequest request) {
         try {
-            ProjectRequest projectData = FileUtils.readParam(request, objectMapper, "body", ProjectRequest.class);
-            FileMapUpload files = FileUtils.getFiles(request);
+            ProjectRequest projectData = RequestsUtils.readParam(request, objectMapper, "body", ProjectRequest.class);
+            FileMapUpload files = RequestsUtils.getFiles(request);
             return createProjectManager(projectId, request).updateMetadata(projectData, files);
         } catch (IOException e) {
             e.printStackTrace();

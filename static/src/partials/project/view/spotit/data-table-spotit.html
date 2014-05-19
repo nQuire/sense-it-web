@@ -1,44 +1,25 @@
-<table data-siw-sortable-table-widget data-table-data="dataList" class="table table-bordered">
-    <thead>
-    <tr>
-        <th data-ng-class="headerClass('title')" data-ng-click="headerSort('title')">Title</th>
-        <th data-ng-class="headerClass('author')" data-ng-click="headerSort('author')">Author</th>
-        <th data-ng-class="headerClass('votes')" data-ng-click="headerSort('votes')">Votes</th>
-        <th data-ng-repeat="v in dataInfo.tableVariables"
-            data-ng-class="headerClass(v.id)" data-ng-click="headerSort(v.id)">{{v.label()}}
-        </th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr data-ng-repeat-start="item in sortedItems()">
-        <td>{{item.title}}</td>
-        <td>{{item.author.id == status.profile.id ? 'Me' : 'Others'}}</td>
-        <td>
-            <div data-siw-vote-widget data-vote-manager="dataVoteManager" data-vote-target="item"></div>
-        </td>
-        <td data-ng-repeat="v in dataInfo.tableVariables">
-            {{dataInfo.tableValue(item, v)}}
-        </td>
-        <td>
-            <div class="btn-group">
-                <button class="btn btn-default" data-ng-click="plots.togglePlot(item)">
-                    {{plots.plotOpen(item) ? 'Close plot' : 'Open plot'}}
-                </button>
-                <button data-ng-if="item.author.id == status.profile.id"
-                        class="btn btn-default" data-ng-click="deleteData(item)">
-                    Delete
-                </button>
+
+<div class="container" data-siw-sortable-table-widget data-table-data="dataList">
+    <div class="row">
+        <div  data-ng-repeat="item in sortedItems()"
+                class="col-xs-12 col-sm-6">
+            <div class="spotit-observation">
+                <img src data-ng-src="{{item.observation | uploadedImage }}" />
+                <div>
+                    <div class="spotit-observation-metadata">
+                        <b>{{item.title}}</b>
+                        <div data-siw-vote-widget data-vote-manager="dataVoteManager" data-vote-target="item"></div>
+                        <div data-ng-if="item.author.id == status.profile.id" class="btn-group">
+                            <button class="btn btn-default">
+                                Edit
+                            </button>
+                            <button class="btn btn-default" data-ng-click="deleteData(item)">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </td>
-    </tr>
-    <tr data-ng-repeat-end data-ng-if="plots.plotOpen(item)">
-        <td colspan="{{4 + dataInfo.tableVariables.length}}">
-            <img data-ng-repeat="v in dataInfo.plotVariables"
-                 data-ng-src="{{plots.url(item, v)}}"/>
-        </td>
-    </tr>
-
-    </tbody>
-
-</table>
+        </div>
+    </div>
+</div>

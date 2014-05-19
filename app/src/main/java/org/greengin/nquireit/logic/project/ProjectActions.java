@@ -22,8 +22,8 @@ import java.util.*;
 
 public class ProjectActions extends AbstractContentManager {
 
-    static final String PROJECTS_QUERY = String.format("SELECT p FROM Project p");
-    static final String TYPED_PROJECTS_QUERY = String.format("SELECT p FROM Project p WHERE p.type = :type");
+    static final String PROJECTS_QUERY = "SELECT p FROM Project p";
+    static final String TYPED_PROJECTS_QUERY = "SELECT p FROM Project p WHERE p.type = :type";
 
     protected Long projectId;
     protected Project project;

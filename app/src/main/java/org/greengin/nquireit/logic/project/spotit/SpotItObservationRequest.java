@@ -18,4 +18,8 @@ public class SpotItObservationRequest {
     @Setter
     String geolocation;
 
+    @Getter
+    @Setter
+    long date;
+
 }

@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * Created by evilfer on 5/8/14.
  */
-public class FileUtils {
+public class RequestsUtils {
 
     public static <T> T readParam(HttpServletRequest request, JacksonObjectMapper objectMapper, String paramKey, Class<T> tClass) throws IOException {
         DefaultMultipartHttpServletRequest multiPartRequest = (DefaultMultipartHttpServletRequest) request;
@@ -31,6 +31,14 @@ public class FileUtils {
         }
 
         return files;
+    }
+
+    public static long getLong(HttpServletRequest request, String param, long defaultValue) {
+        try {
+            return Long.parseLong(request.getParameter(param));
+        } catch (Exception e) {
+            return defaultValue;
+        }
     }
 
     public static FileMapUpload.FileData getFile(HttpServletRequest request, String fileParam) throws IOException {

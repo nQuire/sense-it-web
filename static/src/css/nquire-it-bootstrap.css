@@ -5337,33 +5337,37 @@ button.close {
   cursor: inherit;
   display: block; }
 
-.image-crop, .project-item > .project-item-image-container,
+.image-crop, .project-item > .project-item-image-container, .spotit-observation,
 .image-crop > img,
 .project-item > .project-item-image-container > img,
+.spotit-observation > img,
 .image-crop > div,
-.project-item > .project-item-image-container > div {
+.project-item > .project-item-image-container > div,
+.spotit-observation > div {
   width: 100%; }
 
-.image-crop, .project-item > .project-item-image-container {
+.image-crop, .project-item > .project-item-image-container, .spotit-observation {
   overflow: hidden;
   position: relative;
   /*  letter-spacing: -0.31em; /* webkit */
   /*  *letter-spacing: normal; /* reset IE < 8 */
   /*  word-spaci ng: -0.43em; /* IE < 8 && gecko */ }
 
-.image-crop:before, .project-item > .project-item-image-container:before,
+.image-crop:before, .project-item > .project-item-image-container:before, .spotit-observation:before,
 .image-crop > div,
 .project-item > .project-item-image-container > div,
+.spotit-observation > div,
 .image-crop > img,
-.project-item > .project-item-image-container > img {
+.project-item > .project-item-image-container > img,
+.spotit-observation > img {
   /* vertically center the image */
   display: inline-block;
   vertical-align: middle; }
 
-.image-crop > div, .project-item > .project-item-image-container > div {
+.image-crop > div, .project-item > .project-item-image-container > div, .spotit-observation > div {
   height: 100%; }
 
-.image-crop:before, .project-item > .project-item-image-container:before {
+.image-crop:before, .project-item > .project-item-image-container:before, .spotit-observation:before {
   /* pseudo element to vertically align image to */
   content: "";
   /* Magic Number */
@@ -5371,9 +5375,10 @@ button.close {
   padding-top: 75%;
   /* % of original image width */ }
 
-.image-crop > img, .project-item > .project-item-image-container > img,
+.image-crop > img, .project-item > .project-item-image-container > img, .spotit-observation > img,
 .image-crop > div,
-.project-item > .project-item-image-container > div {
+.project-item > .project-item-image-container > div,
+.spotit-observation > div {
   /* removes(sorta) image from the flow */
   position: absolute;
   top: 0px;
@@ -10493,3 +10498,59 @@ table td.selectable {
 table tr.selected {
   background: #519251;
   color: white; }
+
+.image-crop, .project-item > .project-item-image-container, .spotit-observation,
+.image-crop > img,
+.project-item > .project-item-image-container > img,
+.spotit-observation > img,
+.image-crop > div,
+.project-item > .project-item-image-container > div,
+.spotit-observation > div {
+  width: 100%; }
+
+.image-crop, .project-item > .project-item-image-container, .spotit-observation {
+  overflow: hidden;
+  position: relative;
+  /*  letter-spacing: -0.31em; /* webkit */
+  /*  *letter-spacing: normal; /* reset IE < 8 */
+  /*  word-spaci ng: -0.43em; /* IE < 8 && gecko */ }
+
+.image-crop:before, .project-item > .project-item-image-container:before, .spotit-observation:before,
+.image-crop > div,
+.project-item > .project-item-image-container > div,
+.spotit-observation > div,
+.image-crop > img,
+.project-item > .project-item-image-container > img,
+.spotit-observation > img {
+  /* vertically center the image */
+  display: inline-block;
+  vertical-align: middle; }
+
+.image-crop > div, .project-item > .project-item-image-container > div, .spotit-observation > div {
+  height: 100%; }
+
+.image-crop:before, .project-item > .project-item-image-container:before, .spotit-observation:before {
+  /* pseudo element to vertically align image to */
+  content: "";
+  /* Magic Number */
+  /* Set this to your desired height(to width) ratio */
+  padding-top: 75%;
+  /* % of original image width */ }
+
+.image-crop > img, .project-item > .project-item-image-container > img, .spotit-observation > img,
+.image-crop > div,
+.project-item > .project-item-image-container > div,
+.spotit-observation > div {
+  /* removes(sorta) image from the flow */
+  position: absolute;
+  top: 0px;
+  left: 0px; }
+
+.spotit-observation {
+  margin-bottom: 20px; }
+  .spotit-observation .spotit-observation-metadata {
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.5); }
