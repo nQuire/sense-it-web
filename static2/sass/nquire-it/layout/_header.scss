@@ -1,0 +1,72 @@
+@import "../variables/dimensions";
+@import "../variables/colors";
+@import "../text/text-styles";
+
+div#header {
+  padding: $dim-header-margin-top $dim-header-margin-left $dim-header-margin-bottom $dim-header-margin-right;
+  height: $dim-header-height;
+  border-bottom: solid $color-dark-grey $dim-header-border-bottom-width;
+
+  div#header-content {
+    @extend .container;
+
+    position: relative;
+
+    div#logo-container {
+      position: absolute;
+      top: 42px;
+
+      p {
+        @include text-subtitle;
+      }
+    }
+
+    div#header-right-panel {
+      position: absolute;
+      top: 0px;
+      right: 0px;
+
+      div#header-top-box-container {
+
+        div#header-menu {
+          vertical-align:top;
+          display: inline-block;
+          line-height: $dim-header-search-box-height;
+
+          a {
+            margin-right: $dim-header-menu-item-margin;
+          }
+        }
+
+        div#header-search-form-container {
+          width: $dim-header-search-box-width;
+          display: inline-block;
+
+          #header-search-box,
+          #header-search-submit {
+            border: 1px solid $color-header-search-box;
+            border-radius: 0px;
+            height: $dim-header-search-box-height;
+          }
+
+          #header-search-submit {
+            background: $color-header-search-box;
+            color: white;
+            padding: 2px 8px;
+          }
+        }
+      }
+
+      div#header-profile-panel {
+        position: absolute;
+        right: 0px;
+        top: $dim-header-search-box-height + $dim-common-small-margin;
+
+        div#header-profile-username-block {
+          @include text-header-profile;
+          display: inline-block;
+        }
+      }
+    }
+  }
+}

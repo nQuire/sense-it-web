@@ -1,0 +1,13 @@
+
+@import "../variables/dimensions";
+@import "../variables/colors";
+
+.profile-image {
+  width: $dim-profile-image-size;
+  height: $dim-profile-image-size;
+  border-radius: $dim-profile-image-size / 2;
+  border: solid $dim-profile-circle-border-width $color-orange;
+  background: white;
+  display: inline-block;
+}
+

@@ -3,10 +3,12 @@ package org.greengin.nquireit.logic.users;
 import org.greengin.nquireit.entities.users.UserProfile;
 import org.greengin.nquireit.logic.AbstractContentManager;
 import org.greengin.nquireit.logic.ContextBean;
+import org.greengin.nquireit.logic.files.FileMapUpload;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 public class UserProfileActions extends AbstractContentManager {
 
@@ -22,6 +24,29 @@ public class UserProfileActions extends AbstractContentManager {
         super(context, request);
     }
 
+
+    public boolean updateProfileImage(StatusResponse currentStatus, FileMapUpload files) {
+        if (user != null && loggedWithToken && currentStatus.getProfile() != null &&
+                user.getId().equals(currentStatus.getProfile().getId()) && files.getData().containsKey("image")) {
+
+            FileMapUpload.FileData file = files.getData().get("image");
+            String fileContext = currentStatus.getProfile().getId().toString();
+            String filename = null;
+            if (file != null) {
+                try {
+                    filename = context.getFileManager().uploadFile(fileContext, file.filename, file.data);
+                } catch (IOException ignored) {
+                }
+            }
+
+            EntityManager em = context.createEntityManager();
+            em.getTransaction().begin();
+            currentStatus.getProfile().setImage(filename);
+            em.getTransaction().commit();
+            return true;
+        }
+        return false;
+    }
 
     public boolean updateProfile(StatusResponse currentStatus, ProfileRequest data) {
         if (user != null && loggedWithToken && currentStatus.getProfile() != null && data.getUsername() != null) {

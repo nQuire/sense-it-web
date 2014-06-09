@@ -1,0 +1,32 @@
+@import "../variables/colors";
+
+@mixin text-subtitle {
+  font-size: 24px;
+  margin-top: 10px;
+  font-style: italic;
+  color: $color-dark-grey;
+}
+
+@mixin text-header-profile {
+  font-size: 14px;
+
+  color: $color-dark-grey;
+  font-style: italic;
+}
+
+@mixin text-sidebar-category {
+  font-size: 16px;
+  font-weight: 600;
+  color: $color-dark-grey;
+}
+
+@mixin text-sidebar-mission-type {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+@mixin text-sidebar-normal {
+  font-size: 14px;
+  font-weight: 600;
+  color: $color-dark-grey;
+}

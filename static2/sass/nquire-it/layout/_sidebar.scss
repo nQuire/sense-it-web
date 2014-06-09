@@ -1,0 +1,44 @@
+
+@import "../variables/colors";
+@import "../variables/dimensions";
+@import "../text/text-styles";
+
+.sidebar-right {
+  position: absolute;
+  width: $dim-common-right-panel-container-width;
+
+  top: $dim-common-margin;
+  right: 0px;
+
+  padding: 0px $dim-common-small-margin $dim-common-margin $dim-common-small-margin;
+  border-left: solid $color-orange $dim-right-menu-separator-line-width;
+
+  .sidebar-header {
+    @include text-sidebar-category;
+  }
+
+  .sidebar-header {
+    @include text-sidebar-category;
+  }
+
+  ul >li {
+    @include text-sidebar-normal;
+    list-style-image: url(images/bullet.png);
+    margin-left: -1.5em;
+
+    .sidebar-type-senseit {
+      @include text-sidebar-mission-type;
+      color: $color-mission-senseit;
+    }
+    .sidebar-type-spotit {
+      @include text-sidebar-mission-type;
+      color: $color-mission-spotit;
+    }
+    .sidebar-type-winit {
+      @include text-sidebar-mission-type;
+      color: $color-mission-winit;
+    }
+  }
+
+
+}

@@ -1,0 +1,36 @@
+
+@mixin image-crop($aspect_ratio) {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+
+  & > div {
+    height: 100%;
+  }
+
+  & > img,
+  & > div {
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+  }
+
+  &:before,
+  & > div,
+  & > img {
+    /* vertically center the image */
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  &:before {
+    content: "";
+
+    /* Magic Number */
+    /* Set this to your desired height(to width) ratio */
+    padding-top: $aspect_ratio; /* % of original image width */
+  }
+
+}
+

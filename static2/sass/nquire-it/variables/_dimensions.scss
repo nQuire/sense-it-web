@@ -1,0 +1,28 @@
+$dim-common-margin: 20px;
+$dim-common-small-margin: 10px;
+
+$dim-common-right-panel-content-width: 210px;
+$dim-common-right-panel-container-width: $dim-common-right-panel-content-width + 2 * $dim-common-small-margin;
+
+$dim-header-height: 155px;
+$dim-header-margin-top: $dim-common-small-margin;
+$dim-header-margin-bottom: $dim-common-margin;
+$dim-header-margin-left: $dim-common-margin;
+$dim-header-margin-right: $dim-common-small-margin;
+
+$dim-header-logo-bottom: 91px;
+$dim-header-subtitle-line-height: 44px;
+$dim-header-border-bottom-width: 5px;
+
+$dim-header-logo-baseline: 39px;
+$dim-header-logo-top: $dim-header-logo-bottom - $dim-header-logo-baseline;
+
+$dim-header-search-box-width: $dim-common-right-panel-content-width;
+$dim-header-search-box-height: 28px;
+$dim-header-menu-item-margin: 20px;
+
+$dim-profile-circle-border-width: 2px;
+$dim-profile-image-size: 90px;
+
+$dim-right-menu-separator-line-width: 2px;
+

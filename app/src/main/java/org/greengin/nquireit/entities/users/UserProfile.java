@@ -1,5 +1,6 @@
 package org.greengin.nquireit.entities.users;
 
+import lombok.Getter;
 import lombok.Setter;
 import org.greengin.nquireit.entities.AbstractEntity;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,6 +19,11 @@ public class UserProfile extends AbstractEntity implements UserDetails {
     @Basic
     @Setter
     String password;
+
+    @Basic
+    @Getter
+    @Setter
+    String image;
 
     @Override
     public List<? extends GrantedAuthority> getAuthorities() {

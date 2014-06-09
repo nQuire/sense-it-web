@@ -3,6 +3,11 @@ app/src/main/webapp/WEB-INF/nquireit-tests.properties
 app/src/main/webapp/files*
 app/target
 app/.idea
+
 static/.idea
 static/node_modules
 
+static2/.idea
+static2/node_modules
+
+*.sass-cache

@@ -1,5 +1,6 @@
 package org.greengin.nquireit.controllers.users;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -9,8 +10,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mangofactory.jsonview.ResponseView;
+import org.greengin.nquireit.json.JacksonObjectMapper;
 import org.greengin.nquireit.json.Views;
 import org.greengin.nquireit.logic.ContextBean;
+import org.greengin.nquireit.logic.files.FileMapUpload;
+import org.greengin.nquireit.logic.files.RequestsUtils;
+import org.greengin.nquireit.logic.project.ProjectResponse;
+import org.greengin.nquireit.logic.project.metadata.ProjectRequest;
 import org.greengin.nquireit.logic.users.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -50,6 +57,9 @@ public class ProfileController {
     @Autowired
     ContextBean context;
 
+    @Autowired
+    JacksonObjectMapper objectMapper;
+
 
     private HashMap<String, Connection<?>> getConnections() {
         HashMap<String, Connection<?>> connections = new HashMap<String, Connection<?>>();
@@ -74,6 +84,22 @@ public class ProfileController {
         StatusResponse response = context.getUsersManager().status(getConnections(), request.getSession());
         boolean completed = new UserProfileActions(context, request).updateProfile(response, data);
         return completed ? response : null;
+    }
+
+    @RequestMapping(value = "/api/security/profile/image/files", method = RequestMethod.POST)
+    @ResponseBody
+    @ResponseView(value = Views.UserName.class)
+    public StatusResponse update(HttpServletRequest request) {
+        try {
+            StatusResponse response = context.getUsersManager().status(getConnections(), request.getSession());
+            FileMapUpload files = RequestsUtils.getFiles(request);
+            boolean completed = new UserProfileActions(context, request).updateProfileImage(response, files);
+            return completed ? response : null;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
 
