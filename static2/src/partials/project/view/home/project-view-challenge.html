@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+
+<div data-ng-if="showProjectViewMenu()">
+    <div data-ng-controller="DataProjectMenuCtrl">
+        <ul class="nav nav-tabs">
+            <li data-ng-class="{'active' : projectViewMenuIsActive('home')}" data-ui-sref="project.view.home"><a href="#">Win-it</a></li>
+            <li data-ng-class="{'active' : projectViewMenuIsActive('challenge')}" data-ui-sref="project.view.challenge"><a href="#">Submissions</a></li>
+            <li data-ng-class="{'active' : projectViewMenuIsActive('comments')}" data-ui-sref="project.view.comments"><a href="#">Discussion</a></li>
+        </ul>
+    </div>
+</div>
+
+<div data-ui-view></div>

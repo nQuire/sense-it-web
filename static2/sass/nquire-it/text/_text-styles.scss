@@ -1,32 +1,116 @@
 @import "../variables/colors";
 
+
+@mixin text-regular {
+ font-weight: 300;
+}
+
+@mixin text-italic {
+  font-weight: 300;
+  font-style: italic;
+}
+
+@mixin text-bold {
+  font-weight: 700;
+}
+
+@mixin text-semibold {
+  font-weight: 500;
+}
+
+@mixin text-semibold-italic {
+  font-weight: 500;
+  font-style: italic;
+}
+
+@mixin text-black {
+  font-weight: 900;
+}
+
+
+
 @mixin text-subtitle {
+  @include text-italic;
   font-size: 24px;
   margin-top: 10px;
-  font-style: italic;
   color: $color-dark-grey;
 }
 
 @mixin text-header-profile {
-  font-size: 14px;
+  @include text-italic;
 
+  font-size: 14px;
   color: $color-dark-grey;
-  font-style: italic;
 }
 
 @mixin text-sidebar-category {
+  @include text-bold;
+
   font-size: 16px;
-  font-weight: 600;
   color: $color-dark-grey;
 }
 
+
 @mixin text-sidebar-mission-type {
+  @include text-black;
+
   font-size: 16px;
-  font-weight: 800;
 }
 
 @mixin text-sidebar-normal {
+  @include text-semibold;
+
   font-size: 14px;
-  font-weight: 600;
   color: $color-dark-grey;
+}
+
+
+@mixin text-project-list-item-type {
+  @include text-black;
+  color: $color-dark-grey;
+  font-size: 24px;
+}
+
+@mixin text-project-list-item-title {
+  @include text-bold;
+  color: $color-dark-grey;
+  font-size: 16px;
+}
+
+@mixin text-project-list-item-teaser {
+  @include text-regular;
+  color: $color-dark-grey;
+  font-size: 14px;
+}
+
+@mixin text-project-list-item-author {
+  @include text-italic;
+  color: $color-dark-grey;
+  font-size: 14px;
+}
+
+@mixin text-project-list-item-banner {
+  @include text-regular;
+  color: white;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+@mixin text-project-list-item-banner-type {
+  @include text-bold;
+  color: white;
+  font-size: 14px;
+}
+
+
+@mixin text-project-menu-item {
+  @include text-regular;
+  font-size: 14px;
+  color: white;
+}
+
+@mixin text-project-menu-item-active {
+  @include text-bold;
+  font-size: 14px;
+  color: white;
 }

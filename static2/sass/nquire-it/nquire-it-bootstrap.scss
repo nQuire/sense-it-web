@@ -4,11 +4,16 @@
 
 @import "ext/file-widget";
 
+@import "layout/background";
 @import "layout/layout";
 @import "layout/content-section";
 @import "layout/sidebar";
 @import "layout/header";
 @import "layout/profile";
+@import "layout/project-list";
+
+@import "project/project";
+@import "project/comments";
 
 
 

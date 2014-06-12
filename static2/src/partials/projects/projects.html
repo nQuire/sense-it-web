@@ -1,12 +1,48 @@
 <div class="content-sidebar">
-    hi!
+    <div class="row">
+        <div data-ng-repeat="projectData in filteredList()" class="col-xs-12 col-sm-6 col-md-4">
+            <div class="project-item" data-ng-class="projectClass(projectData)">
+                <div class="project-item-image-container"
+                     data-ui-sref="project.view.home({projectId: projectData.project.id})">
+                    <img src=""
+                         data-ng-src="{{projectData.project.description.image | uploadedImage:'media/image_default.png'}}"
+                         data-ui-sref="project.view.home({projectId: projectData.project.id})"/>
+                </div>
+                <div class="project-item-text-container">
+                    <div class="project-item-type" data-ng-switch="projectData.project.type">
+                        <span data-ng-switch-when="senseit">Sense-it</span>
+                        <span data-ng-switch-when="spotit">Spot-it</span>
+                        <span data-ng-switch-when="challenge">Win-it</span>
+                    </div>
+                    <p class="project-item-title">
+                        {{projectData.project.title}}
+                    </p>
+
+                    <p class="project-item-teaser">
+                        {{projectData.project.description.teaser}}
+                    </p>
+
+                    <p class="project-item-author">
+                        A mission created by {{projectData.project.author.username}}.
+                    </p>
+                </div>
+                <div class="project-item-banner">
+                    Explore this
+                        <span class="project-item-banner-type" data-ng-switch="projectData.project.type">
+                            <span data-ng-switch-when="senseit">Sense-it</span>
+                            <span data-ng-switch-when="spotit">Spot-it</span>
+                            <span data-ng-switch-when="challenge">Win-it</span>
+                        </span>
+                    mission
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="sidebar-right">
-    <video width="210" height="158" controls>
-        <source src="media/tour.webm" type="video/webm">
-        Your browser does not support the video tag.
-    </video>
+    <iframe width="210" height="118" src="//www.youtube.com/embed/w1M9xtkhYEQ" frameborder="0" allowfullscreen></iframe>
+
     <div class="sidebar-header">
         Explore all missions
     </div>

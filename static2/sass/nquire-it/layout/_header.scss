@@ -6,9 +6,11 @@ div#header {
   padding: $dim-header-margin-top $dim-header-margin-left $dim-header-margin-bottom $dim-header-margin-right;
   height: $dim-header-height;
   border-bottom: solid $color-dark-grey $dim-header-border-bottom-width;
+  background: white;
 
   div#header-content {
     @extend .container;
+    height: 100%;
 
     position: relative;
 

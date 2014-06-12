@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+
+<div class="comment-list" data-ng-controller="CommentsCtrl">
+    <div class="comment" data-ng-repeat="comment in comments.list">
+
+        <div class="comment-metadata">
+            <span class="comment-author-image" data-siw-user-image data-user="comment.user"></span>
+
+            <div class="comment-metadata-text">
+                <div>
+                    <div class="comment-date">{{comment.date | fuzzyDate}}</div>
+                    <div class="comment-author">{{comment.user.username}} said:
+                </div>
+            </div>
+        </div>
+        <div data-ng-if="canDelete(comment.id)">
+            <button class="pure-button-primary pure-button" data-ng-click="posting.deleteComment(comment.id)">Delete</button>
+        </div>
+    </div>
+
+    <p data-ng-if="!posting.isOpen">
+        <button class="pure-button pure-button-primary" data-ng-click="posting.open()">New comment</button>
+    </p>
+    <p data-ng-if="posting.isOpen">
+        <label>
+            Comment:
+            <textarea data-ng-model="posting.comment"></textarea>
+        </label>
+        <button class="pure-button pure-button-primary" data-ng-click="posting.submit()">Submit</button>
+        <button class="pure-button pure-button-primary" data-ng-click="posting.cancel()">Cancel</button>
+    </p>
+</div>

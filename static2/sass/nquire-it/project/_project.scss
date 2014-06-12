@@ -1,0 +1,102 @@
+@import "../layout/content-section";
+@import "../layout/sidebar";
+@import "../layout/image-crop";
+
+.project-main-container {
+
+  .project-section {
+    @extend .content-sidebar;
+    @extend .container-fluid;
+
+    .project-section-header {
+      @extend .row;
+      margin: 0px;
+
+      height: 26px;
+      line-height: 26px;
+
+      .project-menu-main {
+        @extend .col-xs-4;
+      }
+
+      .project-menu-sub {
+        @extend .col-xs-8;
+      }
+
+      .project-menu-item {
+        @include text-project-menu-item;
+        margin-right: 20px;
+
+        &.active {
+          @include text-project-menu-item-active;
+        }
+      }
+    }
+
+    .project-section-content {
+      @extend .row;
+      margin: 0px;
+
+      background: $color-project-list-item-background;
+
+      .project-section-description-column {
+        @extend .col-xs-4;
+        padding: 0px;
+
+        .project-section-description-image {
+          @include image-crop($dim-project-list-image-aspect-ratio);
+        }
+
+        .project-section-description-text {
+          padding-left: $dim-common-small-margin;
+        }
+
+        .project-section-description-text-author {
+          position: relative;
+          height: $dim-profile-image-size;
+          vertical-align: bottom;
+          span.project-section-description-text-author-image {
+            position: absolute;
+          }
+          div.project-section-description-text-author-name {
+            position: relative;
+            height: 100%;
+            margin-left: $dim-profile-image-size;
+            div {
+              position: absolute;
+              bottom: 0px;
+            }
+          }
+        }
+      }
+
+      .project-section-content-column {
+        @extend .col-xs-8;
+      }
+    }
+  }
+
+  .project-comments-section {
+    @extend .sidebar-right;
+
+  }
+
+}
+
+@mixin project-type($type-color) {
+  .project-section-header {
+    background: $type-color;
+  }
+}
+
+.project-main-container.project-type-senseit {
+  @include project-type($color-mission-senseit);
+}
+
+.project-main-container.project-type-spotit {
+  @include project-type($color-mission-spotit);
+}
+
+.project-main-container.project-type-challenge {
+  @include project-type($color-mission-winit);
+}

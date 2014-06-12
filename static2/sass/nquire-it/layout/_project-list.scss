@@ -1,0 +1,69 @@
+
+@import "../variables/dimensions";
+@import "../variables/colors";
+@import "image-crop";
+@import "../text/text-styles";
+
+.project-item {
+  margin-bottom: 30px;
+
+  .project-item-image-container {
+    @include image-crop($dim-project-list-image-aspect-ratio);
+    cursor: pointer;
+  }
+
+  .project-item-text-container {
+    height: $dim-project-list-item-text-height;
+    background: $color-project-list-item-background;
+
+    padding: 0px $dim-common-small-margin;
+
+
+    .project-item-type {
+      @include text-project-list-item-type;
+      text-align: center;
+    }
+
+    .project-item-title {
+      @include text-project-list-item-title;
+    }
+
+    .project-item-teaser {
+      @include text-project-list-item-teaser;
+    }
+
+    .project-item-author {
+      @include text-project-list-item-author;
+    }
+  }
+
+  .project-item-banner {
+    @include text-project-list-item-banner;
+    text-align: center;
+    height: $dim-project-list-item-banner-height;
+
+    .project-item-banner-type {
+      @include text-project-list-item-banner-type;
+    }
+  }
+
+}
+
+@mixin project-item-type-variation($color) {
+  .project-item-type {
+    color: $color;
+  }
+  .project-item-banner {
+    background: $color;
+  }
+}
+
+.project-item.project-type-senseit {
+  @include project-item-type-variation($color-mission-senseit);
+}
+.project-item.project-type-challenge {
+  @include project-item-type-variation($color-mission-winit);
+}
+.project-item.project-type-spotit  {
+  @include project-item-type-variation($color-mission-spotit);
+}

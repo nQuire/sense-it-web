@@ -1,6 +1,5 @@
 angular.module('senseItWeb', null, null).controller('ProjectViewSenseItCtrl', function ($scope) {
 
-    $scope.templates.home = 'partials/project/view/senseit/project-view-senseit-home.html';
     $scope.templates.dataTable = 'partials/project/view/senseit/data-table-senseit.html';
 
 

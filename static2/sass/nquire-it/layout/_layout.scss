@@ -1,3 +1,5 @@
+@import "../variables/dimensions";
+
 html, body, #main {
   height: 100%;
 }
@@ -6,3 +8,18 @@ html {
   overflow-y: scroll;
 }
 
+
+#main {
+  position: relative;
+  .main-content-section {
+
+    .main-content {
+      height: 100%;
+      background: white;
+      @extend .container;
+      padding: $dim-common-margin 0px 0px 0px;
+      position: relative;
+    }
+  }
+
+}

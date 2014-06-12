@@ -30,7 +30,6 @@ angular.module('senseItWeb', null, null).controller('ProjectViewCtrl', function 
 
 
     $scope.templates = {
-        home: null
     };
 
     $scope.projectTemplate = function () {
@@ -47,10 +46,6 @@ angular.module('senseItWeb', null, null).controller('ProjectViewCtrl', function 
         return null;
     };
 
-    $scope.commentThread = {
-        type: 'project',
-        id: $state.params['projectId']
-    };
 
 });
 

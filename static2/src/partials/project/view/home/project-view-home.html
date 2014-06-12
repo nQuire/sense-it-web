@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<div data-ng-if="status.logged">
+    <div data-ng-if="projectData.project.open">
+
+        <div class="project-section-header" data-ng-include="'partials/project/project-menu.html'"></div>
+
+        <div class="project-section-content">
+
+
+            <div class="project-section-description-column">
+                <div class="project-section-description-image">
+                    <img data-ng-src="{{projectData.project.description.image | uploadedImage:'media/image_default.png'}}"
+                         src=""/>
+                </div>
+                <div class="project-section-description-text">
+                    <p class="project-section-description-text-title">
+                        <span class="project-section-description-text-mission">Mission: </span>
+                        {{projectData.project.title}}
+                    </p>
+
+                    <div class="project-section-description-text-author">
+                        <span class="project-section-description-text-author-image" data-siw-user-image
+                              data-user="projectData.project.author"></span>
+
+                        <div class="project-section-description-text-author-name">
+                            <div>
+                                Mission created by {{projectData.project.author.username}}.
+                            </div>
+                        </div>
+                    </div>
+
+                    <p>
+                        <button data-ng-if="!projectData.access.member" class="pure-button pure-button-primary"
+                                data-ng-click="joinProject()">Join project
+                        </button>
+                        <button data-ng-if="projectData.access.member" class="pure-button pure-button-primary"
+                                data-ng-click="leaveProject()">Leave project
+                        </button>
+                    </p>
+
+                </div>
+            </div>
+            <div class="project-section-content-column">
+                <p class="project-section-content-header">Mission description</p>
+
+                <div class="project-section-content-description-block" data-ng-repeat="block in projectData.project.description.blocks">
+                    <p class="project-section-content-description-block-title">{{block.title}}</p>
+                    <p class="project-section-content-description-block-content">{{block.content}}</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!--
+
+
+                <div data-ng-include="'partials/project/metadata/project-metadata.html'"></div>
+
+
+                <div data-ng-if="projectData.project.description.html">
+                    <p data-ng-bind-html="projectData.project.description.description"></p>
+                </div>
+                <div data-ng-if="!projectData.project.description.html">
+                    <p style="white-space: pre;">{{project.description.description}}</p>
+                </div>
+                -->
+
+
+    </div>
+
+    <div data-ng-if="!projectData.project.open">
+        <p>This project is still being edited by its author.</p>
+    </div>
+
+</div>
+<div data-ng-if="!status.logged">
+    <a data-ui-sref="profile">Login</a> to participate in this project.
+</div>

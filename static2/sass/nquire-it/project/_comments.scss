@@ -1,0 +1,12 @@
+
+@import "../layout/profile";
+
+.comment-author-image {
+
+  div.profile-image {
+    width: $dim-comment-author-image-size;
+    height: $dim-comment-author-image-size;
+    border-radius: $dim-comment-author-image-size / 2;
+    border: solid $dim-profile-circle-border-width $color-orange;
+  }
+}

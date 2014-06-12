@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<div data-ng-if="projectData.ready" class="project-main-container"
+     data-ng-class="'project-type-' + projectData.project.type">
+
+
+    <div class="project-section">
+        <div data-ui-view></div>
+        <!--
+                <h1>{{projectData.project.title}}</h1>
+
+                <p>By {{projectData.project.author.username}}</p>
+
+                <div data-ng-if="showProjectMenu()">
+                    <p>
+                    <ul class="nav nav-pills">
+                        <li data-ng-class="{'active' : projectMenuIsActive('view')}" data-ui-sref="project.view.home"><a
+                                href="#">Participate</a>
+                        </li>
+                        <li data-ng-class="{'active' : projectMenuIsActive('admin')}" data-ui-sref="project.admin"><a
+                                href="#">Admin</a></li>
+                        <li data-ng-class="{'active' : projectMenuIsActive('edit')}" data-ui-sref="project.edit.home"><a
+                                href="#">Edit</a>
+                        </li>
+                    </ul>
+                    </p>
+                </div>
+        -->
+
+    </div>
+    <div class="project-comments-section">
+        <div data-ng-if="!status.logged" class="comments-noaccess-project-nologged">
+            <a data-ui-sref="profile">Login</a> to participate in this discussion.
+        </div>
+
+        <div data-ng-if="status.logged && !projectData.access.admin">
+            <div data-ng-if="!project.open" class="comments-noaccess-project-closed">
+                This project is still being edited by its author.
+            </div>
+            <div data-ng-if="projectData.project.open">
+                <div data-ng-if="!projectData.access.member" class="comments-noaccess-project-nomember">
+                    <a data-ui-sref="project.view.home">Join</a> this project to participate in this discussion.
+                </div>
+            </div>
+        </div>
+
+        <div data-ng-if="status.logged && (projectData.access.admin || (projectData.access.member && projectData.project.open))">
+            <div data-ng-include="'partials/comments.html'"></div>
+        </div>
+    </div>
+
+</div>
+<div data-ng-if="!projectData.ready">
+    <div class="header">
+        <div class="throbber"></div>
+        <h2>Loading...</h2>
+    </div>
+</div>

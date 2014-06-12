@@ -1,0 +1,11 @@
+<span class="project-menu-main" data-ng-if="projectData.access.admin">
+    <span class="project-menu-item">Participant</span>
+    <span class="project-menu-item">Admin</span>
+    <span class="project-menu-item">Editor</span>
+</span>
+<span class="project-menu-main" data-ng-if="!projectData.access.admin">
+    <span class="project-menu-item">Mission description</span>
+</span>
+
+<span class="project-menu-sub" data-ng-if="templates.menu" data-ng-include="templates.menu"></span>
+

@@ -1,0 +1,158 @@
+<div data-ng-if="metadataEdit">
+    <div data-ng-if="form.isOpen('title')">
+        <p>Title: <input type="text" data-ng-model="form.values.title"/></p>
+
+        <p>Teaser: <input type="text" data-ng-model="form.values.description.teaser"/></p>
+
+        <p class="btn-group">
+            <button type="button" class="btn btn-default" data-ng-click="form.save()">Save</button>
+            <button type="button" class="btn btn-default" data-ng-click="form.cancel()">Cancel</button>
+        </p>
+    </div>
+    <div data-ng-if="!form.isOpen('title')">
+        <p>Title: {{projectData.project.title}}</p>
+
+        <p>Teaser: {{projectData.project.description.teaser}}</p>
+
+        <p data-ng-if="!form.isOpen()" class="btn-group">
+            <button type="button" class="btn btn-default" data-ng-click="form.open('title')">Edit</button>
+        </p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="project-description-block col-sm-6 col-xs-12">
+            <div>
+                <div data-ng-if="!metadataEdit || !form.isOpen('image')">
+                    <div class="image-crop">
+                        <img data-ng-if="projectData.project.description.image" src=""
+                             data-ng-src="{{projectData.project.description.image | uploadedImage }}"/>
+
+                        <div data-ng-if="!projectData.project.description.image"
+                             class="project-metadata-no-image-title">
+                            {{projectData.project.title}}
+                        </div>
+                    </div>
+                </div>
+                <div data-ng-if="metadataEdit && form.isOpen('image')">
+                    <form role="form">
+                        <div class="form-group">
+                            <label for="file-select-input-image">Email address</label>
+
+                            <div id="file-select-input-image" data-siw-file-select-widget data-ng-attr-filekey="image"
+                                 data-ng-attr-original="{{form.values.description.image}}">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div data-ng-switch="metadataBlockButtons('image')">
+                    <div data-ng-switch-when="close">
+                        <div class="project-description-block-edit-controls btn-group">
+                            <button type="button" class="btn btn-default" data-ng-click="form.open('image')">Edit
+                            </button>
+                        </div>
+                    </div>
+                    <div data-ng-switch-when="open">
+                        <div class="project-description-block-edit-controls btn-group">
+                            <button type="button" class="btn btn-default" data-ng-click="form.save()">Save</button>
+                            <button type="button" class="btn btn-default" data-ng-click="form.cancel()">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div data-ng-repeat="block in projectData.project.description.blocks"
+             class="project-description-block col-sm-6 col-xs-12">
+            <div>
+                <div data-ng-if="!metadataEdit || !form.isOpen('block:' + $index)">
+                    <div data-ng-switch="block.type">
+                        <div data-ng-switch-when="www">
+                            <div data-ng-if="block.who">Who: {{block.who}}</div>
+                            <div data-ng-if="block.where">Where: {{block.where}}</div>
+                            <div data-ng-if="block.when">When: {{block.when}}</div>
+                        </div>
+                        <div data-ng-switch-when="text" class="project-description-block-text">
+                            <div class="project-description-block-text-header">{{block.header}}</div>
+                            <div class="project-description-block-text-text" data-ng-bind-html="block.content"></div>
+                        </div>
+                    </div>
+                </div>
+                <div data-ng-if="metadataEdit && form.isOpen('block:' + $index)">
+                    <div data-ng-switch="block.type">
+                        <div data-ng-switch-when="www">
+                            <form role="form">
+                                <div class="form-group">
+                                    <label for="block-www-who">Who: </label>
+                                    <input id="block-www-who" type="text"
+                                           data-ng-model="form.values.description.blocks[$index].who"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="block-www-where">Where: </label>
+                                    <input id="block-www-where" type="text"
+                                           data-ng-model="form.values.description.blocks[$index].where"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="block-www-when">Who: </label>
+                                    <input id="block-www-when" type="date"
+                                           data-ng-model="form.values.description.blocks[$index].when"/>
+                                </div>
+                            </form>
+                        </div>
+                        <div data-ng-switch-when="text" class="project-description-block-text">
+                            <form role="form">
+                                <div class="form-group">
+                                    <label for="block-text-header">Header: </label>
+                                    <input id="block-text-header" type="text"
+                                           data-ng-model="form.values.description.blocks[$index].header"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="block-text-content">Text: </label>
+                                    <textarea id="block-text-content" data-ng-model="form.values.description.blocks[$index].content"></textarea>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div data-ng-switch="metadataBlockButtons('block:' + $index)">
+                    <div data-ng-switch-when="close">
+                        <div class="project-description-block-edit-controls btn-group">
+                            <button type="button" class="btn btn-default" data-ng-click="form.open('block:' + $index)">
+                                Edit
+                            </button>
+                            <button type="button" class="btn btn-default" data-ng-disabled="$last"
+                                    data-ng-click="moveMetadataBlock($index, false)">
+                                Move down
+                            </button>
+                            <button type="button" class="btn btn-default" data-ng-disabled="$index < 1"
+                                    data-ng-click="moveMetadataBlock($index, true)">
+                                Move up
+                            </button>
+                            <button type="button" class="btn btn-default" data-ng-click="deleteMetadataBlock($index)">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                    <div data-ng-switch-when="open">
+                        <div class="project-description-block-edit-controls btn-group">
+                            <button type="button" class="btn btn-default" data-ng-click="form.save()">Save</button>
+                            <button type="button" class="btn btn-default" data-ng-click="form.cancel()">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div data-ng-if="metadataEdit && !form.isOpen()" class="btn-group dropup">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+        Add description block <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+        <li><a href data-ng-click="addMetadataBlock('text')">Free text</a></li>
+        <li><a href data-ng-click="addMetadataBlock('www')">Who - Where - When block</a></li>
+    </ul>
+</div>

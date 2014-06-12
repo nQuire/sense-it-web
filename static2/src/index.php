@@ -12,7 +12,10 @@ ini_set('error_reporting', E_ALL);
     <meta charset="utf-8">
     <title>Sense It</title>
 
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600,700,800' rel='stylesheet' type='text/css'>
+    <script type="text/javascript" src="//use.typekit.net/fnn6bbs.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
+<!--    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600,700,800' rel='stylesheet' type='text/css'> -->
     <link rel="stylesheet" href="css/font-awesome.css" type='text/css'>
     <link rel="stylesheet" href="css/nquire-it-bootstrap.css" type='text/css'>
 
@@ -77,13 +80,19 @@ ini_set('error_reporting', E_ALL);
     <script src="js/app/directives/user-block.js"></script>
 
     <script src="js/app/filters/uploaded-image-filter.js"></script>
+    <script src="js/app/filters/fuzzy-date.js"></script>
 
+    <script src="js/app/controllers/comments-controller.js"></script>
     <script src="js/app/controllers/layout/main-controller.js"></script>
 
     <script src="js/app/controllers/profile/profile-controller.js"></script>
 
     <script src="js/app/controllers/project-list/project-list-controller.js"></script>
 
+    <script src="js/app/controllers/project/project-controller.js"></script>
+    <script src="js/app/controllers/project/view/project-view-controller.js"></script>
+    <script src="js/app/controllers/project/view/project-view-data-controller.js"></script>
+    <script src="js/app/controllers/project/view/senseit/project-view-senseit-controller.js"></script>
 
 
 
@@ -94,6 +103,10 @@ ini_set('error_reporting', E_ALL);
 <?php else: ?>
     <body data-ng-app="senseItWeb">
 <?php endif; ?>
+
+    <div id="page-background">
+        <div id="page-background-center"></div>
+    </div>
 
     <div id="main" data-ng-controller="MainCtrl">
         <div id="header" data-ng-include="'partials/layout/header.html'"></div>

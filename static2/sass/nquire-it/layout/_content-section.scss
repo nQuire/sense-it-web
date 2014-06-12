@@ -1,20 +1,5 @@
-
 @import "../variables/dimensions";
 @import "../variables/colors";
-
-
-.main-content-section {
-  background: url("images/background.png") repeat;
-
-  .main-content {
-    height: 100%;
-    @extend .container;
-    background: white;
-    padding: $dim-common-margin 0px 0px 0px;
-    position: relative;
-  }
-}
-
 
 
 .content-no-sidebar {
@@ -22,7 +7,8 @@
 }
 
 .content-sidebar {
+  @extend .container-fluid;
+
   margin: 0px $dim-common-right-panel-container-width 0px 0px;
   padding: 0px $dim-common-small-margin $dim-common-margin $dim-common-margin;
 }
-

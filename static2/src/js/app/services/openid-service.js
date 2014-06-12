@@ -29,8 +29,7 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
 
     service._openIdRequest = function (path, logged, notify, method, data, files) {
         var _method = method ? method : 'get';
-//        var promise = data ? RestService[_method](path, data) : RestService[_method](path);
-        var promise = RestService[_method](path, data, files);
+        var promise = (data || files) ? RestService[_method](path, data, files) : RestService[_method](path);
 
         return promise.then(function (data) {
             service.status = {

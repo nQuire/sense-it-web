@@ -93,7 +93,7 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
     };
 
 
-    var ProjectWatcher = function (scope, projectId) {
+    var ProjectWatcher = function (scope, projectId, callback) {
         var self = this;
         this.projectId = projectId;
         this.scope = scope;
@@ -102,8 +102,7 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
 
         scope.projectData = this.data;
 
-        var destroyWatch = scope.$watch('projectData', function() {
-        }, true);
+        var destroyWatch = scope.$watch('projectData', callback, true);
 
         var openIdListener = function () {
                 self._reload();
@@ -226,8 +225,8 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
         watchList: function (scope, callback) {
             scope.projectListWatcher = new ProjectListWatcher(scope, callback || null);
         },
-        watchProject: function (scope, projectId) {
-            scope.projectWatcher = new ProjectWatcher(scope, projectId);
+        watchProject: function (scope, projectId, callback) {
+            scope.projectWatcher = new ProjectWatcher(scope, projectId, callback || null);
         },
         createProject: function (type) {
             return utils.projectsRequest('post', false, {type: type});
