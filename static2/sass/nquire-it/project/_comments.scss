@@ -1,12 +1,48 @@
-
 @import "../layout/profile";
+@import "../text/text-styles";
 
-.comment-author-image {
 
-  div.profile-image {
-    width: $dim-comment-author-image-size;
-    height: $dim-comment-author-image-size;
-    border-radius: $dim-comment-author-image-size / 2;
-    border: solid $dim-profile-circle-border-width $color-orange;
+@mixin comment-bottom-border {
+  padding-bottom: $dim-common-small-margin;
+  margin-bottom: $dim-common-small-margin;
+  border-bottom: solid $color-light-grey 1px;
+}
+
+
+.comment-list-header {
+  @include text-comment-list-header;
+  @include comment-bottom-border;
+  text-align: center;
+}
+
+.comment {
+  @include comment-bottom-border;
+
+  .comment-metadata {
+
+    position: relative;
+    min-height: $dim-comment-author-image-size + $dim-common-small-margin;
+
+    .comment-author-image {
+      position: absolute;
+
+      .profile-image {
+        width: $dim-comment-author-image-size;
+        height: $dim-comment-author-image-size;
+        border-radius: $dim-comment-author-image-size / 2;
+        border: solid $dim-profile-circle-border-width $color-orange;
+      }
+    }
+
+    div.comment-metadata-text {
+      @include text-comment-metadata;
+      margin-left: $dim-comment-author-image-size + $dim-profile-image-margin;
+    }
+  }
+
+  .comment-content {
+    @include text-comment-content;
+
+    margin-bottom: $dim-common-small-margin;
   }
 }

@@ -32,7 +32,7 @@ angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'senseItServices'], nul
         })
         .state('project.view.home', {
             url: '',
-            templateUrl: 'partials/project/view/home/project-view-home.html'
+            templateUrl: 'partials/project/view/home/project-view-home-page.html'
         })
         .state('project.view.comments', {
             url: '/comments',
@@ -63,13 +63,12 @@ angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'senseItServices'], nul
         })
         .state('project.edit.home', {
             url: '',
-            templateUrl: 'partials/project/edit/project-edit-metadata.html',
-            controller: 'ProjectEditMetadataCtrl'
+            templateUrl: 'partials/project/edit/project-edit-description-page.html',
+            controller: 'ProjectEditDescriptionCtrl'
         })
         .state('project.edit.senseit', {
             url: '/senseit',
-            templateUrl: 'partials/project/edit/senseit/project-edit-senseit.html',
-            controller: 'ProjectEditSenseItCtrl'
+            templateUrl: 'partials/project/edit/senseit/project-edit-senseit-data.html'
         })
         .state('project.edit.challenge', {
             url: '/challenge',

@@ -2,6 +2,8 @@
 
 
 <div class="comment-list" data-ng-controller="CommentsCtrl">
+    <div class="comment-list-header">Comments</div>
+
     <div class="comment" data-ng-repeat="comment in comments.list">
 
         <div class="comment-metadata">
@@ -11,23 +13,32 @@
                 <div>
                     <div class="comment-date">{{comment.date | fuzzyDate}}</div>
                     <div class="comment-author">{{comment.user.username}} said:
+                    </div>
                 </div>
             </div>
         </div>
-        <div data-ng-if="canDelete(comment.id)">
-            <button class="pure-button-primary pure-button" data-ng-click="posting.deleteComment(comment.id)">Delete</button>
+        <div class="comment-content">{{comment.comment}}</div>
+        <div class="comment-controls btn-group">
+            <button type="button" class="btn btn-default btn-xs" data-ng-click="posting.open()">Reply</button>
+            <button type="button" class="btn btn-default btn-xs" data-ng-click="posting.deleteComment(comment.id)"
+                    data-ng-if="canDelete(comment.id)">Delete
+            </button>
         </div>
     </div>
 
-    <p data-ng-if="!posting.isOpen">
-        <button class="pure-button pure-button-primary" data-ng-click="posting.open()">New comment</button>
-    </p>
-    <p data-ng-if="posting.isOpen">
-        <label>
-            Comment:
-            <textarea data-ng-model="posting.comment"></textarea>
-        </label>
-        <button class="pure-button pure-button-primary" data-ng-click="posting.submit()">Submit</button>
-        <button class="pure-button pure-button-primary" data-ng-click="posting.cancel()">Cancel</button>
-    </p>
+    <div data-ng-if="!posting.isOpen">
+        <button type="button" class="btn btn-default btn-sm" data-ng-click="posting.open()">New comment</button>
+    </div>
+    <div data-ng-if="posting.isOpen">
+        <form role="form">
+            <div class="form-group">
+                <label for="comment-text-area">Comment:</label>
+                <textarea id="comment-text-area" class="form-control" data-ng-model="posting.comment"></textarea>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-default btn-sm" data-ng-click="posting.submit()">Submit</button>
+                <button type="button" class="btn btn-default btn-sm" data-ng-click="posting.cancel()">Cancel</button>
+            </div>
+        </form>
+    </div>
 </div>

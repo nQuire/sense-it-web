@@ -47,7 +47,18 @@
           @include image-crop($dim-project-list-image-aspect-ratio);
         }
 
+        .project-section-description-text-title {
+          @include text-project-subtitle;
+          padding-top: 5px;
+
+          .project-section-description-text-mission {
+
+          }
+        }
+
         .project-section-description-text {
+          @include text-project-normal;
+
           padding-left: $dim-common-small-margin;
         }
 
@@ -59,19 +70,41 @@
             position: absolute;
           }
           div.project-section-description-text-author-name {
+            @include text-project-author;
             position: relative;
             height: 100%;
-            margin-left: $dim-profile-image-size;
+            margin-left: $dim-profile-image-size + $dim-profile-image-margin;
             div {
               position: absolute;
               bottom: 0px;
             }
           }
         }
+
+        .project-section-description-join-leave {
+          padding: $dim-common-small-margin 5px;
+        }
       }
 
       .project-section-content-column {
         @extend .col-xs-8;
+
+        .project-section-content-header {
+          @include text-project-title;
+          margin-top: $dim-common-small-margin;
+        }
+
+        .project-section-content-block-title {
+          @include text-project-subtitle;
+          margin-bottom: 0px;
+
+        }
+
+        .project-section-content-block-content {
+          @include text-project-normal;
+          @include pre;
+        }
+
       }
     }
   }
@@ -86,6 +119,12 @@
 @mixin project-type($type-color) {
   .project-section-header {
     background: $type-color;
+  }
+
+  .project-section-content-header,
+  .project-section-content-block-title,
+  .project-section-description-text-mission  {
+    color: $type-color;
   }
 }
 

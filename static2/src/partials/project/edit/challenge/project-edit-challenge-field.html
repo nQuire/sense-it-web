@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+
+<div data-ng-if="form.isOpen()">
+    <form class="pure-form pure-form-stacked">
+        <fieldset>
+            <label for="label">Field label</label>
+            <input id="label" type="text" placeholder="Label" data-ng-model="form.values.label">
+
+            <select id="type" data-ng-model="form.values.type">
+                <option value="">Select field type</option>
+                <option value="title">Answer title</option>
+                <option value="textfield">Text field</option>
+                <option value="textarea">Text area</option>
+            </select>
+
+            <button class="pure-button pure-button-primary pure-button-small" data-ng-disabled="form.okButtonDisabled()"
+                    data-ng-click="form.save()">
+                Save
+            </button>
+            <button class="pure-button pure-button-primary pure-button-small" data-ng-disabled="form.resetButtonDisabled()"
+                    data-ng-click="form.cancel()">
+                Cancel
+            </button>
+        </fieldset>
+    </form>
+</div>
+<div data-ng-if="!form.isOpen()">
+    <p>Label: {{field.label}}</p>
+    <p>Type: {{field.type}}</p>
+    <button class="pure-button pure-button-primary pure-button-small" data-ng-click="form.open()">Edit</button>
+    <button class="pure-button pure-button-primary pure-button-small" data-ng-click="deleteProfile()">Delete field</button>
+</div>
+

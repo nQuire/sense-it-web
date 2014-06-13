@@ -42,6 +42,11 @@ angular.module('senseItWeb', null, null).controller('ProjectEditMetadataCtrl', f
         }
     };
 
+    $scope.deleteMetadataBlock = function (index) {
+        $scope.projectData.project.description.blocks.splice(index, 1);
+        $scope.projectWatcher.saveMetadata();
+    };
+
     $scope.form = new SiwFormManager(function () {
             return $scope.projectData.project;
         }, ['title', 'description'],

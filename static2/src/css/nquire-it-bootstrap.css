@@ -10448,9 +10448,9 @@ div#header {
           display: inline-block; }
 
 .profile-image {
-  width: 90px;
-  height: 90px;
-  border-radius: 45px;
+  width: 80px;
+  height: 80px;
+  border-radius: 40px;
   border: solid 2px #f39a19;
   background: white;
   display: inline-block; }
@@ -10608,41 +10608,111 @@ div#header {
         /* Set this to your desired height(to width) ratio */
         padding-top: 47.5%;
         /* % of original image width */ }
+    .project-main-container .project-section .project-section-content .project-section-description-column .project-section-description-text-title {
+      font-weight: 900;
+      font-size: 16px;
+      padding-top: 5px; }
     .project-main-container .project-section .project-section-content .project-section-description-column .project-section-description-text {
+      font-weight: 300;
+      color: #444444;
       padding-left: 10px; }
     .project-main-container .project-section .project-section-content .project-section-description-column .project-section-description-text-author {
       position: relative;
-      height: 90px;
+      height: 80px;
       vertical-align: bottom; }
       .project-main-container .project-section .project-section-content .project-section-description-column .project-section-description-text-author span.project-section-description-text-author-image {
         position: absolute; }
       .project-main-container .project-section .project-section-content .project-section-description-column .project-section-description-text-author div.project-section-description-text-author-name {
+        font-weight: 500;
         position: relative;
         height: 100%;
-        margin-left: 90px; }
+        margin-left: 85px; }
         .project-main-container .project-section .project-section-content .project-section-description-column .project-section-description-text-author div.project-section-description-text-author-name div {
           position: absolute;
           bottom: 0px; }
+    .project-main-container .project-section .project-section-content .project-section-description-column .project-section-description-join-leave {
+      padding: 10px 5px; }
+  .project-main-container .project-section .project-section-content .project-section-content-column .project-section-content-header {
+    font-weight: 900;
+    font-size: 20px;
+    margin-top: 10px; }
+  .project-main-container .project-section .project-section-content .project-section-content-column .project-section-content-block-title {
+    font-weight: 900;
+    font-size: 16px;
+    margin-bottom: 0px; }
+  .project-main-container .project-section .project-section-content .project-section-content-column .project-section-content-block-content {
+    font-weight: 300;
+    color: #444444;
+    white-space: pre-wrap;
+    /* css-3 */
+    white-space: -moz-pre-wrap;
+    /* Mozilla, since 1999 */
+    white-space: -pre-wrap;
+    /* Opera 4-6 */
+    white-space: -o-pre-wrap;
+    /* Opera 7 */
+    word-wrap: break-word;
+    /* Internet Explorer 5.5+ */ }
 
 .project-main-container.project-type-senseit .project-section-header {
   background: #079ccb; }
+.project-main-container.project-type-senseit .project-section-content-header,
+.project-main-container.project-type-senseit .project-section-content-block-title,
+.project-main-container.project-type-senseit .project-section-description-text-mission {
+  color: #079ccb; }
 
 .project-main-container.project-type-spotit .project-section-header {
   background: #9fa609; }
+.project-main-container.project-type-spotit .project-section-content-header,
+.project-main-container.project-type-spotit .project-section-content-block-title,
+.project-main-container.project-type-spotit .project-section-description-text-mission {
+  color: #9fa609; }
 
 .project-main-container.project-type-challenge .project-section-header {
   background: #c4388a; }
+.project-main-container.project-type-challenge .project-section-content-header,
+.project-main-container.project-type-challenge .project-section-content-block-title,
+.project-main-container.project-type-challenge .project-section-description-text-mission {
+  color: #c4388a; }
 
 .profile-image {
-  width: 90px;
-  height: 90px;
-  border-radius: 45px;
+  width: 80px;
+  height: 80px;
+  border-radius: 40px;
   border: solid 2px #f39a19;
   background: white;
   display: inline-block; }
 
-.comment-author-image div.profile-image {
-  width: 40px;
-  height: 40px;
-  border-radius: 20px;
-  border: solid 2px #f39a19; }
+.comment-list-header {
+  font-weight: 900;
+  font-size: 16px;
+  color: #444444;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: solid #aaaaaa 1px;
+  text-align: center; }
+
+.comment {
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: solid #aaaaaa 1px; }
+  .comment .comment-metadata {
+    position: relative;
+    min-height: 50px; }
+    .comment .comment-metadata .comment-author-image {
+      position: absolute; }
+      .comment .comment-metadata .comment-author-image .profile-image {
+        width: 40px;
+        height: 40px;
+        border-radius: 20px;
+        border: solid 2px #f39a19; }
+    .comment .comment-metadata div.comment-metadata-text {
+      font-weight: 700;
+      font-size: 12px;
+      color: #777777;
+      margin-left: 45px; }
+  .comment .comment-content {
+    font-weight: 300;
+    font-size: 14px;
+    color: #444444;
+    margin-bottom: 10px; }

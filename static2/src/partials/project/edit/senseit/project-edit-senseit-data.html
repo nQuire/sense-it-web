@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<div class="project-section-header" data-ng-include="'partials/project/blocks/project-menu.html'"></div>
+
+<div class="project-section-content">
+    <div class="project-section-description-column"
+         data-ng-include="'partials/project/blocks/project-metadata.html'">
+    </div>
+
+    <div class="project-section-content-column">
+        <p>Sense-it projects define a data logging profile that can be used to record data using the
+            <a href="https://play.google.com/store/apps/details?id=org.greengin.sciencetoolkit"
+               target="_blank">Sense-it</a>
+            Android app.</p>
+
+
+        <div data-ng-include="'partials/project/edit/senseit/project-edit-senseit-profile.html'"
+             data-ng-controller="ProjectEditSenseItProfileCtrl"></div>
+
+    </div>
+</div>
+
+

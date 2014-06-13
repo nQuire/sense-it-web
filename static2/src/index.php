@@ -78,6 +78,7 @@ ini_set('error_reporting', E_ALL);
     <script src="js/app/directives/youtube.js"></script>
     <script src="js/app/directives/profile-provider-item.js"></script>
     <script src="js/app/directives/user-block.js"></script>
+    <script src="js/app/directives/menu-item.js"></script>
 
     <script src="js/app/filters/uploaded-image-filter.js"></script>
     <script src="js/app/filters/fuzzy-date.js"></script>
@@ -93,6 +94,16 @@ ini_set('error_reporting', E_ALL);
     <script src="js/app/controllers/project/view/project-view-controller.js"></script>
     <script src="js/app/controllers/project/view/project-view-data-controller.js"></script>
     <script src="js/app/controllers/project/view/senseit/project-view-senseit-controller.js"></script>
+
+    <script src="js/app/controllers/project/admin/project-admin-controller.js"></script>
+
+    <script src="js/app/controllers/project/edit/project-edit-controller.js"></script>
+    <script src="js/app/controllers/project/edit/project-edit-description-controller.js"></script>
+
+    <script src="js/app/controllers/project/edit/senseit/project-edit-senseit-controller.js"></script>
+    <script src="js/app/controllers/project/edit/senseit/project-edit-senseit-profile-controller.js"></script>
+    <script src="js/app/controllers/project/edit/senseit/project-edit-senseit-sensor-controller.js"></script>
+    <script src="js/app/controllers/project/edit/senseit/project-edit-senseit-analysis-controller.js"></script>
 
 
 

@@ -1,4 +1,4 @@
-angular.module('senseItWeb', null, null).controller('ProjectEditMetadataCtrl', function ($scope, $state, ProjectService) {
+angular.module('senseItWeb', null, null).controller('ProjectEditDescriptionCtrl', function ($scope, $state, ProjectService) {
 
     $scope.metadataEdit = true;
 
@@ -12,23 +12,12 @@ angular.module('senseItWeb', null, null).controller('ProjectEditMetadataCtrl', f
         }
     };
 
-    $scope.addMetadataBlock = function (type) {
-        var block;
-        switch (type) {
-            case 'text':
-                block = {type: 'text', header: 'Title', content: 'Text'};
-                break;
-            case 'www':
-                block = {type: 'www', where: "Where?", who: "Who?", when: 'When?'};
-                break;
-            default:
-                block = null;
-        }
+    $scope.addMetadataBlock = function () {
+        var block = {title: 'Title', content: 'Content'};
+        $scope.projectData.project.description.blocks.push(block);
+        $scope.projectWatcher.saveMetadata();
 
-        if (block != null) {
-            $scope.projectData.project.description.blocks.push(block);
-            $scope.projectWatcher.saveMetadata();
-        }
+        $scope.form.open('block:' + ($scope.projectData.project.description.blocks.length - 1));
     };
 
     $scope.moveMetadataBlock = function (index, up) {
@@ -40,6 +29,11 @@ angular.module('senseItWeb', null, null).controller('ProjectEditMetadataCtrl', f
             blocks[index] = temp;
             $scope.projectWatcher.saveMetadata();
         }
+    };
+
+    $scope.deleteMetadataBlock = function (index) {
+        $scope.projectData.project.description.blocks.splice(index, 1);
+        $scope.projectWatcher.saveMetadata();
     };
 
     $scope.form = new SiwFormManager(function () {

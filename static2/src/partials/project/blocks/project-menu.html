@@ -1,0 +1,13 @@
+<span data-active-manager="projectMenu">
+    <span class="project-menu-main" data-ng-if="projectData.access.admin">
+        <span data-siw-menu-item data-linked-state="'project.view.home'" data-label="'Participant'"></span>
+        <span data-siw-menu-item data-linked-state="'project.admin'" data-label="'Admin'"></span>
+        <span data-siw-menu-item data-linked-state="'project.edit.home'" data-label="'Editor'"></span>
+    </span>
+    <span class="project-menu-main" data-ng-if="!projectData.access.admin">
+        <span class="project-menu-item">Mission description</span>
+    </span>
+
+    <span class="project-menu-sub" data-ng-if="templates.menu" data-ng-include="templates.menu"></span>
+
+</span>
