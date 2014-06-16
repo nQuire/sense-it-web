@@ -1,5 +1,6 @@
 @import "../variables/colors";
 
+@import "text-basic";
 
 @mixin pre {
   white-space: pre-wrap;       /* css-3 */
@@ -7,32 +8,6 @@
   white-space: -pre-wrap;      /* Opera 4-6 */
   white-space: -o-pre-wrap;    /* Opera 7 */
   word-wrap: break-word;       /* Internet Explorer 5.5+ */
-}
-
-@mixin text-regular {
- font-weight: 300;
-}
-
-@mixin text-italic {
-  font-weight: 300;
-  font-style: italic;
-}
-
-@mixin text-bold {
-  font-weight: 700;
-}
-
-@mixin text-semibold {
-  font-weight: 500;
-}
-
-@mixin text-semibold-italic {
-  font-weight: 500;
-  font-style: italic;
-}
-
-@mixin text-black {
-  font-weight: 900;
 }
 
 
@@ -163,4 +138,15 @@
 
 @mixin text-project-author {
   @include text-semibold;
+}
+
+
+@mixin text-project-create-type {
+  @include text-black;
+  font-size: 26px;
+}
+
+@mixin text-project-create-regular {
+  @include text-regular;
+  font-size: 14px;
 }

@@ -15,8 +15,7 @@ ini_set('error_reporting', E_ALL);
     <script type="text/javascript" src="//use.typekit.net/fnn6bbs.js"></script>
     <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 
-<!--    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600,700,800' rel='stylesheet' type='text/css'> -->
-    <link rel="stylesheet" href="css/font-awesome.css" type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Fira+Sans:400,500,700,400italic,500italic|Cabin:400,500,600,700,400italic,500italic|Ubuntu:400,500,700,400italic,500italic|Alegreya+Sans:400,500,700,900,400italic,500italic|Merriweather+Sans:400,400italic,700,700italic,800' rel='stylesheet' type='text/css'>    <link rel="stylesheet" href="css/font-awesome.css" type='text/css'>
     <link rel="stylesheet" href="css/nquire-it-bootstrap.css" type='text/css'>
 
     <script src="js/libs/jquery-2.1.0.min.js"></script>
@@ -69,8 +68,6 @@ ini_set('error_reporting', E_ALL);
 
 
     <script src="js/app/directives/back-image.js"></script>
-    <script src="js/app/directives/side-menu-button.js"></script>
-    <script src="js/app/directives/side-menu.js"></script>
     <script src="js/app/directives/vote-widget.js"></script>
     <script src="js/app/directives/file-select-widget.js"></script>
     <script src="js/app/directives/table-widget.js"></script>
@@ -89,6 +86,7 @@ ini_set('error_reporting', E_ALL);
     <script src="js/app/controllers/profile/profile-controller.js"></script>
 
     <script src="js/app/controllers/project-list/project-list-controller.js"></script>
+    <script src="js/app/controllers/project-list/create-controller.js"></script>
 
     <script src="js/app/controllers/project/project-controller.js"></script>
     <script src="js/app/controllers/project/view/project-view-controller.js"></script>

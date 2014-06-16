@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<div data-ng-if="projectData.ready && status.logged && projectData.access.admin">
+<div data-ng-if="projectData.ready && !projectData.project.open && status.logged && projectData.access.admin">
 
     <div data-ng-switch="projectData.project.type">
         <div data-ng-switch-when="senseit">

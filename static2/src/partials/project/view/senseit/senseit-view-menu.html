@@ -1,4 +1,6 @@
 <span data-ng-if="projectData.access.member">
-    <span class="project-menu-item">Data</span>
-    <span class="project-menu-item">Map</span>
+    <span data-siw-menu-item data-menu-linked-state="'project.view.home'" data-menu-label="'Home'"></span>
+    <span data-siw-menu-item data-menu-linked-state="'project.view.data-list'" data-menu-label="'Data'"></span>
+    <span data-ng-if="projectData.project.activity.profile.geolocated"
+            data-siw-menu-item data-menu-linked-state="'project.view.data-map'" data-menu-label="'Map'"></span>
 </span>

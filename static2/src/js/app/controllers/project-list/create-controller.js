@@ -1,5 +1,6 @@
 angular.module('senseItWeb', null, null).controller('CreateCtrl', function ($scope, ProjectService, $state) {
-    $scope.type = false;
+    $scope.type = null;
+
     $scope.createDisabled = true;
 
     $scope.select = function (type) {
@@ -7,8 +8,12 @@ angular.module('senseItWeb', null, null).controller('CreateCtrl', function ($sco
         $scope.createDisabled = false;
     };
 
-    $scope.selected = function (type) {
-        return type == $scope.type;
+    $scope.isShown= function (type) {
+        return !$scope.type || $scope.type == type;
+    };
+
+    $scope.cancel = function() {
+        $scope.type = null;
     };
 
     $scope.create = function () {

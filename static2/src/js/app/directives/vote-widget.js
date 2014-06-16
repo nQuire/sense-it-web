@@ -1,6 +1,6 @@
 angular.module('senseItWeb', null, null).directive('siwVoteWidget', function () {
     return {
-        templateUrl: 'partials/vote-widget.html',
+        templateUrl: 'partials/widgets/vote-widget.html',
         scope: {
             'voteManager': '=',
             'voteTarget': '='

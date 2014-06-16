@@ -1,5 +1,6 @@
 @import "../layout/profile";
 @import "../text/text-styles";
+@import "../variables/colors";
 
 
 @mixin comment-bottom-border {
@@ -12,7 +13,8 @@
 .comment-list-header {
   @include text-comment-list-header;
   @include comment-bottom-border;
-  text-align: center;
+
+  color: $color-orange;
 }
 
 .comment {

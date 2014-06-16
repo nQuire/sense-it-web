@@ -1,0 +1,28 @@
+$nquire-it-font: "Fira Sans";
+
+@mixin text-regular {
+  font-weight: 400;
+}
+
+@mixin text-italic {
+  font-weight: 400;
+  font-style: italic;
+}
+
+
+@mixin text-semibold {
+  font-weight: 500;
+}
+
+@mixin text-semibold-italic {
+  font-weight: 500;
+  font-style: italic;
+}
+
+
+@mixin text-bold {
+  font-weight: 700;
+}
+@mixin text-black {
+  font-weight: 700;
+}

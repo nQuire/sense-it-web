@@ -25,7 +25,7 @@
 
 <div data-ng-if="!form.isOpen()">
     <p>
-        Geolocated data: {{projectData.project.activity.profile.geolocated ? 'Yes' : 'No'}}
+        Geolocated data: <b>{{projectData.project.activity.profile.geolocated ? 'Yes' : 'No'}}</b>
         <button class="btn btn-default" data-ng-click="form.open()">Edit</button>
     </p>
 </div>

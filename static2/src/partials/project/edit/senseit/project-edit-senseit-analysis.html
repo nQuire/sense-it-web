@@ -4,11 +4,11 @@
 
     <!-- TRANSFORMATIONS -->
 
-    <h2 class="content-subhead">Data processing</h2>
+    <p class="project-section-content-header">Data processing</p>
 
     <ul class="siw-transformations">
         <li data-ng-repeat="variable in transformations.variables | orderBy:'weight'">
-            <span data-ng-if="txEdit.editable(variable)"><input type="text" data-ng-model="variable.tx.name"/></span>
+            <span data-ng-if="txEdit.editable(variable)"><input type="text" data-ng-model="variable.tx.name" /></span>
             <span data-ng-if="!txEdit.editable(variable)">{{variable.label()}}</span>
             <span data-ng-if="variable.editable">
                 : {{ variable.txLabel() }} (

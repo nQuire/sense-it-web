@@ -2,19 +2,20 @@
 
 
 <div data-ng-if="form.isOpen()">
-    <form role="form">
+    <form class="form-horizontal" role="form">
         <div class="form-group">
-            <label for="sensor">Sensor type:</label>
+            <label for="sensor">Sensor:</label>
             <select id="sensor" data-ng-model="form.values.sensor" class="form-control">
                 <option value="acc">Accelerometer</option>
                 <option value="snd">Sound</option>
             </select>
         </div>
         <div class="form-group">
-            <label for="rate">Sampling rate (samples/second)</label>
-            <input id="rate" type="number" step="any" placeholder="Sampling rate" data-ng-model="form.values.rate"/>
+            <label for="rate">Samples / second</label>
+            <input class="form-control" id="rate" type="number" step="any" placeholder="Sampling rate"
+                   data-ng-model="form.values.rate"/>
         </div>
-        <div class="btn-group">
+        <p class="btn-group">
 
             <button class="btn btn-default" data-ng-disabled="form.okButtonDisabled()"
                     data-ng-click="form.save()">
@@ -25,7 +26,7 @@
                     data-ng-click="form.cancel()">
                 Cancel
             </button>
-        </div>
+        </p>
     </form>
 </div>
 <div data-ng-if="!form.isOpen()">
@@ -33,9 +34,15 @@
         <button class="btn btn-default" data-ng-click="form.open()">Add sensor input</button>
     </div>
     <div data-ng-if="!isNew">
-        <p>Sensor: {{sensorInput.sensor}}</p>
+        <p>
+            Sensor:
+            <b><span data-ng-switch="sensorInput.sensor">
+                <span data-ng-switch-when="snd">Sound</span>
+                <span data-ng-switch-when="acc">Acceleration</span>
+            </span>
+            </b> ({{sensorInput.rate}} samples/second).
+        </p>
 
-        <p>Sampling rate: {{sensorInput.rate}} samples/second</p>
         <button class="btn btn-default" data-ng-click="form.open()">Edit</button>
         <button class="btn btn-default" data-ng-click="deleteInput()">Delete sensor
             input

@@ -48,7 +48,7 @@ angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'senseItServices'], nul
         })
         .state('project.admin', {
             url: '/admin',
-            templateUrl: 'partials/project/admin/project-admin.html',
+            templateUrl: 'partials/project/admin/project-admin-page.html',
             controller: 'ProjectAdminCtrl'
         })
         .state('project.edit', {

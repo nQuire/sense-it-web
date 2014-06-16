@@ -1,0 +1,27 @@
+$nquire-it-font: "museo-sans";
+
+@mixin text-regular {
+  font-weight: 300;
+}
+
+@mixin text-italic {
+  font-weight: 300;
+  font-style: italic;
+}
+
+@mixin text-bold {
+  font-weight: 700;
+}
+
+@mixin text-semibold {
+  font-weight: 500;
+}
+
+@mixin text-semibold-italic {
+  font-weight: 500;
+  font-style: italic;
+}
+
+@mixin text-black {
+  font-weight: 900;
+}

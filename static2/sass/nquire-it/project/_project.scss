@@ -39,6 +39,22 @@
 
       background: $color-project-list-item-background;
 
+      .project-section-content-header {
+        @include text-project-title;
+        margin-top: $dim-common-small-margin;
+      }
+
+      .project-section-content-block-title {
+        @include text-project-subtitle;
+        margin-bottom: 0px;
+
+      }
+
+      .project-section-content-block-content {
+        @include text-project-normal;
+        @include pre;
+      }
+
       .project-section-description-column {
         @extend .col-xs-4;
         padding: 0px;
@@ -88,23 +104,10 @@
 
       .project-section-content-column {
         @extend .col-xs-8;
+      }
 
-        .project-section-content-header {
-          @include text-project-title;
-          margin-top: $dim-common-small-margin;
-        }
-
-        .project-section-content-block-title {
-          @include text-project-subtitle;
-          margin-bottom: 0px;
-
-        }
-
-        .project-section-content-block-content {
-          @include text-project-normal;
-          @include pre;
-        }
-
+      .project-section-content-fill {
+        padding: 0px $dim-common-small-margin 0px $dim-common-margin;
       }
     }
   }
@@ -123,7 +126,7 @@
 
   .project-section-content-header,
   .project-section-content-block-title,
-  .project-section-description-text-mission  {
+  .project-section-description-text-mission {
     color: $type-color;
   }
 }

@@ -10528,6 +10528,29 @@ div#header {
 .project-item.project-type-spotit .project-item-banner {
   background: #9fa609; }
 
+i.vote-icon {
+  margin: 0 .25em;
+  padding: .25em;
+  border-radius: .25em; }
+
+i.vote-icon.enabled {
+  cursor: pointer; }
+
+i.vote-icon {
+  color: #666;
+  background: transparent; }
+
+i.vote-icon.selected {
+  background: #519251;
+  color: white; }
+
+i.vote-icon.not-selected {
+  color: #aaa; }
+
+i.vote-icon.enabled:hover {
+  background: #519251;
+  color: #aaa; }
+
 .content-no-sidebar {
   margin: 0px; }
 
@@ -10585,6 +10608,27 @@ div#header {
 .project-main-container .project-section .project-section-content {
   margin: 0px;
   background: #f6f5f5; }
+  .project-main-container .project-section .project-section-content .project-section-content-header {
+    font-weight: 900;
+    font-size: 20px;
+    margin-top: 10px; }
+  .project-main-container .project-section .project-section-content .project-section-content-block-title {
+    font-weight: 900;
+    font-size: 16px;
+    margin-bottom: 0px; }
+  .project-main-container .project-section .project-section-content .project-section-content-block-content {
+    font-weight: 300;
+    color: #444444;
+    white-space: pre-wrap;
+    /* css-3 */
+    white-space: -moz-pre-wrap;
+    /* Mozilla, since 1999 */
+    white-space: -pre-wrap;
+    /* Opera 4-6 */
+    white-space: -o-pre-wrap;
+    /* Opera 7 */
+    word-wrap: break-word;
+    /* Internet Explorer 5.5+ */ }
   .project-main-container .project-section .project-section-content .project-section-description-column {
     padding: 0px; }
     .project-main-container .project-section .project-section-content .project-section-description-column .project-section-description-image {
@@ -10632,27 +10676,8 @@ div#header {
           bottom: 0px; }
     .project-main-container .project-section .project-section-content .project-section-description-column .project-section-description-join-leave {
       padding: 10px 5px; }
-  .project-main-container .project-section .project-section-content .project-section-content-column .project-section-content-header {
-    font-weight: 900;
-    font-size: 20px;
-    margin-top: 10px; }
-  .project-main-container .project-section .project-section-content .project-section-content-column .project-section-content-block-title {
-    font-weight: 900;
-    font-size: 16px;
-    margin-bottom: 0px; }
-  .project-main-container .project-section .project-section-content .project-section-content-column .project-section-content-block-content {
-    font-weight: 300;
-    color: #444444;
-    white-space: pre-wrap;
-    /* css-3 */
-    white-space: -moz-pre-wrap;
-    /* Mozilla, since 1999 */
-    white-space: -pre-wrap;
-    /* Opera 4-6 */
-    white-space: -o-pre-wrap;
-    /* Opera 7 */
-    word-wrap: break-word;
-    /* Internet Explorer 5.5+ */ }
+  .project-main-container .project-section .project-section-content .project-section-content-fill {
+    padding: 0px 10px 0px 20px; }
 
 .project-main-container.project-type-senseit .project-section-header {
   background: #079ccb; }
@@ -10690,7 +10715,7 @@ div#header {
   padding-bottom: 10px;
   margin-bottom: 10px;
   border-bottom: solid #aaaaaa 1px;
-  text-align: center; }
+  color: #f39a19; }
 
 .comment {
   padding-bottom: 10px;
@@ -10716,3 +10741,117 @@ div#header {
     font-size: 14px;
     color: #444444;
     margin-bottom: 10px; }
+
+.project-create-type-senseit {
+  position: relative;
+  height: 154px;
+  margin-bottom: 20px; }
+  .project-create-type-senseit .project-create-type-image {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 230px;
+    background: url("images/create-type-senseit.png") no-repeat center; }
+  .project-create-type-senseit .project-create-type-info {
+    background: #f6f5f5;
+    position: relative;
+    font-weight: 300;
+    font-size: 14px;
+    color: #444444;
+    height: 100%;
+    margin-left: 230px;
+    padding: 0px 10px 24px 10px; }
+    .project-create-type-senseit .project-create-type-info .project-create-type-info-header {
+      font-weight: 900;
+      font-size: 26px;
+      color: #079ccb; }
+    .project-create-type-senseit .project-create-type-info .project-create-type {
+      color: #079ccb;
+      font-weight: bold; }
+    .project-create-type-senseit .project-create-type-info .project-create-type-banner {
+      position: absolute;
+      height: 24px;
+      line-height: 24px;
+      color: white;
+      background: #079ccb;
+      padding-left: 10px;
+      width: 100%;
+      left: 0px;
+      bottom: 0px; }
+
+.project-create-type-challenge {
+  position: relative;
+  height: 154px;
+  margin-bottom: 20px; }
+  .project-create-type-challenge .project-create-type-image {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 230px;
+    background: url("images/create-type-winit.png") no-repeat center; }
+  .project-create-type-challenge .project-create-type-info {
+    background: #f6f5f5;
+    position: relative;
+    font-weight: 300;
+    font-size: 14px;
+    color: #444444;
+    height: 100%;
+    margin-left: 230px;
+    padding: 0px 10px 24px 10px; }
+    .project-create-type-challenge .project-create-type-info .project-create-type-info-header {
+      font-weight: 900;
+      font-size: 26px;
+      color: #c4388a; }
+    .project-create-type-challenge .project-create-type-info .project-create-type {
+      color: #c4388a;
+      font-weight: bold; }
+    .project-create-type-challenge .project-create-type-info .project-create-type-banner {
+      position: absolute;
+      height: 24px;
+      line-height: 24px;
+      color: white;
+      background: #c4388a;
+      padding-left: 10px;
+      width: 100%;
+      left: 0px;
+      bottom: 0px; }
+
+.project-create-type-spotit {
+  position: relative;
+  height: 154px;
+  margin-bottom: 20px; }
+  .project-create-type-spotit .project-create-type-image {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 230px;
+    background: url("images/create-type-spotit.png") no-repeat center; }
+  .project-create-type-spotit .project-create-type-info {
+    background: #f6f5f5;
+    position: relative;
+    font-weight: 300;
+    font-size: 14px;
+    color: #444444;
+    height: 100%;
+    margin-left: 230px;
+    padding: 0px 10px 24px 10px; }
+    .project-create-type-spotit .project-create-type-info .project-create-type-info-header {
+      font-weight: 900;
+      font-size: 26px;
+      color: #9fa609; }
+    .project-create-type-spotit .project-create-type-info .project-create-type {
+      color: #9fa609;
+      font-weight: bold; }
+    .project-create-type-spotit .project-create-type-info .project-create-type-banner {
+      position: absolute;
+      height: 24px;
+      line-height: 24px;
+      color: white;
+      background: #9fa609;
+      padding-left: 10px;
+      width: 100%;
+      left: 0px;
+      bottom: 0px; }
