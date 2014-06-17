@@ -3,16 +3,18 @@
 
 <div data-ng-if="connectionExists">
     <p>
-        {{providerName}}: <a href="{{profileUrl}}" target="_blank">{{profileUrl}}</a>
-        <button class="pure-button pure-button-primary pure-button-xsmall" data-ng-click="deleteConnection(providerId)">
-            Delete {{providerName}} connection
+        <img src="" data-ng-src="media/{{providerId}}.png" />
+        <a href="{{profileUrl}}" target="_blank">{{providerName}}</a>
+        <button class="btn btn-default" data-ng-click="deleteConnection(providerId)">
+            Unlink {{providerName}} account
         </button>
     </p>
 </div>
 <div data-ng-if="!connectionExists">
     <p>
-        {{providerName}}: No connection for provider {{providerName}}.
-        <button class="pure-button pure-button-primary pure-button-xsmall" data-ng-click="providerLogin(providerId)">Link with
+        <img src="" data-ng-src="media/{{providerId}}.png" />
+        {{providerName}}:
+        <button class="btn btn-default" data-ng-click="providerLogin(providerId)">Link with
             {{providerName}}
         </button>
     </p>

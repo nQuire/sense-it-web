@@ -228,8 +228,8 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
         watchProject: function (scope, projectId, callback) {
             scope.projectWatcher = new ProjectWatcher(scope, projectId, callback || null);
         },
-        createProject: function (type) {
-            return utils.projectsRequest('post', false, {type: type});
+        createProject: function (type, title) {
+            return utils.projectsRequest('post', false, {type: type, title: title});
         }
     };
 

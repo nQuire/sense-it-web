@@ -1,0 +1,39 @@
+<div class="profile-logged-out">
+
+    <div class="profile-logged-out-form-container">
+        <p>Sign in with your username and password: </p>
+
+        <form class="form-inline" role="form">
+            <div class="form-group">
+                <label for="login_username">Username:</label>
+                <input id="login_username" type="text" class="form-control"
+                       data-ng-model="login.editing.username"/>
+                <span data-ng-if="login.error.username"
+                      class="profile-login-username-error">{{login.error.username}}</span>
+            </div>
+
+            <div class="form-group">
+                <label for="login_password">Password:</label>
+                <input id="login_password" type="password" class="form-control"
+                       data-ng-model="login.editing.password"/>
+                <span data-ng-if="login.error.password"
+                      class="profile-login-password-error">{{login.error.password}}</span>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-default" data-ng-click="login.submit()">
+                    Sign in
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="profile-logged-out-form-container">
+        <p>... or using one of the following identity providers:</p>
+        <p>
+            <img class="identity-provider" data-ng-click="providerLogin('google')" src="media/sign-in-with-google.png"/>
+            <img class="identity-provider" data-ng-click="providerLogin('facebook')" src="media/facebook-login-button.png"/>
+            <img class="identity-provider" data-ng-click="providerLogin('twitter')" src="media/TwitterLogin.png"/>
+        </p>
+    </div>
+</div>

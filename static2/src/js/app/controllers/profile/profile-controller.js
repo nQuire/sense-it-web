@@ -1,8 +1,11 @@
 angular.module('senseItWeb', null, null).controller('ProfileCtrl', function ($scope, $window, OpenIdService) {
 
     $scope.form = new SiwFormManager(function () {
+            if ($scope.status.profile.metadata === null) {
+                $scope.status.profile.metadata = {};
+            }
             return $scope.status.profile;
-        }, [ 'username' ], function () {
+        }, [ 'username', 'metadata' ], function () {
             $scope.status.newUser = false;
             $scope.openIdService.saveProfile().then(function (data) {
                 $scope.formError = data.responses.username || null;
@@ -15,9 +18,9 @@ angular.module('senseItWeb', null, null).controller('ProfileCtrl', function ($sc
         }
     );
 
-    $scope.imageForm = new SiwFormManager(function() {
+    $scope.imageForm = new SiwFormManager(function () {
         return $scope.status.profile;
-    }, [], function() {
+    }, [], function () {
         $scope.openIdService.saveProfileImage($scope.imageForm.files);
     });
 

@@ -1,13 +1,17 @@
 package org.greengin.nquireit.entities.users;
 
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import org.greengin.nquireit.entities.AbstractEntity;
+import org.greengin.nquireit.utils.TimeValue;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Vector;
 
 @Entity
 public class UserProfile extends AbstractEntity implements UserDetails {
@@ -24,6 +28,11 @@ public class UserProfile extends AbstractEntity implements UserDetails {
     @Getter
     @Setter
     String image;
+
+    @Lob
+    @Getter
+    @Setter
+    HashMap<String, String> metadata = new HashMap<String, String>();
 
     @Override
     public List<? extends GrantedAuthority> getAuthorities() {

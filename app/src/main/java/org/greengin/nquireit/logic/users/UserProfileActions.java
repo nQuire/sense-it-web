@@ -9,6 +9,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class UserProfileActions extends AbstractContentManager {
 
@@ -49,28 +51,46 @@ public class UserProfileActions extends AbstractContentManager {
     }
 
     public boolean updateProfile(StatusResponse currentStatus, ProfileRequest data) {
-        if (user != null && loggedWithToken && currentStatus.getProfile() != null && data.getUsername() != null) {
+        if (user != null && loggedWithToken && currentStatus.getProfile() != null && user.getId().equals(currentStatus.getProfile().getId())) {
 
-            if (!data.getUsername().equals(currentStatus.getProfile().getUsername())) {
+            if (data.getUsername() != null) {
+                if (!data.getUsername().equals(currentStatus.getProfile().getUsername())) {
 
-                if (data.getUsername().length() == 0) {
-                    currentStatus.getResponses().put("username", "username_empty");
-                } else if (!context.getUsersManager().usernameIsAvailable(data.getUsername())) {
-                    currentStatus.getResponses().put("username", "username_not_available");
-                } else {
-                    EntityManager em = context.createEntityManager();
+                    if (data.getUsername().length() == 0) {
+                        currentStatus.getResponses().put("username", "username_empty");
+                    } else if (!context.getUsersManager().usernameIsAvailable(data.getUsername())) {
+                        currentStatus.getResponses().put("username", "username_not_available");
+                    } else {
+                        EntityManager em = context.createEntityManager();
 
-                    em.getTransaction().begin();
+                        em.getTransaction().begin();
 
-                    Query query = em.createNativeQuery(UPDATE_USER_CONNECTIONS);
-                    query.setParameter(1, data.getUsername());
-                    query.setParameter(2, currentStatus.getProfile().getUsername());
-                    query.executeUpdate();
+                        Query query = em.createNativeQuery(UPDATE_USER_CONNECTIONS);
+                        query.setParameter(1, data.getUsername());
+                        query.setParameter(2, currentStatus.getProfile().getUsername());
+                        query.executeUpdate();
 
-                    currentStatus.getProfile().setUsername(data.getUsername());
+                        currentStatus.getProfile().setUsername(data.getUsername());
 
-                    em.getTransaction().commit();
+                        em.getTransaction().commit();
+                    }
                 }
+            }
+
+            if (data.getMetadata() != null) {
+                EntityManager em = context.createEntityManager();
+                em.getTransaction().begin();
+
+                HashMap<String, String> metadata = currentStatus.getProfile().getMetadata();
+                if (metadata == null) {
+                    metadata = new HashMap<String, String>();
+                }
+
+                metadata.putAll(data.getMetadata());
+
+                currentStatus.getProfile().setMetadata(metadata);
+
+                em.getTransaction().commit();
             }
 
             return true;

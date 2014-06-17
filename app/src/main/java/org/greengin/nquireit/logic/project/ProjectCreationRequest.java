@@ -13,8 +13,13 @@ public class ProjectCreationRequest {
     @Setter
     ProjectType type;
 
+    @Getter
+    @Setter
+    String title;
+
     public void initProject(Project project) {
         project.setType(type);
+        project.setTitle(title);
 
         switch (type) {
             case CHALLENGE:

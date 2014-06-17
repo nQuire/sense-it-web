@@ -1,16 +1,13 @@
 @import "../variables/colors";
-
 @import "text-basic";
 
 @mixin pre {
-  white-space: pre-wrap;       /* css-3 */
-  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
-  white-space: -pre-wrap;      /* Opera 4-6 */
-  white-space: -o-pre-wrap;    /* Opera 7 */
-  word-wrap: break-word;       /* Internet Explorer 5.5+ */
+  white-space: pre-wrap; /* css-3 */
+  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  word-wrap: break-word; /* Internet Explorer 5.5+ */
 }
-
-
 
 @mixin text-subtitle {
   @include text-italic;
@@ -33,7 +30,6 @@
   color: $color-dark-grey;
 }
 
-
 @mixin text-sidebar-mission-type {
   @include text-black;
 
@@ -46,7 +42,6 @@
   font-size: 14px;
   color: $color-dark-grey;
 }
-
 
 @mixin text-project-list-item-type {
   @include text-black;
@@ -85,7 +80,6 @@
   font-size: 14px;
 }
 
-
 @mixin text-project-menu-item {
   @include text-regular;
   font-size: 14px;
@@ -116,7 +110,6 @@
   color: $color-dark-grey;
 }
 
-
 @mixin text-project-title {
   @include text-black;
   font-size: 20px;
@@ -140,7 +133,6 @@
   @include text-semibold;
 }
 
-
 @mixin text-project-create-type {
   @include text-black;
   font-size: 26px;
@@ -150,3 +142,21 @@
   @include text-regular;
   font-size: 14px;
 }
+
+@mixin text-profile-title {
+  @include text-black;
+  font-size: 20px;
+  color: $color-orange;
+}
+
+@mixin text-profile-data-label {
+  @include text-bold;
+  font-size: 14px;
+}
+
+@mixin text-profile-data-value {
+  @include text-regular;
+  font-size: 14px;
+}
+
+

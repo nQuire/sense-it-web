@@ -1,6 +1,6 @@
-
 @import "../variables/dimensions";
 @import "../variables/colors";
+@import "../text/text-styles";
 
 .profile-image {
   width: $dim-profile-image-size;
@@ -11,3 +11,84 @@
   display: inline-block;
 }
 
+.profile-header {
+  height: $dim-profile-header-height;
+  line-height: $dim-profile-header-height;
+  color: white;
+  background: $color-dark-grey;
+  padding-left: $dim-common-small-margin;
+
+}
+
+.profile-page {
+  @extend .row;
+  margin: 0px;
+
+  background: $color-project-list-item-background;
+
+  .profile-logged-in-left-section,
+  .profile-logged-in-right-section,
+  .profile-logged-out {
+    padding: $dim-common-small-margin;
+  }
+
+  .profile-logged-out {
+    @extend .col-xs-12;
+
+    .profile-logged-out-form-container {
+      margin-bottom: $dim-common-margin;
+
+      img.identity-provider {
+        height: 30px;
+        cursor: pointer;
+      }
+    }
+
+  }
+
+  .profile-logged-in-left-section {
+    @extend .col-xs-4;
+    color: $color-dark-grey;
+  }
+
+  .profile-logged-in-right-section {
+    @extend .col-xs-8;
+
+    .profile-logged-in-right-section-header {
+      @include text-profile-title;
+      margin-bottom: $dim-common-small-margin;
+
+      button {
+        float: right;
+      }
+    }
+
+    .profile-logged-in-right-section-data-label {
+      @include text-profile-data-label;
+    }
+    .profile-logged-in-right-section-data-value {
+      @include text-profile-data-value;
+    }
+
+    .profile-logged-in-right-section-data {
+      min-height: $dim-profile-data-height;
+      margin-bottom: $dim-common-small-margin;
+      span {
+        line-height: $dim-profile-data-height;
+      }
+    }
+
+    .profile-logged-in-right-section-linked-accounts {
+      margin-top: $dim-common-margin;
+      > p {
+        @include text-profile-data-label;
+        color: $color-orange;
+      }
+
+      img {
+        height: 30px;
+      }
+    }
+  }
+
+}

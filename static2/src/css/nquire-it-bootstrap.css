@@ -263,7 +263,7 @@ html {
   -webkit-tap-highlight-color: transparent; }
 
 body {
-  font-family: "museo-sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Ubuntu", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.42857;
   color: #333333;
@@ -698,22 +698,22 @@ pre {
   .container-fluid:after, .content-sidebar:after, .project-main-container .project-section:after {
     clear: both; }
 
-.row, .project-main-container .project-section .project-section-header, .project-main-container .project-section .project-section-content {
+.row, .profile-page, .project-main-container .project-section .project-section-header, .project-main-container .project-section .project-section-content {
   margin-left: -15px;
   margin-right: -15px; }
-  .row:before, .project-main-container .project-section .project-section-header:before, .project-main-container .project-section .project-section-content:before, .row:after, .project-main-container .project-section .project-section-header:after, .project-main-container .project-section .project-section-content:after {
+  .row:before, .profile-page:before, .project-main-container .project-section .project-section-header:before, .project-main-container .project-section .project-section-content:before, .row:after, .profile-page:after, .project-main-container .project-section .project-section-header:after, .project-main-container .project-section .project-section-content:after {
     content: " ";
     display: table; }
-  .row:after, .project-main-container .project-section .project-section-header:after, .project-main-container .project-section .project-section-content:after {
+  .row:after, .profile-page:after, .project-main-container .project-section .project-section-header:after, .project-main-container .project-section .project-section-content:after {
     clear: both; }
 
-.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .project-main-container .project-section .project-section-header .project-menu-main, .project-main-container .project-section .project-section-content .project-section-description-column, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .project-main-container .project-section .project-section-header .project-menu-sub, .project-main-container .project-section .project-section-content .project-section-content-column, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .profile-page .profile-logged-in-left-section, .project-main-container .project-section .project-section-header .project-menu-main, .project-main-container .project-section .project-section-content .project-section-description-column, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .profile-page .profile-logged-in-right-section, .project-main-container .project-section .project-section-header .project-menu-sub, .project-main-container .project-section .project-section-content .project-section-content-column, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .profile-page .profile-logged-out, .col-sm-12, .col-md-12, .col-lg-12 {
   position: relative;
   min-height: 1px;
   padding-left: 15px;
   padding-right: 15px; }
 
-.col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .project-main-container .project-section .project-section-header .project-menu-main, .project-main-container .project-section .project-section-content .project-section-description-column, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .project-main-container .project-section .project-section-header .project-menu-sub, .project-main-container .project-section .project-section-content .project-section-content-column, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12 {
+.col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .profile-page .profile-logged-in-left-section, .project-main-container .project-section .project-section-header .project-menu-main, .project-main-container .project-section .project-section-content .project-section-description-column, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .profile-page .profile-logged-in-right-section, .project-main-container .project-section .project-section-header .project-menu-sub, .project-main-container .project-section .project-section-content .project-section-content-column, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12, .profile-page .profile-logged-out {
   float: left; }
 
 .col-xs-1 {
@@ -725,7 +725,7 @@ pre {
 .col-xs-3 {
   width: 25%; }
 
-.col-xs-4, .project-main-container .project-section .project-section-header .project-menu-main, .project-main-container .project-section .project-section-content .project-section-description-column {
+.col-xs-4, .profile-page .profile-logged-in-left-section, .project-main-container .project-section .project-section-header .project-menu-main, .project-main-container .project-section .project-section-content .project-section-description-column {
   width: 33.33333%; }
 
 .col-xs-5 {
@@ -737,7 +737,7 @@ pre {
 .col-xs-7 {
   width: 58.33333%; }
 
-.col-xs-8, .project-main-container .project-section .project-section-header .project-menu-sub, .project-main-container .project-section .project-section-content .project-section-content-column {
+.col-xs-8, .profile-page .profile-logged-in-right-section, .project-main-container .project-section .project-section-header .project-menu-sub, .project-main-container .project-section .project-section-content .project-section-content-column {
   width: 66.66667%; }
 
 .col-xs-9 {
@@ -749,7 +749,7 @@ pre {
 .col-xs-11 {
   width: 91.66667%; }
 
-.col-xs-12 {
+.col-xs-12, .profile-page .profile-logged-out {
   width: 100%; }
 
 .col-xs-pull-0 {
@@ -5597,7 +5597,7 @@ html {
   -webkit-tap-highlight-color: transparent; }
 
 body {
-  font-family: "museo-sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Ubuntu", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.42857;
   color: #333333;
@@ -6032,22 +6032,22 @@ pre {
   .container-fluid:after, .content-sidebar:after, .project-main-container .project-section:after {
     clear: both; }
 
-.row, .project-main-container .project-section .project-section-header, .project-main-container .project-section .project-section-content {
+.row, .profile-page, .project-main-container .project-section .project-section-header, .project-main-container .project-section .project-section-content {
   margin-left: -15px;
   margin-right: -15px; }
-  .row:before, .project-main-container .project-section .project-section-header:before, .project-main-container .project-section .project-section-content:before, .row:after, .project-main-container .project-section .project-section-header:after, .project-main-container .project-section .project-section-content:after {
+  .row:before, .profile-page:before, .project-main-container .project-section .project-section-header:before, .project-main-container .project-section .project-section-content:before, .row:after, .profile-page:after, .project-main-container .project-section .project-section-header:after, .project-main-container .project-section .project-section-content:after {
     content: " ";
     display: table; }
-  .row:after, .project-main-container .project-section .project-section-header:after, .project-main-container .project-section .project-section-content:after {
+  .row:after, .profile-page:after, .project-main-container .project-section .project-section-header:after, .project-main-container .project-section .project-section-content:after {
     clear: both; }
 
-.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .project-main-container .project-section .project-section-header .project-menu-main, .project-main-container .project-section .project-section-content .project-section-description-column, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .project-main-container .project-section .project-section-header .project-menu-sub, .project-main-container .project-section .project-section-content .project-section-content-column, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .profile-page .profile-logged-in-left-section, .project-main-container .project-section .project-section-header .project-menu-main, .project-main-container .project-section .project-section-content .project-section-description-column, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .profile-page .profile-logged-in-right-section, .project-main-container .project-section .project-section-header .project-menu-sub, .project-main-container .project-section .project-section-content .project-section-content-column, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .profile-page .profile-logged-out, .col-sm-12, .col-md-12, .col-lg-12 {
   position: relative;
   min-height: 1px;
   padding-left: 15px;
   padding-right: 15px; }
 
-.col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .project-main-container .project-section .project-section-header .project-menu-main, .project-main-container .project-section .project-section-content .project-section-description-column, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .project-main-container .project-section .project-section-header .project-menu-sub, .project-main-container .project-section .project-section-content .project-section-content-column, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12 {
+.col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .profile-page .profile-logged-in-left-section, .project-main-container .project-section .project-section-header .project-menu-main, .project-main-container .project-section .project-section-content .project-section-description-column, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .profile-page .profile-logged-in-right-section, .project-main-container .project-section .project-section-header .project-menu-sub, .project-main-container .project-section .project-section-content .project-section-content-column, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12, .profile-page .profile-logged-out {
   float: left; }
 
 .col-xs-1 {
@@ -6059,7 +6059,7 @@ pre {
 .col-xs-3 {
   width: 25%; }
 
-.col-xs-4, .project-main-container .project-section .project-section-header .project-menu-main, .project-main-container .project-section .project-section-content .project-section-description-column {
+.col-xs-4, .profile-page .profile-logged-in-left-section, .project-main-container .project-section .project-section-header .project-menu-main, .project-main-container .project-section .project-section-content .project-section-description-column {
   width: 33.33333%; }
 
 .col-xs-5 {
@@ -6071,7 +6071,7 @@ pre {
 .col-xs-7 {
   width: 58.33333%; }
 
-.col-xs-8, .project-main-container .project-section .project-section-header .project-menu-sub, .project-main-container .project-section .project-section-content .project-section-content-column {
+.col-xs-8, .profile-page .profile-logged-in-right-section, .project-main-container .project-section .project-section-header .project-menu-sub, .project-main-container .project-section .project-section-content .project-section-content-column {
   width: 66.66667%; }
 
 .col-xs-9 {
@@ -6083,7 +6083,7 @@ pre {
 .col-xs-11 {
   width: 91.66667%; }
 
-.col-xs-12 {
+.col-xs-12, .profile-page .profile-logged-out {
   width: 100%; }
 
 .col-xs-pull-0 {
@@ -10385,15 +10385,15 @@ html {
     list-style-image: url(images/bullet.png);
     margin-left: -1.5em; }
     .sidebar-right ul > li .sidebar-type-senseit, .project-main-container .project-comments-section ul > li .sidebar-type-senseit {
-      font-weight: 900;
+      font-weight: 700;
       font-size: 16px;
       color: #079ccb; }
     .sidebar-right ul > li .sidebar-type-spotit, .project-main-container .project-comments-section ul > li .sidebar-type-spotit {
-      font-weight: 900;
+      font-weight: 700;
       font-size: 16px;
       color: #9fa609; }
     .sidebar-right ul > li .sidebar-type-winit, .project-main-container .project-comments-section ul > li .sidebar-type-winit {
-      font-weight: 900;
+      font-weight: 700;
       font-size: 16px;
       color: #c4388a; }
 
@@ -10409,7 +10409,7 @@ div#header {
       position: absolute;
       top: 42px; }
       div#header div#header-content div#logo-container p {
-        font-weight: 300;
+        font-weight: 400;
         font-style: italic;
         font-size: 24px;
         margin-top: 10px;
@@ -10441,7 +10441,7 @@ div#header {
         right: 0px;
         top: 38px; }
         div#header div#header-content div#header-right-panel div#header-profile-panel div#header-profile-username-block {
-          font-weight: 300;
+          font-weight: 400;
           font-style: italic;
           font-size: 14px;
           color: #444444;
@@ -10454,6 +10454,54 @@ div#header {
   border: solid 2px #f39a19;
   background: white;
   display: inline-block; }
+
+.profile-header {
+  height: 24px;
+  line-height: 24px;
+  color: white;
+  background: #444444;
+  padding-left: 10px; }
+
+.profile-page {
+  margin: 0px;
+  background: #f6f5f5; }
+  .profile-page .profile-logged-in-left-section,
+  .profile-page .profile-logged-in-right-section,
+  .profile-page .profile-logged-out {
+    padding: 10px; }
+  .profile-page .profile-logged-out .profile-logged-out-form-container {
+    margin-bottom: 20px; }
+    .profile-page .profile-logged-out .profile-logged-out-form-container img.identity-provider {
+      height: 30px;
+      cursor: pointer; }
+  .profile-page .profile-logged-in-left-section {
+    color: #444444; }
+  .profile-page .profile-logged-in-right-section .profile-logged-in-right-section-header {
+    font-weight: 700;
+    font-size: 20px;
+    color: #f39a19;
+    margin-bottom: 10px; }
+    .profile-page .profile-logged-in-right-section .profile-logged-in-right-section-header button {
+      float: right; }
+  .profile-page .profile-logged-in-right-section .profile-logged-in-right-section-data-label {
+    font-weight: 700;
+    font-size: 14px; }
+  .profile-page .profile-logged-in-right-section .profile-logged-in-right-section-data-value {
+    font-weight: 400;
+    font-size: 14px; }
+  .profile-page .profile-logged-in-right-section .profile-logged-in-right-section-data {
+    min-height: 34px;
+    margin-bottom: 10px; }
+    .profile-page .profile-logged-in-right-section .profile-logged-in-right-section-data span {
+      line-height: 34px; }
+  .profile-page .profile-logged-in-right-section .profile-logged-in-right-section-linked-accounts {
+    margin-top: 20px; }
+    .profile-page .profile-logged-in-right-section .profile-logged-in-right-section-linked-accounts > p {
+      font-weight: 700;
+      font-size: 14px;
+      color: #f39a19; }
+    .profile-page .profile-logged-in-right-section .profile-logged-in-right-section-linked-accounts img {
+      height: 30px; }
 
 .project-item {
   margin-bottom: 30px; }
@@ -10484,7 +10532,7 @@ div#header {
     background: #f6f5f5;
     padding: 0px 10px; }
     .project-item .project-item-text-container .project-item-type {
-      font-weight: 900;
+      font-weight: 700;
       color: #444444;
       font-size: 24px;
       text-align: center; }
@@ -10493,16 +10541,16 @@ div#header {
       color: #444444;
       font-size: 16px; }
     .project-item .project-item-text-container .project-item-teaser {
-      font-weight: 300;
+      font-weight: 400;
       color: #444444;
       font-size: 14px; }
     .project-item .project-item-text-container .project-item-author {
-      font-weight: 300;
+      font-weight: 400;
       font-style: italic;
       color: #444444;
       font-size: 14px; }
   .project-item .project-item-banner {
-    font-weight: 300;
+    font-weight: 400;
     color: white;
     font-size: 14px;
     line-height: 24px;
@@ -10580,15 +10628,15 @@ i.vote-icon.enabled:hover {
     list-style-image: url(images/bullet.png);
     margin-left: -1.5em; }
     .sidebar-right ul > li .sidebar-type-senseit, .project-main-container .project-comments-section ul > li .sidebar-type-senseit {
-      font-weight: 900;
+      font-weight: 700;
       font-size: 16px;
       color: #079ccb; }
     .sidebar-right ul > li .sidebar-type-spotit, .project-main-container .project-comments-section ul > li .sidebar-type-spotit {
-      font-weight: 900;
+      font-weight: 700;
       font-size: 16px;
       color: #9fa609; }
     .sidebar-right ul > li .sidebar-type-winit, .project-main-container .project-comments-section ul > li .sidebar-type-winit {
-      font-weight: 900;
+      font-weight: 700;
       font-size: 16px;
       color: #c4388a; }
 
@@ -10597,7 +10645,7 @@ i.vote-icon.enabled:hover {
   height: 26px;
   line-height: 26px; }
   .project-main-container .project-section .project-section-header .project-menu-item {
-    font-weight: 300;
+    font-weight: 400;
     font-size: 14px;
     color: white;
     margin-right: 20px; }
@@ -10609,15 +10657,15 @@ i.vote-icon.enabled:hover {
   margin: 0px;
   background: #f6f5f5; }
   .project-main-container .project-section .project-section-content .project-section-content-header {
-    font-weight: 900;
+    font-weight: 700;
     font-size: 20px;
     margin-top: 10px; }
   .project-main-container .project-section .project-section-content .project-section-content-block-title {
-    font-weight: 900;
+    font-weight: 700;
     font-size: 16px;
     margin-bottom: 0px; }
   .project-main-container .project-section .project-section-content .project-section-content-block-content {
-    font-weight: 300;
+    font-weight: 400;
     color: #444444;
     white-space: pre-wrap;
     /* css-3 */
@@ -10653,11 +10701,11 @@ i.vote-icon.enabled:hover {
         padding-top: 47.5%;
         /* % of original image width */ }
     .project-main-container .project-section .project-section-content .project-section-description-column .project-section-description-text-title {
-      font-weight: 900;
+      font-weight: 700;
       font-size: 16px;
       padding-top: 5px; }
     .project-main-container .project-section .project-section-content .project-section-description-column .project-section-description-text {
-      font-weight: 300;
+      font-weight: 400;
       color: #444444;
       padding-left: 10px; }
     .project-main-container .project-section .project-section-content .project-section-description-column .project-section-description-text-author {
@@ -10708,8 +10756,56 @@ i.vote-icon.enabled:hover {
   background: white;
   display: inline-block; }
 
+.profile-header {
+  height: 24px;
+  line-height: 24px;
+  color: white;
+  background: #444444;
+  padding-left: 10px; }
+
+.profile-page {
+  margin: 0px;
+  background: #f6f5f5; }
+  .profile-page .profile-logged-in-left-section,
+  .profile-page .profile-logged-in-right-section,
+  .profile-page .profile-logged-out {
+    padding: 10px; }
+  .profile-page .profile-logged-out .profile-logged-out-form-container {
+    margin-bottom: 20px; }
+    .profile-page .profile-logged-out .profile-logged-out-form-container img.identity-provider {
+      height: 30px;
+      cursor: pointer; }
+  .profile-page .profile-logged-in-left-section {
+    color: #444444; }
+  .profile-page .profile-logged-in-right-section .profile-logged-in-right-section-header {
+    font-weight: 700;
+    font-size: 20px;
+    color: #f39a19;
+    margin-bottom: 10px; }
+    .profile-page .profile-logged-in-right-section .profile-logged-in-right-section-header button {
+      float: right; }
+  .profile-page .profile-logged-in-right-section .profile-logged-in-right-section-data-label {
+    font-weight: 700;
+    font-size: 14px; }
+  .profile-page .profile-logged-in-right-section .profile-logged-in-right-section-data-value {
+    font-weight: 400;
+    font-size: 14px; }
+  .profile-page .profile-logged-in-right-section .profile-logged-in-right-section-data {
+    min-height: 34px;
+    margin-bottom: 10px; }
+    .profile-page .profile-logged-in-right-section .profile-logged-in-right-section-data span {
+      line-height: 34px; }
+  .profile-page .profile-logged-in-right-section .profile-logged-in-right-section-linked-accounts {
+    margin-top: 20px; }
+    .profile-page .profile-logged-in-right-section .profile-logged-in-right-section-linked-accounts > p {
+      font-weight: 700;
+      font-size: 14px;
+      color: #f39a19; }
+    .profile-page .profile-logged-in-right-section .profile-logged-in-right-section-linked-accounts img {
+      height: 30px; }
+
 .comment-list-header {
-  font-weight: 900;
+  font-weight: 700;
   font-size: 16px;
   color: #444444;
   padding-bottom: 10px;
@@ -10737,7 +10833,7 @@ i.vote-icon.enabled:hover {
       color: #777777;
       margin-left: 45px; }
   .comment .comment-content {
-    font-weight: 300;
+    font-weight: 400;
     font-size: 14px;
     color: #444444;
     margin-bottom: 10px; }
@@ -10745,7 +10841,18 @@ i.vote-icon.enabled:hover {
 .project-create-type-senseit {
   position: relative;
   height: 154px;
+  transition: height 0.25s;
+  -webkit-transition: height 0.25s;
+  -moz-transition: height 0.25s;
+  -o-transition: height 0.25s;
+  overflow: hidden;
   margin-bottom: 20px; }
+  .project-create-type-senseit.project-create-type-hidden {
+    height: 0px;
+    transition: height 0.25s;
+    -webkit-transition: height 0.25s;
+    -moz-transition: height 0.25s;
+    -o-transition: height 0.25s; }
   .project-create-type-senseit .project-create-type-image {
     position: absolute;
     top: 0px;
@@ -10756,14 +10863,14 @@ i.vote-icon.enabled:hover {
   .project-create-type-senseit .project-create-type-info {
     background: #f6f5f5;
     position: relative;
-    font-weight: 300;
+    font-weight: 400;
     font-size: 14px;
     color: #444444;
     height: 100%;
     margin-left: 230px;
     padding: 0px 10px 24px 10px; }
     .project-create-type-senseit .project-create-type-info .project-create-type-info-header {
-      font-weight: 900;
+      font-weight: 700;
       font-size: 26px;
       color: #079ccb; }
     .project-create-type-senseit .project-create-type-info .project-create-type {
@@ -10783,7 +10890,18 @@ i.vote-icon.enabled:hover {
 .project-create-type-challenge {
   position: relative;
   height: 154px;
+  transition: height 0.25s;
+  -webkit-transition: height 0.25s;
+  -moz-transition: height 0.25s;
+  -o-transition: height 0.25s;
+  overflow: hidden;
   margin-bottom: 20px; }
+  .project-create-type-challenge.project-create-type-hidden {
+    height: 0px;
+    transition: height 0.25s;
+    -webkit-transition: height 0.25s;
+    -moz-transition: height 0.25s;
+    -o-transition: height 0.25s; }
   .project-create-type-challenge .project-create-type-image {
     position: absolute;
     top: 0px;
@@ -10794,14 +10912,14 @@ i.vote-icon.enabled:hover {
   .project-create-type-challenge .project-create-type-info {
     background: #f6f5f5;
     position: relative;
-    font-weight: 300;
+    font-weight: 400;
     font-size: 14px;
     color: #444444;
     height: 100%;
     margin-left: 230px;
     padding: 0px 10px 24px 10px; }
     .project-create-type-challenge .project-create-type-info .project-create-type-info-header {
-      font-weight: 900;
+      font-weight: 700;
       font-size: 26px;
       color: #c4388a; }
     .project-create-type-challenge .project-create-type-info .project-create-type {
@@ -10821,7 +10939,18 @@ i.vote-icon.enabled:hover {
 .project-create-type-spotit {
   position: relative;
   height: 154px;
+  transition: height 0.25s;
+  -webkit-transition: height 0.25s;
+  -moz-transition: height 0.25s;
+  -o-transition: height 0.25s;
+  overflow: hidden;
   margin-bottom: 20px; }
+  .project-create-type-spotit.project-create-type-hidden {
+    height: 0px;
+    transition: height 0.25s;
+    -webkit-transition: height 0.25s;
+    -moz-transition: height 0.25s;
+    -o-transition: height 0.25s; }
   .project-create-type-spotit .project-create-type-image {
     position: absolute;
     top: 0px;
@@ -10832,14 +10961,14 @@ i.vote-icon.enabled:hover {
   .project-create-type-spotit .project-create-type-info {
     background: #f6f5f5;
     position: relative;
-    font-weight: 300;
+    font-weight: 400;
     font-size: 14px;
     color: #444444;
     height: 100%;
     margin-left: 230px;
     padding: 0px 10px 24px 10px; }
     .project-create-type-spotit .project-create-type-info .project-create-type-info-header {
-      font-weight: 900;
+      font-weight: 700;
       font-size: 26px;
       color: #9fa609; }
     .project-create-type-spotit .project-create-type-info .project-create-type {
@@ -10855,3 +10984,6 @@ i.vote-icon.enabled:hover {
       width: 100%;
       left: 0px;
       bottom: 0px; }
+
+.project-create-form-container {
+  text-align: center; }

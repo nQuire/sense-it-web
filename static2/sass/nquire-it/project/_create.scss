@@ -1,10 +1,19 @@
 @import "../variables/dimensions";
 @import "../text/text-styles";
+@import "../ext/browser-support";
+
 
 @mixin project-create-colors($type-color, $image) {
 
   position: relative;
   height: $dim-project-create-type-height;
+  @include transition(height .25s);
+  overflow: hidden;
+
+  &.project-create-type-hidden {
+    height: 0px;
+    @include transition(height .25s);
+  }
 
   margin-bottom: $dim-common-margin;
 
@@ -51,6 +60,8 @@
       bottom: 0px;
     }
   }
+
+
 }
 
 .project-create-type-senseit {
@@ -63,6 +74,10 @@
 
 .project-create-type-spotit {
   @include project-create-colors($color-mission-spotit, 'images/create-type-spotit.png');
+}
+
+.project-create-form-container {
+  text-align: center;
 }
 
 
