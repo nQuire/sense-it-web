@@ -8,18 +8,23 @@
     </div>
 
     <div data-ng-if="projectData.project.open || projectData.access.admin">
-
         <div class="project-section-description-column">
             <div data-ng-include="'partials/project/blocks/project-metadata.html'"></div>
 
-            <div class="btn-group project-section-description-join-leave"
-                    data-ng-if="projectData.project.open">
-                <button data-ng-if="!projectData.access.member" type="button" class="btn btn-default"
-                        data-ng-click="joinProject()">Join project
-                </button>
-                <button data-ng-if="projectData.access.member" type="button" class="btn btn-default"
-                        data-ng-click="leaveProject()">Leave project
-                </button>
+            <div data-ng-if="!status.logged">
+                <p>You need to <a href data-ui-sref="profile">sign in</a> before you can participate in projects.</p>
+            </div>
+            <div data-ng-if="status.logged">
+
+                <div class="btn-group project-section-description-join-leave"
+                     data-ng-if="projectData.project.open">
+                    <button data-ng-if="!projectData.access.member" type="button" class="btn btn-default"
+                            data-ng-click="joinProject()">Join project
+                    </button>
+                    <button data-ng-if="projectData.access.member" type="button" class="btn btn-default"
+                            data-ng-click="leaveProject()">Leave project
+                    </button>
+                </div>
             </div>
         </div>
 

@@ -33,9 +33,9 @@
             <div data-ng-if="status.ready">
                 <div data-ng-if="status.logged">
                     <div id="header-profile-username-block">
-                        <div>Hi, {{status.profile.username}},</div>
+                        <div>Hi, <a href data-ui-sref="profile">{{status.profile.username}}</a>,</div>
                         <div>you are signed in.</div>
-                        <div><a href data-ui-sref="profile">Sign out</a></div>
+                        <div><a href data-ng-click="openIdService.logout()">Sign out</a></div>
                     </div>
                     <a data-ui-sref="profile"><span data-siw-user-image data-user="status.profile"></span></a>
                 </div>

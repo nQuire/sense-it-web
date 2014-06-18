@@ -25,7 +25,7 @@
     height: 100%;
     width: $dim-project-create-image-width;
     background: url($image) no-repeat center;
-
+    cursor: pointer;
   }
 
   .project-create-type-info {

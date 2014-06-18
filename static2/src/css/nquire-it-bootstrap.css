@@ -10904,7 +10904,8 @@ i.vote-icon.enabled:hover {
     left: 0px;
     height: 100%;
     width: 230px;
-    background: url("images/create-type-senseit.png") no-repeat center; }
+    background: url("images/create-type-senseit.png") no-repeat center;
+    cursor: pointer; }
   .project-create-type-senseit .project-create-type-info {
     background: #f6f5f5;
     position: relative;
@@ -10953,7 +10954,8 @@ i.vote-icon.enabled:hover {
     left: 0px;
     height: 100%;
     width: 230px;
-    background: url("images/create-type-winit.png") no-repeat center; }
+    background: url("images/create-type-winit.png") no-repeat center;
+    cursor: pointer; }
   .project-create-type-challenge .project-create-type-info {
     background: #f6f5f5;
     position: relative;
@@ -11002,7 +11004,8 @@ i.vote-icon.enabled:hover {
     left: 0px;
     height: 100%;
     width: 230px;
-    background: url("images/create-type-spotit.png") no-repeat center; }
+    background: url("images/create-type-spotit.png") no-repeat center;
+    cursor: pointer; }
   .project-create-type-spotit .project-create-type-info {
     background: #f6f5f5;
     position: relative;
