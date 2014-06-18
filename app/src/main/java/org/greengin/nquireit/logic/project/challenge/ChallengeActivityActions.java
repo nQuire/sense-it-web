@@ -66,7 +66,7 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 	}
 
 	public Collection<ChallengeAnswer> getAnswersForAdmin() {
-		if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION)) {
+		if (hasAccess(PermissionType.PROJECT_ADMIN)) {
 			return getAnswers(false, false);
 		} 
 		

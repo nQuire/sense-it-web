@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-
 <div class="project-section-header" data-ng-include="'partials/project/blocks/project-menu.html'"></div>
 
 <div class="project-section-content">
@@ -44,17 +42,7 @@
                     (Please note that you cannot edit the project while it is open.)
                 </p>
             </div>
-
-            <div data-ng-switch="projectData.project.type">
-                <div data-ng-switch-when="challenge">
-                    <div data-ng-include="'partials/project/admin/project-admin-challenge.html'"
-                         data-ng-controller="ProjectAdminChallengeCtrl"></div>
-                </div>
-            </div>
-
-
         </div>
     </div>
-
 </div>
 

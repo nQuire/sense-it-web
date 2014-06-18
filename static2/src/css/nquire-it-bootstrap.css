@@ -10476,6 +10476,14 @@ div#header {
       cursor: pointer; }
   .profile-page .profile-logged-in-left-section {
     color: #444444; }
+    .profile-page .profile-logged-in-left-section .profile-project-list {
+      margin-top: 20px; }
+      .profile-page .profile-logged-in-left-section .profile-project-list .profile-project-list-header {
+        font-weight: 700;
+        padding: 10px 0; }
+      .profile-page .profile-logged-in-left-section .profile-project-list ul > li {
+        list-style-image: url(images/bullet.png);
+        margin-left: -1.5em; }
   .profile-page .profile-logged-in-right-section .profile-logged-in-right-section-header {
     font-weight: 700;
     font-size: 20px;
@@ -10598,6 +10606,35 @@ i.vote-icon.not-selected {
 i.vote-icon.enabled:hover {
   background: #519251;
   color: #aaa; }
+
+.spotit-observation {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 20px; }
+  .spotit-observation > div {
+    height: 100%; }
+  .spotit-observation > img, .spotit-observation > div {
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px; }
+  .spotit-observation:before, .spotit-observation > div, .spotit-observation > img {
+    /* vertically center the image */
+    display: inline-block;
+    vertical-align: middle; }
+  .spotit-observation:before {
+    content: "";
+    /* Magic Number */
+    /* Set this to your desired height(to width) ratio */
+    padding-top: 60%;
+    /* % of original image width */ }
+  .spotit-observation .spotit-observation-metadata {
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.5); }
 
 .content-no-sidebar {
   margin: 0px; }
@@ -10777,6 +10814,14 @@ i.vote-icon.enabled:hover {
       cursor: pointer; }
   .profile-page .profile-logged-in-left-section {
     color: #444444; }
+    .profile-page .profile-logged-in-left-section .profile-project-list {
+      margin-top: 20px; }
+      .profile-page .profile-logged-in-left-section .profile-project-list .profile-project-list-header {
+        font-weight: 700;
+        padding: 10px 0; }
+      .profile-page .profile-logged-in-left-section .profile-project-list ul > li {
+        list-style-image: url(images/bullet.png);
+        margin-left: -1.5em; }
   .profile-page .profile-logged-in-right-section .profile-logged-in-right-section-header {
     font-weight: 700;
     font-size: 20px;

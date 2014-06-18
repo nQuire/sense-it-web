@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.mangofactory.jsonview.ResponseView;
 import org.greengin.nquireit.json.Views;
 import org.greengin.nquireit.logic.ContextBean;
+import org.greengin.nquireit.logic.project.MyProjectListResponse;
 import org.greengin.nquireit.logic.project.ProjectActions;
 import org.greengin.nquireit.logic.project.ProjectListResponse;
 import org.greengin.nquireit.logic.project.ProjectCreationRequest;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping(value = "/api/projects")
 public class ProjectListController {
+
 
     @Autowired
     ContextBean context;
@@ -33,6 +35,15 @@ public class ProjectListController {
     public ProjectListResponse projectList(HttpServletRequest request) {
         return createProjectManager(request).getProjects();
     }
+
+    @RequestMapping(value = "/mine", method = RequestMethod.GET)
+    @ResponseBody
+    @ResponseView(Views.UserName.class)
+    public MyProjectListResponse myProjectList(HttpServletRequest request) {
+        return createProjectManager(request).getMyProjects();
+    }
+
+
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody

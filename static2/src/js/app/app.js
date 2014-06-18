@@ -3,6 +3,7 @@
 /* App Module */
 
 angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'senseItServices'], null).config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+
     $stateProvider
         .state('home', {
             url: '/home',
@@ -48,12 +49,25 @@ angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'senseItServices'], nul
         })
         .state('project.view.challenge', {
             url: '/challenge',
-            templateUrl: 'partials/project/view/challenge/project-view-challenge-work.html'
+            templateUrl: 'partials/project/view/challenge/project-view-challenge-page.html'
         })
         .state('project.admin', {
+            abstract: true,
             url: '/admin',
-            templateUrl: 'partials/project/admin/project-admin-page.html',
+            templateUrl: 'partials/project/admin/project-admin.html',
             controller: 'ProjectAdminCtrl'
+        })
+        .state('project.admin.home', {
+            url: '',
+            templateUrl: 'partials/project/admin/project-admin-home-page.html'
+        })
+        .state('project.admin.challenge-main', {
+            url: '/challenge',
+            templateUrl: 'partials/project/admin/challenge/project-admin-challenge-page.html'
+        })
+        .state('project.admin.challenge-answers', {
+            url: '/submissions',
+            templateUrl: 'partials/project/admin/challenge/project-admin-challenge-answers-page.html'
         })
         .state('project.edit', {
             abstract: true,
@@ -72,14 +86,12 @@ angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'senseItServices'], nul
         })
         .state('project.edit.challenge', {
             url: '/challenge',
-            templateUrl: 'partials/project/edit/challenge/project-edit-challenge.html',
-            controller: 'ProjectEditChallengeCtrl'
+            templateUrl: 'partials/project/edit/challenge/project-edit-challenge-page.html'
         })
         .state('profile', {
             url: '/profile',
             templateUrl: 'partials/profile/profile.html',
             controller: 'ProfileCtrl'
         });
-
     $urlRouterProvider.otherwise('/home');
 }]);

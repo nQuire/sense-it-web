@@ -10,7 +10,7 @@ ini_set('error_reporting', E_ALL);
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Sense It</title>
+    <title>nQuire It</title>
 
     <!--<script type="text/javascript" src="//use.typekit.net/fnn6bbs.js"></script>
     <script type="text/javascript">try{Typekit.load();}catch(e){}</script>-->
@@ -86,17 +86,36 @@ ini_set('error_reporting', E_ALL);
     <script src="js/app/controllers/profile/profile-controller.js"></script>
 
     <script src="js/app/controllers/project-list/project-list-controller.js"></script>
+    <script src="js/app/controllers/project-list/project-list-mine-controller.js"></script>
     <script src="js/app/controllers/project-list/create-controller.js"></script>
 
     <script src="js/app/controllers/project/project-controller.js"></script>
+
     <script src="js/app/controllers/project/view/project-view-controller.js"></script>
     <script src="js/app/controllers/project/view/project-view-data-controller.js"></script>
+
     <script src="js/app/controllers/project/view/senseit/project-view-senseit-controller.js"></script>
 
+    <script src="js/app/controllers/project/view/spotit/project-view-spotit-controller.js"></script>
+
+    <script src="js/app/controllers/project/view/challenge/project-view-challenge-controller.js"></script>
+    <script src="js/app/controllers/project/view/challenge/project-view-challenge-outcome-controller.js"></script>
+    <script src="js/app/controllers/project/view/challenge/project-view-challenge-answers-controller.js"></script>
+    <script src="js/app/controllers/project/view/challenge/project-view-challenge-answers-table-controller.js"></script>
+    <script src="js/app/controllers/project/view/challenge/project-view-challenge-answers-item-controller.js"></script>
+    <script src="js/app/controllers/project/view/challenge/project-view-challenge-stage-outcome-controller.js"></script>
+    <script src="js/app/controllers/project/view/challenge/project-view-challenge-stage-proposal-controller.js"></script>
+    <script src="js/app/controllers/project/view/challenge/project-view-challenge-stage-vote-controller.js"></script>
+
     <script src="js/app/controllers/project/admin/project-admin-controller.js"></script>
+    <script src="js/app/controllers/project/admin/project-admin-users-controller.js"></script>
+    <script src="js/app/controllers/project/admin/challenge/project-admin-challenge-controller.js"></script>
 
     <script src="js/app/controllers/project/edit/project-edit-controller.js"></script>
     <script src="js/app/controllers/project/edit/project-edit-description-controller.js"></script>
+
+    <script src="js/app/controllers/project/edit/challenge/project-edit-challenge-controller.js"></script>
+    <script src="js/app/controllers/project/edit/challenge/project-edit-challenge-field-controller.js"></script>
 
     <script src="js/app/controllers/project/edit/senseit/project-edit-senseit-controller.js"></script>
     <script src="js/app/controllers/project/edit/senseit/project-edit-senseit-profile-controller.js"></script>

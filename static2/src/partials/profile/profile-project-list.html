@@ -1,0 +1,29 @@
+<div data-ng-controller="ProjectListMineCtrl" class="profile-project-list">
+    <div data-ng-if="projectList.admin.length">
+        <div class="profile-project-list-header">My projects:</div>
+        <ul>
+            <li data-ng-repeat="project in projectList.admin">
+                <a href data-ui-sref="project.admin.home({projectId:project.id})">
+                    {{project.title}}
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div>
+        <div class="profile-project-list-header">Projects I've joined:</div>
+        <div data-ng-if="!projectList.member.length">
+            You haven't joined any project yet.
+            You can browse <a href data-ui-sref="home">existing projects</a>
+            to find interesting ones, or <a href data-ui-sref="create">create</a> your own.
+        </div>
+        <ul data-ng-if="projectList.member.length">
+            <li data-ng-repeat="project in projectList.member">
+                <a href data-ui-sref="project.view.home({projectId:project.id})">
+                    {{project.title}}
+                </a>
+            </li>
+        </ul>
+    </div>
+
+</div>

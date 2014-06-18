@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+
+<div data-ng-switch="projectData.project.type">
+    <div data-ng-switch-when="senseit">
+        <div data-ng-include="'partials/project/admin/senseit/project-admin-senseit.html'"></div>
+    </div>
+    <div data-ng-switch-when="challenge">
+        <div data-ng-include="'partials/project/admin/challenge/project-admin-challenge.html'"></div>
+    </div>
+    <div data-ng-switch-when="spotit">
+        <div data-ng-include="'partials/project/admin/spotit/project-admin-spotit.html'"></div>
+    </div>
+</div>

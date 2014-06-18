@@ -5,6 +5,7 @@ import org.greengin.nquireit.entities.projects.ProjectDescription;
 import org.greengin.nquireit.entities.projects.ProjectType;
 import org.greengin.nquireit.entities.rating.Comment;
 import org.greengin.nquireit.entities.users.PermissionType;
+import org.greengin.nquireit.entities.users.Role;
 import org.greengin.nquireit.entities.users.RoleType;
 import org.greengin.nquireit.entities.users.UserProfile;
 import org.greengin.nquireit.logic.AbstractContentManager;
@@ -24,6 +25,7 @@ public class ProjectActions extends AbstractContentManager {
 
     static final String PROJECTS_QUERY = "SELECT p FROM Project p";
     static final String TYPED_PROJECTS_QUERY = "SELECT p FROM Project p WHERE p.type = :type";
+    private static final String MY_PROJECTS_QUERY = "SELECT r, e FROM Role r INNER JOIN r.context e WHERE r.user = :user";
 
     protected Long projectId;
     protected Project project;
@@ -50,8 +52,6 @@ public class ProjectActions extends AbstractContentManager {
 
         this.accessLevel = context.getSubscriptionManager().getAccessLevel(project, user);
     }
-
-
 
 
     protected ProjectResponse projectResponse(Project project) {
@@ -83,14 +83,14 @@ public class ProjectActions extends AbstractContentManager {
             EntityManager em = context.createEntityManager();
             TypedQuery<Project> query = em.createQuery(PROJECTS_QUERY, Project.class);
             List<Project> all = query.getResultList();
-            
+
             for (Project p : all) {
                 AccessLevel access = context.getSubscriptionManager().getAccessLevel(p, user);
                 if (access.isAdmin() || p.getOpen()) {
                     filtered.add(projectResponse(p));
                     String type = p.getType().getValue();
                     categories.put(type, categories.get(type) + 1);
-                    allCount ++;
+                    allCount++;
                 }
             }
         }
@@ -101,6 +101,36 @@ public class ProjectActions extends AbstractContentManager {
         ProjectListResponse response = new ProjectListResponse();
         response.setList(filtered);
         response.setCategories(categories);
+
+        return response;
+    }
+
+
+    /**
+     * any user actions *
+     */
+    public MyProjectListResponse getMyProjects() {
+        MyProjectListResponse response = new MyProjectListResponse();
+
+        if (loggedWithToken) {
+            EntityManager em = context.createEntityManager();
+            TypedQuery<Object[]> query = em.createQuery(MY_PROJECTS_QUERY, Object[].class);
+            query.setParameter("user", user);
+            List<Object[]> all = query.getResultList();
+
+            for (Object[] entry : all) {
+                if (entry.length == 2 && entry[0] instanceof Role && entry[1] instanceof Project) {
+                    Role r = (Role) entry[0];
+                    Project p = (Project) entry[1];
+
+                    if (r.getType() == RoleType.ADMIN) {
+                        response.getAdmin().add(new MyProjectResponse(p));
+                    } else if (r.getType() == RoleType.MEMBER) {
+                        response.getMember().add(new MyProjectResponse(p));
+                    }
+                }
+            }
+        }
 
         return response;
     }

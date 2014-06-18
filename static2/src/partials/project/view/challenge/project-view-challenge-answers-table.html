@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+<div data-ng-if="answerData.showFilter">
+    <form class="pure-form">
+        <fieldset>
+            <select id="author" data-ng-model="filter.type">
+                <option value="any">All answers</option>
+                <option value="mine">Only mine</option>
+                <option value="others">Only by others</option>
+            </select>
+
+            <input type="search" placeholder="Search" data-ng-model="filter.search">
+
+            <button type="reset" class="pure-button pure-button-primary pure-button-small">Reset</button>
+
+        </fieldset>
+    </form>
+</div>
+
+<div data-ng-if="answerData.answersReady">
+    <table data-siw-sortable-table-widget data-table-data="tableData" class="table table-bordered">
+        <thead>
+        <tr>
+            <th data-ng-if="answerData.showAuthor" data-ng-class="headerClass('author')"
+                data-ng-click="headerSort('author')">
+                Author
+            </th>
+            <th data-ng-if="answerData.showVoting" data-ng-class="headerClass('votes')"
+                data-ng-click="headerSort('votes')">
+                Votes
+            </th>
+            <th data-ng-class="headerClass('answer')" data-ng-click="headerSort('answer')">Submission</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr data-ng-repeat="answer in sortedItems()">
+            <td data-ng-if="answerData.showAuthor">{{answer.author.username}}</td>
+            <td data-ng-if="answerData.showVoting">
+                <div data-siw-vote-widget data-vote-manager="voteManager" data-vote-target="answer"></div>
+            </td>
+            <td>{{answerTeaser(answer)}}</td>
+            <td>
+                <button class="btn btn-default"
+                        data-ng-click="itemView.open(answer)">
+                    Open
+                </button>
+                <button data-ng-if="answerData.selectable" class="btn"
+                        data-ng-class="answer.id == answerData.selectedAnswer ? 'btn-primary btn-active' : 'btn-default'"
+                        data-ng-click="answerData.selectCallback(answer)">Select</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <div data-ng-if="answerData.editable">
+        <div data-ng-if="maxAnswersReached()">
+            <p>You have created the maximum number of allowed submissions: {{projectData.project.activity.maxAnswers}}.</p>
+        </div>
+        <div data-ng-if="!maxAnswersReached()">
+            <p>You can create up to {{projectData.project.activity.maxAnswers}} submissions.</p>
+            <button class="btn btn-default" data-ng-click="itemView.openNew()">
+                Create new submission
+            </button>
+        </div>
+    </div>
+
+</div>

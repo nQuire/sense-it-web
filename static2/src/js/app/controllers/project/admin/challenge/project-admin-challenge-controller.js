@@ -1,5 +1,7 @@
 angular.module('senseItWeb', null, null).controller('ProjectAdminChallengeCtrl', function ($scope, ProjectChallengeAdminService) {
 
+    $scope.templates.menu = 'partials/project/admin/challenge/challenge-admin-menu.html';
+
     $scope.challengeAdmin = ProjectChallengeAdminService.challengeAdmin($scope.projectWatcher);
 
     $scope.outcomeData = {

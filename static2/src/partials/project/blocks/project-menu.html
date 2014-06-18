@@ -1,11 +1,12 @@
 <span data-active-manager="projectMenu">
     <span class="project-menu-main" data-ng-if="projectData.access.admin">
         <span data-siw-menu-item data-menu-linked-state="'project.view.home'" data-menu-label="'Participant'"
-                data-menu-active-state="'project.view'"></span>
-        <span data-siw-menu-item data-menu-linked-state="'project.admin'" data-menu-label="'Admin'"></span>
+              data-menu-active-state="'project.view'"></span>
+        <span data-siw-menu-item data-menu-linked-state="'project.admin.home'" data-menu-label="'Admin'"
+              data-menu-active-state="'project.admin'"></span>
         <span data-ng-if="!projectData.project.open"
-                data-siw-menu-item data-menu-linked-state="'project.edit.home'" data-menu-label="'Editor'"
-                data-menu-active-state="'project.edit'"></span>
+              data-siw-menu-item data-menu-linked-state="'project.edit.home'" data-menu-label="'Editor'"
+              data-menu-active-state="'project.edit'"></span>
     </span>
     <span class="project-menu-main" data-ng-if="!projectData.access.admin">
         <span class="project-menu-item">
