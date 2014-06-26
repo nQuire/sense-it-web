@@ -17,6 +17,10 @@
   color: $color-orange;
 }
 
+.comment-new {
+  @include comment-bottom-border;
+}
+
 .comment {
   @include comment-bottom-border;
 
@@ -44,7 +48,9 @@
 
   .comment-content {
     @include text-comment-content;
+  }
 
-    margin-bottom: $dim-common-small-margin;
+  .comment-controls {
+    margin-top: $dim-common-small-margin;
   }
 }

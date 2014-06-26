@@ -25,6 +25,10 @@ public class UserProfile extends AbstractEntity implements UserDetails {
     String password;
 
     @Basic
+    @Setter
+    boolean admin = false;
+
+    @Basic
     @Getter
     @Setter
     String image;

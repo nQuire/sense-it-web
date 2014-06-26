@@ -5,7 +5,7 @@
         <span data-siw-menu-item data-menu-linked-state="'project.admin.home'" data-menu-label="'Admin'"
               data-menu-active-state="'project.admin'"></span>
         <span data-ng-if="!projectData.project.open"
-              data-siw-menu-item data-menu-linked-state="'project.edit.home'" data-menu-label="'Editor'"
+              data-siw-menu-item data-menu-linked-state="'project.edit.home'" data-menu-label="'Edit'"
               data-menu-active-state="'project.edit'"></span>
     </span>
     <span class="project-menu-main" data-ng-if="!projectData.access.admin">
@@ -15,7 +15,11 @@
                 <span data-ng-switch-when="spotit">Spot-it</span>
                 <span data-ng-switch-when="challenge">Win-it</span>
             </b> mission
+            <span data-ng-if="projectData.access.member">
+                | <b>Joined</b>
+            </span>
         </span>
+
     </span>
 
     <span class="project-menu-sub" data-ng-if="templates.menu" data-ng-include="templates.menu"></span>

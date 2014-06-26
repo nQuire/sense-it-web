@@ -159,8 +159,6 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
             self.data.project = data.project;
             self.data.access = data.access;
             self.data.data = data.data;
-
-            console.log('project reloaded done');
         });
     };
 

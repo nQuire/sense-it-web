@@ -49,11 +49,11 @@
             <form role="form">
                 <div class="form-group">
                     <label for="project-title">Title:</label>
-                    <input id="project-title" class="form-control" type="text" data-ng-model="form.values.title"/>
+                    <input id="project-title" class="form-control" type="text" placeholder="Title" data-ng-model="form.values.title"/>
                 </div>
                 <div class="form-group">
                     <label for="project-teaser">Teaser:</label>
-                    <input id="project-teaser" class="form-control" type="text"
+                    <input id="project-teaser" class="form-control" type="text"  placeholder="Teaser"
                            data-ng-model="form.values.description.teaser"/>
                 </div>
 
@@ -98,13 +98,14 @@
                 <form role="form">
                     <div class="form-group">
                         <label for="block-block-title">Title:</label>
-                        <input id="block-block-title" class="form-control" type="text"
+                        <input id="block-block-title" class="form-control" type="text"  placeholder="Title"
                                data-ng-model="form.values.description.blocks[$index].title"/>
                     </div>
                     <div class="form-group">
                         <label for="project-block-content">Text:</label>
                         <textarea id="project-block-content" class="form-control"
-                                  data-ng-model="form.values.description.blocks[$index].content"></textarea>
+                                  data-ng-model="form.values.description.blocks[$index].content"
+                                  placeholder="Content"></textarea>
                     </div>
                     <div class="btn-group">
                         <button type="button" class="btn btn-default" data-ng-click="form.save()">Save</button>
@@ -114,7 +115,7 @@
             </div>
         </div>
 
-        <p>
+        <p class="project-section-content-column-add-block" data-ng-if="!form.isOpen()">
             <button type="button" class="btn btn-default" data-ng-click="addMetadataBlock()">Add block</button>
         </p>
     </div>

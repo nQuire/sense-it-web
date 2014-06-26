@@ -8,6 +8,12 @@
             <select id="sensor" data-ng-model="form.values.sensor" class="form-control">
                 <option value="acc">Accelerometer</option>
                 <option value="snd">Sound</option>
+                <option value="mag">Magnetic field</option>
+                <option value="gyr">Gyroscope</option>
+                <option value="orn">Orientation</option>
+                <option value="pre">Pressure</option>
+                <option value="ambtmp">Ambient temperature</option>
+                <option value="relhum">Relative humidity</option>
             </select>
         </div>
         <div class="form-group">
@@ -39,6 +45,12 @@
             <b><span data-ng-switch="sensorInput.sensor">
                 <span data-ng-switch-when="snd">Sound</span>
                 <span data-ng-switch-when="acc">Acceleration</span>
+                <span data-ng-switch-when="mag">Magnetic field</span>
+                <span data-ng-switch-when="gyr">Gyroscope</span>
+                <span data-ng-switch-when="orn">Orientation</span>
+                <span data-ng-switch-when="pre">Pressure</span>
+                <span data-ng-switch-when="ambtmp">Ambient temperature</span>
+                <span data-ng-switch-when="relhum">Relative humidity</span>
             </span>
             </b> ({{sensorInput.rate}} samples/second).
         </p>

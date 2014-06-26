@@ -10399,7 +10399,7 @@ html {
 
 div#header {
   padding: 10px 20px 20px 10px;
-  height: 155px;
+  height: 145px;
   border-bottom: solid #444444 5px;
   background: white; }
   div#header div#header-content {
@@ -10413,7 +10413,8 @@ div#header {
         font-style: italic;
         font-size: 24px;
         margin-top: 10px;
-        color: #444444; }
+        color: #444444;
+        margin: 0; }
     div#header div#header-content div#header-right-panel {
       position: absolute;
       top: 0px;
@@ -10558,16 +10559,18 @@ div#header {
       color: #444444;
       font-size: 14px; }
   .project-item .project-item-banner {
-    font-weight: 400;
-    color: white;
-    font-size: 14px;
-    line-height: 24px;
     text-align: center;
-    height: 24px; }
-    .project-item .project-item-banner .project-item-banner-type {
-      font-weight: 700;
+    height: 24px;
+    line-height: 24px; }
+    .project-item .project-item-banner a {
+      font-weight: 400;
       color: white;
-      font-size: 14px; }
+      font-size: 14px;
+      line-height: 24px; }
+      .project-item .project-item-banner a .project-item-banner-type {
+        font-weight: 700;
+        color: white;
+        font-size: 14px; }
 
 .project-item.project-type-senseit .project-item-type {
   color: #079ccb; }
@@ -10714,6 +10717,8 @@ i.vote-icon.enabled:hover {
     /* Opera 7 */
     word-wrap: break-word;
     /* Internet Explorer 5.5+ */ }
+  .project-main-container .project-section .project-section-content .project-section-content-column-add-block {
+    margin-top: 20px; }
   .project-main-container .project-section .project-section-content .project-section-description-column {
     padding: 0px; }
     .project-main-container .project-section .project-section-content .project-section-description-column .project-section-description-image {
@@ -10761,8 +10766,12 @@ i.vote-icon.enabled:hover {
           bottom: 0px; }
     .project-main-container .project-section .project-section-content .project-section-description-column .project-section-description-join-leave {
       padding: 10px 5px; }
+      .project-main-container .project-section .project-section-content .project-section-description-column .project-section-description-join-leave button.project-join-button {
+        color: white; }
   .project-main-container .project-section .project-section-content .project-section-content-fill {
     padding: 0px 10px 0px 20px; }
+.project-main-container .project-comments-section {
+  min-height: 100%; }
 
 .project-main-container.project-type-senseit .project-section-header {
   background: #079ccb; }
@@ -10770,6 +10779,8 @@ i.vote-icon.enabled:hover {
 .project-main-container.project-type-senseit .project-section-content-block-title,
 .project-main-container.project-type-senseit .project-section-description-text-mission {
   color: #079ccb; }
+.project-main-container.project-type-senseit .project-section-description-join-leave button.project-join-button {
+  background: #079ccb; }
 
 .project-main-container.project-type-spotit .project-section-header {
   background: #9fa609; }
@@ -10777,6 +10788,8 @@ i.vote-icon.enabled:hover {
 .project-main-container.project-type-spotit .project-section-content-block-title,
 .project-main-container.project-type-spotit .project-section-description-text-mission {
   color: #9fa609; }
+.project-main-container.project-type-spotit .project-section-description-join-leave button.project-join-button {
+  background: #9fa609; }
 
 .project-main-container.project-type-challenge .project-section-header {
   background: #c4388a; }
@@ -10784,6 +10797,8 @@ i.vote-icon.enabled:hover {
 .project-main-container.project-type-challenge .project-section-content-block-title,
 .project-main-container.project-type-challenge .project-section-description-text-mission {
   color: #c4388a; }
+.project-main-container.project-type-challenge .project-section-description-join-leave button.project-join-button {
+  background: #c4388a; }
 
 .profile-image {
   width: 80px;
@@ -10858,6 +10873,11 @@ i.vote-icon.enabled:hover {
   border-bottom: solid #aaaaaa 1px;
   color: #f39a19; }
 
+.comment-new {
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: solid #aaaaaa 1px; }
+
 .comment {
   padding-bottom: 10px;
   margin-bottom: 10px;
@@ -10880,8 +10900,9 @@ i.vote-icon.enabled:hover {
   .comment .comment-content {
     font-weight: 400;
     font-size: 14px;
-    color: #444444;
-    margin-bottom: 10px; }
+    color: #444444; }
+  .comment .comment-controls {
+    margin-top: 10px; }
 
 .project-create-type-senseit {
   position: relative;

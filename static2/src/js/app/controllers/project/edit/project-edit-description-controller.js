@@ -2,6 +2,8 @@ angular.module('senseItWeb', null, null).controller('ProjectEditDescriptionCtrl'
 
     $scope.metadataEdit = true;
 
+    $scope.tempBlock = false;
+
     $scope.metadataBlockButtons = function (block) {
         if ($scope.form.isOpen(block)) {
             return 'open';
@@ -13,7 +15,8 @@ angular.module('senseItWeb', null, null).controller('ProjectEditDescriptionCtrl'
     };
 
     $scope.addMetadataBlock = function () {
-        var block = {title: 'Title', content: 'Content'};
+        var block = {title: '', content: ''};
+        $scope.tempBlock = $scope.projectData.project.description.blocks.length;
         $scope.projectData.project.description.blocks.push(block);
         $scope.projectWatcher.saveMetadata();
 
@@ -40,7 +43,14 @@ angular.module('senseItWeb', null, null).controller('ProjectEditDescriptionCtrl'
             return $scope.projectData.project;
         }, ['title', 'description'],
         function () {
+            $scope.tempBlock = false;
             $scope.projectWatcher.saveMetadata($scope.form.files);
+        }, function() {
+            if ($scope.tempBlock !== false) {
+                var index = $scope.tempBlock;
+                $scope.tempBlock = false;
+                $scope.deleteMetadataBlock(index);
+            }
         }
     );
 

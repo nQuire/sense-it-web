@@ -19,6 +19,11 @@ angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'senseItServices'], nul
             templateUrl: 'partials/projects/create.html',
             controller: 'CreateCtrl'
         })
+        .state('forum', {
+            url: '/forum',
+            templateUrl: 'partials/forum/forum.html',
+            controller: 'ForumCtrl'
+        })
         .state('project', {
             abstract: true,
             url: '/project/{projectId}',

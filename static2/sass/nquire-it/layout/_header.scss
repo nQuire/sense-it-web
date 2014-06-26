@@ -20,6 +20,7 @@ div#header {
 
       p {
         @include text-subtitle;
+        margin: 0;
       }
     }
 

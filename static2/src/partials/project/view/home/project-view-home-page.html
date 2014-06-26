@@ -18,11 +18,12 @@
 
                 <div class="btn-group project-section-description-join-leave"
                      data-ng-if="projectData.project.open">
-                    <button data-ng-if="!projectData.access.member" type="button" class="btn btn-default"
-                            data-ng-click="joinProject()">Join project
+                    <button data-ng-if="!projectData.access.member" type="button"
+                            class="btn btn-default project-join-button"
+                            data-ng-click="joinProject()">Join mission
                     </button>
                     <button data-ng-if="projectData.access.member" type="button" class="btn btn-default"
-                            data-ng-click="leaveProject()">Leave project
+                            data-ng-click="leaveProject()">Leave mission
                     </button>
                 </div>
             </div>

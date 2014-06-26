@@ -27,13 +27,15 @@
                     </p>
                 </div>
                 <div class="project-item-banner">
-                    Explore this
+                    <a href data-ui-sref="project.view.home({projectId: projectData.project.id})">
+                        Explore this
                         <span class="project-item-banner-type" data-ng-switch="projectData.project.type">
                             <span data-ng-switch-when="senseit">Sense-it</span>
                             <span data-ng-switch-when="spotit">Spot-it</span>
                             <span data-ng-switch-when="challenge">Win-it</span>
                         </span>
-                    mission
+                        mission
+                    </a>
                 </div>
             </div>
         </div>
