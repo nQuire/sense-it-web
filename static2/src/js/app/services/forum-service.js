@@ -9,6 +9,8 @@ angular.module('senseItServices', null, null).factory('ForumService', ['RestServ
     ForumManager.prototype.getList = function () {
         var self = this;
         RestService.get('api/forum/list').then(function (data) {
+            self.forums = {};
+            
             self.root = data;
         });
     };

@@ -65,14 +65,7 @@ public class UserProfileDao {
         UserProfile user = new UserProfile();
         user.setUsername(username);
         user.setPassword(password != null ? passwordEncoder.encode(password) : null);
-
-        try {
-            em.getTransaction().begin();
-            em.persist(user);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            em.getTransaction().rollback();
-        }
+        em.persist(user);
 
         return user;
     }
@@ -92,9 +85,9 @@ public class UserProfileDao {
     }
 
     @Transactional
-    public boolean updateProfileImage(Long userId, FileMapUpload files) {
+    public boolean updateProfileImage(UserProfile user, FileMapUpload files) {
         if (files.getData().containsKey("image")) {
-            UserProfile user = user(userId);
+
             FileMapUpload.FileData file = files.getData().get("image");
             String fileContext = user.getId().toString();
             String filename = null;
@@ -113,10 +106,10 @@ public class UserProfileDao {
 
 
     @Transactional
-    public boolean deleteConnection(Long userId, String providerId) {
-
+    public boolean deleteConnection(UserProfile user, String providerId) {
+        em.persist(user);
         Query query = em.createNativeQuery(DELETE_USER_CONNECTION);
-        query.setParameter(1, user(userId).getUsername());
+        query.setParameter(1, user.getUsername());
         query.setParameter(2, providerId);
         query.executeUpdate();
 
@@ -125,8 +118,9 @@ public class UserProfileDao {
     }
 
     @Transactional
-    public void updateUsername(Long userId, String username) {
-        UserProfile user = user(userId);
+    public void updateUsername(UserProfile user, String username) {
+        em.persist(user);
+
         Query query = em.createNativeQuery(UPDATE_USER_CONNECTIONS);
         query.setParameter(1, username);
         query.setParameter(2, user.getUsername());
@@ -136,8 +130,9 @@ public class UserProfileDao {
     }
 
     @Transactional
-    public void updateUserMetadata(Long userId, HashMap<String, String> metadata) {
-        UserProfile user = user(userId);
+    public void updateUserMetadata(UserProfile user, HashMap<String, String> metadata) {
+        em.persist(user);
+
         HashMap<String, String> current = user.getMetadata();
         if (current == null) {
             current = new HashMap<String, String>();

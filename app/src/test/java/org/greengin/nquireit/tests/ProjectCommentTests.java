@@ -65,7 +65,6 @@ public class ProjectCommentTests extends TestsBase {
     }
 
     private void testExists(Long id, boolean exists) {
-        EntityManager em = context.getEntityManager();
         Comment c = em.find(Comment.class, id);
         if (exists) {
             assertNotNull(c);
@@ -101,13 +100,13 @@ public class ProjectCommentTests extends TestsBase {
         CommentRequest request = new CommentRequest();
         request.setComment("comment1");
 
-        Comment comment = context.getCommentManager().comment(user1, helper.getProject(threadId), request);
+        Comment comment = context.getCommentsDao().comment(user1, helper.getProject(threadId), request);
         assertNotNull(comment);
         testCount(1);
         testExists(comment.getId(), true);
 
         request.setComment("comment2");
-        Comment comment2 = context.getCommentManager().comment(user2, helper.getProject(threadId), request);
+        Comment comment2 = context.getCommentsDao().comment(user2, helper.getProject(threadId), request);
         assertNotNull(comment2);
         testCount(2);
         testExists(comment2.getId(), true);
@@ -118,28 +117,28 @@ public class ProjectCommentTests extends TestsBase {
         CommentRequest request = new CommentRequest();
 
         request.setComment("comment1");
-        Comment comment1 = context.getCommentManager().comment(user1, helper.getProject(threadId), request);
+        Comment comment1 = context.getCommentsDao().comment(user1, helper.getProject(threadId), request);
         Long c1 = comment1.getId();
 
         request.setComment("comment2");
-        Comment comment2 = context.getCommentManager().comment(user2, helper.getProject(threadId), request);
+        Comment comment2 = context.getCommentsDao().comment(user2, helper.getProject(threadId), request);
         Long c2 = comment2.getId();
 
         testCount(2);
 
-        context.getCommentManager().deleteComment(user2, helper.getProject(threadId), c1);
+        context.getCommentsDao().deleteComment(user2, helper.getProject(threadId), c1);
         testCount(2);
         testExists(c1, true);
 
-        context.getCommentManager().deleteComment(user1, helper.getProject(threadId), c1);
+        context.getCommentsDao().deleteComment(user1, helper.getProject(threadId), c1);
         testCount(1);
         testExists(c1, false);
 
-        context.getCommentManager().deleteComment(user1, helper.getProject(threadId), c2);
+        context.getCommentsDao().deleteComment(user1, helper.getProject(threadId), c2);
         testCount(1);
         testExists(c2, true);
 
-        context.getCommentManager().deleteComment(user2, helper.getProject(threadId), c2);
+        context.getCommentsDao().deleteComment(user2, helper.getProject(threadId), c2);
         testCount(0);
         testExists(c2, false);
     }

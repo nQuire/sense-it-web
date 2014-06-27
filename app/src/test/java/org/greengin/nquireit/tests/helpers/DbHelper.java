@@ -73,8 +73,6 @@ public class DbHelper {
     }
 
     public UserProfile createUser(String name) {
-
-        EntityManager em = em;
         em.getTransaction().begin();
         UserProfile user = new UserProfile();
         user.setUsername(name);

@@ -60,14 +60,14 @@ public class ProjectDao {
     }
 
     @Transactional
-    public void setOpen(Long projectId, Boolean open) {
-        Project p = em.find(Project.class, projectId);
-        p.setOpen(open);
+    public void setOpen(Project project , Boolean open) {
+        em.persist(project);
+        project.setOpen(open);
     }
 
     @Transactional
-    public Project updateMetadata(Long projectId, ProjectRequest data, FileMapUpload files) {
-        Project project = project(projectId);
+    public Project updateMetadata(Project project, ProjectRequest data, FileMapUpload files) {
+        em.persist(project);
 
         project.setTitle(data.getTitle());
         if (project.getDescription() == null) {
@@ -78,7 +78,7 @@ public class ProjectDao {
 
         if (files != null && files.getData().containsKey("image")) {
             FileMapUpload.FileData file = files.getData().get("image");
-            String fileContext = projectId.toString();
+            String fileContext = project.getId().toString();
             if (file == null) {
                 project.getDescription().setImage(null);
             } else {
@@ -118,6 +118,7 @@ public class ProjectDao {
 
     @Transactional
     public Boolean deleteProject(Project project) {
+        em.persist(project);
         em.remove(project);
         return true;
     }

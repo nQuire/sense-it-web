@@ -31,6 +31,7 @@ public class SenseItDao {
             activity.setProfile(new SenseItProfile());
         }
 
+        em.persist(activity.getProfile());
         return activity.getProfile();
     }
 

@@ -51,7 +51,7 @@
     <bean id="dataActivityDao" class="org.greengin.nquireit.dao.DataActivityDao"/>
     <bean id="senseItDao" class="org.greengin.nquireit.dao.SenseItDao"/>
     <bean id="challengeDao" class="org.greengin.nquireit.dao.ChallengeDao"/>
-    <bean id="forumDao" class="org.greengin.nquireit.dao.ChallengeDao"/>
+    <bean id="forumDao" class="org.greengin.nquireit.dao.ForumDao"/>
     <bean id="voteDao" class="org.greengin.nquireit.dao.VoteDao"/>
     <bean id="commentsDao" class="org.greengin.nquireit.dao.CommentsDao"/>
 

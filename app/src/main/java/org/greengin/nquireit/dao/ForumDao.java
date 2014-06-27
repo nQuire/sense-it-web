@@ -2,7 +2,6 @@ package org.greengin.nquireit.dao;
 
 import org.greengin.nquireit.entities.rating.ForumNode;
 import org.greengin.nquireit.entities.rating.ForumThread;
-import org.greengin.nquireit.json.Views;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 

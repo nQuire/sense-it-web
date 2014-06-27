@@ -61,7 +61,7 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
 
         if (auth != null && auth.getPrincipal() != null && auth.getPrincipal() instanceof UserProfile) {
             result.setLogged(true);
-            result.setProfile((UserProfile) auth.getPrincipal());
+            result.setProfile(userProfileDao.user(((UserProfile) auth.getPrincipal()).getId()));
             result.setToken((String) session.getAttribute("nquire-it-token"));
 
             for (Map.Entry<String, Connection<?>> entry : connections.entrySet()) {
@@ -201,7 +201,7 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
     }
 
     public boolean updateProfileImage(StatusResponse currentStatus, FileMapUpload files) {
-        if (userProfileDao.updateProfileImage(currentStatus.getProfile().getId(), files)) {
+        if (userProfileDao.updateProfileImage(currentStatus.getProfile(), files)) {
             update(currentStatus);
             return true;
         }
@@ -219,13 +219,13 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
                 } else if (!usernameIsAvailable(data.getUsername())) {
                     currentStatus.getResponses().put("username", "username_not_available");
                 } else {
-                    userProfileDao.updateUsername(currentStatus.getProfile().getId(), data.getUsername());
+                    userProfileDao.updateUsername(currentStatus.getProfile(), data.getUsername());
                 }
             }
         }
 
         if (data.getMetadata() != null) {
-            userProfileDao.updateUserMetadata(currentStatus.getProfile().getId(), data.getMetadata());
+            userProfileDao.updateUserMetadata(currentStatus.getProfile(), data.getMetadata());
         }
 
         update(currentStatus);
@@ -233,7 +233,7 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
     }
 
     public boolean deleteConnection(StatusResponse currentStatus, String providerId) {
-        if (((currentStatus.getProfile().getPassword() != null && currentStatus.getProfile().getPassword().length() > 0) || currentStatus.getConnections().size() > 1) && userProfileDao.deleteConnection(currentStatus.getProfile().getId(), providerId)) {
+        if (((currentStatus.getProfile().getPassword() != null && currentStatus.getProfile().getPassword().length() > 0) || currentStatus.getConnections().size() > 1) && userProfileDao.deleteConnection(currentStatus.getProfile(), providerId)) {
             currentStatus.getConnections().remove(providerId);
             return true;
         }

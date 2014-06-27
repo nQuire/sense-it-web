@@ -48,11 +48,13 @@ public class DataActivityDao {
 
     @Transactional
     public <K extends AbstractDataProjectItem> void updateItem(K item, DataItemManipulator<?, K> manipulator) {
+        em.persist(item);
         manipulator.onUpdate(item);
     }
 
     @Transactional
     public <K extends AbstractDataProjectItem> void removeItem(K item, DataItemManipulator<?, K> manipulator) {
+        em.persist(item);
         manipulator.onDelete(item);
         em.remove(item);
     }

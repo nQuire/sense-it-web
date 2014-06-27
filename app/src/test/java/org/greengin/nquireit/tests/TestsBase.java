@@ -15,6 +15,8 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.nio.charset.Charset;
 import java.util.UUID;
 
@@ -37,12 +39,15 @@ public abstract class TestsBase {
     @Autowired
     protected ContextBean context;
 
+    @PersistenceContext
+    protected EntityManager em;
+
 
     protected DbHelper helper;
 
     @Before
     public void before() {
-        helper = new DbHelper(context);
+        helper = new DbHelper(context, em);
         helper.clear();
     }
 

@@ -44,17 +44,6 @@ public class ChallengeDao {
     @Getter
     EntityManager em;
 
-    public SenseItSeries getSeries(Long dataId) {
-        return em.find(SenseItSeries.class, dataId);
-    }
-
-    private SenseItProfile profile(SenseItActivity activity) {
-        if (activity.getProfile() == null) {
-            activity.setProfile(new SenseItProfile());
-        }
-
-        return activity.getProfile();
-    }
 
     public ChallengeField getField(AbstractActivity activity, Long id) {
         TypedQuery<ChallengeField> query = em.createQuery(FIELD_ACTIVITY_QUERY, ChallengeField.class);
@@ -141,16 +130,20 @@ public class ChallengeDao {
 
     @Transactional
     public void setActivityStage(ChallengeActivity activity, ChallengeActivityStage stage) {
+        em.persist(activity);
         activity.setStage(stage);
     }
 
     @Transactional
     public void updateActivity(ChallengeActivity activity, ChallengeActivityRequest activityData) {
+        em.persist(activity);
         activityData.update(activity);
     }
 
     @Transactional
     public void createActivityField(ChallengeActivity activity, ChallengeFieldRequest fieldData) {
+        em.persist(activity);
+
         ChallengeField field = new ChallengeField();
         fieldData.update(field);
         activity.getFields().add(field);
@@ -166,11 +159,13 @@ public class ChallengeDao {
 
     @Transactional
     public void deleteActivityField(ChallengeActivity activity, Long fieldId) {
+        em.persist(activity);
         activity.getFields().remove(getField(activity, fieldId));
     }
 
     @Transactional
     public void updateActivityOutcome(ChallengeActivity activity, ChallengeOutcomeRequest outcomeData) {
+        em.persist(activity.getOutcome());
         outcomeData.update(em, activity.getOutcome());
     }
 }

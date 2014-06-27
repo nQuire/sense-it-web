@@ -57,6 +57,10 @@ SiwFormManager.prototype.isOpen = function (mode) {
     return mode ? this._isOpen == mode : this._isOpen;
 };
 
+SiwFormManager.prototype.getMode = function () {
+    return this.mode;
+};
+
 SiwFormManager.prototype._close = function () {
     this._isOpen = false;
 };

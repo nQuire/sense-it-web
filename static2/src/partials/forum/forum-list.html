@@ -1,6 +1,26 @@
-
+<p>Categories:</p>
 <ul>
-    <li data-ng-repeat="node in forum.root.children">node.title</li>
+    <li data-ng-repeat="node in forum.root.children">
+        <div data-ng-if="!form.isOpen(node.id)">
+            node.title
+            <span data-ng-if="form"><button class="btn btn-default btn-sm">Edit</button> </span>
+        </div>
+        <div data-ng-if="form.isOpen(node.id)">
+            <form role="form" class="form-inline">
+                <div class="form-group">
+                    <input class="form-control" model=""
+                </div>
+            </form>
+
+        <ul>
+            <li data-ng-repeat="child in node.children">
+                child.title
+            </li>
+        </ul>
+    </li>
 </ul>
 
-        <p data-ng-if="status.logged && status.admin">admin!</p>
+
+<p data-ng-if="status.logged && status.profile.admin">
+
+</p>

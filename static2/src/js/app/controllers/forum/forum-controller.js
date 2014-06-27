@@ -2,4 +2,5 @@ angular.module('senseItWeb', null, null).controller('ForumCtrl', function ($scop
 
     ForumService.get($scope);
 
+
 });

@@ -219,7 +219,7 @@ public class ProjectActions extends AbstractContentManager {
 
     public ProjectResponse setOpen(Boolean open) {
         if (hasAccess(PermissionType.PROJECT_ADMIN)) {
-            context.getProjectDao().setOpen(project.getId(), open);
+            context.getProjectDao().setOpen(project, open);
             return projectResponse(project);
         }
 
@@ -240,7 +240,7 @@ public class ProjectActions extends AbstractContentManager {
      */
     public ProjectResponse updateMetadata(ProjectRequest data, FileMapUpload files) {
         if (hasAccess(PermissionType.PROJECT_EDITION)) {
-            return projectResponse(context.getProjectDao().updateMetadata(project.getId(), data, files));
+            return projectResponse(context.getProjectDao().updateMetadata(project, data, files));
         }
 
         return null;
