@@ -1,17 +1,17 @@
 package org.greengin.nquireit.entities.rating;
 
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.List;
 import java.util.Vector;
 
 @Entity
-public class ForumNode extends CommentThreadEntity {
+public class ForumNode extends VotableEntity {
 
     @Getter
     @Setter
@@ -21,15 +21,18 @@ public class ForumNode extends CommentThreadEntity {
     @Setter
     String description;
 
+    @ManyToOne
     @Getter
     @Setter
-    boolean thread;
+    ForumNode parent = null;
 
-    @OneToMany(orphanRemoval = true, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "parent", orphanRemoval = true, cascade = CascadeType.REMOVE)
     @Getter
     @Setter
-    @NonNull
     List<ForumNode> children = new Vector<ForumNode>();
 
-
+    @OneToMany(mappedBy = "forum", orphanRemoval = true, cascade = CascadeType.REMOVE)
+    @Getter
+    @Setter
+    List<ForumThread> threads = new Vector<ForumThread>();
 }

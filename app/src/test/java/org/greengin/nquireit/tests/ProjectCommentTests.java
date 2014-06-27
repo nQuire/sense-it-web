@@ -65,7 +65,7 @@ public class ProjectCommentTests extends TestsBase {
     }
 
     private void testExists(Long id, boolean exists) {
-        EntityManager em = context.createEntityManager();
+        EntityManager em = context.getEntityManager();
         Comment c = em.find(Comment.class, id);
         if (exists) {
             assertNotNull(c);

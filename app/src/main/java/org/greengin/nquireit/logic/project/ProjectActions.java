@@ -14,6 +14,7 @@ import org.greengin.nquireit.logic.project.metadata.ProjectRequest;
 import org.greengin.nquireit.logic.users.AccessLevel;
 import org.greengin.nquireit.logic.files.FileMapUpload;
 import org.greengin.nquireit.logic.rating.CommentRequest;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -23,9 +24,6 @@ import java.util.*;
 
 public class ProjectActions extends AbstractContentManager {
 
-    static final String PROJECTS_QUERY = "SELECT p FROM Project p";
-    static final String TYPED_PROJECTS_QUERY = "SELECT p FROM Project p WHERE p.type = :type";
-    private static final String MY_PROJECTS_QUERY = "SELECT r, e FROM Role r INNER JOIN r.context e WHERE r.user = :user";
 
     protected Long projectId;
     protected Project project;
@@ -45,9 +43,8 @@ public class ProjectActions extends AbstractContentManager {
 
 
     private void setProject(Long projectId) {
-        EntityManager em = context.createEntityManager();
         this.projectId = projectId;
-        this.project = projectId != null ? em.find(Project.class, projectId) : null;
+        this.project = projectId != null ? context.getProjectDao().project(projectId) : null;
         this.projectExists = this.project != null;
 
         this.accessLevel = context.getSubscriptionManager().getAccessLevel(project, user);
@@ -80,9 +77,7 @@ public class ProjectActions extends AbstractContentManager {
         int allCount = 0;
 
         if (hasAccess(PermissionType.BROWSE)) {
-            EntityManager em = context.createEntityManager();
-            TypedQuery<Project> query = em.createQuery(PROJECTS_QUERY, Project.class);
-            List<Project> all = query.getResultList();
+            List<Project> all = context.getProjectDao().getProjects();
 
             for (Project p : all) {
                 AccessLevel access = context.getSubscriptionManager().getAccessLevel(p, user);
@@ -113,10 +108,7 @@ public class ProjectActions extends AbstractContentManager {
         MyProjectListResponse response = new MyProjectListResponse();
 
         if (loggedWithToken) {
-            EntityManager em = context.createEntityManager();
-            TypedQuery<Object[]> query = em.createQuery(MY_PROJECTS_QUERY, Object[].class);
-            query.setParameter("user", user);
-            List<Object[]> all = query.getResultList();
+            List<Object[]> all = context.getProjectDao().getMyProjects(user);
 
             for (Object[] entry : all) {
                 if (entry.length == 2 && entry[0] instanceof Role && entry[1] instanceof Project) {
@@ -139,11 +131,8 @@ public class ProjectActions extends AbstractContentManager {
         List<SimpleProjectResponse> response = new Vector<SimpleProjectResponse>();
 
         if (hasAccess(PermissionType.BROWSE)) {
-            EntityManager em = context.createEntityManager();
-            TypedQuery<Project> query = em.createQuery(TYPED_PROJECTS_QUERY, Project.class);
-            query.setParameter("type", ProjectType.create(type));
+            List<Project> all = context.getProjectDao().getProjectsSimple(type);
 
-            List<Project> all = query.getResultList();
             for (Project p : all) {
                 SimpleProjectResponse spr = new SimpleProjectResponse();
                 spr.setId(p.getId());
@@ -162,21 +151,9 @@ public class ProjectActions extends AbstractContentManager {
      */
     public Long createProject(ProjectCreationRequest projectData) {
         if (hasAccess(PermissionType.CREATE_PROJECT)) {
-            EntityManager em = context.createEntityManager();
-            em.getTransaction().begin();
-            Project project = new Project();
-            project.setTitle("New project");
-            project.setOpen(false);
-            project.setAuthor(user);
-            projectData.initProject(project);
-            em.persist(project);
-            context.getSubscriptionManager().projectCreatedInTransaction(em, project, user);
-            em.getTransaction().commit();
-
-            return project.getId();
-        } else {
-            return null;
+            return context.getProjectDao().createProject(projectData, user);
         }
+        return null;
     }
 
     @Override
@@ -225,33 +202,24 @@ public class ProjectActions extends AbstractContentManager {
 
     public AccessLevel join() {
         if (hasAccess(PermissionType.PROJECT_JOIN) && !accessLevel.isMember()) {
-            EntityManager em = context.createEntityManager();
-            context.getSubscriptionManager().subscribe(em, user, project, RoleType.MEMBER);
-            return context.getSubscriptionManager().getAccessLevel(projectId, em, user);
+            context.getSubscriptionManager().subscribe(user, project, RoleType.MEMBER);
+            return context.getSubscriptionManager().getAccessLevel(project, user);
         }
         return null;
     }
 
     public AccessLevel leave() {
         if (this.hasAccess(PermissionType.PROJECT_MEMBER_ACTION)) {
-            EntityManager em = context.createEntityManager();
-            context.getSubscriptionManager().unsubscribe(em, user, project, RoleType.MEMBER);
-            return context.getSubscriptionManager().getAccessLevel(projectId, em, user);
+            context.getSubscriptionManager().unsubscribe(user, project, RoleType.MEMBER);
+            return context.getSubscriptionManager().getAccessLevel(project, user);
         }
 
         return null;
     }
 
-    /**
-     * admin actions *
-     */
-
     public ProjectResponse setOpen(Boolean open) {
         if (hasAccess(PermissionType.PROJECT_ADMIN)) {
-            EntityManager em = context.createEntityManager();
-            em.getTransaction().begin();
-            project.setOpen(open);
-            em.getTransaction().commit();
+            context.getProjectDao().setOpen(project.getId(), open);
             return projectResponse(project);
         }
 
@@ -270,55 +238,22 @@ public class ProjectActions extends AbstractContentManager {
     /**
      * editor actions *
      */
-
     public ProjectResponse updateMetadata(ProjectRequest data, FileMapUpload files) {
         if (hasAccess(PermissionType.PROJECT_EDITION)) {
-            EntityManager em = context.createEntityManager();
-            em.getTransaction().begin();
-
-            project.setTitle(data.getTitle());
-            if (project.getDescription() == null) {
-                project.setDescription(new ProjectDescription());
-            }
-            project.getDescription().setTeaser(data.getDescription().getTeaser());
-
-            if (files != null && files.getData().containsKey("image")) {
-                FileMapUpload.FileData file = files.getData().get("image");
-                String fileContext = projectId.toString();
-                if (file == null) {
-                    project.getDescription().setImage(null);
-                } else {
-                    try {
-                        String filename = context.getFileManager().uploadFile(fileContext, file.filename, file.data);
-                        project.getDescription().setImage(filename);
-                    } catch (IOException exception) {
-                        project.getDescription().setImage(null);
-                    }
-                }
-            } else {
-                project.getDescription().setImage(data.getDescription().getImage());
-            }
-
-            project.getDescription().setBlocks(data.getDescription().getBlocks());
-
-            em.getTransaction().commit();
-
-            return projectResponse(project);
-        } else {
-            return null;
+            return projectResponse(context.getProjectDao().updateMetadata(project.getId(), data, files));
         }
+
+        return null;
+
     }
 
+    @Transactional
     public Boolean deleteProject() {
         if (hasAccess(PermissionType.PROJECT_EDITION)) {
-            EntityManager em = context.createEntityManager();
-            em.getTransaction().begin();
-            em.remove(project);
-            em.getTransaction().commit();
-            return true;
-        } else {
-            return null;
+            return context.getProjectDao().deleteProject(project);
         }
+        return null;
+
     }
 
 
@@ -337,7 +272,7 @@ public class ProjectActions extends AbstractContentManager {
 
     public List<Comment> comment(CommentRequest request) {
         if (hasAccess(PermissionType.PROJECT_COMMENT)) {
-            context.getCommentManager().comment(user, project, request);
+            context.getCommentsDao().comment(user, project, request);
             return project.getComments();
         }
 
@@ -346,7 +281,7 @@ public class ProjectActions extends AbstractContentManager {
 
     public List<Comment> deleteComment(Long commentId) {
         if (hasAccess(PermissionType.PROJECT_COMMENT)) {
-            if (context.getCommentManager().deleteComment(user, project, commentId)) {
+            if (context.getCommentsDao().deleteComment(user, project, commentId)) {
                 return project.getComments();
             }
         }

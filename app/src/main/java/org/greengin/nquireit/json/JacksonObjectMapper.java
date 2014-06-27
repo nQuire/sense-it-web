@@ -13,6 +13,7 @@ import org.greengin.nquireit.entities.activities.senseit.SensorInput;
 import org.greengin.nquireit.entities.data.AbstractDataProjectItem;
 import org.greengin.nquireit.entities.projects.Project;
 import org.greengin.nquireit.entities.rating.Comment;
+import org.greengin.nquireit.entities.rating.ForumNode;
 import org.greengin.nquireit.entities.rating.VotableEntity;
 import org.greengin.nquireit.entities.rating.Vote;
 import org.greengin.nquireit.entities.users.UserProfile;
@@ -46,6 +47,8 @@ public class JacksonObjectMapper extends ObjectMapper {
         addMixIn(SenseItAnalysisRequest.class, SenseItAnalysisMixIn.class);
         addMixIn(SenseItSeries.class, SenseItSeriesMixIn.class);
         addMixIn(SensorInput.class, SensorInputMixIn.class);
+
+        addMixIn(ForumNode.class, ForumNodeMixIn.class);
     }
 
     private void addMixIn(Class<?> object, Class<?> mixin) {

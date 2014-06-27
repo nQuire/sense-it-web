@@ -1,18 +1,14 @@
 package org.greengin.nquireit.logic.project.senseit;
 
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class SenseItAnalysisRequest {
-	
-	String text;
-	
-	
 
-	public String getText() {
-		return text;
-	}
+    @Getter
+    @Setter
+    String text;
 
-	public void setText(String text) {
-		this.text = text;
-	}
 
 }

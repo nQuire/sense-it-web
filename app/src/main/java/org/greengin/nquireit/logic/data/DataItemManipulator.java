@@ -1,11 +1,23 @@
 package org.greengin.nquireit.logic.data;
 
+import lombok.Getter;
 import org.greengin.nquireit.entities.data.AbstractDataProjectItem;
 import org.greengin.nquireit.entities.data.DataCollectionActivity;
 import org.greengin.nquireit.entities.projects.Project;
 
-public interface DataItemManipulator<T extends DataCollectionActivity<?, ?>, E extends AbstractDataProjectItem> {
-	public boolean onCreate(Project project, T activity, E newItem);
-	public void onUpdate(Project project, T activity, E item);
-	public void onDelete(Project project, T activity, E item);
+public abstract class DataItemManipulator<T extends DataCollectionActivity<?, ?>, E extends AbstractDataProjectItem> {
+    @Getter
+    protected Project project;
+
+    @Getter
+    protected T activity;
+
+    public void init(Project project, T activity) {
+        this.project = project;
+        this.activity = activity;
+    }
+
+	public abstract boolean onCreate(E newItem);
+	public abstract void onUpdate(E item);
+	public abstract void onDelete(E item);
 }

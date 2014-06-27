@@ -15,10 +15,6 @@ public class StatusResponse {
 
     @Getter
     @Setter
-    boolean admin;
-
-    @Getter
-    @Setter
     UserProfile profile;
 
     @Getter

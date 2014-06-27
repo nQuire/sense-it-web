@@ -55,9 +55,6 @@
 
     <bean id="objectMapper" class="org.greengin.nquireit.json.JacksonObjectMapper"/>
 
-    <bean id="voteManager" class="org.greengin.nquireit.logic.rating.VoteManagerBean"/>
-
-    <bean id="commentManager" class="org.greengin.nquireit.logic.rating.CommentManagerBean"/>
 
     <bean id="context" class="org.greengin.nquireit.logic.ContextBean">
         <property name="httpProxyHost" value="${server.proxyHost}"/>

@@ -1,7 +1,8 @@
 package org.greengin.nquireit.logic.users;
 
+import org.greengin.nquireit.dao.UserProfileDao;
 import org.greengin.nquireit.entities.users.UserProfile;
-import org.greengin.nquireit.logic.persistence.CustomEntityManagerFactoryBean;
+import org.greengin.nquireit.logic.files.FileMapUpload;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,14 +19,13 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.security.web.authentication.rememberme.AbstractRememberMeServices;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.social.connect.Connection;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.HashMap;
@@ -34,12 +34,6 @@ import java.util.Map;
 
 public class UserServiceBean implements UserDetailsService, InitializingBean {
 
-    static final String AUTHORITY_QUERY = "SELECT userId FROM UserConnection WHERE providerId = ? AND providerUserId = ?";
-
-    private final static String USER_QUERY = "SELECT u from UserProfile u WHERE LOWER(u.username)=LOWER(:username)";
-
-    @Autowired
-    CustomEntityManagerFactoryBean customEntityManagerFactory;
 
     @Autowired
     AuthenticationManager authenticationManager;
@@ -50,42 +44,15 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
     @Autowired
     RememberMeServices rememberMeServices;
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
 
+    @Autowired
+    UserProfileDao userProfileDao;
 
     SecureRandom random;
 
     @Override
     public UserProfile loadUserByUsername(String s) throws UsernameNotFoundException {
-        TypedQuery<UserProfile> query = customEntityManagerFactory.createEntityManager().createQuery(USER_QUERY, UserProfile.class);
-        query.setParameter("username", s);
-        try {
-            return query.getSingleResult();
-        } catch (Exception e) {
-            throw new UsernameNotFoundException(s);
-        }
-    }
-
-    private UserProfile loadUserByProviderUserId(String providerId, String id) {
-
-        EntityManager em = customEntityManagerFactory.createEntityManager();
-        Query query = em.createNativeQuery(AUTHORITY_QUERY);
-
-        query.setParameter(1, providerId);
-        query.setParameter(2, id);
-        try {
-            em.getTransaction().begin();
-            Object obj = query.getSingleResult();
-            em.getTransaction().commit();
-            return loadUserByUsername((String) obj);
-        } catch (NoResultException e) {
-            em.getTransaction().rollback();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
+        return userProfileDao.loadUserByUsername(s);
     }
 
     private StatusResponse createResponse(Authentication auth, HashMap<String, Connection<?>> connections, HttpSession session) {
@@ -130,7 +97,7 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
     public UserProfile currentUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return auth != null && auth.getPrincipal() != null && auth.getPrincipal() instanceof UserProfile ?
-                (UserProfile) auth.getPrincipal() : null;
+                userProfileDao.user(((UserProfile) auth.getPrincipal()).getId()) : null;
     }
 
     public boolean checkToken(HttpServletRequest request) {
@@ -183,7 +150,7 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
     }
 
     public UserProfile providerSignIn(String username, String providerId, String providerUserId) {
-        UserProfile existingUser = loadUserByProviderUserId(providerId, providerUserId);
+        UserProfile existingUser = userProfileDao.loadUserByProviderUserId(providerId, providerUserId);
         if (existingUser != null) {
             return existingUser;
         } else {
@@ -192,7 +159,7 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
                 initialUsername = String.format("%s(%d)", username, i);
             }
 
-            return createUser(initialUsername, null);
+            return userProfileDao.createUser(initialUsername, null);
         }
     }
 
@@ -206,7 +173,7 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
             result.getResponses().put("registration", "username_exists");
             return result;
         } catch (UsernameNotFoundException e) {
-            UserProfile user = createUser(username, password);
+            UserProfile user = userProfileDao.createUser(username, password);
             login(user, request.getSession());
 
             return status(connections, request.getSession());
@@ -219,25 +186,60 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
     }
 
 
-
     public boolean matchPassword(UserProfile user, String password) {
-        return passwordEncoder.matches(password, user.getPassword());
+        return userProfileDao.matchPassword(user, password);
     }
 
-    public void setPassword(UserProfile user, String password) {
-        user.setPassword(passwordEncoder.encode(password));
+    public void setPassword(Long userId, String password) {
+        userProfileDao.setPassword(userId, password);
     }
 
-    private UserProfile createUser(String username, String password) {
-        UserProfile user = new UserProfile();
-        user.setUsername(username);
-        user.setPassword(password != null ? passwordEncoder.encode(password) : null);
 
-        EntityManager em = customEntityManagerFactory.createEntityManager();
-        em.getTransaction().begin();
-        em.persist(user);
-        em.getTransaction().commit();
-        return user;
+    private void update(StatusResponse currentStatus) {
+        UserProfile profile = userProfileDao.user(currentStatus.profile.getId());
+        currentStatus.setProfile(profile);
     }
+
+    public boolean updateProfileImage(StatusResponse currentStatus, FileMapUpload files) {
+        if (userProfileDao.updateProfileImage(currentStatus.getProfile().getId(), files)) {
+            update(currentStatus);
+            return true;
+        }
+
+        return false;
+    }
+
+
+    public boolean updateProfile(StatusResponse currentStatus, ProfileRequest data) {
+        if (data.getUsername() != null) {
+            if (!data.getUsername().equals(currentStatus.getProfile().getUsername())) {
+
+                if (data.getUsername().length() == 0) {
+                    currentStatus.getResponses().put("username", "username_empty");
+                } else if (!usernameIsAvailable(data.getUsername())) {
+                    currentStatus.getResponses().put("username", "username_not_available");
+                } else {
+                    userProfileDao.updateUsername(currentStatus.getProfile().getId(), data.getUsername());
+                }
+            }
+        }
+
+        if (data.getMetadata() != null) {
+            userProfileDao.updateUserMetadata(currentStatus.getProfile().getId(), data.getMetadata());
+        }
+
+        update(currentStatus);
+        return true;
+    }
+
+    public boolean deleteConnection(StatusResponse currentStatus, String providerId) {
+        if (((currentStatus.getProfile().getPassword() != null && currentStatus.getProfile().getPassword().length() > 0) || currentStatus.getConnections().size() > 1) && userProfileDao.deleteConnection(currentStatus.getProfile().getId(), providerId)) {
+            currentStatus.getConnections().remove(providerId);
+            return true;
+        }
+
+        return false;
+    }
+
 
 }

@@ -8,6 +8,7 @@ import org.greengin.nquireit.logic.ContextBean;
 import org.greengin.nquireit.logic.data.DataActions;
 import org.greengin.nquireit.logic.project.ProjectResponse;
 import org.greengin.nquireit.logic.project.senseit.transformations.SenseItProcessedSeriesVariable;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
@@ -30,8 +31,7 @@ public class SenseItActivityActions extends DataActions<SenseItSeries, BaseAnaly
 
     public byte[] getPlot(Long dataId, String varId) {
         if (hasAccess(PermissionType.PROJECT_VIEW_IMAGE)) {
-            EntityManager em = context.createEntityManager();
-            SenseItSeries series = em.find(SenseItSeries.class, dataId);
+            SenseItSeries series = context.getSenseItDao().getSeries(dataId);
             SenseItProcessedSeriesVariable data = series.varData(varId);
             return SenseItPlots.createPlot(data);
         } else {
@@ -43,65 +43,40 @@ public class SenseItActivityActions extends DataActions<SenseItSeries, BaseAnaly
     /**
      * editor actions *
      */
-
-
+    @Transactional
     public ProjectResponse updateProfile(SenseItProfileRequest profileData) {
         if (hasAccess(PermissionType.PROJECT_EDITION)) {
-            EntityManager em = context.createEntityManager();
-            em.getTransaction().begin();
-            profileData.updateProfile(activity.getProfile());
-            em.getTransaction().commit();
-
+            context.getSenseItDao().updateProfile(profileData, activity);
             return projectResponse(project);
         }
 
         return null;
     }
 
-
+    @Transactional
     public ProjectResponse createSensor(SensorInputRequest inputData) {
         if (hasAccess(PermissionType.PROJECT_EDITION)) {
-            EntityManager em = context.createEntityManager();
-            em.getTransaction().begin();
-            SensorInput input = new SensorInput();
-            inputData.updateInput(input);
-            if (activity.getProfile() == null) {
-                activity.setProfile(new SenseItProfile());
-            }
-
-            activity.getProfile().getSensorInputs().add(input);
-            em.getTransaction().commit();
-
+            context.getSenseItDao().createSensor(inputData, activity);
             return projectResponse(project);
         }
 
         return null;
     }
 
+    @Transactional
     public ProjectResponse updateSensor(Long inputId, SensorInputRequest inputData) {
         if (hasAccess(PermissionType.PROJECT_EDITION)) {
-            EntityManager em = context.createEntityManager();
-            SensorInput input = em.find(SensorInput.class, inputId);
-
-            em.getTransaction().begin();
-            inputData.updateInput(input);
-            em.getTransaction().commit();
-
+            context.getSenseItDao().updateSensor(inputData, inputId);
             return projectResponse(project);
         }
 
         return null;
     }
 
+    @Transactional
     public ProjectResponse deleteSensor(Long inputId) {
         if (hasAccess(PermissionType.PROJECT_EDITION)) {
-            EntityManager em = context.createEntityManager();
-            SensorInput input = em.find(SensorInput.class, inputId);
-
-            em.getTransaction().begin();
-            activity.getProfile().getSensorInputs().remove(input);
-            em.getTransaction().commit();
-
+            context.getSenseItDao().deleteSensor(activity, inputId);
             return projectResponse(project);
         }
 

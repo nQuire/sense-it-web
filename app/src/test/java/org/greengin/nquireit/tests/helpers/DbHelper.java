@@ -29,14 +29,14 @@ public class DbHelper {
     private final String userConnectionTableIndex = "create unique index UserConnectionRank on UserConnection(userId, providerId, rank);";
 
     ContextBean context;
+    EntityManager em;
 
-    public DbHelper(ContextBean context) {
+    public DbHelper(ContextBean context, EntityManager em) {
         this.context = context;
+        this.em = em;
     }
 
     public void clear() {
-        EntityManager em = context.createEntityManager();
-
         em.getTransaction().begin();
         em.createNativeQuery(userConnectionTableDrop).executeUpdate();
         em.createNativeQuery(userConnectionTableCreate).executeUpdate();
@@ -69,12 +69,12 @@ public class DbHelper {
     }
 
     public Project getProject(Long id) {
-        return context.createEntityManager().find(Project.class, id);
+        return em.find(Project.class, id);
     }
 
     public UserProfile createUser(String name) {
 
-        EntityManager em = context.createEntityManager();
+        EntityManager em = em;
         em.getTransaction().begin();
         UserProfile user = new UserProfile();
         user.setUsername(name);
@@ -94,12 +94,12 @@ public class DbHelper {
 
         ProjectActions actions = new ProjectActions(context, null, user, true);
         Long id = actions.createProject(projectRequest);
-        return context.createEntityManager().find(Project.class, id);
+        return em.find(Project.class, id);
     }
 
 
     public List<UserProfile> users() {
-        return context.createEntityManager().createQuery("SELECT u from UserProfile u", UserProfile.class).getResultList();
+        return em.createQuery("SELECT u from UserProfile u", UserProfile.class).getResultList();
     }
 
 }

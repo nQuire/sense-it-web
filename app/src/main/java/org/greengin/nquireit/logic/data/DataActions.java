@@ -9,18 +9,13 @@ import org.greengin.nquireit.logic.ContextBean;
 import org.greengin.nquireit.logic.project.activity.AbstractActivityActions;
 import org.greengin.nquireit.logic.rating.VoteCount;
 import org.greengin.nquireit.logic.rating.VoteRequest;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
-import java.util.Date;
 
 public abstract class DataActions<E extends AbstractDataProjectItem, F extends AbstractDataProjectItem, T extends DataCollectionActivity<E, F>>
         extends AbstractActivityActions<T> {
-
-    private static final String ITEMS_QUERY = "SELECT d FROM %s d WHERE d.dataStore = :dataStore";
-    private static final String ITEM_COUNT_QUERY = "SELECT COUNT(d) FROM %s d WHERE d.dataStore = :dataStore";
 
     Class<E> dataType;
     Class<F> analysisType;
@@ -47,10 +42,11 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
 
     private <K extends AbstractDataProjectItem> Collection<K> getItems(Class<K> type) {
         if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION)) {
-            EntityManager em = context.createEntityManager();
 
-            String queryStr = String.format(ITEMS_QUERY, type.getName()); TypedQuery<K> query = em.createQuery(queryStr, type); query.setParameter("dataStore", activity); Collection<K> list = query.getResultList(); for (VotableEntity item : list)
+            Collection<K> list = context.getDataActivityDao().itemList(type, activity);
+            for (VotableEntity item : list) {
                 item.setSelectedVoteAuthor(user);
+            }
             return list;
         }
 
@@ -59,38 +55,27 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
 
     private <K extends AbstractDataProjectItem> Long getItemCount(Class<K> type) {
         if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION)) {
-            EntityManager em = context.createEntityManager();
-
-            String queryStr = String.format(ITEM_COUNT_QUERY, type.getName());
-
-            TypedQuery<Long> query = em.createQuery(queryStr, Long.class);
-            query.setParameter("dataStore", activity);
-            return query.getSingleResult();
+            return context.getDataActivityDao().itemCount(type, activity);
         }
 
         return 0l;
     }
 
 
+    @Transactional
     private <K extends AbstractDataProjectItem> NewDataItemResponse<K> createItem(Class<K> type, DataItemManipulator<T, K> manipulator) {
         if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION)) {
+
             try {
-                K item = type.newInstance();
-                item.setDataStore(activity);
-                item.setAuthor(user);
-                item.setDate(new Date());
+                manipulator.init(project, activity);
 
-                if (manipulator.onCreate(project, activity, item)) {
-                    EntityManager em = context.createEntityManager();
-                    em.getTransaction().begin();
-                    em.persist(item);
-                    em.getTransaction().commit();
+                Long newItemId = context.getDataActivityDao().createItem(user, type, manipulator);
+                if (newItemId != null) {
+                    NewDataItemResponse<K> response = new NewDataItemResponse<K>();
+                    response.setNewItemId(newItemId);
+                    response.setItems(getItems(type));
+                    return response;
                 }
-
-                NewDataItemResponse<K> response = new NewDataItemResponse<K>();
-                response.setNewItemId(item.getId());
-                response.setItems(getItems(type));
-                return response;
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -100,43 +85,30 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
         return null;
     }
 
+    @Transactional
     private <K extends AbstractDataProjectItem> K updateItem(Class<K> type, Long itemId,
                                                              DataItemManipulator<T, K> manipulator) {
         if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION)) {
-            EntityManager em = context.createEntityManager();
-            K item = em.find(type, itemId);
+
+            K item = context.getDataActivityDao().getItem(type, itemId);
             if (item != null && item.getDataStore() == activity && item.getAuthor().getId().equals(user.getId())) {
-                em.getTransaction().begin();
-                try {
-                    manipulator.onUpdate(project, activity, item);
-                    em.getTransaction().commit();
-                    return item;
-                } catch (Exception e) {
-                    em.getTransaction().rollback();
-                    e.printStackTrace();
-                }
+                manipulator.init(project, activity);
+                context.getDataActivityDao().updateItem(item, manipulator);
             }
         }
 
         return null;
     }
 
+    @Transactional
     private <K extends AbstractDataProjectItem> Long deleteItem(Class<K> type, Long itemId,
                                                                 DataItemManipulator<T, K> manipulator) {
         if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION)) {
-            EntityManager em = context.createEntityManager();
-            K item = em.find(type, itemId);
+            K item = context.getDataActivityDao().getItem(type, itemId);
             if (item != null && item.getDataStore() == activity && item.getAuthor().getId().equals(user.getId())) {
-                try {
-                    em.getTransaction().begin();
-                    manipulator.onDelete(project, activity, item);
-                    em.remove(item);
-                    em.getTransaction().commit();
-                    return itemId;
-                } catch (Exception e) {
-                    em.getTransaction().rollback();
-                    e.printStackTrace();
-                }
+                manipulator.init(project, activity);
+                context.getDataActivityDao().removeItem(item, manipulator);
+                return itemId;
             }
         }
 
@@ -174,10 +146,9 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
 
     public VoteCount voteItem(Long itemId, VoteRequest voteData) {
         if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION)) {
-            EntityManager em = context.createEntityManager();
-            AbstractDataProjectItem item = em.find(AbstractDataProjectItem.class, itemId);
+            AbstractDataProjectItem item = context.getDataActivityDao().getItem(AbstractDataProjectItem.class, itemId);
             if (item != null && item.getDataStore() == activity) {
-                return context.getVoteManager().vote(user, item, voteData);
+                return context.getVoteDao().vote(user, item, voteData);
             }
         }
 

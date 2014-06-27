@@ -2,16 +2,14 @@ package org.greengin.nquireit.logic;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.greengin.nquireit.dao.*;
 import org.greengin.nquireit.logic.data.FileManagerBean;
 import org.greengin.nquireit.logic.users.SubscriptionManagerBean;
-import org.greengin.nquireit.logic.persistence.CustomEntityManagerFactoryBean;
-import org.greengin.nquireit.logic.rating.CommentManagerBean;
-import org.greengin.nquireit.logic.rating.VoteManagerBean;
+import org.greengin.nquireit.dao.CommentsDao;
+import org.greengin.nquireit.dao.VoteDao;
 import org.greengin.nquireit.logic.users.UserServiceBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.persistence.EntityManager;
 
 /**
  * Created by evilfer on 4/2/14.
@@ -39,18 +37,31 @@ public class ContextBean implements InitializingBean {
 
     @Autowired
     @Getter
-    VoteManagerBean voteManager;
+    VoteDao voteDao;
 
     @Autowired
     @Getter
-    CommentManagerBean commentManager;
+    CommentsDao commentsDao;
 
     @Autowired
-    CustomEntityManagerFactoryBean entityManagerFactory;
+    @Getter
+    ForumDao forumDao;
 
-    public EntityManager createEntityManager() {
-        return entityManagerFactory.createEntityManager();
-    }
+    @Autowired
+    @Getter
+    ProjectDao projectDao;
+
+    @Autowired
+    @Getter
+    DataActivityDao dataActivityDao;
+
+    @Autowired
+    @Getter
+    SenseItDao senseItDao;
+
+    @Autowired
+    @Getter
+    ChallengeDao challengeDao;
 
     @Override
     public void afterPropertiesSet() throws Exception {

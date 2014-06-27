@@ -14,4 +14,6 @@ public class Views {
 	public static interface VotableNamedVotes extends Votable {}
 	public static interface VotableCountModeration extends VotableCount {}
 
+    public static interface ForumList extends UserName {};
+    public static interface ForumThread extends ForumList {};
 }

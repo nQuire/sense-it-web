@@ -35,7 +35,7 @@ public class SecurityControllerTests extends TestsBase {
     }
 
     private void checkUserCount(int count) {
-        EntityManager em = context.createEntityManager();
+        EntityManager em = context.getEntityManager();
         int uc = em.createQuery("SELECT u FROM UserProfile u", UserProfile.class).getResultList().size();
         assertEquals(uc, count);
     }
@@ -45,7 +45,7 @@ public class SecurityControllerTests extends TestsBase {
     }
 
     private void checkUser(int index, String username, String providerId, String providerUserId) {
-        EntityManager em = context.createEntityManager();
+        EntityManager em = context.getEntityManager();
         List<UserProfile> users = em.createQuery("SELECT u FROM UserProfile u", UserProfile.class).getResultList();
         assertTrue(users.size() > index);
 

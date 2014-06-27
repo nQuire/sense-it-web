@@ -31,7 +31,7 @@ public class VoteTests extends TestsBase {
     protected void vote(UserProfile user, Long value) {
         VoteRequest request = new VoteRequest();
         request.setValue(value);
-        context.getVoteManager().vote(user, votable, request);
+        context.getVoteDao().vote(user, votable, request);
     }
 
     protected void test(UserProfile user, int positive, int negative) {

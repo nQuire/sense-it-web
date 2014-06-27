@@ -10,9 +10,6 @@
     <import resource="shared.xml"/>
     <import resource="security.xml"/>
 
-    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="entityManagerFactory" ref="customEntityManagerFactory"/>
-    </bean>
 
     <mvc:annotation-driven>
         <mvc:message-converters register-defaults="false">

@@ -9,7 +9,7 @@ import org.greengin.nquireit.logic.files.FileMapUpload;
 
 import java.io.IOException;
 
-public class SpotItObservationManipulator implements DataItemManipulator<SpotItActivity, SpotItObservation> {
+public class SpotItObservationManipulator extends DataItemManipulator<SpotItActivity, SpotItObservation> {
 
     SpotItObservationRequest data;
     FileMapUpload.FileData file;
@@ -22,7 +22,7 @@ public class SpotItObservationManipulator implements DataItemManipulator<SpotItA
 	}
 
 	@Override
-	public boolean onCreate(Project project, SpotItActivity activity, SpotItObservation newItem) {
+	public boolean onCreate(SpotItObservation newItem) {
         try {
             String filename = context.getFileManager().uploadFile(project.getId().toString(), file.filename, file.data);
             newItem.setObservation(filename);
@@ -36,11 +36,11 @@ public class SpotItObservationManipulator implements DataItemManipulator<SpotItA
 	}
 
 	@Override
-	public void onUpdate(Project project, SpotItActivity activity, SpotItObservation item) {
+	public void onUpdate(SpotItObservation item) {
 	}
 
 	@Override
-	public void onDelete(Project project, SpotItActivity activity, SpotItObservation item) {
+	public void onDelete(SpotItObservation item) {
 	}
 
 }

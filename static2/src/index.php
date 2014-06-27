@@ -65,6 +65,7 @@ ini_set('error_reporting', E_ALL);
     <script src="js/app/services/project-challenge-admin-service.js"></script>
     <script src="js/app/services/project-challenge-participant-service.js"></script>
     <script src="js/app/services/project-challenge-outcome-service.js"></script>
+    <script src="js/app/services/forum-service.js"></script>
 
 
     <script src="js/app/directives/back-image.js"></script>
@@ -80,7 +81,10 @@ ini_set('error_reporting', E_ALL);
     <script src="js/app/filters/uploaded-image-filter.js"></script>
     <script src="js/app/filters/fuzzy-date.js"></script>
 
-    <script src="js/app/controllers/comments-controller.js"></script>
+    <script src="js/app/controllers/forum/comments-controller.js"></script>
+    <script src="js/app/controllers/forum/forum-controller.js"></script>
+    <script src="js/app/controllers/forum/forum-list-controller.js"></script>
+
     <script src="js/app/controllers/layout/main-controller.js"></script>
 
     <script src="js/app/controllers/profile/profile-controller.js"></script>
