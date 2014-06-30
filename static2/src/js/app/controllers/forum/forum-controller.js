@@ -2,5 +2,8 @@ angular.module('senseItWeb', null, null).controller('ForumCtrl', function ($scop
 
     ForumService.get($scope);
 
+    $scope.adminAccess = function() {
+        return $scope.status.logged && $scope.status.profile.admin;
+    };
 
 });

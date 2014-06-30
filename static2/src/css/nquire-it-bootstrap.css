@@ -11056,3 +11056,19 @@ i.vote-icon.enabled:hover {
 
 .project-create-form-container {
   text-align: center; }
+
+.forum-container {
+  margin: 0 20px; }
+  .forum-container .forum-header {
+    height: 24px;
+    line-height: 24px;
+    color: white;
+    background: #444444;
+    padding-left: 10px; }
+    .forum-container .forum-header .arrow {
+      color: #aaaaaa; }
+    .forum-container .forum-header a {
+      color: #73A9D7; }
+  .forum-container .forum-content, .forum-container .forum-thread-content {
+    padding: 10px;
+    background: #f6f5f5; }

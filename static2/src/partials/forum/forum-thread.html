@@ -1,0 +1,36 @@
+<div class="forum-header">
+    <a href data-ui-sref="forum.list">Forum</a> ▸
+    <a href data-ui-sref="forum.node.list({forumId: forum.thread.forum.id})">{{forum.thread.forum.title}}</a> ▸
+    {{forum.thread.title}}
+</div>
+<div class="forum-thread-content">
+
+    <p>{{forum.thread.title}}</p>
+
+    <div class="forum-thread-comment" data-ng-repeat="comment in forum.thread.comments">
+        <p>{{comment.date | fuzzyDate }} | {{comment.user.username}}:</p>
+
+        <p>{{comment.comment}}</p>
+    </div>
+
+    <div data-ng-if="status.logged">
+        <div data-ng-if="!form.isOpen()">
+            <button class="btn btn-default" data-ng-click="form.open()">Post comment</button>
+        </div>
+        <div data-ng-if="form.isOpen()">
+
+            <form role="form">
+                <div class="form-group">
+                    <label for="comment">Comment:</label>
+                    <textarea class="form-control" id="comment" data-ng-model="form.values.comment" placeholder="Comment"></textarea>
+                </div>
+                <div class="btn-group">
+
+                    <button class="btn btn-default" data-ng-click="form.save()">Post</button>
+                    <button class="btn btn-default" data-ng-click="form.cancel()">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>

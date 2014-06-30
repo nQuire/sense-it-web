@@ -2,6 +2,7 @@ package org.greengin.nquireit.dao;
 
 import org.greengin.nquireit.entities.rating.Comment;
 import org.greengin.nquireit.entities.rating.CommentThreadEntity;
+import org.greengin.nquireit.entities.rating.VotableEntity;
 import org.greengin.nquireit.entities.rating.Vote;
 import org.greengin.nquireit.entities.users.UserProfile;
 import org.greengin.nquireit.logic.rating.CommentRequest;
@@ -18,21 +19,29 @@ public class CommentsDao {
     @PersistenceContext
     EntityManager em;
 
+
+
     @Transactional
     public Comment comment(UserProfile user, CommentThreadEntity target, CommentRequest request) {
+        em.persist(target);
+        Comment comment = commentWithinTransaction(user, target, request);
+        em.persist(comment);
+        return comment;
+    }
+    
+    public Comment commentWithinTransaction(UserProfile user, CommentThreadEntity target, CommentRequest request) {
         Comment comment = new Comment();
         comment.setUser(user);
         comment.setTarget(target);
         target.getComments().add(comment);
         request.update(comment);
-        em.persist(comment);
-
-        return comment;
+        return comment;        
     }
 
     @Transactional
     public boolean deleteComment(UserProfile user, CommentThreadEntity target, Long commentId) {
         if (user != null && target != null && commentId != null) {
+            em.persist(target);
             Comment c = em.find(Comment.class, commentId);
 
             if (c != null && user.equals(c.getUser()) && target.equals(c.getTarget())) {

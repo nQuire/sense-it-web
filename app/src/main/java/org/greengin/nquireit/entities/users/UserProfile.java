@@ -27,7 +27,7 @@ public class UserProfile extends AbstractEntity implements UserDetails {
     @Basic
     @Setter
     @Getter
-    Boolean admin = false;
+    boolean admin = false;
 
     @Basic
     @Getter

@@ -12,10 +12,7 @@ import org.greengin.nquireit.entities.activities.senseit.SenseItSeries;
 import org.greengin.nquireit.entities.activities.senseit.SensorInput;
 import org.greengin.nquireit.entities.data.AbstractDataProjectItem;
 import org.greengin.nquireit.entities.projects.Project;
-import org.greengin.nquireit.entities.rating.Comment;
-import org.greengin.nquireit.entities.rating.ForumNode;
-import org.greengin.nquireit.entities.rating.VotableEntity;
-import org.greengin.nquireit.entities.rating.Vote;
+import org.greengin.nquireit.entities.rating.*;
 import org.greengin.nquireit.entities.users.UserProfile;
 import org.greengin.nquireit.json.mixins.*;
 import org.greengin.nquireit.logic.project.senseit.SenseItAnalysisRequest;
@@ -49,6 +46,7 @@ public class JacksonObjectMapper extends ObjectMapper {
         addMixIn(SensorInput.class, SensorInputMixIn.class);
 
         addMixIn(ForumNode.class, ForumNodeMixIn.class);
+        addMixIn(ForumThread.class, ForumThreadMixIn.class);
     }
 
     private void addMixIn(Class<?> object, Class<?> mixin) {

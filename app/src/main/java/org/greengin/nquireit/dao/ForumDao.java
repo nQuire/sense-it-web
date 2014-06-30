@@ -1,7 +1,12 @@
 package org.greengin.nquireit.dao;
 
+import org.greengin.nquireit.entities.rating.Comment;
 import org.greengin.nquireit.entities.rating.ForumNode;
 import org.greengin.nquireit.entities.rating.ForumThread;
+import org.greengin.nquireit.entities.users.UserProfile;
+import org.greengin.nquireit.logic.forum.ForumRequest;
+import org.greengin.nquireit.logic.rating.CommentRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +23,9 @@ public class ForumDao {
     @PersistenceContext
     EntityManager em;
 
+    @Autowired
+    CommentsDao commentsDao;
+
 
     @Transactional
     public ForumNode findRoot() {
@@ -33,7 +41,62 @@ public class ForumDao {
         }
     }
 
+    public ForumNode findForum(Long id) {
+        return em.find(ForumNode.class, id);
+    }
+
     public ForumThread findThread(Long id) {
         return em.find(ForumThread.class, id);
+    }
+
+
+    @Transactional
+    public ForumNode createForum(Long containerId, ForumRequest forumData) {
+        ForumNode container = findForum(containerId);
+        if (container != null) {
+            ForumNode node = new ForumNode();
+            forumData.update(node);
+
+            em.persist(node);
+
+            node.setParent(container);
+            container.getChildren().add(node);
+
+            return node;
+        }
+
+        return null;
+    }
+
+    @Transactional
+    public void updateForum(Long forumId, ForumRequest forumData) {
+        ForumNode forum = findForum(forumId);
+        if (forum != null) {
+            forumData.update(forum);
+        }
+    }
+
+    @Transactional
+    public ForumThread createThread(UserProfile user, Long forumId, ForumRequest forumData) {
+        ForumNode forum = findForum(forumId);
+        if (forum != null) {
+            ForumThread thread = new ForumThread();
+            thread.setAuthor(user);
+            forumData.update(thread);
+
+            thread.setForum(forum);
+            forum.getThreads().add(thread);
+
+            em.persist(thread);
+
+            CommentRequest commentRequest = new CommentRequest();
+            commentRequest.setComment(forumData.getText());
+            Comment comment = commentsDao.commentWithinTransaction(user, thread, commentRequest);
+            em.persist(comment);
+
+            return thread;
+        }
+
+        return null;
     }
 }

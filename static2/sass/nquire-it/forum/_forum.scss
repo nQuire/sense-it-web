@@ -1,0 +1,34 @@
+@import "../variables/dimensions";
+@import "../variables/colors";
+
+.forum-container {
+  margin: 0 $dim-common-margin;
+
+  .forum-header {
+    height: $dim-forum-header-height;
+    line-height: $dim-forum-header-height;
+    color: white;
+    background: $color-dark-grey;
+    padding-left: $dim-common-small-margin;
+
+    .arrow {
+      color: #aaaaaa;
+    }
+
+    a {
+      color: #73A9D7;
+    }
+  }
+  .forum-content {
+    padding: $dim-common-small-margin;
+    background: $color-project-list-item-background;
+  }
+
+  .forum-thread-content {
+    @extend .forum-content;
+
+
+  }
+
+}
+

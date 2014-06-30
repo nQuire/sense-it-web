@@ -1,0 +1,30 @@
+<div class="forum-header"><a href data-ui-sref="forum.list">Forum</a> ▸ {{forum.node.title}}</div>
+<div class="forum-content">
+
+    <p data-ng-if="status.logged">
+        <button class="btn btn-default" data-ui-sref="forum.node.new-thread">Post new thread</button>
+    </p>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Thread</th>
+            <th>Starter</th>
+            <th>Last post</th>
+            <th>Replies</th>
+            <th>Views</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr data-ng-repeat="thread in forum.node.threads">
+            <td><a href data-ui-sref="forum.thread({threadId: thread.id})">{{thread.title}}</td>
+            <td>{{thread.author.username}}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+
+        </tr>
+        </tbody>
+    </table>
+
+</div>

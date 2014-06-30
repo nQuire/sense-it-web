@@ -30,6 +30,26 @@ angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'senseItServices'], nul
             templateUrl: 'partials/forum/forum-list.html',
             controller: 'ForumListCtrl'
         })
+        .state('forum.node', {
+            url: '/{forumId}',
+            templateUrl: 'partials/forum/forum-node.html',
+            controller: 'ForumNodeCtrl',
+            abstract: true
+        })
+        .state('forum.node.list', {
+            url: '',
+            templateUrl: 'partials/forum/forum-node-list.html'
+        })
+        .state('forum.node.new-thread', {
+            url: '/new',
+            templateUrl: 'partials/forum/forum-node-new-thread.html',
+            controller: 'ForumNodeNewThreadCtrl'
+        })
+        .state('forum.thread', {
+            url: '/thread/{threadId}',
+            templateUrl: 'partials/forum/forum-thread.html',
+            controller: 'ForumThreadCtrl'
+        })
         .state('project', {
             abstract: true,
             url: '/project/{projectId}',
