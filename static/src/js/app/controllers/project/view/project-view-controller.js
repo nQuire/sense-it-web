@@ -1,5 +1,8 @@
 angular.module('senseItWeb', null, null).controller('ProjectViewCtrl', function ($scope, $state, ProjectService) {
 
+
+
+
     $scope.joinProject = function () {
         $scope.projectWatcher.joinProject().then(function () {
             /*var view;
@@ -29,8 +32,6 @@ angular.module('senseItWeb', null, null).controller('ProjectViewCtrl', function 
     };
 
 
-    $scope.templates = {
-    };
 
     $scope.projectTemplate = function () {
         if ($scope.projectData.project) {

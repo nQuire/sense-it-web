@@ -3,6 +3,7 @@
 /* App Module */
 
 angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'senseItServices'], null).config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+
     $stateProvider
         .state('home', {
             url: '/home',
@@ -11,12 +12,43 @@ angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'senseItServices'], nul
         })
         .state('about', {
             url: '/about',
-            templateUrl: 'partials/about.html'
+            templateUrl: 'partials/layout/about.html'
         })
         .state('create', {
             url: '/create',
             templateUrl: 'partials/projects/create.html',
             controller: 'CreateCtrl'
+        })
+        .state('forum', {
+            url: '/forum',
+            abstract: true,
+            templateUrl: 'partials/forum/forum.html',
+            controller: 'ForumCtrl'
+        })
+        .state('forum.list', {
+            url: '',
+            templateUrl: 'partials/forum/forum-list.html',
+            controller: 'ForumListCtrl'
+        })
+        .state('forum.node', {
+            url: '/{forumId}',
+            templateUrl: 'partials/forum/forum-node.html',
+            controller: 'ForumNodeCtrl',
+            abstract: true
+        })
+        .state('forum.node.list', {
+            url: '',
+            templateUrl: 'partials/forum/forum-node-list.html'
+        })
+        .state('forum.node.new-thread', {
+            url: '/new',
+            templateUrl: 'partials/forum/forum-node-new-thread.html',
+            controller: 'ForumNodeNewThreadCtrl'
+        })
+        .state('forum.thread', {
+            url: '/thread/{threadId}',
+            templateUrl: 'partials/forum/forum-thread.html',
+            controller: 'ForumThreadCtrl'
         })
         .state('project', {
             abstract: true,
@@ -32,7 +64,11 @@ angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'senseItServices'], nul
         })
         .state('project.view.home', {
             url: '',
-            templateUrl: 'partials/project/view/home/project-view-home.html'
+            templateUrl: 'partials/project/view/home/project-view-home-page.html'
+        })
+        .state('project.view.comments', {
+            url: '/comments',
+            templateUrl: 'partials/project/view/project-view-comments.html'
         })
         .state('project.view.data-list', {
             url: '/data',
@@ -44,12 +80,25 @@ angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'senseItServices'], nul
         })
         .state('project.view.challenge', {
             url: '/challenge',
-            templateUrl: 'partials/project/view/challenge/project-view-challenge-work.html'
+            templateUrl: 'partials/project/view/challenge/project-view-challenge-page.html'
         })
         .state('project.admin', {
+            abstract: true,
             url: '/admin',
-            templateUrl: 'partials/project/admin/project-admin-page.html',
+            templateUrl: 'partials/project/admin/project-admin.html',
             controller: 'ProjectAdminCtrl'
+        })
+        .state('project.admin.home', {
+            url: '',
+            templateUrl: 'partials/project/admin/project-admin-home-page.html'
+        })
+        .state('project.admin.challenge-main', {
+            url: '/challenge',
+            templateUrl: 'partials/project/admin/challenge/project-admin-challenge-page.html'
+        })
+        .state('project.admin.challenge-answers', {
+            url: '/submissions',
+            templateUrl: 'partials/project/admin/challenge/project-admin-challenge-answers-page.html'
         })
         .state('project.edit', {
             abstract: true,
@@ -59,24 +108,21 @@ angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'senseItServices'], nul
         })
         .state('project.edit.home', {
             url: '',
-            templateUrl: 'partials/project/edit/project-edit-metadata.html',
-            controller: 'ProjectEditMetadataCtrl'
+            templateUrl: 'partials/project/edit/project-edit-description-page.html',
+            controller: 'ProjectEditDescriptionCtrl'
         })
         .state('project.edit.senseit', {
             url: '/senseit',
-            templateUrl: 'partials/project/edit/senseit/project-edit-senseit.html',
-            controller: 'ProjectEditSenseItCtrl'
+            templateUrl: 'partials/project/edit/senseit/project-edit-senseit-page.html'
         })
         .state('project.edit.challenge', {
             url: '/challenge',
-            templateUrl: 'partials/project/edit/challenge/project-edit-challenge.html',
-            controller: 'ProjectEditChallengeCtrl'
+            templateUrl: 'partials/project/edit/challenge/project-edit-challenge-page.html'
         })
         .state('profile', {
             url: '/profile',
-            templateUrl: 'partials/profile.html',
+            templateUrl: 'partials/profile/profile.html',
             controller: 'ProfileCtrl'
         });
-
     $urlRouterProvider.otherwise('/home');
 }]);

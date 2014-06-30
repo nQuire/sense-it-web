@@ -29,7 +29,7 @@
                 data-ng-click="headerSort('votes')">
                 Votes
             </th>
-            <th data-ng-class="headerClass('answer')" data-ng-click="headerSort('answer')">Answer</th>
+            <th data-ng-class="headerClass('answer')" data-ng-click="headerSort('answer')">Submission</th>
             <th></th>
         </tr>
         </thead>
@@ -56,12 +56,12 @@
 
     <div data-ng-if="answerData.editable">
         <div data-ng-if="maxAnswersReached()">
-            <p>You have created the maximum number of allowed answers: {{projectData.project.activity.maxAnswers}}.</p>
+            <p>You have created the maximum number of allowed submissions: {{projectData.project.activity.maxAnswers}}.</p>
         </div>
         <div data-ng-if="!maxAnswersReached()">
-            <p>You can create up to {{projectData.project.activity.maxAnswers}} answers.</p>
-            <button class="pure-button pure-button-primary" data-ng-click="itemView.openNew()">
-                Create new answer
+            <p>You can create up to {{projectData.project.activity.maxAnswers}} submissions.</p>
+            <button class="btn btn-default" data-ng-click="itemView.openNew()">
+                Create new submission
             </button>
         </div>
     </div>

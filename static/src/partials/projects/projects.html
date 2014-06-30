@@ -1,69 +1,45 @@
-<!DOCTYPE html>
-
-
-<p>A place where your ideas are turned into real missions.</p>
-
-<div class="container-fluid">
+<div class="content-sidebar">
     <div class="row">
-        <div class="col-xs-12 col-sm-3 col-sm-push-9">
-            <div class="sidebar-nav">
-                <div class="navbar navbar-default" role="navigation">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse"
-                                data-target=".sidebar-navbar-collapse">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <span class="visible-xs navbar-brand">Category:</span>
-                    </div>
-
-                    <div class="navbar-collapse collapse sidebar-navbar-collapse">
-                        <ul class="nav navbar-nav">
-                            <li data-ng-class="{active: filter == null}">
-                                <a href="" data-ng-click="setFilter(null)">All <span class="badge">{{projectList.categories.all}}</span></a>
-                            </li>
-                            <li data-ng-class="{active: filter == 'challenge'}">
-                                <a href="" data-ng-click="setFilter('challenge')">Win-it <span class="badge">{{projectList.categories.challenge}}</span></a>
-                            </li>
-                            <li data-ng-class="{active: filter == 'senseit'}">
-                                <a href="" data-ng-click="setFilter('senseit')">Sense-it <span class="badge">{{projectList.categories.senseit}}</span></a>
-                            </li>
-                            <li data-ng-class="{active: filter == 'spotit'}">
-                                <a href="" data-ng-click="setFilter('spotit')">Spot-it <span class="badge">{{projectList.categories.spotit}}</span></a>
-                            </li>
-                        </ul>
-                    </div>
+        <div data-ng-repeat="projectData in filteredList()" class="col-xs-12 col-sm-6 col-md-4">
+            <div class="project-item" data-ng-class="projectClass(projectData)">
+                <div class="project-item-image-container"
+                     data-ui-sref="project.view.home({projectId: projectData.project.id})">
+                    <img src=""
+                         data-ng-src="{{projectData.project.description.image | uploadedImage:'media/image_default.png'}}"
+                         data-ui-sref="project.view.home({projectId: projectData.project.id})"/>
                 </div>
-
-            </div>
-        </div>
-
-
-        <div class="col-xs-12 col-sm-9 col-sm-pull-3">
-            <div class="row">
-                <div data-ng-repeat="projectData in filteredList()" class="col-xs-12 col-sm-6 col-md-4">
-                    <div class="project-item" data-ng-class="projectClass(projectData)">
-                        <div class="project-item-image-container"
-                             data-ui-sref="project.view.home({projectId: projectData.project.id})">
-                            <img src="" data-ng-src="{{projectData.project.description.image | uploadedImage}}"/>
-                        </div>
-                        <div class="project-item-title">
-                            {{projectData.project.title}}
-                        </div>
-                        <div class="project-item-author">
-                            by {{projectData.project.author.username}}
-                        </div>
-                        <div class="project-item-teaser">
-                            {{projectData.project.description.teaser}}
-                        </div>
-
-                        <div class="row" data-ng-include="dataItemsTemplate(projectData)"></div>
+                <div class="project-item-text-container">
+                    <div class="project-item-type" data-ng-switch="projectData.project.type">
+                        <span data-ng-switch-when="senseit">Sense-it</span>
+                        <span data-ng-switch-when="spotit">Spot-it</span>
+                        <span data-ng-switch-when="challenge">Win-it</span>
                     </div>
+                    <p class="project-item-title">
+                        {{projectData.project.title}}
+                    </p>
+
+                    <p class="project-item-teaser">
+                        {{projectData.project.description.teaser}}
+                    </p>
+
+                    <p class="project-item-author">
+                        A mission created by {{projectData.project.author.username}}.
+                    </p>
+                </div>
+                <div class="project-item-banner">
+                    <a href data-ui-sref="project.view.home({projectId: projectData.project.id})">
+                        Explore this
+                        <span class="project-item-banner-type" data-ng-switch="projectData.project.type">
+                            <span data-ng-switch-when="senseit">Sense-it</span>
+                            <span data-ng-switch-when="spotit">Spot-it</span>
+                            <span data-ng-switch-when="challenge">Win-it</span>
+                        </span>
+                        mission
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+<div class="sidebar-right" data-ng-include="'partials/projects/projects-sidebar.html'"></div>

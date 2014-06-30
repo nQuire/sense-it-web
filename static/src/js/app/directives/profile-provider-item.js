@@ -1,7 +1,7 @@
 angular.module('senseItWeb').directive('siwProfileProviderItem', [function () {
     return {
 
-        templateUrl: 'partials/profile-provider-item.html',
+        templateUrl: 'partials/profile/profile-provider-item.html',
         scope: true,
         controller: function ($scope, $attrs, OpenIdService) {
             var providerNames = {

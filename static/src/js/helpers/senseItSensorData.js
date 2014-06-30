@@ -8,12 +8,29 @@ var SiwSenseItSensorData = {
                     "m": 1, "s": -2
                 }
             },
-            "lacc": {
-                "name": "Linear acceleration",
+            "mag": {
+                "name": "Magnetic field",
                 "output": "[txyz]",
                 "labels": ["X", "Y", "Z"],
                 "units": {
-                    "m": 1, "s": -2
+                    "μT": 1
+                }
+            },
+            "gyr": {
+                "name": "Gyroscope",
+                "output": "[txyz]",
+                "labels": ["X", "Y", "Z"],
+                "units": {
+                    "rad": 1,
+                    "s": -1
+                }
+            },
+            "orn": {
+                "name": "Orientation",
+                "output": "[txyz]",
+                "labels": ["X", "Y", "Z"],
+                "units": {
+                    "degrees": 1
                 }
             },
             "snd": {
@@ -22,6 +39,30 @@ var SiwSenseItSensorData = {
                 "labels": ["Snd"],
                 "units": {
                     "dB": 1
+                }
+            },
+            "pre": {
+                "name": "Pressure",
+                "output": "[tx]",
+                "labels": ["Pressure"],
+                "units": {
+                    "mbar": 1
+                }
+            },
+            "ambtmp": {
+                "name": "Ambient temperature",
+                "output": "[tx]",
+                "labels": ["Pressure"],
+                "units": {
+                    "°C": 1
+                }
+            },
+            "relhum": {
+                "name": "Relative humidity",
+                "output": "[tx]",
+                "labels": ["Humidity"],
+                "units": {
+                    "%": 1
                 }
             }
         },

@@ -27,9 +27,9 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
         }
     };
 
-    service._openIdRequest = function (path, logged, notify, method, data) {
+    service._openIdRequest = function (path, logged, notify, method, data, files) {
         var _method = method ? method : 'get';
-        var promise = data ? RestService[_method](path, data) : RestService[_method](path);
+        var promise = (data || files) ? RestService[_method](path, data, files) : RestService[_method](path);
 
         return promise.then(function (data) {
             service.status = {
@@ -76,9 +76,15 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
 
     service.saveProfile = function () {
         return service._openIdRequest('api/security/profile', true, false, 'put', {
-            username: service.status.profile.username
+            username: service.status.profile.username,
+            metadata: service.status.profile.metadata
         });
     };
+
+    service.saveProfileImage = function (files) {
+        return service._openIdRequest('api/security/profile/image', true, false, 'post', {}, files);
+    };
+
 
     service.setPassword = function (oldPassword, newPassword) {
         return service._openIdRequest('api/security/password', true, false, 'put', {
