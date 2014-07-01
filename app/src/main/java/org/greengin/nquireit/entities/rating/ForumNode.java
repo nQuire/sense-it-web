@@ -3,10 +3,7 @@ package org.greengin.nquireit.entities.rating;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 import java.util.Vector;
 
@@ -35,4 +32,26 @@ public class ForumNode extends VotableEntity {
     @Getter
     @Setter
     List<ForumThread> threads = new Vector<ForumThread>();
+
+    @Basic
+    @Getter
+    int threadCount = 0;
+
+    @Basic
+    @Getter
+    int commentCount = 0;
+
+    @ManyToOne
+    @Getter
+    ForumThread lastPost = null;
+
+    public void updateLastPost(ForumThread thread) {
+        this.lastPost = thread;
+        this.threadCount = threads.size();
+        int n = 0;
+        for (ForumThread t : threads) {
+            n += thread.getCommentCount();
+        }
+        this.commentCount = n;
+    }
 }

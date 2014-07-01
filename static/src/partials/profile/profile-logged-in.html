@@ -1,3 +1,9 @@
+<div class="profile-header">Your profile page</div>
+<div class="profile-page">
+
+
+
+
 <div class="profile-logged-in-left-section">
 
     <div data-ng-if="!imageForm.isOpen()">
@@ -51,7 +57,6 @@
                 <label for="username">Username:</label>
                 <input id="username" class="form-control" type="text" placeholder="Username"
                        data-ng-model="form.values.username"/>
-                <span data-ng-if="formError" class="profile-username-error">{{formErrorText()}}</span>
             </div>
             <div class="btn-group">
                 <button class="btn btn-default"
@@ -63,6 +68,7 @@
                         data-ng-click="form.cancel()">Cancel
                 </button>
             </div>
+            <div data-ng-if="formError" class="profile-username-error">{{formErrorText()}}</div>
         </form>
     </div>
 
@@ -202,3 +208,4 @@
 </div>
 
 
+</div>

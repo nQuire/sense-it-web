@@ -48,7 +48,7 @@ public class UserProfileActions extends AbstractContentManager {
                 } else if (data.getNewPassword().equals(user.getUsername())) {
                     currentStatus.getResponses().put("newpassword", "same_as_username");
                 } else {
-                    context.getUsersManager().setPassword(user.getId(), data.getNewPassword());
+                    context.getUsersManager().setPassword(user, data.getNewPassword());
                 }
             } else {
                 currentStatus.getResponses().put("oldpassword", "bad_password");

@@ -1,7 +1,10 @@
 <td>
     <div data-ng-if="!form.isOpen()">
+        <span class="arrow">▸</span>
         <a href data-ui-sref="forum.node.list({forumId: forumNode.id})"><b>{{forumNode.title}}</b></a>
-        <button data-ng-if="adminAccess()" class="btn btn-default btn-sm" data-ng-click="form.open()">{{isNew ? 'New forum' : 'Edit'}}</button>
+        <button data-ng-if="adminAccess()" class="btn btn-default btn-sm" data-ng-click="form.open()">{{isNew ? 'New
+            forum' : 'Edit'}}
+        </button>
     </div>
 
     <div data-ng-if="form.isOpen()">
@@ -22,6 +25,11 @@
         </form>
     </div>
 </td>
-<td>!</td>
-<td>10</td>
-<td>12</td>
+<td>
+    <div data-ng-if="forumNode.lastPost">
+        <a href data-ui-sref="forum.thread({threadId: forumNode.lastPost.id})">{{forumNode.lastPost.title}}</a><br/>
+        {{forumNode.lastPost.lastComment.date | fuzzyDate}} by {{forumNode.lastPost.lastComment.user.username}}
+    </div>
+</td>
+<td>{{forumNode.threadCount}}</td>
+<td>{{forumNode.commentCount}}</td>

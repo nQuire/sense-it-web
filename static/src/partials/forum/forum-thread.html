@@ -5,12 +5,15 @@
 </div>
 <div class="forum-thread-content">
 
-    <p>{{forum.thread.title}}</p>
-
     <div class="forum-thread-comment" data-ng-repeat="comment in forum.thread.comments">
-        <p>{{comment.date | fuzzyDate }} | {{comment.user.username}}:</p>
+        <div class="forum-thread-comment-header">
+            <div class="username">{{comment.user.username}}</div>
+            <div class="date">{{comment.date | fuzzyDate }}</div>
+        </div>
 
-        <p>{{comment.comment}}</p>
+        <div class="forum-thread-author-image" data-siw-user-image data-user="comment.user"></div>
+
+        <div class="forum-thread-text">{{comment.comment}}</div>
     </div>
 
     <div data-ng-if="status.logged">

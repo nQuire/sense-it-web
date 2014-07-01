@@ -42,8 +42,8 @@
     </td>
 </tr>
 
-<tr data-ng-if="adminAccess()" data-ng-include="'partials/forum/forum-list-forum.html'"
+<tr data-ng-if="adminAccess()" class="forum-list-forum" data-ng-include="'partials/forum/forum-list-forum.html'"
      data-ng-controller="ForumListForumCtrl"></tr>
 
-<tr data-ng-if="!isNew" data-ng-repeat="forumNode in category.children"
+<tr data-ng-if="!isNew" class="forum-list-forum" data-ng-repeat="forumNode in category.children"
     data-ng-include="'partials/forum/forum-list-forum.html'" data-ng-controller="ForumListForumCtrl"></tr>

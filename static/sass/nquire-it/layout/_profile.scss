@@ -17,6 +17,18 @@
   color: white;
   background: $color-dark-grey;
   padding-left: $dim-common-small-margin;
+
+  span {
+    margin-right: $dim-common-margin;
+    a {
+      color: $color-dark-background-link;
+
+      &.active {
+        color: white;
+        font-weight: bold;
+      }
+    }
+  }
 }
 
 .profile-page {
@@ -40,6 +52,18 @@
       img.identity-provider {
         height: 30px;
         cursor: pointer;
+      }
+    }
+
+    .profile-logged-out-register-form-container {
+      @extend .profile-logged-out-form-container;
+
+      label {
+        @extend .col-xs-2;
+      }
+
+      div.input-container {
+        @extend .col-xs-4;
       }
     }
 

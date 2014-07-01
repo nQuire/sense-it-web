@@ -10,7 +10,7 @@ angular.module('senseItWeb', null, null).controller('ProfileCtrl', function ($sc
             $scope.openIdService.saveProfile().then(function (data) {
                 $scope.formError = data.responses.username || null;
                 if ($scope.formError) {
-                    $scope.form.open();
+                    $scope.form.open('username');
                 }
             });
         }, function () {
@@ -65,6 +65,16 @@ angular.module('senseItWeb', null, null).controller('ProfileCtrl', function ($sc
         }
     };
 
+    $scope.loginMode = {
+        mode: 'login',
+        set: function (mode) {
+            this.mode = mode;
+        },
+        is: function (mode) {
+            return this.mode == mode;
+        }
+    };
+
 
     $scope.login = {
         editing: {username: '', password: ''},
@@ -80,6 +90,8 @@ angular.module('senseItWeb', null, null).controller('ProfileCtrl', function ($sc
         submit: function () {
             var ok = true;
 
+            this.editing.username = this.editing.username.trim();
+
             if (this.editing.username.length == 0) {
                 this.error.username = 'Username cannot be empty.';
                 ok = false;
@@ -94,6 +106,59 @@ angular.module('senseItWeb', null, null).controller('ProfileCtrl', function ($sc
                 error.username = null;
                 OpenIdService.login(this.editing.username, this.clearPassword(), function (data) {
                     error.password = data == 'false' ? 'Username & password do not match.' : null;
+                });
+            }
+        }
+    };
+
+    $scope.register = {
+        editing: {username: '', password: '', repeatPassword: '', email: ''},
+        error: {username: false, password: false, repeatPassword: false, email: false},
+        clearPassword: function () {
+            var p = this.editing.password;
+            this.editing.password = this.editing.repeatPassword = "";
+            return p;
+        },
+        reset: function () {
+            this.editing = {username: '', password: '', repeatPassword: '', email: ''};
+            this.error = {username: false, password: false, repeatPassword: false, email: false};
+        },
+        submit: function () {
+            var ok = true;
+
+            this.editing.username = this.editing.username.trim();
+            this.editing.email = this.editing.email.trim();
+
+            if (this.editing.username.length == 0) {
+                this.error.username = 'Username cannot be empty.';
+                ok = false;
+            }
+            if (this.editing.email.length == 0) {
+                this.error.email = 'Email cannot be empty.';
+                ok = false;
+            }
+
+            if (this.editing.password.length < 6) {
+                this.error.password = 'Password must have at least 6 characters.';
+                ok = false;
+            }
+
+            if (this.editing.password !== this.editing.repeatPassword) {
+                this.error.repeatPassword = 'Passwords do not match.';
+                ok = false;
+            }
+
+            if (ok) {
+                var error = this.error = {username: false, password: false, repeatPassword: false, email: false};
+                OpenIdService.register(this.editing.username, this.clearPassword(), this.editing.email, function (data) {
+                    switch (data.responses.registration) {
+                        case 'username_exists':
+                            error.username = 'Username not available.';
+                            break;
+                        case 'email_exists':
+                            error.email = 'eMail already associated with a different account.';
+                            break;
+                    }
                 });
             }
         }
@@ -119,9 +184,19 @@ angular.module('senseItWeb', null, null).controller('ProfileCtrl', function ($sc
             this.close();
         },
         save: function () {
-            if (this.editing.newPassword != this.editing.repeatPassword) {
-                this.error.repeatPassword = 'Passwords do not match';
-            } else {
+
+            var ok = true;
+            if (this.editing.newPassword.length < 6) {
+                this.error.password = 'Password must have at least 6 characters.';
+                ok = false;
+            }
+
+            if (this.editing.newPassword !== this.editing.repeatPassword) {
+                this.error.repeatPassword = 'Passwords do not match.';
+                ok = false;
+            }
+
+            if (ok) {
                 var self = this;
                 var error = self.error;
 
@@ -205,4 +280,5 @@ angular.module('senseItWeb', null, null).controller('ProfileCtrl', function ($sc
             }
         }
     };
-});
+})
+;

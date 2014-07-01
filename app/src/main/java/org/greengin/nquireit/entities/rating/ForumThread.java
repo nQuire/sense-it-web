@@ -26,4 +26,25 @@ public class ForumThread extends CommentThreadEntity {
     @Getter
     @Setter
     ForumNode forum;
+
+    @OneToOne
+    @Getter
+    @Setter
+    Comment lastComment = null;
+
+    @OneToOne
+    @Getter
+    @Setter
+    Comment firstComment = null;
+
+    @Basic
+    @Getter
+    @Setter
+    int commentCount = 0;
+
+    public void updateLastPost() {
+        lastComment = comments.get(comments.size() - 1);
+        this.commentCount = comments.size();
+        this.forum.updateLastPost(this);
+    }
 }

@@ -80,7 +80,7 @@ public class ForumController {
 
     @RequestMapping(value = "/{threadId}/comments", method = RequestMethod.POST)
     @ResponseBody
-    @ResponseView(value = Views.UserName.class)
+    @ResponseView(value = Views.ForumThread.class)
     public ForumThread commentsPost(@PathVariable("threadId") Long threadId, @RequestBody CommentRequest data, HttpServletRequest request) {
         return createForumManager(request).comment(threadId, data);
     }

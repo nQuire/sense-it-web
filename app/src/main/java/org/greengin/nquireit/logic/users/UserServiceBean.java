@@ -12,20 +12,16 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.logout.CookieClearingLogoutHandler;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.security.web.authentication.rememberme.AbstractRememberMeServices;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.social.connect.Connection;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.HashMap;
@@ -61,7 +57,7 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
 
         if (auth != null && auth.getPrincipal() != null && auth.getPrincipal() instanceof UserProfile) {
             result.setLogged(true);
-            result.setProfile(userProfileDao.user(((UserProfile) auth.getPrincipal()).getId()));
+            result.setProfile(currentUser());
             result.setToken((String) session.getAttribute("nquire-it-token"));
 
             for (Map.Entry<String, Connection<?>> entry : connections.entrySet()) {
@@ -97,7 +93,8 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
     public UserProfile currentUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return auth != null && auth.getPrincipal() != null && auth.getPrincipal() instanceof UserProfile ?
-                userProfileDao.user(((UserProfile) auth.getPrincipal()).getId()) : null;
+                userProfileDao.user(((UserProfile) auth.getPrincipal())) : null;
+
     }
 
     public boolean checkToken(HttpServletRequest request) {
@@ -154,31 +151,23 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
         if (existingUser != null) {
             return existingUser;
         } else {
-            String initialUsername = username;
-            for (int i = 1; !usernameIsAvailable(initialUsername); i++) {
-                initialUsername = String.format("%s(%d)", username, i);
+            String email = null;
+
+            if (username.matches("^\\S+@\\S+\\.\\S+$")) {
+                email = username;
+                username = username.substring(0, username.indexOf('@'));
             }
 
-            return userProfileDao.createUser(initialUsername, null);
+            String initialUsername = username;
+
+            for (int i = 1; !usernameIsAvailable(initialUsername); i++) {
+                initialUsername = String.format("%s_%d", username, i);
+            }
+
+            return userProfileDao.createUser(initialUsername, null, email, email != null);
         }
     }
 
-
-    public StatusResponse registerUser(String username, String password, HashMap<String, Connection<?>> connections, HttpServletRequest request) {
-        try {
-            loadUserByUsername(username);
-            StatusResponse result = new StatusResponse();
-            result.setLogged(false);
-            result.setProfile(null);
-            result.getResponses().put("registration", "username_exists");
-            return result;
-        } catch (UsernameNotFoundException e) {
-            UserProfile user = userProfileDao.createUser(username, password);
-            login(user, request.getSession());
-
-            return status(connections, request.getSession());
-        }
-    }
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -190,19 +179,19 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
         return userProfileDao.matchPassword(user, password);
     }
 
-    public void setPassword(Long userId, String password) {
-        userProfileDao.setPassword(userId, password);
+    public void setPassword(UserProfile user, String password) {
+        userProfileDao.setPassword(user, password);
     }
 
 
-    private void update(StatusResponse currentStatus) {
+    /*private void update(StatusResponse currentStatus) {
         UserProfile profile = userProfileDao.user(currentStatus.profile.getId());
         currentStatus.setProfile(profile);
-    }
+    }*/
 
     public boolean updateProfileImage(StatusResponse currentStatus, FileMapUpload files) {
         if (userProfileDao.updateProfileImage(currentStatus.getProfile(), files)) {
-            update(currentStatus);
+            //update(currentStatus);
             return true;
         }
 
@@ -228,7 +217,7 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
             userProfileDao.updateUserMetadata(currentStatus.getProfile(), data.getMetadata());
         }
 
-        update(currentStatus);
+        //update(currentStatus);
         return true;
     }
 
@@ -242,4 +231,30 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
     }
 
 
+    public StatusResponse registerUser(RegisterRequest data, HashMap<String, Connection<?>> connections, HttpServletRequest request) {
+        try {
+            loadUserByUsername(data.getUsername());
+            StatusResponse result = new StatusResponse();
+            result.setLogged(false);
+            result.setProfile(null);
+            result.getResponses().put("registration", "username_exists");
+            return result;
+        } catch (UsernameNotFoundException e) {
+
+            try {
+                userProfileDao.loadUserByUsername(data.getEmail());
+                StatusResponse result = new StatusResponse();
+                result.setLogged(false);
+                result.setProfile(null);
+                result.getResponses().put("registration", "email_exists");
+                return result;
+            } catch (UsernameNotFoundException e2) {
+
+                UserProfile user = userProfileDao.createUser(data.getUsername(), data.getPassword(), data.getEmail(), false);
+                login(user, request.getSession());
+
+                return status(connections, request.getSession());
+            }
+        }
+    }
 }

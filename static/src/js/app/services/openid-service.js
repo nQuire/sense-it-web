@@ -66,6 +66,17 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
             });
     };
 
+    service.register = function (username, password, email, callback) {
+        return RestService.post('api/security/register', {
+            username: username,
+            password: password,
+            email: email
+        }).then(function (data) {
+                service.update();
+                callback(data);
+            });
+    };
+
     service.logout = function () {
         return service._openIdRequest('api/security/logout', false, true, 'post');
     };

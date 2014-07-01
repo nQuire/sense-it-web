@@ -80,7 +80,7 @@ public class ForumManager extends AbstractContentManager {
     public ForumThread comment(Long threadId, CommentRequest data) {
         if (loggedWithToken) {
             ForumThread thread = context.getForumDao().findThread(threadId);
-            context.getCommentsDao().comment(user, thread, data);
+            context.getForumDao().comment(user, thread, data);
             return thread;
         }
 

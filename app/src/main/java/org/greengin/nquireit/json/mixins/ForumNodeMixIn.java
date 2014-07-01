@@ -17,5 +17,8 @@ import java.util.List;
 public abstract class ForumNodeMixIn {
     @JsonIgnore abstract ForumNode getParent();
     @JsonView(Views.ForumList.class) abstract String getChildren();
+    @JsonView(Views.ForumList.class) abstract int getThreadCount();
+    @JsonView(Views.ForumList.class) abstract ForumThread getLastPost();
+    @JsonView(Views.ForumList.class) abstract int getCommentCount();
     @JsonView(Views.ForumNode.class) abstract String getThreads();
 }

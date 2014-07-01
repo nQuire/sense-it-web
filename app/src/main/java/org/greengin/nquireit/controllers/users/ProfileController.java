@@ -125,11 +125,12 @@ public class ProfileController {
         return context.getUsersManager().logout(getConnections(), request, response);
     }
 
+
     @RequestMapping(value = "/api/security/register", method = RequestMethod.POST)
     @ResponseBody
     @JsonView(value = Views.UserProfileData.class)
-    public StatusResponse performRegister(@RequestParam("j_username") String username, @RequestParam("j_password") String password, HttpServletRequest request) {
-        return context.getUsersManager().registerUser(username, password, getConnections(), request);
+    public StatusResponse performRegister(@RequestBody RegisterRequest data, HttpServletRequest request) {
+        return context.getUsersManager().registerUser(data, getConnections(), request);
     }
 
     @RequestMapping(value = "/api/security/connection/{providerId}", method = RequestMethod.DELETE)

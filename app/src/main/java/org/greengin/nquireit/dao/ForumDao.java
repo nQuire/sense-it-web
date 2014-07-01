@@ -79,6 +79,7 @@ public class ForumDao {
     @Transactional
     public ForumThread createThread(UserProfile user, Long forumId, ForumRequest forumData) {
         ForumNode forum = findForum(forumId);
+
         if (forum != null) {
             ForumThread thread = new ForumThread();
             thread.setAuthor(user);
@@ -94,9 +95,21 @@ public class ForumDao {
             Comment comment = commentsDao.commentWithinTransaction(user, thread, commentRequest);
             em.persist(comment);
 
+            thread.setFirstComment(comment);
+            thread.updateLastPost();
+
             return thread;
         }
 
         return null;
+    }
+
+    @Transactional
+    public void comment(UserProfile user, ForumThread thread, CommentRequest data) {
+        em.persist(thread);
+        em.persist(thread.getForum());
+        Comment comment = commentsDao.commentWithinTransaction(user, thread, data);
+        thread.updateLastPost();
+        em.persist(comment);
     }
 }

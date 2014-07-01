@@ -707,25 +707,25 @@ pre {
   .row:after, .profile-page:after, .project-main-container .project-section .project-section-header:after, .project-main-container .project-section .project-section-content:after {
     clear: both; }
 
-.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .profile-page .profile-logged-in-left-section, .project-main-container .project-section .project-section-header .project-menu-main, .project-main-container .project-section .project-section-content .project-section-description-column, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .profile-page .profile-logged-in-right-section, .project-main-container .project-section .project-section-header .project-menu-sub, .project-main-container .project-section .project-section-content .project-section-content-column, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .profile-page .profile-logged-out, .col-sm-12, .col-md-12, .col-lg-12 {
+.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .profile-page .profile-logged-out .profile-logged-out-register-form-container label, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .profile-page .profile-logged-out .profile-logged-out-register-form-container div.input-container, .profile-page .profile-logged-in-left-section, .project-main-container .project-section .project-section-header .project-menu-main, .project-main-container .project-section .project-section-content .project-section-description-column, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .profile-page .profile-logged-in-right-section, .project-main-container .project-section .project-section-header .project-menu-sub, .project-main-container .project-section .project-section-content .project-section-content-column, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .profile-page .profile-logged-out, .col-sm-12, .col-md-12, .col-lg-12 {
   position: relative;
   min-height: 1px;
   padding-left: 15px;
   padding-right: 15px; }
 
-.col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .profile-page .profile-logged-in-left-section, .project-main-container .project-section .project-section-header .project-menu-main, .project-main-container .project-section .project-section-content .project-section-description-column, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .profile-page .profile-logged-in-right-section, .project-main-container .project-section .project-section-header .project-menu-sub, .project-main-container .project-section .project-section-content .project-section-content-column, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12, .profile-page .profile-logged-out {
+.col-xs-1, .col-xs-2, .profile-page .profile-logged-out .profile-logged-out-register-form-container label, .col-xs-3, .col-xs-4, .profile-page .profile-logged-out .profile-logged-out-register-form-container div.input-container, .profile-page .profile-logged-in-left-section, .project-main-container .project-section .project-section-header .project-menu-main, .project-main-container .project-section .project-section-content .project-section-description-column, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .profile-page .profile-logged-in-right-section, .project-main-container .project-section .project-section-header .project-menu-sub, .project-main-container .project-section .project-section-content .project-section-content-column, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12, .profile-page .profile-logged-out {
   float: left; }
 
 .col-xs-1 {
   width: 8.33333%; }
 
-.col-xs-2 {
+.col-xs-2, .profile-page .profile-logged-out .profile-logged-out-register-form-container label {
   width: 16.66667%; }
 
 .col-xs-3 {
   width: 25%; }
 
-.col-xs-4, .profile-page .profile-logged-in-left-section, .project-main-container .project-section .project-section-header .project-menu-main, .project-main-container .project-section .project-section-content .project-section-description-column {
+.col-xs-4, .profile-page .profile-logged-out .profile-logged-out-register-form-container div.input-container, .profile-page .profile-logged-in-left-section, .project-main-container .project-section .project-section-header .project-menu-main, .project-main-container .project-section .project-section-content .project-section-description-column {
   width: 33.33333%; }
 
 .col-xs-5 {
@@ -6041,25 +6041,25 @@ pre {
   .row:after, .profile-page:after, .project-main-container .project-section .project-section-header:after, .project-main-container .project-section .project-section-content:after {
     clear: both; }
 
-.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .profile-page .profile-logged-in-left-section, .project-main-container .project-section .project-section-header .project-menu-main, .project-main-container .project-section .project-section-content .project-section-description-column, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .profile-page .profile-logged-in-right-section, .project-main-container .project-section .project-section-header .project-menu-sub, .project-main-container .project-section .project-section-content .project-section-content-column, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .profile-page .profile-logged-out, .col-sm-12, .col-md-12, .col-lg-12 {
+.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .profile-page .profile-logged-out .profile-logged-out-register-form-container label, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .profile-page .profile-logged-out .profile-logged-out-register-form-container div.input-container, .profile-page .profile-logged-in-left-section, .project-main-container .project-section .project-section-header .project-menu-main, .project-main-container .project-section .project-section-content .project-section-description-column, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .profile-page .profile-logged-in-right-section, .project-main-container .project-section .project-section-header .project-menu-sub, .project-main-container .project-section .project-section-content .project-section-content-column, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .profile-page .profile-logged-out, .col-sm-12, .col-md-12, .col-lg-12 {
   position: relative;
   min-height: 1px;
   padding-left: 15px;
   padding-right: 15px; }
 
-.col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .profile-page .profile-logged-in-left-section, .project-main-container .project-section .project-section-header .project-menu-main, .project-main-container .project-section .project-section-content .project-section-description-column, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .profile-page .profile-logged-in-right-section, .project-main-container .project-section .project-section-header .project-menu-sub, .project-main-container .project-section .project-section-content .project-section-content-column, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12, .profile-page .profile-logged-out {
+.col-xs-1, .col-xs-2, .profile-page .profile-logged-out .profile-logged-out-register-form-container label, .col-xs-3, .col-xs-4, .profile-page .profile-logged-out .profile-logged-out-register-form-container div.input-container, .profile-page .profile-logged-in-left-section, .project-main-container .project-section .project-section-header .project-menu-main, .project-main-container .project-section .project-section-content .project-section-description-column, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .profile-page .profile-logged-in-right-section, .project-main-container .project-section .project-section-header .project-menu-sub, .project-main-container .project-section .project-section-content .project-section-content-column, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12, .profile-page .profile-logged-out {
   float: left; }
 
 .col-xs-1 {
   width: 8.33333%; }
 
-.col-xs-2 {
+.col-xs-2, .profile-page .profile-logged-out .profile-logged-out-register-form-container label {
   width: 16.66667%; }
 
 .col-xs-3 {
   width: 25%; }
 
-.col-xs-4, .profile-page .profile-logged-in-left-section, .project-main-container .project-section .project-section-header .project-menu-main, .project-main-container .project-section .project-section-content .project-section-description-column {
+.col-xs-4, .profile-page .profile-logged-out .profile-logged-out-register-form-container div.input-container, .profile-page .profile-logged-in-left-section, .project-main-container .project-section .project-section-header .project-menu-main, .project-main-container .project-section .project-section-content .project-section-description-column {
   width: 33.33333%; }
 
 .col-xs-5 {
@@ -10462,6 +10462,13 @@ div#header {
   color: white;
   background: #444444;
   padding-left: 10px; }
+  .profile-header span {
+    margin-right: 20px; }
+    .profile-header span a {
+      color: #73a9d7; }
+      .profile-header span a.active {
+        color: white;
+        font-weight: bold; }
 
 .profile-page {
   margin: 0px;
@@ -10470,9 +10477,9 @@ div#header {
   .profile-page .profile-logged-in-right-section,
   .profile-page .profile-logged-out {
     padding: 10px; }
-  .profile-page .profile-logged-out .profile-logged-out-form-container {
+  .profile-page .profile-logged-out .profile-logged-out-form-container, .profile-page .profile-logged-out .profile-logged-out-register-form-container {
     margin-bottom: 20px; }
-    .profile-page .profile-logged-out .profile-logged-out-form-container img.identity-provider {
+    .profile-page .profile-logged-out .profile-logged-out-form-container img.identity-provider, .profile-page .profile-logged-out .profile-logged-out-register-form-container img.identity-provider {
       height: 30px;
       cursor: pointer; }
   .profile-page .profile-logged-in-left-section {
@@ -10814,6 +10821,13 @@ i.vote-icon.enabled:hover {
   color: white;
   background: #444444;
   padding-left: 10px; }
+  .profile-header span {
+    margin-right: 20px; }
+    .profile-header span a {
+      color: #73a9d7; }
+      .profile-header span a.active {
+        color: white;
+        font-weight: bold; }
 
 .profile-page {
   margin: 0px;
@@ -10822,9 +10836,9 @@ i.vote-icon.enabled:hover {
   .profile-page .profile-logged-in-right-section,
   .profile-page .profile-logged-out {
     padding: 10px; }
-  .profile-page .profile-logged-out .profile-logged-out-form-container {
+  .profile-page .profile-logged-out .profile-logged-out-form-container, .profile-page .profile-logged-out .profile-logged-out-register-form-container {
     margin-bottom: 20px; }
-    .profile-page .profile-logged-out .profile-logged-out-form-container img.identity-provider {
+    .profile-page .profile-logged-out .profile-logged-out-form-container img.identity-provider, .profile-page .profile-logged-out .profile-logged-out-register-form-container img.identity-provider {
       height: 30px;
       cursor: pointer; }
   .profile-page .profile-logged-in-left-section {
@@ -11068,7 +11082,37 @@ i.vote-icon.enabled:hover {
     .forum-container .forum-header .arrow {
       color: #aaaaaa; }
     .forum-container .forum-header a {
-      color: #73A9D7; }
+      color: #73a9d7; }
   .forum-container .forum-content, .forum-container .forum-thread-content {
     padding: 10px;
     background: #f6f5f5; }
+    .forum-container .forum-content tr.forum-list-category > td, .forum-container .forum-thread-content tr.forum-list-category > td {
+      color: #777777;
+      font-weight: bold; }
+    .forum-container .forum-content tr.forum-list-forum span.arrow, .forum-container .forum-thread-content tr.forum-list-forum span.arrow {
+      padding: 0 10px;
+      color: #777777; }
+  .forum-container .forum-thread-content .forum-thread-comment {
+    position: relative;
+    min-height: 124px;
+    margin-bottom: 20px;
+    background: #e0e0e0; }
+    .forum-container .forum-thread-content .forum-thread-comment .forum-thread-comment-header {
+      height: 24px;
+      line-height: 24px;
+      padding: 0 10px;
+      background: #777777;
+      color: #ffffff; }
+      .forum-container .forum-thread-content .forum-thread-comment .forum-thread-comment-header .username {
+        display: inline-block;
+        min-width: 84px;
+        margin-right: 10px; }
+      .forum-container .forum-thread-content .forum-thread-comment .forum-thread-comment-header .date {
+        display: inline-block; }
+    .forum-container .forum-thread-content .forum-thread-comment .forum-thread-author-image {
+      position: absolute;
+      float: left;
+      padding: 10px 0 0 10px; }
+    .forum-container .forum-thread-content .forum-thread-comment .forum-thread-text {
+      margin-left: 104px;
+      padding: 10px 0; }

@@ -22,6 +22,7 @@ public class UserProfileDao {
 
     static final String AUTHORITY_QUERY = "SELECT userId FROM UserConnection WHERE providerId = ? AND providerUserId = ?";
     static final String USER_QUERY = "SELECT u from UserProfile u WHERE LOWER(u.username)=LOWER(:username)";
+    static final String USER_EMAIL_QUERY = "SELECT u from UserProfile u WHERE LOWER(u.email)=LOWER(:email)";
     static final String UPDATE_USER_CONNECTIONS = "UPDATE UserConnection SET userId = ? WHERE userId = ?";
     static final String DELETE_USER_CONNECTION = "DELETE FROM UserConnection WHERE userId = ? AND providerId = ?";
 
@@ -35,6 +36,15 @@ public class UserProfileDao {
     FileManagerBean fileManager;
 
 
+
+    public UserProfile loadUserByUsernameOrEmail(String username, String email) throws UsernameNotFoundException {
+        try {
+            return loadUserByUsername(username);
+        } catch (UsernameNotFoundException e) {
+            return loadUserByEmail(email);
+        }
+    }
+
     public UserProfile loadUserByUsername(String s) throws UsernameNotFoundException {
         TypedQuery<UserProfile> query = em.createQuery(USER_QUERY, UserProfile.class);
 
@@ -43,6 +53,17 @@ public class UserProfileDao {
             return query.getSingleResult();
         } catch (Exception e) {
             throw new UsernameNotFoundException(s);
+        }
+    }
+
+    public UserProfile loadUserByEmail(String email) throws UsernameNotFoundException {
+        TypedQuery<UserProfile> query = em.createQuery(USER_EMAIL_QUERY, UserProfile.class);
+
+        query.setParameter("email", email);
+        try {
+            return query.getSingleResult();
+        } catch (Exception e) {
+            throw new UsernameNotFoundException(email);
         }
     }
 
@@ -61,22 +82,25 @@ public class UserProfileDao {
     }
 
     @Transactional
-    public UserProfile createUser(String username, String password) {
+    public UserProfile createUser(String username, String password, String email, boolean emailConfirmed) {
         UserProfile user = new UserProfile();
         user.setUsername(username);
+        user.setEmail(email);
+        user.setEmailConfirmed(emailConfirmed);
         user.setPassword(password != null ? passwordEncoder.encode(password) : null);
         em.persist(user);
 
         return user;
     }
 
-    public UserProfile user(Long userId) {
-        return em.find(UserProfile.class, userId);
+    public UserProfile user(UserProfile user) {
+        return em.contains(user) ? user : em.find(UserProfile.class, user.getId());
     }
 
     @Transactional
-    public void setPassword(Long userId, String password) {
-        user(userId).setPassword(passwordEncoder.encode(password));
+    public void setPassword(UserProfile user, String password) {
+        em.persist(user);
+        user.setPassword(passwordEncoder.encode(password));
     }
 
 
@@ -87,6 +111,7 @@ public class UserProfileDao {
     @Transactional
     public boolean updateProfileImage(UserProfile user, FileMapUpload files) {
         if (files.getData().containsKey("image")) {
+            em.persist(user);
 
             FileMapUpload.FileData file = files.getData().get("image");
             String fileContext = user.getId().toString();
@@ -113,7 +138,6 @@ public class UserProfileDao {
         query.setParameter(2, providerId);
         query.executeUpdate();
 
-        em.getTransaction().commit();
         return true;
     }
 

@@ -35,31 +35,36 @@ public class FileManagerBean implements InitializingBean {
 
     public String uploadFile(String context, String filename, InputStream input) throws IOException {
         File folder = new File(path, context);
-        folder.mkdirs();
 
-        String name = null;
-        String extension = null;
-        int extSepPos = filename.lastIndexOf('.');
-        if (extSepPos > 0) {
-            name = filename.substring(0, extSepPos);
-            extension = filename.substring(extSepPos);
-        }
+        if (folder.mkdirs()) {
 
-        String testFilename = null;
-        File f = null;
-        for (int i = 0; ; i++) {
-            testFilename = i > 0 ? String.format("%s_%d%s", name, i, extension) : filename;
-            f = new File(folder, filename);
-            if (!f.exists()) {
-                break;
+            String name = null;
+            String extension = null;
+            filename = filename.replaceAll(" ", "_");
+            int extSepPos = filename.lastIndexOf('.');
+            if (extSepPos > 0) {
+                name = filename.substring(0, extSepPos);
+                extension = filename.substring(extSepPos);
             }
+
+            String testFilename = null;
+            File f = null;
+            for (int i = 0; ; i++) {
+                testFilename = i > 0 ? String.format("%s_%d%s", name, i, extension) : filename;
+                f = new File(folder, testFilename);
+                if (!f.exists()) {
+                    break;
+                }
+            }
+
+            FileOutputStream output = new FileOutputStream(f);
+            IOUtils.copy(input, output);
+            output.close();
+
+            return String.format("%s/%s", context, testFilename);
+        } else {
+            return null;
         }
-
-        FileOutputStream output = new FileOutputStream(f);
-        IOUtils.copy(input, output);
-        output.close();
-
-        return String.format("%s/%s", context, testFilename);
     }
 
     public File get(String filename) {
