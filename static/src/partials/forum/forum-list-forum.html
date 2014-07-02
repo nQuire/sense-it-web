@@ -2,7 +2,7 @@
     <div data-ng-if="!form.isOpen()">
         <span class="arrow">▸</span>
         <a href data-ui-sref="forum.node.list({forumId: forumNode.id})"><b>{{forumNode.title}}</b></a>
-        <button data-ng-if="adminAccess()" class="btn btn-default btn-sm" data-ng-click="form.open()">{{isNew ? 'New
+        <button data-ng-if="adminAccess()" class="btn btn-default btn-xs" data-ng-click="form.open()">{{isNew ? 'New
             forum' : 'Edit'}}
         </button>
     </div>

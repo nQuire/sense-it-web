@@ -37,6 +37,10 @@ public class ContextBean implements InitializingBean {
 
     @Autowired
     @Getter
+    UserProfileDao userProfileDao;
+
+    @Autowired
+    @Getter
     VoteDao voteDao;
 
     @Autowired

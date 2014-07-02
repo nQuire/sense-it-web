@@ -1,0 +1,18 @@
+@import "../variables/dimensions";
+@import "../variables/colors";
+
+@mixin basic-header {
+  height: $dim-forum-header-height;
+  line-height: $dim-forum-header-height;
+  color: white;
+  background: $color-dark-grey;
+  padding-left: $dim-common-small-margin;
+
+  .arrow {
+    color: #aaaaaa;
+  }
+
+  a {
+    color: $color-dark-background-link;
+  }
+}

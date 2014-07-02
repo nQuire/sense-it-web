@@ -4,13 +4,13 @@
             <div data-ng-if="!isNew">
                 <b>{{category.title}}</b>
                 <span data-ng-if="adminAccess()" class="btn-group">
-                    <button class="btn btn-default btn-xs" data-ng-click="form.open()">
-                        {{isNew ? 'Add category' : 'Edit'}}
-                    </button>
+                    <button class="btn btn-default btn-xs" data-ng-click="form.open()">Edit</button>
                 </span>
                 <br/>
                 {{category.description}}
-                </p>
+            </div>
+            <div data-ng-if="isNew">
+                <button class="btn btn-default" data-ng-click="form.open()">Add category</button>
             </div>
 
             <p data-ng-if="adminAccess()">
@@ -33,17 +33,15 @@
                     <button class="btn btn-default" data-ng-click="form.save()">Save</button>
                     <button class="btn btn-default" data-ng-click="form.cancel()">Cancel</button>
                 </div>
-
             </form>
         </div>
-
 
 
     </td>
 </tr>
 
-<tr data-ng-if="adminAccess()" class="forum-list-forum" data-ng-include="'partials/forum/forum-list-forum.html'"
-     data-ng-controller="ForumListForumCtrl"></tr>
+<tr data-ng-if="!isNew && adminAccess()" class="forum-list-forum" data-ng-include="'partials/forum/forum-list-forum.html'"
+    data-ng-controller="ForumListForumCtrl"></tr>
 
 <tr data-ng-if="!isNew" class="forum-list-forum" data-ng-repeat="forumNode in category.children"
     data-ng-include="'partials/forum/forum-list-forum.html'" data-ng-controller="ForumListForumCtrl"></tr>

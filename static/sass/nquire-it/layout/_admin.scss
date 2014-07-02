@@ -1,0 +1,16 @@
+@import "basic-header";
+@import "../variables/dimensions";
+@import "../variables/colors";
+
+.admin-page {
+  padding: 0 $dim-common-margin;
+
+  .admin-header {
+    @include basic-header;
+  }
+
+  .admin-content {
+    padding: $dim-common-small-margin;
+    background: $color-project-list-item-background;
+  }
+}

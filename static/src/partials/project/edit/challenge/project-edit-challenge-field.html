@@ -11,15 +11,16 @@
             <label for="type">Field type:</label>
             <select id="type" class="form-control" data-ng-model="form.values.type">
                 <option value="title">Submission title</option>
-                <option value="textfield">Text field</option>
-                <option value="textarea">Text area</option>
+                <option value="textfield">Single-line text</option>
+                <option value="textarea">Multiple-line plain text</option>
+                <option value="textangular">Multiple-line formatted text</option>
             </select>
         </div>
         <div class="btn-group">
 
             <button class="btn btn-default" data-ng-disabled="form.okButtonDisabled()"
                     data-ng-click="form.save()">
-                Create
+                {{isNew ? 'Create' : 'Save'}}
             </button>
             <button class="btn btn-default" data-ng-disabled="form.resetButtonDisabled()"
                     data-ng-click="form.cancel()">
@@ -29,19 +30,24 @@
     </form>
 </div>
 <div data-ng-if="!form.isOpen()">
-    <p>
-        <b>{{field.label}}</b>
+    <div data-ng-if="isNew">
+        <button class="btn btn-default" data-ng-click="form.open()">Add field</button>
+    </div>
+    <div data-ng-if="!isNew">
+        <p>
+            <b>{{field.label}}</b>
     <span data-ng-switch="field.type">
         <span data-ng-switch-when="title">(Submission title)</span>
-        <span data-ng-switch-when="textfield">(Text field)</span>
-        <span data-ng-switch-when="textarea">(Text area)</span>
+        <span data-ng-switch-when="textfield">(Single-line text)</span>
+        <span data-ng-switch-when="textarea">(Multiple-line plain text)</span>
+        <span data-ng-switch-when="textangular">(Multiple-line formatted text)</span>
     </span>
 
     <span class="btn-group">
         <button class="btn btn-default" data-ng-click="form.open()">Edit</button>
         <button class="btn btn-default" data-ng-click="deleteProfile()">Delete field</button>
     </span>
-    </p>
-
+        </p>
+    </div>
 </div>
 

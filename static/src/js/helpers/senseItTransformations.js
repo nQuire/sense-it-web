@@ -105,9 +105,11 @@ SiwSenseItTransformations.prototype._updateVariables = function () {
 
     for (var i = 0; i < this.sensorInputs.length; i++) {
         var input = this.sensorInputs[i];
-        var v = new SiwSenseItVariable({raw: true, input: input, weight: i - this.sensorInputs.length});
-        this.variables.push(v);
-        outputSet[v.id] = true;
+        if (input.sensor && input.sensor.length > 0) {
+            var v = new SiwSenseItVariable({raw: true, input: input, weight: i - this.sensorInputs.length});
+            this.variables.push(v);
+            outputSet[v.id] = true;
+        }
     }
 
     for (i = 0; i < this.transformations.length; i++) {
@@ -141,16 +143,17 @@ SiwSenseItTransformations.prototype._updateVariables = function () {
             }
         }
     }
-};
+}
+;
 
 SiwSenseItTransformations.prototype.sequenceVariables = function () {
-    return this.variables.filter(function(v) {
+    return this.variables.filter(function (v) {
         return v && v.output && v.output.length > 0 && v.output[0] == '[';
     });
 };
 
 SiwSenseItTransformations.prototype.nonSequenceVariables = function () {
-    return this.variables.filter(function(v) {
+    return this.variables.filter(function (v) {
         return v && v.output && v.output.length > 0 && v.output[0] != '[';
     });
 };

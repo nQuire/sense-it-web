@@ -3,7 +3,6 @@ package org.greengin.nquireit.dao;
 import org.greengin.nquireit.entities.users.UserProfile;
 import org.greengin.nquireit.logic.data.FileManagerBean;
 import org.greengin.nquireit.logic.files.FileMapUpload;
-import org.greengin.nquireit.logic.users.StatusResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,10 +15,12 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 @Component
 public class UserProfileDao {
 
+    static final String ALL_USERS_QUERY = "SELECT u FROM UserProfile u";
     static final String AUTHORITY_QUERY = "SELECT userId FROM UserConnection WHERE providerId = ? AND providerUserId = ?";
     static final String USER_QUERY = "SELECT u from UserProfile u WHERE LOWER(u.username)=LOWER(:username)";
     static final String USER_EMAIL_QUERY = "SELECT u from UserProfile u WHERE LOWER(u.email)=LOWER(:email)";
@@ -165,5 +166,17 @@ public class UserProfileDao {
         current.putAll(metadata);
 
         user.setMetadata(metadata);
+    }
+
+    public List<UserProfile> listUsers() {
+        return em.createQuery(ALL_USERS_QUERY, UserProfile.class).getResultList();
+    }
+
+    @Transactional
+    public void setAdmin(Long userId, boolean isAdmin) {
+        UserProfile user = em.find(UserProfile.class, userId);
+        if (user != null) {
+            user.setAdmin(isAdmin);
+        }
     }
 }

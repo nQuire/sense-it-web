@@ -49,11 +49,12 @@
             <form role="form">
                 <div class="form-group">
                     <label for="project-title">Title:</label>
-                    <input id="project-title" class="form-control" type="text" placeholder="Title" data-ng-model="form.values.title"/>
+                    <input id="project-title" class="form-control" type="text" placeholder="Title"
+                           data-ng-model="form.values.title"/>
                 </div>
                 <div class="form-group">
                     <label for="project-teaser">Teaser:</label>
-                    <input id="project-teaser" class="form-control" type="text"  placeholder="Teaser"
+                    <input id="project-teaser" class="form-control" type="text" placeholder="Teaser"
                            data-ng-model="form.values.description.teaser"/>
                 </div>
 
@@ -74,7 +75,8 @@
             <div data-ng-if="!form.isOpen('block:' + $index)">
                 <p class="project-section-content-description-block-title">{{block.title}}</p>
 
-                <p class="project-section-content-description-block-content">{{block.content}}</p>
+                <div class="project-section-content-description-block-content"
+                     data-ng-bind-html="block.content"></div>
 
                 <div data-ng-if="!form.isOpen()" class="btn-group">
                     <button type="button" class="btn btn-default" data-ng-click="form.open('block:' + $index)">
@@ -98,14 +100,15 @@
                 <form role="form">
                     <div class="form-group">
                         <label for="block-block-title">Title:</label>
-                        <input id="block-block-title" class="form-control" type="text"  placeholder="Title"
+                        <input id="block-block-title" class="form-control" type="text" placeholder="Title"
                                data-ng-model="form.values.description.blocks[$index].title"/>
                     </div>
                     <div class="form-group">
-                        <label for="project-block-content">Text:</label>
-                        <textarea id="project-block-content" class="form-control"
-                                  data-ng-model="form.values.description.blocks[$index].content"
-                                  placeholder="Content"></textarea>
+                        <label>Text:</label>
+                        <text-angular
+                                name="project-block-content"
+                                data-ng-model="form.values.description.blocks[$index].content">
+                        </text-angular>
                     </div>
                     <div class="btn-group">
                         <button type="button" class="btn btn-default" data-ng-click="form.save()">Save</button>

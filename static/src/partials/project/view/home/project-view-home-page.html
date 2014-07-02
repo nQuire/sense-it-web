@@ -36,7 +36,8 @@
                  data-ng-repeat="block in projectData.project.description.blocks">
                 <p class="project-section-content-block-title">{{block.title}}</p>
 
-                <p class="project-section-content-block-content">{{block.content}}</p>
+                <div class="project-section-content-description-block-content"
+                     data-ng-bind-html="block.content"></div>
             </div>
         </div>
     </div>

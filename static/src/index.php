@@ -1,9 +1,6 @@
 <!doctype html>
 <?php
-// Report all PHP errors (see changelog)
 error_reporting(E_ALL);
-
-// Same as error_reporting(E_ALL);
 ini_set('error_reporting', E_ALL);
 ?>
 
@@ -17,17 +14,18 @@ ini_set('error_reporting', E_ALL);
 
     <link href='https://fonts.googleapis.com/css?family=Fira+Sans:400,500,700,400italic,500italic|Cabin:400,500,600,700,400italic,500italic|Ubuntu:400,500,700,400italic,500italic|Alegreya+Sans:400,500,700,900,400italic,500italic|Merriweather+Sans:400,400italic,700,700italic,800' rel='stylesheet' type='text/css'>    <link rel="stylesheet" href="css/font-awesome.css" type='text/css'>
     <link rel="stylesheet" href="css/nquire-it-bootstrap.css" type='text/css'>
+    <link rel="stylesheet" href="css/font-awesome.css" type='text/css'>
 
     <script src="js/libs/jquery-2.1.0.min.js"></script>
     <script src="js/libs/bootstrap.js"></script>
     <script src="js/libs/angular.js"></script>
     <script src="js/libs/angular-sanitize.js"></script>
     <script src="js/libs/angular-ui-router.js"></script>
-
+    <script src="js/libs/textAngular.min.js"></script>
+    <script src="js/libs/textAngular-sanitize.min.js"></script>
 
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
     <script src="js/libs/oms.min.js"></script>
-
 
     <script src="js/helpers/clone.js"></script>
     <script src="js/helpers/form.js"></script>
@@ -66,6 +64,7 @@ ini_set('error_reporting', E_ALL);
     <script src="js/app/services/project-challenge-participant-service.js"></script>
     <script src="js/app/services/project-challenge-outcome-service.js"></script>
     <script src="js/app/services/forum-service.js"></script>
+    <script src="js/app/services/admin-service.js"></script>
 
 
     <script src="js/app/directives/back-image.js"></script>
@@ -131,6 +130,10 @@ ini_set('error_reporting', E_ALL);
     <script src="js/app/controllers/project/edit/senseit/project-edit-senseit-profile-controller.js"></script>
     <script src="js/app/controllers/project/edit/senseit/project-edit-senseit-sensor-controller.js"></script>
     <script src="js/app/controllers/project/edit/senseit/project-edit-senseit-analysis-controller.js"></script>
+
+
+    <script src="js/app/controllers/admin/admin-controller.js"></script>
+    <script src="js/app/controllers/admin/admin-users-controller.js"></script>
 
 
 

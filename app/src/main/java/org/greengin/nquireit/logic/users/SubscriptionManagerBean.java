@@ -42,7 +42,12 @@ public class SubscriptionManagerBean {
     public AccessLevel getAccessLevel(Project project, UserProfile user) {
         AccessLevel level = new AccessLevel();
 
+
         if (project != null && user != null) {
+            if (user.isAdmin()) {
+                level.setAdmin(true);
+            }
+
             for (RoleType role : roleManager.userRoles(user, project)) {
                 switch (role) {
                     case ADMIN:
