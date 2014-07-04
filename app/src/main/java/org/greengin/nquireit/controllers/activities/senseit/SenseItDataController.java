@@ -5,6 +5,7 @@ import org.greengin.nquireit.entities.activities.senseit.SenseItSeries;
 import org.greengin.nquireit.json.Views;
 import org.greengin.nquireit.logic.data.NewDataItemResponse;
 import org.greengin.nquireit.logic.project.senseit.SenseItSeriesManipulator;
+import org.greengin.nquireit.logic.project.senseit.UpdateTitleRequest;
 import org.greengin.nquireit.logic.rating.VoteCount;
 import org.greengin.nquireit.logic.rating.VoteRequest;
 import org.springframework.http.MediaType;
@@ -40,7 +41,7 @@ public class SenseItDataController extends AbstractSenseItController {
             String geolocation = multiPartRequest.getParameter("geolocation");
             MultipartFile file = multiPartRequest.getFile("file");
 
-            return createManager(projectId, request).createData(new SenseItSeriesManipulator(title, geolocation, file.getInputStream()));
+            return createManager(projectId, request).createData(new SenseItSeriesManipulator(title, geolocation, file.getInputStream(), null));
         } catch (IOException e) {
             return null;
         }
@@ -49,8 +50,15 @@ public class SenseItDataController extends AbstractSenseItController {
     @RequestMapping(value = "/{dataId}", method = RequestMethod.DELETE)
     @ResponseBody
     public Long delete(@PathVariable("projectId") Long projectId, @PathVariable("dataId") Long dataId, HttpServletRequest request) {
-        return createManager(projectId, request).deleteData(dataId, new SenseItSeriesManipulator(null, null, null));
+        return createManager(projectId, request).deleteData(dataId, new SenseItSeriesManipulator(null, null, null, null));
     }
+
+    @RequestMapping(value = "/{dataId}", method = RequestMethod.PUT)
+    @ResponseBody
+    public Long update(@PathVariable("projectId") Long projectId, @PathVariable("dataId") Long dataId, @RequestBody UpdateTitleRequest data, HttpServletRequest request) {
+        return createManager(projectId, request).updateData(dataId, new SenseItSeriesManipulator(null, null, null, data));
+    }
+
 
     @RequestMapping(value = "/vote/{dataId}", method = RequestMethod.POST)
     @ResponseBody

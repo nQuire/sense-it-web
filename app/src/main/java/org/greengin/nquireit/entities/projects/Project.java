@@ -42,6 +42,10 @@ public class Project extends CommentThreadEntity {
     @Setter
     Boolean open = false;
 
+    @Basic
+    @Getter
+    @Setter
+    boolean featured = false;
 
 
     @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL)

@@ -19,11 +19,13 @@ public class SenseItSeriesManipulator extends DataItemManipulator<SenseItActivit
     String title;
     String geolocation;
     InputStream uploadedInputStream;
+    UpdateTitleRequest data;
 
-    public SenseItSeriesManipulator(String title, String geolocation, InputStream uploadedInputStream) {
+    public SenseItSeriesManipulator(String title, String geolocation, InputStream uploadedInputStream, UpdateTitleRequest data) {
         this.title = title;
         this.geolocation = geolocation;
         this.uploadedInputStream = uploadedInputStream;
+        this.data = data;
     }
 
     @Override
@@ -116,6 +118,9 @@ public class SenseItSeriesManipulator extends DataItemManipulator<SenseItActivit
 
     @Override
     public void onUpdate(SenseItSeries item) {
+        if (data != null) {
+            item.setTitle(data.getTitle());
+        }
     }
 
     @Override

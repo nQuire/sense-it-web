@@ -10374,10 +10374,15 @@ html {
     font-weight: 700;
     font-size: 16px;
     color: #444444; }
-  .sidebar-right .sidebar-header, .project-main-container .project-comments-section .sidebar-header {
-    font-weight: 700;
-    font-size: 16px;
-    color: #444444; }
+  .sidebar-right .sidebar-menu li, .project-main-container .project-comments-section .sidebar-menu li {
+    padding: 2px 4px; }
+    .sidebar-right .sidebar-menu li a, .project-main-container .project-comments-section .sidebar-menu li a {
+      padding: 2px 4px;
+      border: 1px solid transparent; }
+      .sidebar-right .sidebar-menu li a.selected, .project-main-container .project-comments-section .sidebar-menu li a.selected {
+        border: 1px solid #aaaaaa;
+        border-radius: 10px;
+        background: #f6f5f5; }
   .sidebar-right ul > li, .project-main-container .project-comments-section ul > li {
     font-weight: 500;
     font-size: 14px;
@@ -10457,8 +10462,8 @@ div#header {
   display: inline-block; }
 
 .profile-header {
-  height: 24px;
-  line-height: 24px;
+  height: 26px;
+  line-height: 26px;
   color: white;
   background: #444444;
   padding-left: 10px; }
@@ -10549,13 +10554,15 @@ div#header {
     padding: 0px 10px; }
     .project-item .project-item-text-container .project-item-type {
       font-weight: 700;
-      color: #444444;
-      font-size: 24px;
+      color: #777777;
+      font-size: 16px;
+      margin-bottom: 10px;
       text-align: center; }
     .project-item .project-item-text-container .project-item-title {
-      font-weight: 700;
-      color: #444444;
-      font-size: 16px; }
+      text-align: center; }
+      .project-item .project-item-text-container .project-item-title a {
+        font-weight: 700;
+        font-size: 20px; }
     .project-item .project-item-text-container .project-item-teaser {
       font-weight: 400;
       color: #444444;
@@ -10567,8 +10574,8 @@ div#header {
       font-size: 14px; }
   .project-item .project-item-banner {
     text-align: center;
-    height: 24px;
-    line-height: 24px; }
+    height: 26px;
+    line-height: 26px; }
     .project-item .project-item-banner a {
       font-weight: 400;
       color: white;
@@ -10579,17 +10586,17 @@ div#header {
         color: white;
         font-size: 14px; }
 
-.project-item.project-type-senseit .project-item-type {
+.project-item.project-type-senseit .project-item-title a {
   color: #079ccb; }
 .project-item.project-type-senseit .project-item-banner {
   background: #079ccb; }
 
-.project-item.project-type-challenge .project-item-type {
+.project-item.project-type-challenge .project-item-title a {
   color: #c4388a; }
 .project-item.project-type-challenge .project-item-banner {
   background: #c4388a; }
 
-.project-item.project-type-spotit .project-item-type {
+.project-item.project-type-spotit .project-item-title a {
   color: #9fa609; }
 .project-item.project-type-spotit .project-item-banner {
   background: #9fa609; }
@@ -10649,8 +10656,8 @@ i.vote-icon.enabled:hover {
 .admin-page {
   padding: 0 20px; }
   .admin-page .admin-header {
-    height: 24px;
-    line-height: 24px;
+    height: 26px;
+    line-height: 26px;
     color: white;
     background: #444444;
     padding-left: 10px; }
@@ -10658,6 +10665,21 @@ i.vote-icon.enabled:hover {
       color: #aaaaaa; }
     .admin-page .admin-header a {
       color: #73a9d7; }
+    .admin-page .admin-header .menu-item {
+      line-height: 26px;
+      font-weight: 400;
+      font-size: 14px;
+      color: white;
+      margin-right: 20px;
+      padding-bottom: 1px;
+      border-bottom-width: 3px;
+      border-bottom-style: solid;
+      border-bottom-color: rgba(255, 255, 255, 0); }
+      .admin-page .admin-header .menu-item.active {
+        font-weight: 700;
+        font-size: 14px;
+        color: white;
+        border-bottom-color: white; }
   .admin-page .admin-content {
     padding: 10px;
     background: #f6f5f5; }
@@ -10680,10 +10702,15 @@ i.vote-icon.enabled:hover {
     font-weight: 700;
     font-size: 16px;
     color: #444444; }
-  .sidebar-right .sidebar-header, .project-main-container .project-comments-section .sidebar-header {
-    font-weight: 700;
-    font-size: 16px;
-    color: #444444; }
+  .sidebar-right .sidebar-menu li, .project-main-container .project-comments-section .sidebar-menu li {
+    padding: 2px 4px; }
+    .sidebar-right .sidebar-menu li a, .project-main-container .project-comments-section .sidebar-menu li a {
+      padding: 2px 4px;
+      border: 1px solid transparent; }
+      .sidebar-right .sidebar-menu li a.selected, .project-main-container .project-comments-section .sidebar-menu li a.selected {
+        border: 1px solid #aaaaaa;
+        border-radius: 10px;
+        background: #f6f5f5; }
   .sidebar-right ul > li, .project-main-container .project-comments-section ul > li {
     font-weight: 500;
     font-size: 14px;
@@ -10704,18 +10731,33 @@ i.vote-icon.enabled:hover {
       color: #c4388a; }
 
 .project-main-container .project-section .project-section-header {
+  height: 26px;
+  line-height: 26px;
+  color: white;
+  background: #444444;
+  padding-left: 10px;
   margin: 0px;
   height: 26px;
   line-height: 26px; }
-  .project-main-container .project-section .project-section-header .project-menu-item {
+  .project-main-container .project-section .project-section-header .arrow {
+    color: #aaaaaa; }
+  .project-main-container .project-section .project-section-header a {
+    color: #73a9d7; }
+  .project-main-container .project-section .project-section-header .menu-item {
+    line-height: 26px;
     font-weight: 400;
     font-size: 14px;
     color: white;
-    margin-right: 20px; }
-    .project-main-container .project-section .project-section-header .project-menu-item.active {
+    margin-right: 20px;
+    padding-bottom: 1px;
+    border-bottom-width: 3px;
+    border-bottom-style: solid;
+    border-bottom-color: rgba(255, 255, 255, 0); }
+    .project-main-container .project-section .project-section-header .menu-item.active {
       font-weight: 700;
       font-size: 14px;
-      color: white; }
+      color: white;
+      border-bottom-color: white; }
 .project-main-container .project-section .project-section-content {
   margin: 0px;
   background: #f6f5f5; }
@@ -10832,8 +10874,8 @@ i.vote-icon.enabled:hover {
   display: inline-block; }
 
 .profile-header {
-  height: 24px;
-  line-height: 24px;
+  height: 26px;
+  line-height: 26px;
   color: white;
   background: #444444;
   padding-left: 10px; }
@@ -10965,21 +11007,23 @@ i.vote-icon.enabled:hover {
     color: #444444;
     height: 100%;
     margin-left: 230px;
-    padding: 0px 10px 24px 10px; }
+    padding: 0px 10px 26px 10px; }
     .project-create-type-senseit .project-create-type-info .project-create-type-info-header {
       font-weight: 700;
       font-size: 26px;
-      color: #079ccb; }
+      color: #079ccb;
+      cursor: pointer; }
     .project-create-type-senseit .project-create-type-info .project-create-type {
       color: #079ccb;
       font-weight: bold; }
     .project-create-type-senseit .project-create-type-info .project-create-type-banner {
       position: absolute;
-      height: 24px;
-      line-height: 24px;
+      height: 26px;
+      line-height: 26px;
       color: white;
       background: #079ccb;
       padding-left: 10px;
+      cursor: pointer;
       width: 100%;
       left: 0px;
       bottom: 0px; }
@@ -11015,21 +11059,23 @@ i.vote-icon.enabled:hover {
     color: #444444;
     height: 100%;
     margin-left: 230px;
-    padding: 0px 10px 24px 10px; }
+    padding: 0px 10px 26px 10px; }
     .project-create-type-challenge .project-create-type-info .project-create-type-info-header {
       font-weight: 700;
       font-size: 26px;
-      color: #c4388a; }
+      color: #c4388a;
+      cursor: pointer; }
     .project-create-type-challenge .project-create-type-info .project-create-type {
       color: #c4388a;
       font-weight: bold; }
     .project-create-type-challenge .project-create-type-info .project-create-type-banner {
       position: absolute;
-      height: 24px;
-      line-height: 24px;
+      height: 26px;
+      line-height: 26px;
       color: white;
       background: #c4388a;
       padding-left: 10px;
+      cursor: pointer;
       width: 100%;
       left: 0px;
       bottom: 0px; }
@@ -11065,21 +11111,23 @@ i.vote-icon.enabled:hover {
     color: #444444;
     height: 100%;
     margin-left: 230px;
-    padding: 0px 10px 24px 10px; }
+    padding: 0px 10px 26px 10px; }
     .project-create-type-spotit .project-create-type-info .project-create-type-info-header {
       font-weight: 700;
       font-size: 26px;
-      color: #9fa609; }
+      color: #9fa609;
+      cursor: pointer; }
     .project-create-type-spotit .project-create-type-info .project-create-type {
       color: #9fa609;
       font-weight: bold; }
     .project-create-type-spotit .project-create-type-info .project-create-type-banner {
       position: absolute;
-      height: 24px;
-      line-height: 24px;
+      height: 26px;
+      line-height: 26px;
       color: white;
       background: #9fa609;
       padding-left: 10px;
+      cursor: pointer;
       width: 100%;
       left: 0px;
       bottom: 0px; }
@@ -11090,8 +11138,8 @@ i.vote-icon.enabled:hover {
 .forum-container {
   margin: 0 20px; }
   .forum-container .forum-header {
-    height: 24px;
-    line-height: 24px;
+    height: 26px;
+    line-height: 26px;
     color: white;
     background: #444444;
     padding-left: 10px; }
@@ -11099,6 +11147,21 @@ i.vote-icon.enabled:hover {
       color: #aaaaaa; }
     .forum-container .forum-header a {
       color: #73a9d7; }
+    .forum-container .forum-header .menu-item {
+      line-height: 26px;
+      font-weight: 400;
+      font-size: 14px;
+      color: white;
+      margin-right: 20px;
+      padding-bottom: 1px;
+      border-bottom-width: 3px;
+      border-bottom-style: solid;
+      border-bottom-color: rgba(255, 255, 255, 0); }
+      .forum-container .forum-header .menu-item.active {
+        font-weight: 700;
+        font-size: 14px;
+        color: white;
+        border-bottom-color: white; }
   .forum-container .forum-content, .forum-container .forum-thread-content {
     padding: 10px;
     background: #f6f5f5; }
@@ -11114,8 +11177,8 @@ i.vote-icon.enabled:hover {
     margin-bottom: 20px;
     background: #e0e0e0; }
     .forum-container .forum-thread-content .forum-thread-comment .forum-thread-comment-header {
-      height: 24px;
-      line-height: 24px;
+      height: 26px;
+      line-height: 26px;
       padding: 0 10px;
       background: #777777;
       color: #ffffff; }

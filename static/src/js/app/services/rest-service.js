@@ -4,11 +4,11 @@ angular.module('senseItServices', null, null).factory('RestService', ['$http', f
 
     var service = {
         errorListeners: [],
-        registerErrorListener: function(listener) {
-          this.errorListeners.push(listener);
+        registerErrorListener: function (listener) {
+            this.errorListeners.push(listener);
         },
-        _promiserequest: function(promise) {
-            return promise.then(function(response) {
+        _promiserequest: function (promise) {
+            return promise.then(function (response) {
                 if (response.data) {
                     return response.data;
                 } else {
@@ -19,10 +19,12 @@ angular.module('senseItServices', null, null).factory('RestService', ['$http', f
                 }
             });
         },
-        get: function(path) {
-            return service._promiserequest($http.get(path));
+        get: function (path, data) {
+            return service._promiserequest($http.get(path, {
+                params: data
+            }));
         },
-        _createUploadPromise: function(method, path, data, files) {
+        _createUploadPromise: function (method, path, data, files) {
             var hasFiles = false;
             if (files) {
                 for (var fileId in files) {
@@ -63,7 +65,7 @@ angular.module('senseItServices', null, null).factory('RestService', ['$http', f
          * @param [files=null]
          * @returns {*}
          */
-        post: function(path, data, files) {
+        post: function (path, data, files) {
             return service._createUploadPromise('post', path, data, files);
         },
         /**
@@ -73,13 +75,13 @@ angular.module('senseItServices', null, null).factory('RestService', ['$http', f
          * @param [files=null]
          * @returns {*}
          */
-        put: function(path, data, files) {
+        put: function (path, data, files) {
             return service._createUploadPromise('put', path, data, files);
         },
-        delete: function(path) {
+        delete: function (path) {
             return service._promiserequest($http.delete(path));
         },
-        setToken: function(token) {
+        setToken: function (token) {
             $http.defaults.headers.common["nquire-it-token"] = token;
         }
     };

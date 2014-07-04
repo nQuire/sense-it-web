@@ -43,7 +43,6 @@ public class SenseItActivityActions extends DataActions<SenseItSeries, BaseAnaly
     /**
      * editor actions *
      */
-    @Transactional
     public ProjectResponse updateProfile(SenseItProfileRequest profileData) {
         if (hasAccess(PermissionType.PROJECT_EDITION)) {
             context.getSenseItDao().updateProfile(profileData, activity);
@@ -53,7 +52,6 @@ public class SenseItActivityActions extends DataActions<SenseItSeries, BaseAnaly
         return null;
     }
 
-    @Transactional
     public ProjectResponse createSensor(SensorInputRequest inputData) {
         if (hasAccess(PermissionType.PROJECT_EDITION)) {
             context.getSenseItDao().createSensor(inputData, activity);
@@ -63,7 +61,6 @@ public class SenseItActivityActions extends DataActions<SenseItSeries, BaseAnaly
         return null;
     }
 
-    @Transactional
     public ProjectResponse updateSensor(Long inputId, SensorInputRequest inputData) {
         if (hasAccess(PermissionType.PROJECT_EDITION)) {
             context.getSenseItDao().updateSensor(inputData, inputId);
@@ -73,7 +70,6 @@ public class SenseItActivityActions extends DataActions<SenseItSeries, BaseAnaly
         return null;
     }
 
-    @Transactional
     public ProjectResponse deleteSensor(Long inputId) {
         if (hasAccess(PermissionType.PROJECT_EDITION)) {
             context.getSenseItDao().deleteSensor(activity, inputId);

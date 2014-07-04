@@ -29,6 +29,10 @@ public class ProjectDao {
     static final String JOINED_PROJECTS_QUERY = "SELECT DISTINCT e FROM Role r INNER JOIN r.context e WHERE r.user=:user AND r.type=:access";
 
     static final String PROJECTS_QUERY = "SELECT p FROM Project p";
+    static final String PROJECTS_TYPE_QUERY = "SELECT p FROM Project p WHERE p.type = :type";
+    static final String PROJECTS_TYPE_FEATURED_QUERY = "SELECT p FROM Project p WHERE p.featured = TRUE AND p.type = :type";
+    static final String PROJECTS_FEATURED_QUERY = "SELECT p FROM Project p WHERE p.featured = TRUE";
+
     static final String TYPED_PROJECTS_QUERY = "SELECT p FROM Project p WHERE p.type = :type";
     private static final String MY_PROJECTS_QUERY = "SELECT r, e FROM Role r INNER JOIN r.context e WHERE r.user = :user";
 
@@ -60,7 +64,7 @@ public class ProjectDao {
     }
 
     @Transactional
-    public void setOpen(Project project , Boolean open) {
+    public void setOpen(Project project, Boolean open) {
         em.persist(project);
         project.setOpen(open);
     }
@@ -103,6 +107,20 @@ public class ProjectDao {
         return query.getResultList();
     }
 
+    public List<Project> getProjects(ProjectType type, boolean featured) {
+        TypedQuery<Project> query ;
+
+        if (type != null) {
+            query = em.createQuery(featured ? PROJECTS_TYPE_FEATURED_QUERY : PROJECTS_TYPE_QUERY, Project.class);
+            query.setParameter("type", type);
+        } else {
+            query = em.createQuery(featured ? PROJECTS_FEATURED_QUERY : PROJECTS_QUERY, Project.class);
+        }
+
+        return query.getResultList();
+    }
+
+
     public List<Object[]> getMyProjects(UserProfile user) {
         TypedQuery<Object[]> query = em.createQuery(MY_PROJECTS_QUERY, Object[].class);
         query.setParameter("user", user);
@@ -135,5 +153,12 @@ public class ProjectDao {
             }
         }
         return projects;
+    }
+
+
+    @Transactional
+    public void setFeatured(Long projectId, boolean featured) {
+        Project p = em.find(Project.class, projectId);
+        p.setFeatured(featured);
     }
 }

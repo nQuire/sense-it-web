@@ -45,14 +45,13 @@
 
 @mixin text-project-list-item-type {
   @include text-black;
-  color: $color-dark-grey;
-  font-size: 24px;
+  color: $color-medium-grey;
+  font-size: 16px;
 }
 
 @mixin text-project-list-item-title {
   @include text-bold;
-  color: $color-dark-grey;
-  font-size: 16px;
+  font-size: 20px;
 }
 
 @mixin text-project-list-item-teaser {
@@ -80,13 +79,13 @@
   font-size: 14px;
 }
 
-@mixin text-project-menu-item {
+@mixin text-menu-item {
   @include text-regular;
   font-size: 14px;
   color: white;
 }
 
-@mixin text-project-menu-item-active {
+@mixin text-menu-item-active {
   @include text-bold;
   font-size: 14px;
   color: white;

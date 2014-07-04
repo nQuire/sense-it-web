@@ -9,7 +9,7 @@ public class Views {
     public static interface UserName extends User {};
 	public static interface UserProfileData extends UserName {};
 	
-	public static interface Votable extends User {}
+	public static interface Votable extends UserName {}
 	public static interface VotableCount extends Votable {}
 	public static interface VotableNamedVotes extends Votable {}
 	public static interface VotableCountModeration extends VotableCount {}

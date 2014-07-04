@@ -7,8 +7,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public enum ChallengeFieldType {
 	TEXTFIELD,
 	TEXTAREA,
-	TITLE;
-	
+	TITLE,
+	TEXTANGULAR;
+
 	@JsonValue
     public String getValue() { return this.name().toLowerCase(); }
 

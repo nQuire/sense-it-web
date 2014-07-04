@@ -6,5 +6,6 @@ angular.module('senseItWeb', null, null).controller('ProjectEditSenseItProfileCt
         $scope.senseitEditor.updateProfile($scope.projectData.project.activity.profile);
     });
 
+
 });
 

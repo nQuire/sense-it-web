@@ -9,22 +9,21 @@
                          data-ui-sref="project.view.home({projectId: projectData.project.id})"/>
                 </div>
                 <div class="project-item-text-container">
+                    <div class="project-item-title">
+                        <a href data-ui-sref="project.view.home({projectId: projectData.project.id})">
+                            {{projectData.project.title}}
+                        </a>
+                    </div>
+
                     <div class="project-item-type" data-ng-switch="projectData.project.type">
                         <span data-ng-switch-when="senseit">Sense-it</span>
                         <span data-ng-switch-when="spotit">Spot-it</span>
                         <span data-ng-switch-when="challenge">Win-it</span>
                     </div>
-                    <p class="project-item-title">
-                        {{projectData.project.title}}
-                    </p>
 
-                    <p class="project-item-teaser">
-                        {{projectData.project.description.teaser}}
-                    </p>
+                    <p class="project-item-teaser">{{projectData.project.description.teaser}}</p>
 
-                    <p class="project-item-author">
-                        A mission created by {{projectData.project.author.username}}.
-                    </p>
+                    <p class="project-item-author">A mission created by {{projectData.project.author.username}}.</p>
                 </div>
                 <div class="project-item-banner">
                     <a href data-ui-sref="project.view.home({projectId: projectData.project.id})">

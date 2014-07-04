@@ -11,10 +11,7 @@ import org.greengin.nquireit.logic.project.ProjectListResponse;
 import org.greengin.nquireit.logic.project.ProjectCreationRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping(value = "/api/projects")
@@ -32,8 +29,8 @@ public class ProjectListController {
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     @ResponseView(Views.UserName.class)
-    public ProjectListResponse projectList(HttpServletRequest request) {
-        return createProjectManager(request).getProjects();
+    public ProjectListResponse projectList(@RequestParam(value = "type", defaultValue = "") String type, @RequestParam(value = "status", defaultValue = "") String status, @RequestParam(value = "filter", defaultValue = "") String filter, HttpServletRequest request) {
+        return createProjectManager(request).getProjects(type, status, filter);
     }
 
     @RequestMapping(value = "/mine", method = RequestMethod.GET)
@@ -42,7 +39,6 @@ public class ProjectListController {
     public MyProjectListResponse myProjectList(HttpServletRequest request) {
         return createProjectManager(request).getMyProjects();
     }
-
 
 
     @RequestMapping(method = RequestMethod.POST)

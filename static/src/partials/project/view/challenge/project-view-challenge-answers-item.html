@@ -10,6 +10,10 @@
             <input data-ng-if="field.type=='textfield' || field.type=='title'" class="form-control"
                    id="{{field.id}}" type="text" placeholder="{{field.label}}"
                    data-ng-model="form.values.fieldValues[field.id]"/>
+            <text-angular data-ng-if="field.type=='textangular'" id="{{field.id}}"
+                          name="project-block-content"
+                          data-ng-model="form.values.fieldValues[field.id]">
+            </text-angular>
         </div>
 
         <div class="checkbox">

@@ -1,36 +1,61 @@
-
 <table data-siw-sortable-table-widget data-table-data="dataList" class="table table-bordered">
     <thead>
     <tr>
         <th data-ng-class="headerClass('title')" data-ng-click="headerSort('title')">Title</th>
         <th data-ng-class="headerClass('author')" data-ng-click="headerSort('author')">Author</th>
-        <th data-ng-class="headerClass('votes')" data-ng-click="headerSort('votes')">Votes</th>
+        <th data-ng-class="headerClass('date')" data-ng-click="headerSort('date')">Date</th>
         <th data-ng-repeat="v in dataInfo.tableVariables"
             data-ng-class="headerClass(v.id)" data-ng-click="headerSort(v.id)">{{v.label()}}
         </th>
-        <th></th>
+        <th data-ng-class="headerClass('votes')" data-ng-click="headerSort('votes')">Votes</th>
     </tr>
     </thead>
     <tbody>
     <tr data-ng-repeat-start="item in sortedItems()">
-        <td>{{item.title}}</td>
-        <td>{{item.author.id == status.profile.id ? 'Me' : 'Others'}}</td>
         <td>
-            <div data-siw-vote-widget data-vote-manager="dataVoteManager" data-vote-target="item"></div>
+            <div data-ng-if="!form.isOpen(item.id)">
+                {{item.title}}
+
+                <div class="btn-group">
+                    <button class="btn btn-default btn-xs" data-ng-click="plots.togglePlot(item)">
+                        {{plots.plotOpen(item) ? 'Close plot' : 'Open plot'}}
+                    </button>
+                </div>
+                <div class="btn-group">
+                    <button data-ng-if="item.author.id == status.profile.id"
+                            class="btn btn-default btn-xs" data-ng-click="edit.open(item)">
+                        Edit
+                    </button>
+                    <button data-ng-if="item.author.id == status.profile.id"
+                            class="btn btn-default btn-xs" data-ng-click="deleteData(item)">
+                        Delete
+                    </button>
+                </div>
+            </div>
+            <div data-ng-if="form.isOpen(item.id)">
+                <form class="form-inline">
+                    <input class="form-control" data-ng-model="form.values.title" placeholder="title"/>
+
+                    <div class="btn-group">
+                        <button class="btn btn-default" data-ng-click="form.save()">
+                            Save
+                        </button>
+                        <button class="btn btn-default" data-ng-click="form.cancel()">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
         </td>
+        <td>
+            {{item.author.username}}
+        </td>
+        <td>{{item.date | fuzzyDate}}</td>
         <td data-ng-repeat="v in dataInfo.tableVariables">
             {{dataInfo.tableValue(item, v)}}
         </td>
         <td>
-            <div class="btn-group">
-                <button class="btn btn-default" data-ng-click="plots.togglePlot(item)">
-                    {{plots.plotOpen(item) ? 'Close plot' : 'Open plot'}}
-                </button>
-                <button data-ng-if="item.author.id == status.profile.id"
-                        class="btn btn-default" data-ng-click="deleteData(item)">
-                    Delete
-                </button>
-            </div>
+            <div data-siw-vote-widget data-vote-manager="dataVoteManager" data-vote-target="item"></div>
         </td>
     </tr>
     <tr data-ng-repeat-end data-ng-if="plots.plotOpen(item)">

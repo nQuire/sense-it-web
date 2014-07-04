@@ -26,39 +26,42 @@ public class SenseItDao {
         return em.find(SenseItSeries.class, dataId);
     }
 
-    private SenseItProfile profile(SenseItActivity activity) {
+
+    private void persistProfile(SenseItActivity activity) {
         if (activity.getProfile() == null) {
             activity.setProfile(new SenseItProfile());
         }
 
         em.persist(activity.getProfile());
-        return activity.getProfile();
     }
 
-    private SensorInput input(Long id) {
-        return em.find(SensorInput.class, id);
-    }
 
     @Transactional
     public void updateProfile(SenseItProfileRequest profileData, SenseItActivity activity) {
-        profileData.updateProfile(profile(activity));
+        persistProfile(activity);
+        profileData.updateProfile(activity.getProfile());
     }
 
     @Transactional
     public void createSensor(SensorInputRequest inputData, SenseItActivity activity) {
+        persistProfile(activity);
         SensorInput input = new SensorInput();
-        profile(activity).getSensorInputs().add(input);
+        activity.getProfile().getSensorInputs().add(input);
         inputData.updateInput(input);
+        em.persist(input);
     }
 
     @Transactional
     public void updateSensor(SensorInputRequest inputData, Long inputId) {
-        SensorInput input = input(inputId);
+        SensorInput input = em.find(SensorInput.class, inputId);
         inputData.updateInput(input);
+        em.persist(input);
     }
 
     @Transactional
     public void deleteSensor(SenseItActivity activity, Long inputId) {
-        profile(activity).getSensorInputs().remove(input(inputId));
+        SensorInput input = em.find(SensorInput.class, inputId);
+        persistProfile(activity);
+        activity.getProfile().getSensorInputs().remove(input);
     }
 }

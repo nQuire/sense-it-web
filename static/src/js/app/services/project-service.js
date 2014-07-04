@@ -67,10 +67,11 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
         OpenIdService.registerListener(openIdListener);
     };
 
-    ProjectListWatcher.prototype._reload = function () {
+    ProjectListWatcher.prototype._reload = function (query) {
         this.data.ready = false;
         var self = this;
-        RestService.get('api/projects').then(function (data) {
+
+        RestService.get('api/projects', query).then(function (data) {
             self.data.ready = true;
             self.data.projects = data.list;
             self.data.categories = data.categories;
@@ -80,7 +81,7 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
 
     ProjectListWatcher.prototype.query = function (query) {
         this._query = query;
-        this._reload();
+        this._reload(query);
     };
 
     var MyProjectListWatcher = function (scope, callback) {

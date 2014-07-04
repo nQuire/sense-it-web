@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 
-<p data-ng-repeat="field in projectData.project.activity.fields">{{field.label}}: {{itemView.answer.fieldValues[field.id]}}</p>
+<div data-ng-repeat="field in projectData.project.activity.fields">
+    <p><b>{{field.label}}</b></p>
+
+    <p data-ng-if="field.type=='textangular'" data-ng-bind-html="itemView.answer.fieldValues[field.id]"></p>
+
+    <p data-ng-if="field.type!='textangular'">{{itemView.answer.fieldValues[field.id]}}</p>
+</div>
 
 <p data-ng-if="answerData.showPublished">{{itemView.answer.published ? 'Published' : 'Not published yet'}}.</p>
 

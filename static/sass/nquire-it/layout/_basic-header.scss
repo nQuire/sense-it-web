@@ -1,9 +1,11 @@
 @import "../variables/dimensions";
 @import "../variables/colors";
+@import "../text/text-styles";
+@import "../ext/browser-support";
 
 @mixin basic-header {
-  height: $dim-forum-header-height;
-  line-height: $dim-forum-header-height;
+  height: $dim-common-banner;
+  line-height: $dim-common-banner;
   color: white;
   background: $color-dark-grey;
   padding-left: $dim-common-small-margin;
@@ -15,4 +17,22 @@
   a {
     color: $color-dark-background-link;
   }
+
+  .menu-item {
+    line-height: $dim-forum-header-height;
+
+    @include text-menu-item;
+    margin-right: 20px;
+    padding-bottom: 1px;
+    border-bottom-width: 3px;
+    border-bottom-style: solid;
+    border-bottom-color: rgba(255, 255, 255, 0);
+
+    &.active {
+      @include text-menu-item-active;
+      border-bottom-color: rgba(255, 255, 255, 1);
+    }
+  }
 }
+
+

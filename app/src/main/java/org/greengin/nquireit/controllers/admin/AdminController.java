@@ -1,10 +1,12 @@
 package org.greengin.nquireit.controllers.admin;
 
 import com.mangofactory.jsonview.ResponseView;
+import org.greengin.nquireit.entities.projects.Project;
 import org.greengin.nquireit.entities.users.UserProfile;
 import org.greengin.nquireit.json.Views;
 import org.greengin.nquireit.logic.ContextBean;
 import org.greengin.nquireit.logic.admin.AdminActions;
+import org.greengin.nquireit.logic.admin.ProjectFeaturedRequest;
 import org.greengin.nquireit.logic.admin.UserAdminRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,4 +42,23 @@ public class AdminController {
         manager.setAdmin(userId, data);
         return manager.getUsers();
     }
+
+    @RequestMapping(value = "/projects", method = RequestMethod.GET)
+    @ResponseBody
+    @ResponseView(value = Views.UserName.class)
+    public List<Project> projects(HttpServletRequest request) {
+        return createAdminManager(request).getProjects();
+    }
+
+
+    @RequestMapping(value = "/project/{projectId}/featured", method = RequestMethod.PUT)
+    @ResponseBody
+    @ResponseView(value = Views.UserProfileData.class)
+    public List<Project> setFeatured(@PathVariable("projectId") Long projectId, @RequestBody ProjectFeaturedRequest data, HttpServletRequest request) {
+        AdminActions manager = createAdminManager(request);
+        manager.setFeatured(projectId, data);
+        return manager.getProjects();
+    }
+
+
 }

@@ -19,11 +19,15 @@
 
     .project-item-type {
       @include text-project-list-item-type;
+      margin-bottom: $dim-common-small-margin;
       text-align: center;
     }
 
     .project-item-title {
-      @include text-project-list-item-title;
+      text-align: center;
+      a {
+        @include text-project-list-item-title;
+      }
     }
 
     .project-item-teaser {
@@ -52,7 +56,7 @@
 }
 
 @mixin project-item-type-variation($color) {
-  .project-item-type {
+  .project-item-title a {
     color: $color;
   }
   .project-item-banner {

@@ -1,5 +1,6 @@
 package org.greengin.nquireit.logic.admin;
 
+import org.greengin.nquireit.entities.projects.Project;
 import org.greengin.nquireit.entities.users.UserProfile;
 import org.greengin.nquireit.logic.AbstractContentManager;
 import org.greengin.nquireit.logic.ContextBean;
@@ -33,6 +34,16 @@ public class AdminActions extends AbstractContentManager {
     public void setAdmin(Long userId, UserAdminRequest data) {
         if (isAdmin) {
             context.getUserProfileDao().setAdmin(userId, data.isAdmin());
+        }
+    }
+
+    public List<Project> getProjects() {
+        return isAdmin ? context.getProjectDao().getProjects() : null;
+    }
+
+    public void setFeatured(Long projectId, ProjectFeaturedRequest data) {
+        if (isAdmin) {
+            context.getProjectDao().setFeatured(projectId, data.isFeatured());
         }
     }
 }

@@ -23,6 +23,7 @@ ini_set('error_reporting', E_ALL);
     <script src="js/libs/angular-ui-router.js"></script>
     <script src="js/libs/textAngular.min.js"></script>
     <script src="js/libs/textAngular-sanitize.min.js"></script>
+    <script src="js/libs/ui-bootstrap-tpls-0.11.0.min.js"></script>
 
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
     <script src="js/libs/oms.min.js"></script>
@@ -65,6 +66,7 @@ ini_set('error_reporting', E_ALL);
     <script src="js/app/services/project-challenge-outcome-service.js"></script>
     <script src="js/app/services/forum-service.js"></script>
     <script src="js/app/services/admin-service.js"></script>
+    <script src="js/app/services/modal-service.js"></script>
 
 
     <script src="js/app/directives/back-image.js"></script>
@@ -79,6 +81,8 @@ ini_set('error_reporting', E_ALL);
 
     <script src="js/app/filters/uploaded-image-filter.js"></script>
     <script src="js/app/filters/fuzzy-date.js"></script>
+
+    <script src="js/app/controllers/common/modal-controller.js"></script>
 
     <script src="js/app/controllers/forum/comments-controller.js"></script>
     <script src="js/app/controllers/forum/forum-controller.js"></script>
@@ -95,6 +99,7 @@ ini_set('error_reporting', E_ALL);
     <script src="js/app/controllers/profile/profile-controller.js"></script>
 
     <script src="js/app/controllers/project-list/project-list-controller.js"></script>
+    <script src="js/app/controllers/project-list/project-filter-sidebar-controller.js"></script>
     <script src="js/app/controllers/project-list/project-list-mine-controller.js"></script>
     <script src="js/app/controllers/project-list/create-controller.js"></script>
 
@@ -134,6 +139,7 @@ ini_set('error_reporting', E_ALL);
 
     <script src="js/app/controllers/admin/admin-controller.js"></script>
     <script src="js/app/controllers/admin/admin-users-controller.js"></script>
+    <script src="js/app/controllers/admin/admin-projects-controller.js"></script>
 
 
 

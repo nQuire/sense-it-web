@@ -1,4 +1,3 @@
-
 @import "../variables/colors";
 @import "../variables/dimensions";
 @import "../text/text-styles";
@@ -17,11 +16,25 @@
     @include text-sidebar-category;
   }
 
-  .sidebar-header {
-    @include text-sidebar-category;
+  .sidebar-menu {
+
+    li {
+      padding: 2px 4px;
+
+      a {
+        padding: 2px 4px;
+        border: 1px solid transparent;
+
+        &.selected {
+          border: 1px solid $color-light-grey;
+          border-radius: 10px;
+          background: $color-project-list-item-background;
+        }
+      }
+    }
   }
 
-  ul >li {
+  ul > li {
     @include text-sidebar-normal;
     list-style-image: url(images/bullet.png);
     margin-left: -1.5em;

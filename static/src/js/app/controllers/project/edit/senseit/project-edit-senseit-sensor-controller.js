@@ -1,4 +1,4 @@
-angular.module('senseItWeb', null, null).controller('ProjectEditSenseItSensorCtrl', function ($scope) {
+angular.module('senseItWeb', null, null).controller('ProjectEditSenseItSensorCtrl', function ($scope, ModalService) {
     $scope.isNew = typeof $scope.sensorInput === 'undefined';
     if ($scope.isNew) {
         $scope.sensorInput = {sensor: "", rate: 10};
@@ -9,8 +9,20 @@ angular.module('senseItWeb', null, null).controller('ProjectEditSenseItSensorCtr
         $scope.senseitEditor[method]($scope.sensorInput);
     });
 
-    $scope.deleteInput = function() {
-        $scope.senseitEditor[method].deleteInput($scope.sensorInput.id);
+    /*$scope.deleteInput = function() {
+     $scope.senseitEditor[method].deleteInput($scope.sensorInput.id);
+     };*/
+
+
+    $scope.deleteInput = function () {
+
+        ModalService.open({
+            body: 'Are you sure you want to delete this sensor input?',
+            title: 'Delete sensor',
+            ok: function () {
+                $scope.senseitEditor.deleteInput($scope.sensorInput.id);
+            }
+        });
     };
 
 });

@@ -4,7 +4,16 @@
 angular.module('senseItWeb', null, null).controller('ProjectListCtrl', function ($scope, $state, ProjectService) {
 
     ProjectService.watchList($scope);
-    $scope.projectListWatcher.query('all');
+
+
+    $scope.projectListFilter = {
+        type: $state.params.type,
+        status: $state.params.status,
+        filter: $state.params.filter
+    };
+
+    $scope.projectListWatcher.query($scope.projectListFilter);
+
 
     $scope.projectClass = function(projectData) {
         return 'project-type-' + projectData.project.type;

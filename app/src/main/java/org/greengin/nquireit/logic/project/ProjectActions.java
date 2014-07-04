@@ -1,7 +1,6 @@
 package org.greengin.nquireit.logic.project;
 
 import org.greengin.nquireit.entities.projects.Project;
-import org.greengin.nquireit.entities.projects.ProjectDescription;
 import org.greengin.nquireit.entities.projects.ProjectType;
 import org.greengin.nquireit.entities.rating.Comment;
 import org.greengin.nquireit.entities.users.PermissionType;
@@ -16,11 +15,11 @@ import org.greengin.nquireit.logic.files.FileMapUpload;
 import org.greengin.nquireit.logic.rating.CommentRequest;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Vector;
 
 public class ProjectActions extends AbstractContentManager {
 
@@ -67,25 +66,58 @@ public class ProjectActions extends AbstractContentManager {
     /**
      * any user actions *
      */
-    public ProjectListResponse getProjects() {
+    public ProjectListResponse getProjects(String typeStr, String status, String filter) {
+
         List<ProjectResponse> filtered = new Vector<ProjectResponse>();
         HashMap<String, Integer> categories = new HashMap<String, Integer>();
 
         categories.put("challenge", 0);
         categories.put("senseit", 0);
         categories.put("spotit", 0);
+        categories.put("featured", 0);
+        categories.put("joined", 0);
+        categories.put("not-joined", 0);
+        categories.put("mine", 0);
+
+        boolean anyStatus = "".equals(status);
+        boolean onlyJoined = "joined".equals(status);
+        boolean onlyNotJoined = "not-joined".equals(status);
+        boolean onlyMine = "mine".equals(status);
+
+        ProjectType type = null;
+        if ("sense-it".equals(typeStr)) {
+            type = ProjectType.SENSEIT;
+        } else if ("spot-it".equals(typeStr)) {
+            type = ProjectType.SPOTIT;
+        } else if ("win-it".equals(typeStr)) {
+            type = ProjectType.CHALLENGE;
+        }
+
         int allCount = 0;
 
         if (hasAccess(PermissionType.BROWSE)) {
-            List<Project> all = context.getProjectDao().getProjects();
 
-            for (Project p : all) {
+            for (Project p : context.getProjectDao().getProjects(type, !"all".equals(filter))) {
+
                 AccessLevel access = context.getSubscriptionManager().getAccessLevel(p, user);
                 if (access.isAdmin() || p.getOpen()) {
-                    filtered.add(projectResponse(p));
-                    String type = p.getType().getValue();
-                    categories.put(type, categories.get(type) + 1);
+
+                    String projectType = p.getType().getValue();
+
+                    boolean add = anyStatus ||
+                            (onlyJoined && access.isMember()) ||
+                            (onlyNotJoined && !access.isMember()) ||
+                            (onlyMine && access.isAdmin());
+
+                    if (add) {
+                        filtered.add(projectResponse(p));
+                    }
+
+
+                    categories.put(projectType, categories.get(projectType) + 1);
+
                     allCount++;
+
                 }
             }
         }

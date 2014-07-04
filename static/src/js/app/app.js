@@ -2,7 +2,7 @@
 
 /* App Module */
 
-angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'textAngular', 'senseItServices'], null).config([
+angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'textAngular', 'ui.bootstrap', 'senseItServices'], null).config([
     '$provide',
     '$stateProvider',
     '$urlRouterProvider',
@@ -10,7 +10,7 @@ angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'textAngular', 'senseIt
 
         $stateProvider
             .state('home', {
-                url: '/home',
+                url: '/home?type&filter&status',
                 templateUrl: 'partials/projects/projects.html',
                 controller: 'ProjectListCtrl'
             })
@@ -33,6 +33,11 @@ angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'textAngular', 'senseIt
                 url: '',
                 templateUrl: 'partials/admin/admin-users.html',
                 controller: 'AdminUsersCtrl'
+            })
+            .state('admin.projects', {
+                url: '/projects',
+                templateUrl: 'partials/admin/admin-projects.html',
+                controller: 'AdminProjectsCtrl'
             })
             .state('forum', {
                 url: '/forum',
