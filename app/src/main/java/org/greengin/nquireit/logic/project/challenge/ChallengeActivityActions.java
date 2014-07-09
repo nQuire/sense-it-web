@@ -34,17 +34,21 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 
     private List<ChallengeAnswer> getAnswers(boolean onlyMine, boolean onlyModerated) {
         boolean access = hasAccess(PermissionType.PROJECT_ADMIN)
-                || (hasAccess(PermissionType.PROJECT_MEMBER_ACTION) && (onlyMine || activity.getStage() != ChallengeActivityStage.PROPOSAL));
+                || (hasAccess(PermissionType.PROJECT_BROWSE) && (onlyMine || activity.getStage() != ChallengeActivityStage.PROPOSAL));
 
         if (access) {
-            return context.getChallengeDao().getAnswers(onlyMine, project.getActivity(), user);
+            List<ChallengeAnswer> answers = context.getChallengeDao().getAnswers(onlyMine, project.getActivity(), user);
+            for (ChallengeAnswer answer : answers) {
+                answer.setSelectedVoteAuthor(user);
+            }
+            return answers;
         }
 
         return null;
     }
 
     public Collection<ChallengeAnswer> getAnswersForParticipant() {
-        if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION)) {
+        if (hasAccess(PermissionType.PROJECT_BROWSE)) {
             return getAnswers(activity.getStage() == ChallengeActivityStage.PROPOSAL, true);
         }
 

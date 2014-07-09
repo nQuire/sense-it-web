@@ -21,6 +21,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.util.Date;
 import java.util.List;
 
 
@@ -101,6 +102,7 @@ public class ChallengeDao {
     public Long createAnswer(ChallengeActivity activity, UserProfile user, ChallengeAnswerRequest answerData) {
         ChallengeAnswer answer = new ChallengeAnswer();
         answer.setAuthor(user);
+        answer.setDate(new Date());
         answerData.update(answer);
         activity.getAnswers().add(answer);
         em.persist(answer);

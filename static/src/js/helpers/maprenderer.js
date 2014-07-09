@@ -63,6 +63,8 @@ SiwMapRenderer.prototype.init = function () {
 
     this.map = new google.maps.Map(this.element[0], mapOptions);
     this.oms = new OverlappingMarkerSpiderfier(this.map);
+    this.clusterer = new MarkerClusterer(this.map);
+    this.clusterer.setMaxZoom(18);
 
     var self = this;
 
@@ -91,10 +93,13 @@ SiwMapRenderer.prototype.init = function () {
 
 SiwMapRenderer.prototype.reset = function () {
     for (var id in this.markers) {
-        this.markers[id].marker.setMap(null);
-        this.markers[id].infowindow.close();
+        if (this.markers.hasOwnProperty(id)) {
+            this.markers[id].marker.setMap(null);
+            this.markers[id].infowindow.close();
+        }
     }
     this.oms.clearMarkers();
+    this.clusterer.clearMarkers();
     this.markers = {};
 };
 
@@ -123,6 +128,7 @@ SiwMapRenderer.prototype.update = function () {
                 series_id: i
             });
 
+            this.clusterer.addMarker(marker);
             this.oms.addMarker(marker);
 
             var content = '';
@@ -154,7 +160,7 @@ SiwMapRenderer.prototype.idle = function () {
 };
 
 SiwMapRenderer.prototype.setMarkersIcon = function (markers, icon) {
-    for (var i = 0; i < markers.length; i++) {
-        //markers[i].setIcon(this.icons[icon]);
-    }
+    /*for (var i = 0; i < markers.length; i++) {
+        markers[i].setIcon(this.icons[icon]);
+    }*/
 };

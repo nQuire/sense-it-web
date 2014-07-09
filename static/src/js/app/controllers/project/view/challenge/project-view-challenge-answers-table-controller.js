@@ -15,22 +15,24 @@ angular.module('senseItWeb', null, null).controller('ProjectViewChallengeAnswers
     };
 
     $scope.filter = {
-        search: '',
-        type: 'any',
+        params: {
+            search: '',
+            type: 'any'
+        },
         sort: {
             field: 'author',
             ascending: true
         },
         filter: function (a) {
-            if ($scope.filter.type === 'mine' && a.author.id !== $scope.status.profile.id) {
+            if ($scope.filter.params.type === 'mine' && a.author.id !== $scope.status.profile.id) {
                 return false;
             }
 
-            if ($scope.filter.type === 'others' && a.author.id === $scope.status.profile.id) {
+            if ($scope.filter.params.type === 'others' && a.author.id === $scope.status.profile.id) {
                 return false;
             }
 
-            if ($scope.filter.search && $scope.answerTeaser(a).indexOf($scope.filter.search) < 0) {
+            if ($scope.filter.params.search && $scope.answerTeaser(a).indexOf($scope.filter.params.search) < 0) {
                 return false;
             }
 
@@ -40,13 +42,18 @@ angular.module('senseItWeb', null, null).controller('ProjectViewChallengeAnswers
 
             return true;
         },
-        filteredAnswers: function() {
-            return $scope.answerData.answers.filter($scope.filter.filter);
+        filterAnswers: function () {
+            $scope.tableData.items = $scope.answerData.answers.filter($scope.filter.filter);
         }
     };
 
+    $scope.$on('$destroy', $scope.$watch('filter.params', $scope.filter.filterAnswers, true));
+    $scope.$on('$destroy', $scope.$watch('answerData.answers', $scope.filter.filterAnswers));
+
+
+
     if ($scope.answerData.editable) {
-        $scope.maxAnswersReached = function() {
+        $scope.maxAnswersReached = function () {
             return $scope.projectData.project.activity.maxAnswers <= $scope.answerData.answers.length;
         };
     }
@@ -63,8 +70,9 @@ angular.module('senseItWeb', null, null).controller('ProjectViewChallengeAnswers
         };
     }
     sort['answer'] = function (a, b) {
-            return siwCompare.string($scope.answerTeaser(a), $scope.answerTeaser(b));
-        };
+        return siwCompare.string($scope.answerTeaser(a), $scope.answerTeaser(b));
+    };
+
     $scope.tableData = {
         sort: sort,
         items: $scope.filter.filteredAnswers

@@ -55,7 +55,7 @@ public class SenseItDataController extends AbstractSenseItController {
 
     @RequestMapping(value = "/{dataId}", method = RequestMethod.PUT)
     @ResponseBody
-    public Long update(@PathVariable("projectId") Long projectId, @PathVariable("dataId") Long dataId, @RequestBody UpdateTitleRequest data, HttpServletRequest request) {
+    public SenseItSeries update(@PathVariable("projectId") Long projectId, @PathVariable("dataId") Long dataId, @RequestBody UpdateTitleRequest data, HttpServletRequest request) {
         return createManager(projectId, request).updateData(dataId, new SenseItSeriesManipulator(null, null, null, data));
     }
 

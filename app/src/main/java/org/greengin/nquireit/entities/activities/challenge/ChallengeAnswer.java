@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,6 +27,11 @@ public class ChallengeAnswer extends VotableEntity {
     @Getter
     @Setter
     Boolean published = false;
+
+    @Basic
+    @Getter
+    @Setter
+    Date date;
 
 
     @Lob

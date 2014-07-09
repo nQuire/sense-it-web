@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 
-<p class="project-section-content-header">Current winner</p>
+<p class="project-section-content-header">Winner</p>
 
 <div data-ng-if="outcome.selectedAnswer">
-    <p>Selected answer:</p>
-
     <div data-ng-include="'partials/project/view/challenge/project-view-challenge-answers-item-display.html'"></div>
 </div>
 <div data-ng-if="!outcome.selectedAnswer">
@@ -32,7 +30,7 @@
         </div>
     </form>
 </div>
-<div data-ng-if="!outcomeForm.isOpen()">
+<div data-ng-if="!outcomeForm.isOpen() && outcome.explanation">
     <p><b>Explanation:</b> {{outcome.explanation}}</p>
     <button data-ng-if="outcomeData.editable" class="btn btn-default"
             data-ng-click="outcomeForm.open()">Edit

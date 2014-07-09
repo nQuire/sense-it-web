@@ -6,7 +6,7 @@ angular.module('senseItWeb', null, null).controller('ProjectViewChallengeOutcome
         votingEnabled: false
     };
 
-    if ($scope.outcomeData.editable) {
+    if ($scope.outcomeData && $scope.outcomeData.editable) {
         $scope.outcomeData.selectCallback = function (answer) {
             $scope.challengeOutcome.selectAnswer(answer.id).then($scope._setOutcome);
         };
@@ -21,10 +21,13 @@ angular.module('senseItWeb', null, null).controller('ProjectViewChallengeOutcome
 
     $scope._setOutcome = function (outcome) {
         $scope.outcome = outcome;
-        $scope.outcomeData.selectedAnswer = outcome.selectedAnswer ? outcome.selectedAnswer.id : null;
         $scope.itemView.answer = outcome.selectedAnswer;
         $scope.outcomeReady = true;
-        $scope.outcomeData.updateCallback();
+
+        if ($scope.outcomeData) {
+            $scope.outcomeData.selectedAnswer = outcome.selectedAnswer ? outcome.selectedAnswer.id : null;
+            $scope.outcomeData.updateCallback();
+        }
     };
 
     $scope.challengeOutcome.getOutcome().then($scope._setOutcome);

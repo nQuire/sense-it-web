@@ -1,21 +1,20 @@
-<!DOCTYPE html>
 
-<div data-ng-if="answerData.showFilter">
-    <form class="pure-form">
-        <fieldset>
-            <select id="author" data-ng-model="filter.type">
+<p data-ng-if="answerData.showFilter">
+    <form class="form-inline">
+        <div class="form-group">
+            <select id="author" data-ng-model="filter.params.type" class="form-control">
                 <option value="any">All answers</option>
                 <option value="mine">Only mine</option>
                 <option value="others">Only by others</option>
             </select>
 
-            <input type="search" placeholder="Search" data-ng-model="filter.search">
-
-            <button type="reset" class="pure-button pure-button-primary pure-button-small">Reset</button>
-
-        </fieldset>
+            <input type="search" placeholder="Search" data-ng-model="filter.params.search" class="form-control"/>
+        </div>
+        <div class="btn-group">
+            <button type="reset" class="btn btn-default">Reset</button>
+        </div>
     </form>
-</div>
+</p>
 
 <div data-ng-if="answerData.answersReady">
     <table data-siw-sortable-table-widget data-table-data="tableData" class="table table-bordered">
@@ -47,7 +46,8 @@
                 </button>
                 <button data-ng-if="answerData.selectable" class="btn"
                         data-ng-class="answer.id == answerData.selectedAnswer ? 'btn-primary btn-active' : 'btn-default'"
-                        data-ng-click="answerData.selectCallback(answer)">Select</button>
+                        data-ng-click="answerData.selectCallback(answer)">Select
+                </button>
             </td>
         </tr>
         </tbody>
@@ -56,7 +56,8 @@
 
     <div data-ng-if="answerData.editable">
         <div data-ng-if="maxAnswersReached()">
-            <p>You have created the maximum number of allowed submissions: {{projectData.project.activity.maxAnswers}}.</p>
+            <p>You have created the maximum number of allowed submissions:
+                {{projectData.project.activity.maxAnswers}}.</p>
         </div>
         <div data-ng-if="!maxAnswersReached()">
             <p>You can create up to {{projectData.project.activity.maxAnswers}} submissions.</p>

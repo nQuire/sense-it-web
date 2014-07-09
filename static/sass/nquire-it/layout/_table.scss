@@ -1,0 +1,13 @@
+.sortable-table {
+
+  th {
+    cursor: pointer;
+
+    &.ascending:after {
+      content: ' ▴';
+    }
+    &.descending:after {
+      content: ' ▾';
+    }
+  }
+}

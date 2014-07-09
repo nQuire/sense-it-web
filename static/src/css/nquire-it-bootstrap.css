@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /*! normalize.css v3.0.0 | MIT License | git.io/normalize */
 html {
   font-family: sans-serif;
@@ -10683,6 +10684,13 @@ i.vote-icon.enabled:hover {
   .admin-page .admin-content {
     padding: 10px;
     background: #f6f5f5; }
+
+.sortable-table th {
+  cursor: pointer; }
+  .sortable-table th.ascending:after {
+    content: ' ▴'; }
+  .sortable-table th.descending:after {
+    content: ' ▾'; }
 
 .content-no-sidebar {
   margin: 0px; }

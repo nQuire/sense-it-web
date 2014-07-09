@@ -86,6 +86,10 @@ angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'textAngular', 'ui.boot
                 url: '',
                 templateUrl: 'partials/project/view/home/project-view-home-page.html'
             })
+            .state('project.view.details', {
+                url: '/details',
+                templateUrl: 'partials/project/view/home/project-view-details-page.html'
+            })
             .state('project.view.comments', {
                 url: '/comments',
                 templateUrl: 'partials/project/view/project-view-comments.html'
@@ -95,7 +99,7 @@ angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'textAngular', 'ui.boot
                 templateUrl: 'partials/project/view/data/project-view-data-table.html'
             })
             .state('project.view.data-map', {
-                url: '/map',
+                url: '/map?item',
                 templateUrl: 'partials/project/view/data/project-view-data-map.html'
             })
             .state('project.view.challenge', {
@@ -128,7 +132,12 @@ angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'textAngular', 'ui.boot
             })
             .state('project.edit.home', {
                 url: '',
-                templateUrl: 'partials/project/edit/project-edit-description-page.html',
+                templateUrl: 'partials/project/edit/project-edit-outline-page.html',
+                controller: 'ProjectEditDescriptionCtrl'
+            })
+            .state('project.edit.details', {
+                url: '/details',
+                templateUrl: 'partials/project/edit/project-edit-details-page.html',
                 controller: 'ProjectEditDescriptionCtrl'
             })
             .state('project.edit.senseit', {

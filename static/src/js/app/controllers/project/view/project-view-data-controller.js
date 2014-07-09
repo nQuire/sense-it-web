@@ -12,6 +12,9 @@ angular.module('senseItWeb', null, null).controller('ProjectViewDataCtrl', funct
             },
             'votes': function (a, b) {
                 return siwCompare.voteCount(a.voteCount, b.voteCount);
+            },
+            'date': function(a, b) {
+                return a.date - b.date;
             }
         }
     };
@@ -27,11 +30,25 @@ angular.module('senseItWeb', null, null).controller('ProjectViewDataCtrl', funct
     $scope.dataService = ProjectDataService.dataService($scope.projectWatcher);
     $scope.dataService.loadData().then(function (data) {
         $scope.dataList.items = data;
+
+        var last = null;
+        var ts = 0;
+        for (var i = 0; i < $scope.dataList.items.length; i++) {
+            if ($scope.dataList.items[i].date > ts) {
+                last = $scope.dataList.items[i];
+                ts = last.date;
+            }
+        }
+
+        $scope.dataList.last = last;
+
+        return last;
+
         $scope.dataReady = true;
     });
 
     $scope.updateData = function (itemId, data) {
-        $scope.dataService.updateData(data).then(function (updatedData) {
+        $scope.dataService.updateData(itemId, data).then(function (updatedData) {
             if (updatedData) {
                 for (var index = 0; index < $scope.dataList.items.length; index++) {
                     if ($scope.dataList.items[index].id == updatedData.id) {

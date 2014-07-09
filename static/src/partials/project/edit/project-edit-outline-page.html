@@ -1,0 +1,37 @@
+<div class="project-section-header" data-ng-include="'partials/project/blocks/project-menu.html'"></div>
+
+<div class="project-section-content">
+    <div class="project-section-description-column"
+         data-ng-include="'partials/project/blocks/project-title-edit.html'"></div>
+
+    <div class="project-section-content-column">
+
+        <p class="project-section-content-header">Mission outline</p>
+
+        <div data-ng-if="!form.isOpen('teaser')">
+            <div class="project-section-content-description-block-content"
+                 data-ng-bind-html="projectData.project.description.teaser"></div>
+
+            <div data-ng-if="!form.isOpen()" class="btn-group">
+                <button type="button" class="btn btn-default" data-ng-click="form.open('teaser')">
+                    Edit
+                </button>
+            </div>
+        </div>
+
+        <div data-ng-if="form.isOpen('teaser')">
+            <form role="form">
+                <div class="form-group">
+                    <label for="outline">Outline:</label>
+                    <textarea id="outline" data-ng-model="form.values.description.teaser"
+                              class="form-control"></textarea>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" data-ng-click="form.save()">Save</button>
+                    <button type="button" class="btn btn-default" data-ng-click="form.cancel()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

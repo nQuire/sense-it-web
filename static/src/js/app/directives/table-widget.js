@@ -3,7 +3,6 @@
 angular.module('senseItWeb', null, null).directive('siwSortableTableWidget', function () {
     return {
         link: function ($scope, element, params) {
-
             element.addClass('sortable-table');
 
             $scope.sort = {
@@ -33,18 +32,12 @@ angular.module('senseItWeb', null, null).directive('siwSortableTableWidget', fun
                         $scope.sort.ascending = true;
                     }
                 }
-            };
 
-            $scope.unsortedItems = typeof $scope[params.tableData].items === 'function' ? $scope[params.tableData].items : function () {
-                return $scope[params.tableData].items;
+                $scope[params.tableData].items.sort($scope.sort.compare);
             };
 
             $scope.sortedItems = function () {
-                var l = $scope.unsortedItems();
-                if ($scope.sort.column) {
-                    l.sort($scope.sort.compare);
-                }
-                return l;
+                return $scope[params.tableData].items;
             };
 
             $scope.select = function (item, button, onlyOn) {

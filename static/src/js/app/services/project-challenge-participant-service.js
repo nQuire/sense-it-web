@@ -1,10 +1,35 @@
 'use strict';
 
-angular.module('senseItServices', null, null).factory('ProjectChallengeParticipantService', [function () {
+angular.module('senseItServices', null, null).factory('ProjectChallengeParticipantService', ['OpenIdService', function (OpenIdService) {
 
     var ProjectChallengeParticipant = function (projectWatcher) {
         this._answersPath = 'challenge/answers';
         this.projectWatcher = projectWatcher;
+        this.scope = projectWatcher.scope;
+
+        this.scope.answerData = {
+            answersReady: false,
+            answers: [],
+            editable: false,
+            showVoting: true,
+            votingEnabled: false,
+            showAuthor: false,
+            showFilter: false,
+            showPublished: false
+        };
+
+        var self = this;
+        var openIdListener = function () {
+            self._reload();
+        };
+
+        this.scope.$on('$destroy', function () {
+            OpenIdService.removeListener(openIdListener);
+        });
+
+        OpenIdService.registerListener(openIdListener);
+
+        this._reload();
     };
 
     ProjectChallengeParticipant.prototype._answerPath = function (answerId) {
@@ -19,8 +44,12 @@ angular.module('senseItServices', null, null).factory('ProjectChallengeParticipa
     };
 
 
-    ProjectChallengeParticipant.prototype.getAnswers = function () {
-        return this.projectWatcher.projectRequest('get', this._answersPath);
+    ProjectChallengeParticipant.prototype._reload = function () {
+        var scope = this.scope;
+        this.projectWatcher.projectRequest('get', this._answersPath).then(function(answers) {
+            scope.answerData.answers = answers;
+            scope.answerData.answersReady = true;
+        });
     };
 
 
@@ -36,9 +65,6 @@ angular.module('senseItServices', null, null).factory('ProjectChallengeParticipa
         return this.projectWatcher.projectRequest('delete', this._answerPath(answerId));
     };
 
-    ProjectChallengeParticipant.prototype.getVotedAnswers = function () {
-        return this.projectWatcher.projectRequest('get', 'challenge/votes');
-    };
 
 
     return {

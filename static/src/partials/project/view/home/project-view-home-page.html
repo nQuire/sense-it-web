@@ -30,16 +30,14 @@
         </div>
 
         <div class="project-section-content-column">
-            <p class="project-section-content-header">Mission description</p>
+            <p class="project-section-content-header">Mission outline</p>
 
-            <div class="project-section-content-description-block"
-                 data-ng-repeat="block in projectData.project.description.blocks">
-                <p class="project-section-content-block-title">{{block.title}}</p>
+            <p>{{projectData.project.description.teaser}}</p>
 
-                <div class="project-section-content-description-block-content"
-                     data-ng-bind-html="block.content"></div>
-            </div>
+            <div data-ng-if="templates.outlineData" data-ng-include="templates.outlineData"></div>
         </div>
+
+
     </div>
 </div>
 

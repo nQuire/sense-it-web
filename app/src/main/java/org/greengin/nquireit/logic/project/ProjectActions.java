@@ -190,7 +190,7 @@ public class ProjectActions extends AbstractContentManager {
 
     @Override
     public boolean hasAccess(PermissionType permission) {
-        if (super.hasAccess(permission)) {
+        if (super.hasAccess(permission) || permission == PermissionType.PROJECT_BROWSE) {
             return true;
         } else if (permission == PermissionType.PROJECT_VIEW_IMAGE) {
             return accessLevel.isMember() && project.getOpen();
@@ -294,7 +294,7 @@ public class ProjectActions extends AbstractContentManager {
      */
 
     public List<Comment> getComments() {
-        if (hasAccess(PermissionType.PROJECT_COMMENT)) {
+        if (hasAccess(PermissionType.PROJECT_BROWSE)) {
             return project.getComments();
         }
 

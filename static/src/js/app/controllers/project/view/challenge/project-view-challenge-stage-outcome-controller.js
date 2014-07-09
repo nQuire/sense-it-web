@@ -8,20 +8,12 @@ angular.module('senseItWeb', null, null).controller('ProjectViewChallengeStageOu
         }
     };
 
-    $scope.answerData = {
-        answersReady: false,
-        answers: [],
-        editable: false,
-        showVoting: true,
-        votingEnabled: false,
-        showAuthor: true,
-        showFilter: true,
-        showPublished: false
-    };
+    $scope.answerData.editable = false;
+    $scope.answerData.showVoting = true;
+    $scope.answerData.votingEnabled = false;
+    $scope.answerData.showAuthor = true;
+    $scope.answerData.showFilter = true;
+    $scope.answerData.showPublished = false;
 
-    $scope.challengeParticipant.getVotedAnswers().then(function (answers) {
-        $scope.answerData.answers = answers;
-        $scope.answerData.answersReady = true;
-    });
 });
 

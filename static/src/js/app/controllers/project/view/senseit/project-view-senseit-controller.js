@@ -58,10 +58,8 @@ angular.module('senseItWeb', null, null).controller('ProjectViewSenseItCtrl', fu
                 try {
                     return JSON.parse(item.geolocation);
                 } catch (e) {
-                    console.log(e);
-                    console.log(item.geolocation);
+                    return null;
                 }
-                return null;
             }
         };
     }

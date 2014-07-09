@@ -1,6 +1,5 @@
 angular.module('senseItWeb', null, null).controller('ProjectEditDescriptionCtrl', function ($scope, $state, ProjectService) {
 
-    $scope.metadataEdit = true;
 
     $scope.tempBlock = false;
 

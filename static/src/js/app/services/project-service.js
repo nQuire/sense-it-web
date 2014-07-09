@@ -46,7 +46,7 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
     };
 
 
-    var ProjectListWatcher = function (scope, callback) {
+    var ProjectListWatcher = function (scope) {
         var self = this;
 
         this.data = {projects: [], categories: {}, ready: true};
@@ -54,15 +54,12 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
 
         scope.projectList = this.data;
 
-        var destroyWatch = scope.$watch('projectList', callback, true);
-
         var openIdListener = function () {
             self._reload();
         };
 
         scope.$on('$destroy', function () {
             OpenIdService.removeListener(openIdListener);
-            destroyWatch();
         });
         OpenIdService.registerListener(openIdListener);
     };
@@ -72,9 +69,9 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
         var self = this;
 
         RestService.get('api/projects', query).then(function (data) {
-            self.data.ready = true;
             self.data.projects = data.list;
             self.data.categories = data.categories;
+            self.data.ready = true;
         });
     };
 
@@ -84,7 +81,7 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
         this._reload(query);
     };
 
-    var MyProjectListWatcher = function (scope, callback) {
+    var MyProjectListWatcher = function (scope) {
         var self = this;
 
         this.data = {member: [], admin: [], ready: true};
@@ -92,15 +89,12 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
 
         scope.projectList = this.data;
 
-        var destroyWatch = scope.$watch('projectList', callback, true);
-
         var openIdListener = function () {
             self._reload();
         };
 
         scope.$on('$destroy', function () {
             OpenIdService.removeListener(openIdListener);
-            destroyWatch();
         });
         OpenIdService.registerListener(openIdListener);
 
@@ -111,19 +105,14 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
         this.data.ready = false;
         var self = this;
         RestService.get('api/projects/mine').then(function (data) {
-            self.data.ready = true;
             self.data.admin = data.admin;
             self.data.member = data.member;
+            self.data.ready = true;
         });
     };
 
 
-
-
-
-
-
-    var ProjectWatcher = function (scope, projectId, callback) {
+    var ProjectWatcher = function (scope, projectId) {
         var self = this;
         this.projectId = projectId;
         this.scope = scope;
@@ -132,15 +121,12 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
 
         scope.projectData = this.data;
 
-        var destroyWatch = scope.$watch('projectData', callback, true);
-
         var openIdListener = function () {
                 self._reload();
         };
 
         scope.$on('$destroy', function () {
             OpenIdService.removeListener(openIdListener);
-            destroyWatch();
         });
 
         OpenIdService.registerListener(openIdListener);
@@ -156,10 +142,10 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
         var self = this;
         utils.projectRequest('get', this.projectId).then(function (data) {
             self.data.ready = false;
-            self.data.ready = true;
             self.data.project = data.project;
             self.data.access = data.access;
             self.data.data = data.data;
+            self.data.ready = true;
         });
     };
 
@@ -212,12 +198,10 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
     ProjectWatcher.prototype.updateProjectAction = function (method, path, data, files) {
         var self = this;
         return utils.projectRequest(method, this.projectId, path, data, files).then(function (data) {
-            self.data.ready = true;
             self.data.project = data.project;
             self.data.access = data.access;
             self.data.data = data.data;
-
-
+            self.data.ready = true;
             return true;
         });
     };
@@ -250,14 +234,14 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
 
 
     return {
-        watchList: function (scope, callback) {
-            scope.projectListWatcher = new ProjectListWatcher(scope, callback || null);
+        watchList: function (scope) {
+            scope.projectListWatcher = new ProjectListWatcher(scope);
         },
-        watchMyList: function (scope, callback) {
-            scope.projectListWatcher = new MyProjectListWatcher(scope, callback || null);
+        watchMyList: function (scope) {
+            scope.projectListWatcher = new MyProjectListWatcher(scope);
         },
-        watchProject: function (scope, projectId, callback) {
-            scope.projectWatcher = new ProjectWatcher(scope, projectId, callback || null);
+        watchProject: function (scope, projectId) {
+            scope.projectWatcher = new ProjectWatcher(scope, projectId);
         },
         createProject: function (type, title) {
             return utils.projectsRequest('post', false, {type: type, title: title});

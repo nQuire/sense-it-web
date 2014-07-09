@@ -25,8 +25,8 @@ angular.module('senseItServices', null, null).factory('ProjectDataService', ['Pr
         return this._dataRequest('delete', dataId, false);
     };
 
-    ProjectDataService.prototype.updateData = function(project, dataId, data) {
-        return this._dataRequest('put', data.id, data);
+    ProjectDataService.prototype.updateData = function(dataId, data) {
+        return this._dataRequest('put', dataId, data);
     };
 
 

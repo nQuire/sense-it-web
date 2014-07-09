@@ -14,7 +14,7 @@
     <tr data-ng-repeat-start="item in sortedItems()">
         <td>
             <div data-ng-if="!form.isOpen(item.id)">
-                {{item.title}}
+                <a href data-ui-sref="project.view.data-map({item: item.id})">{{item.title}}</a>
 
                 <div class="btn-group">
                     <button class="btn btn-default btn-xs" data-ng-click="plots.togglePlot(item)">

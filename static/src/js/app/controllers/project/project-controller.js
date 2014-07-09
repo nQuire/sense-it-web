@@ -13,7 +13,12 @@ angular.module('senseItWeb', null, null).controller('ProjectCtrl', function ($sc
 
     $scope.commentThread = {
         type: 'project',
-        id: $state.params['projectId']
+        id: $state.params['projectId'],
+        postingEnabled: function () {
+            return $scope.status.logged &&
+                ($scope.projectData.access.admin ||
+                    ($scope.projectData.access.member && $scope.projectData.project.open));
+        }
     };
 });
 

@@ -41,7 +41,7 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
      */
 
     private <K extends AbstractDataProjectItem> Collection<K> getItems(Class<K> type) {
-        if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION)) {
+        if (hasAccess(PermissionType.PROJECT_BROWSE)) {
 
             Collection<K> list = context.getDataActivityDao().itemList(type, activity);
             for (VotableEntity item : list) {
@@ -54,7 +54,7 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
     }
 
     private <K extends AbstractDataProjectItem> Long getItemCount(Class<K> type) {
-        if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION)) {
+        if (hasAccess(PermissionType.PROJECT_BROWSE)) {
             return context.getDataActivityDao().itemCount(type, activity);
         }
 
@@ -62,10 +62,8 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
     }
 
 
-    @Transactional
     private <K extends AbstractDataProjectItem> NewDataItemResponse<K> createItem(Class<K> type, DataItemManipulator<T, K> manipulator) {
         if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION)) {
-
             try {
                 manipulator.init(project, activity);
 
@@ -85,7 +83,6 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
         return null;
     }
 
-    @Transactional
     private <K extends AbstractDataProjectItem> K updateItem(Class<K> type, Long itemId,
                                                              DataItemManipulator<T, K> manipulator) {
         if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION)) {
@@ -100,7 +97,6 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
         return null;
     }
 
-    @Transactional
     private <K extends AbstractDataProjectItem> Long deleteItem(Class<K> type, Long itemId,
                                                                 DataItemManipulator<T, K> manipulator) {
         if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION)) {
@@ -129,6 +125,10 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
 
     public Long deleteData(Long itemId, DataItemManipulator<T, E> manipulator) {
         return deleteItem(dataType, itemId, manipulator);
+    }
+
+    public E updateData(Long itemId, DataItemManipulator<T, E> manipulator) {
+        return updateItem(dataType, itemId, manipulator);
     }
 
 
