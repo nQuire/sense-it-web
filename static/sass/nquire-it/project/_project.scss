@@ -41,7 +41,7 @@
 
       .project-section-content-block-title {
         @include text-project-subtitle;
-        margin-bottom: 0px;
+        margin-top: $dim-common-small-margin;
 
       }
 

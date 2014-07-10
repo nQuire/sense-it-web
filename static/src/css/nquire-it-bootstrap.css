@@ -10776,7 +10776,7 @@ i.vote-icon.enabled:hover {
   .project-main-container .project-section .project-section-content .project-section-content-block-title {
     font-weight: 700;
     font-size: 16px;
-    margin-bottom: 0px; }
+    margin-top: 10px; }
   .project-main-container .project-section .project-section-content .project-section-content-block-content {
     font-weight: 400;
     color: #444444;
@@ -11141,7 +11141,12 @@ i.vote-icon.enabled:hover {
       bottom: 0px; }
 
 .project-create-form-container {
-  text-align: center; }
+  text-align: center;
+  margin-top: 20px; }
+  .project-create-form-container .project-create-form-container-explanation {
+    text-align: left;
+    margin: 20px 20%;
+    color: #777777; }
 
 .forum-container {
   margin: 0 20px; }

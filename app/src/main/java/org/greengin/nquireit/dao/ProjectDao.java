@@ -2,11 +2,10 @@ package org.greengin.nquireit.dao;
 
 
 import org.greengin.nquireit.entities.AbstractEntity;
-import org.greengin.nquireit.entities.projects.Project;
-import org.greengin.nquireit.entities.projects.ProjectDescription;
-import org.greengin.nquireit.entities.projects.ProjectType;
+import org.greengin.nquireit.entities.projects.*;
 import org.greengin.nquireit.entities.users.RoleType;
 import org.greengin.nquireit.entities.users.UserProfile;
+import org.greengin.nquireit.logic.ContextBean;
 import org.greengin.nquireit.logic.data.FileManagerBean;
 import org.greengin.nquireit.logic.files.FileMapUpload;
 import org.greengin.nquireit.logic.project.ProjectCreationRequest;
@@ -20,6 +19,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
@@ -46,6 +46,9 @@ public class ProjectDao {
     @Autowired
     FileManagerBean fileManager;
 
+    @Autowired
+    ContextBean context;
+
     @Transactional
     public Long createProject(ProjectCreationRequest projectData, UserProfile author) {
 
@@ -53,7 +56,7 @@ public class ProjectDao {
         project.setTitle("New project");
         project.setOpen(false);
         project.setAuthor(author);
-        projectData.initProject(project);
+        projectData.initProject(project, context);
         em.persist(project);
         subscriptionManagerBean.projectCreatedInTransaction(em, project, author);
         return project.getId();
@@ -74,30 +77,31 @@ public class ProjectDao {
         em.persist(project);
 
         project.setTitle(data.getTitle());
-        if (project.getDescription() == null) {
-            project.setDescription(new ProjectDescription());
+        if (project.getMetadata() == null) {
+            project.setMetadata(new ProjectMetadata());
         }
 
-        project.getDescription().setTeaser(data.getDescription().getTeaser());
 
         if (files != null && files.getData().containsKey("image")) {
             FileMapUpload.FileData file = files.getData().get("image");
             String fileContext = project.getId().toString();
             if (file == null) {
-                project.getDescription().setImage(null);
+                project.getMetadata().setImage(null);
             } else {
                 try {
                     String filename = fileManager.uploadFile(fileContext, file.filename, file.data);
-                    project.getDescription().setImage(filename);
+                    project.getMetadata().setImage(filename);
                 } catch (IOException exception) {
-                    project.getDescription().setImage(null);
+                    project.getMetadata().setImage(null);
                 }
             }
         } else {
-            project.getDescription().setImage(data.getDescription().getImage());
+            project.getMetadata().setImage(data.getMetadata().getImage());
         }
 
-        project.getDescription().setBlocks(data.getDescription().getBlocks());
+        project.getMetadata().setTeaser(data.getMetadata().getTeaser());
+        project.getMetadata().setOutline(data.getMetadata().getOutline());
+        project.getMetadata().setBlocks(data.getMetadata().getBlocks());
 
         return project;
     }
@@ -108,7 +112,7 @@ public class ProjectDao {
     }
 
     public List<Project> getProjects(ProjectType type, boolean featured) {
-        TypedQuery<Project> query ;
+        TypedQuery<Project> query;
 
         if (type != null) {
             query = em.createQuery(featured ? PROJECTS_TYPE_FEATURED_QUERY : PROJECTS_TYPE_QUERY, Project.class);
@@ -160,5 +164,9 @@ public class ProjectDao {
     public void setFeatured(Long projectId, boolean featured) {
         Project p = em.find(Project.class, projectId);
         p.setFeatured(featured);
+    }
+
+    @Transactional
+    public void updateDataModel() {
     }
 }

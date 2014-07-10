@@ -7,7 +7,7 @@
             <textarea data-ng-if="field.type=='textarea'" class="form-control"
                       id="{{field.id}}" placeholder="{{field.label}}"
                       data-ng-model="form.values.fieldValues[field.id]"></textarea>
-            <input data-ng-if="field.type=='textfield' || field.type=='title'" class="form-control"
+            <input data-ng-if="field.type=='textfield'" class="form-control"
                    id="{{field.id}}" type="text" placeholder="{{field.label}}"
                    data-ng-model="form.values.fieldValues[field.id]"/>
             <text-angular data-ng-if="field.type=='textangular'" id="{{field.id}}"

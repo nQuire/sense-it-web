@@ -216,7 +216,7 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
     ProjectWatcher.prototype.saveMetadata = function (files) {
         return this.updateProjectAction('post', 'metadata', {
             title: this.data.project.title,
-            description: SiwClone(this.data.project.description)
+            metadata: SiwClone(this.data.project.metadata)
         }, files);
     };
 

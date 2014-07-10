@@ -29,6 +29,7 @@ angular.module('senseItWeb', null, null).controller('ProjectViewDataCtrl', funct
 
     $scope.dataService = ProjectDataService.dataService($scope.projectWatcher);
     $scope.dataService.loadData().then(function (data) {
+        $scope.dataReady = false;
         $scope.dataList.items = data;
 
         var last = null;
@@ -41,10 +42,9 @@ angular.module('senseItWeb', null, null).controller('ProjectViewDataCtrl', funct
         }
 
         $scope.dataList.last = last;
+        $scope.dataReady = true;
 
         return last;
-
-        $scope.dataReady = true;
     });
 
     $scope.updateData = function (itemId, data) {

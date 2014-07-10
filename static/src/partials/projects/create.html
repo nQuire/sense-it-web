@@ -60,6 +60,49 @@
     </div>
 
     <div data-ng-if="type" class="project-create-form-container">
+        <div class="project-create-form-container-explanation" data-ng-if="type=='senseit'">
+            <p>
+                Sense-it missions are collaborative projects in which people collect data together.
+                To collect data, the Android
+                <a href="https://play.google.com/store/apps/details?id=org.greengin.sciencetoolkit&hl=en"
+                   target="_blank">
+                    Sense-it app</a> is used.
+            </p>
+
+            <p>As the mission owner, you will be able to decide what sensors are used to collect data.
+                The available sensors are: <b>Accelerometer</b>, <b>Sound</b>, <b>Magnetic field</b>, <b>Gyroscope</b>,
+                <b>Orientation</b>, <b>Pressure</b>, <b>Ambient temperature</b>, and <b>Relative humidity</b>.
+                (Please note that not all mobile devices has all these sensors.)
+            </p>
+        </div>
+        <div class="project-create-form-container-explanation" data-ng-if="type=='spotit'">
+            <p>
+                Spot-it missions are collaborative projects in which people collect pictures together about a
+                specific topic.
+            </p>
+
+            <p>As the mission owner, you will be able to decide the topic of the pictures. Uploaded pictures can be
+                voted, and you can also delete inappropriate pictures if necessary.
+            </p>
+        </div>
+        <div class="project-create-form-container-explanation" data-ng-if="type=='challenge'">
+            <p>
+                Win-it missions are competitive projects in which participante propose answers to a question or
+                challenge.
+            </p>
+
+            <p>As the mission owner, you will:</p>
+            <ul>
+                <li>Determine the challenge.</li>
+                <li>Specify the format of the submissions, by selecting a number of fields to be completed by
+                    the participants.
+                </li>
+                <li>Control the stage of the mission: proposal, voting, and winner announcement.</li>
+                <li>Select the winner.</li>
+            </ul>
+            <p>You are allowed to offer prizes for your missions! Check some examples in the front page of this
+                site.</p>
+        </div>
         <div data-ng-if="status.logged">
             <form class="form-inline" role="form">
                 <p>
@@ -72,9 +115,11 @@
                     </b>
                     mission and click "Create".
                 </p>
+
                 <div class="form-group">
                     <label for="create-project-title">Title: </label>
-                    <input id="create-project-title" type="text" class="form-control" placeholder="Create" data-ng-model="title"/>
+                    <input id="create-project-title" type="text" class="form-control" placeholder="Create"
+                           data-ng-model="title"/>
                 </div>
                 <div class="btn-group">
                     <button class="btn btn-default" data-ng-disabled="title.length == 0" data-ng-click="create()">Create

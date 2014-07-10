@@ -36,7 +36,7 @@ public class JoinedProjectsActions extends AbstractContentManager {
                     projectResponse.setTitle(p.getTitle());
                     projectResponse.setAuthor(p.getAuthor().getUsername());
                     projectResponse.setGeolocated(true);
-                    projectResponse.setDescription(p.getDescription().getTeaser());
+                    projectResponse.setDescription(p.getMetadata().getTeaser());
 
                     projects.put(p.getId(), projectResponse);
                 }

@@ -10,7 +10,7 @@
 
         <div data-ng-if="!form.isOpen('teaser')">
             <div class="project-section-content-description-block-content"
-                 data-ng-bind-html="projectData.project.description.teaser"></div>
+                 data-ng-bind-html="projectData.project.metadata.outline"></div>
 
             <div data-ng-if="!form.isOpen()" class="btn-group">
                 <button type="button" class="btn btn-default" data-ng-click="form.open('teaser')">
@@ -22,9 +22,8 @@
         <div data-ng-if="form.isOpen('teaser')">
             <form role="form">
                 <div class="form-group">
-                    <label for="outline">Outline:</label>
-                    <textarea id="outline" data-ng-model="form.values.description.teaser"
-                              class="form-control"></textarea>
+                    <label>Outline:</label>
+                    <text-angular name="outline" data-ng-model="form.values.metadata.outline"></text-angular>
                 </div>
                 <div class="btn-group">
                     <button type="button" class="btn btn-default" data-ng-click="form.save()">Save</button>

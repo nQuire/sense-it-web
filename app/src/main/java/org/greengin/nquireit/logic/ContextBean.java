@@ -67,6 +67,10 @@ public class ContextBean implements InitializingBean {
     @Getter
     ChallengeDao challengeDao;
 
+    @Autowired
+    @Getter
+    SpotItDao spotItDao;
+
     @Override
     public void afterPropertiesSet() throws Exception {
         if (httpProxyHost.length() > 0 && httpProxyPort.length() > 0) {

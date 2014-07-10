@@ -9,7 +9,7 @@ angular.module('senseItWeb', null, null).controller('ForumListForumCtrl', functi
 
         $scope.form = new SiwFormManager(function () {
             return $scope.forumNode;
-        }, ['title', 'description'], function () {
+        }, ['title', 'metadata'], function () {
             if ($scope.isNew) {
                 $scope.forum.createForum($scope.category.id, $scope.forumNode);
             } else {

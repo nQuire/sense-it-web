@@ -1,4 +1,4 @@
-var SiwMapRenderer = function (element, mapData, dataList) {
+var SiwMapRenderer = function (element, mapData, dataList, zoomToItem) {
     this.element = element;
 
     this.mapData = mapData;
@@ -10,6 +10,11 @@ var SiwMapRenderer = function (element, mapData, dataList) {
     this.iconMaker = new SiwMapIcons(this.mapData.mapVariables.length);
 
     this.needToInitCloseMarkers = false;
+
+    this.zoomToItem = zoomToItem;
+
+    this.clusterMaxZoom = 18;
+    this.markerFocusZoom = this.clusterMaxZoom + 1;
 
     this.init();
     this.update();
@@ -40,6 +45,16 @@ SiwMapRenderer.prototype.getIcon = function (i, mode) {
     return this.iconMaker.getIcon(values, mode);
 };
 
+SiwMapRenderer.prototype.getLatLngById = function (id) {
+    for (var i = 0; i < this.dataList.items.length; i++) {
+        if (this.dataList.items[i].id == id) {
+            return this.getLatLng(i);
+        }
+    }
+
+    return null;
+};
+
 SiwMapRenderer.prototype.getLatLng = function (i) {
     var location = i < this.dataList.items.length ? this.mapData.location(this.dataList.items[i]) : false;
     return location ? new google.maps.LatLng(location.lat, location.lon) : false;
@@ -48,7 +63,7 @@ SiwMapRenderer.prototype.getLatLng = function (i) {
 SiwMapRenderer.prototype.init = function () {
     this.element.css('height', '600px');
 
-    var center = this.getLatLng(0);
+    var center = this.zoomToItem ? this.getLatLngById(this.zoomToItem) : this.getLatLng(0);
     if (center) {
         this.centerSet = true;
     } else {
@@ -58,31 +73,37 @@ SiwMapRenderer.prototype.init = function () {
 
     var mapOptions = {
         center: center,
-        zoom: 8
+        zoom: this.centerSet ? this.markerFocusZoom : 2
     };
 
     this.map = new google.maps.Map(this.element[0], mapOptions);
-    this.oms = new OverlappingMarkerSpiderfier(this.map);
+    this.oms = new OverlappingMarkerSpiderfier(this.map, {
+        keepSpiderfied: true
+    });
     this.clusterer = new MarkerClusterer(this.map);
-    this.clusterer.setMaxZoom(18);
+    this.clusterer.setMaxZoom(this.clusterMaxZoom);
 
     var self = this;
 
 
     this.oms.addListener('click', function (marker, event) {
         self.markers[marker.series_id].infowindow.open(self.map, marker);
+        return false;
     });
 
 
     this.oms.addListener('spiderfy', function (markers) {
         self.setMarkersIcon(markers, 'green');
         for (var i = 0; i < markers.length; i++) {
-            self.markers[markers[i].series_id].infowindow.open(self.map, markers[i]);
+            //self.markers[markers[i].series_id].infowindow.open(self.map, markers[i]);
         }
     });
 
     this.oms.addListener('unspiderfy', function (markers) {
         self.setMarkersIcon(markers, 'red');
+        for (var i = 0; i < markers.length; i++) {
+            self.markers[markers[i].series_id].infowindow.close();
+        }
     });
 
     google.maps.event.addListener(this.map, 'idle', function () {
@@ -108,9 +129,10 @@ SiwMapRenderer.prototype.update = function () {
     this._calculateMaxMin();
 
     if (!this.centerSet && this.dataList.items.length > 0) {
-        var center = this.getLatLng(0);
+        var center = this.zoomToItem ? this.getLatLngById(this.zoomToItem) : this.getLatLng(0);
         if (center) {
-            this.map.panTo(center);
+            this.map.setZoom(this.markerFocusZoom);
+            this.map.setCenter(center);
             this.centerSet = true;
         }
     }
@@ -145,6 +167,10 @@ SiwMapRenderer.prototype.update = function () {
                 marker: marker,
                 infowindow: new google.maps.InfoWindow({content: content})
             };
+
+            if (marker.series_id == this.zoomToItem) {
+                this.markers[i].infowindow.open(this.map, marker);
+            }
         }
     }
 
@@ -161,6 +187,6 @@ SiwMapRenderer.prototype.idle = function () {
 
 SiwMapRenderer.prototype.setMarkersIcon = function (markers, icon) {
     /*for (var i = 0; i < markers.length; i++) {
-        markers[i].setIcon(this.icons[icon]);
-    }*/
+     markers[i].setIcon(this.icons[icon]);
+     }*/
 };

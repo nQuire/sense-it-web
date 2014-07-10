@@ -10,7 +10,6 @@
         <div class="form-group">
             <label for="type">Field type:</label>
             <select id="type" class="form-control" data-ng-model="form.values.type">
-                <option value="title">Submission title</option>
                 <option value="textfield">Single-line text</option>
                 <option value="textarea">Multiple-line plain text</option>
                 <option value="textangular">Multiple-line formatted text</option>
@@ -37,7 +36,6 @@
         <p>
             <b>{{field.label}}</b>
     <span data-ng-switch="field.type">
-        <span data-ng-switch-when="title">(Submission title)</span>
         <span data-ng-switch-when="textfield">(Single-line text)</span>
         <span data-ng-switch-when="textarea">(Multiple-line plain text)</span>
         <span data-ng-switch-when="textangular">(Multiple-line formatted text)</span>

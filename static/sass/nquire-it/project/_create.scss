@@ -80,6 +80,13 @@
 
 .project-create-form-container {
   text-align: center;
+  margin-top: $dim-common-margin;
+
+  .project-create-form-container-explanation {
+    text-align: left;
+    margin: $dim-common-margin 20%;
+    color: $color-medium-grey;
+  }
 }
 
 

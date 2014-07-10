@@ -2,13 +2,13 @@ package org.greengin.nquireit.dao;
 
 import lombok.Getter;
 import org.greengin.nquireit.entities.activities.base.AbstractActivity;
-import org.greengin.nquireit.entities.activities.challenge.ChallengeActivity;
-import org.greengin.nquireit.entities.activities.challenge.ChallengeActivityStage;
-import org.greengin.nquireit.entities.activities.challenge.ChallengeAnswer;
-import org.greengin.nquireit.entities.activities.challenge.ChallengeField;
+import org.greengin.nquireit.entities.activities.challenge.*;
 import org.greengin.nquireit.entities.activities.senseit.SenseItActivity;
 import org.greengin.nquireit.entities.activities.senseit.SenseItProfile;
 import org.greengin.nquireit.entities.activities.senseit.SenseItSeries;
+import org.greengin.nquireit.entities.projects.Project;
+import org.greengin.nquireit.entities.projects.ProjectMetadata;
+import org.greengin.nquireit.entities.projects.ProjectMetadataBlock;
 import org.greengin.nquireit.entities.users.UserProfile;
 import org.greengin.nquireit.logic.project.challenge.ChallengeActivityRequest;
 import org.greengin.nquireit.logic.project.challenge.ChallengeAnswerRequest;
@@ -169,5 +169,28 @@ public class ChallengeDao {
     public void updateActivityOutcome(ChallengeActivity activity, ChallengeOutcomeRequest outcomeData) {
         em.persist(activity.getOutcome());
         outcomeData.update(em, activity.getOutcome());
+    }
+
+    public void initProject(Project project) {
+
+        ProjectMetadataBlock link = new ProjectMetadataBlock();
+        link.setTitle("Mission goal");
+        link.setContent("This mission challenges users to propose answers to a specific question.");
+        project.getMetadata().getBlocks().add(link);
+
+        ProjectMetadataBlock process = new ProjectMetadataBlock();
+        process.setTitle("Mission process");
+        process.setContent("<ul>" +
+                "<li>The <b>proposal stage</b> will be open until <code>[edit]</code>. Participants can submit their ideas until that date.</li>" +
+                "<li>Then, participants can vote their favourite submissions.</li>" +
+                "<li>Finally, the winner will be announced on <code>[edit]</code>.</li>");
+        project.getMetadata().getBlocks().add(process);
+
+        ChallengeActivity activity = (ChallengeActivity) project.getActivity();
+        ChallengeField field = new ChallengeField();
+        field.setLabel("Title");
+        field.setType(ChallengeFieldType.TEXTFIELD);
+        em.persist(field);
+        activity.getFields().add(field);
     }
 }

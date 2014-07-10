@@ -27,10 +27,10 @@ public class Project extends CommentThreadEntity {
     @Setter
     UserProfile author;
 
-    @Lob
     @Getter
     @Setter
-    ProjectDescription description = new ProjectDescription();
+    @Embedded
+    ProjectMetadata metadata;
 
     @Basic
     @Getter

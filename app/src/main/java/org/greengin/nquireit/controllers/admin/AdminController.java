@@ -60,5 +60,13 @@ public class AdminController {
         return manager.getProjects();
     }
 
+    @RequestMapping(value = "/model/update", method = RequestMethod.POST)
+    @ResponseBody
+    @ResponseView(value = Views.UserProfileData.class)
+    public Boolean modelUpdate(HttpServletRequest request) {
+        AdminActions manager = createAdminManager(request);
+        return manager.updateModel();
+    }
+
 
 }

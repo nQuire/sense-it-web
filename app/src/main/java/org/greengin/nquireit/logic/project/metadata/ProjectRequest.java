@@ -2,7 +2,7 @@ package org.greengin.nquireit.logic.project.metadata;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.greengin.nquireit.entities.projects.ProjectDescription;
+import org.greengin.nquireit.entities.projects.ProjectMetadata;
 
 public class ProjectRequest {
     @Getter
@@ -11,6 +11,6 @@ public class ProjectRequest {
 
     @Getter
     @Setter
-    ProjectDescription description;
+    ProjectMetadata metadata;
 
 }

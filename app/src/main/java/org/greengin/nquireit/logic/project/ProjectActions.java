@@ -193,7 +193,7 @@ public class ProjectActions extends AbstractContentManager {
         if (super.hasAccess(permission) || permission == PermissionType.PROJECT_BROWSE) {
             return true;
         } else if (permission == PermissionType.PROJECT_VIEW_IMAGE) {
-            return accessLevel.isMember() && project.getOpen();
+            return project.getOpen() || accessLevel.isAdmin();
         } else if (loggedWithToken) {
             switch (permission) {
                 case PROJECT_JOIN:

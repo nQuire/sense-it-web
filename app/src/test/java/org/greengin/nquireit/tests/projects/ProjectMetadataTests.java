@@ -1,7 +1,7 @@
 package org.greengin.nquireit.tests.projects;
 
 
-import org.greengin.nquireit.entities.projects.ProjectDescription;
+import org.greengin.nquireit.entities.projects.ProjectMetadata;
 import org.greengin.nquireit.entities.projects.ProjectType;
 import org.greengin.nquireit.logic.project.metadata.ProjectRequest;
 import org.greengin.nquireit.tests.AbstractProjectTests;
@@ -26,7 +26,7 @@ public class ProjectMetadataTests extends AbstractProjectTests {
 
     @Test
     public void testInitialDescription() {
-        assertNotNull(project().getDescription());
+        assertNotNull(project().getMetadata());
     }
 
 
@@ -36,7 +36,7 @@ public class ProjectMetadataTests extends AbstractProjectTests {
 
         ProjectRequest request = new ProjectRequest();
         request.setTitle("nt");
-        request.setDescription(null);
+        request.setMetadata(null);
 
         projectActions(author).updateMetadata(request, null);
 
@@ -47,18 +47,18 @@ public class ProjectMetadataTests extends AbstractProjectTests {
     public void testMetadataChange() {
         assertEquals("challenge", project().getTitle());
 
-        ProjectDescription description = new ProjectDescription();
-        description.setTeaser("teaser");
+        ProjectMetadata metadata = new ProjectMetadata();
+        metadata.setTeaser("teaser");
 
         ProjectRequest request = new ProjectRequest();
         request.setTitle(null);
-        request.setDescription(description);
+        request.setMetadata(metadata);
 
         projectActions(author).updateMetadata(request, null);
 
         assertEquals("challenge", project().getTitle());
-        assertNotNull(project().getDescription());
-        assertEquals("teaser", project().getDescription().getTeaser());
+        assertNotNull(project().getMetadata());
+        assertEquals("teaser", project().getMetadata().getTeaser());
     }
 
 }

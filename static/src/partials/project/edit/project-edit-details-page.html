@@ -8,10 +8,10 @@
         <p class="project-section-content-header">Mission details</p>
 
         <div class="project-section-content-description-block"
-             data-ng-repeat="block in projectData.project.description.blocks">
+             data-ng-repeat="block in projectData.project.metadata.blocks">
 
             <div data-ng-if="!form.isOpen('block:' + $index)">
-                <p class="project-section-content-description-block-title">{{block.title}}</p>
+                <p class="project-section-content-block-title">{{block.title}}</p>
 
                 <div class="project-section-content-description-block-content"
                      data-ng-bind-html="block.content"></div>
@@ -22,14 +22,14 @@
                     </button>
                     <button type="button" class="btn btn-default" data-ng-disabled="$last"
                             data-ng-click="moveMetadataBlock($index, false)">
-                        Move down
+                        <i class="fa fa-arrow-down"></i>
                     </button>
-                    <button type="button" class="btn btn-default" data-ng-disabled="$index < 1"
+                    <button type="button" class="btn btn-default" data-ng-disabled="$first"
                             data-ng-click="moveMetadataBlock($index, true)">
-                        Move up
+                        <i class="fa fa-arrow-up"></i>
                     </button>
                     <button type="button" class="btn btn-default" data-ng-click="deleteMetadataBlock($index)">
-                        Delete
+                        <i class="fa fa-trash-o"></i>
                     </button>
                 </div>
             </div>
@@ -39,13 +39,13 @@
                     <div class="form-group">
                         <label for="block-block-title">Title:</label>
                         <input id="block-block-title" class="form-control" type="text" placeholder="Title"
-                               data-ng-model="form.values.description.blocks[$index].title"/>
+                               data-ng-model="form.values.metadata.blocks[$index].title"/>
                     </div>
                     <div class="form-group">
                         <label>Text:</label>
                         <text-angular
                                 name="project-block-content"
-                                data-ng-model="form.values.description.blocks[$index].content">
+                                data-ng-model="form.values.metadata.blocks[$index].content">
                         </text-angular>
                     </div>
                     <div class="btn-group">

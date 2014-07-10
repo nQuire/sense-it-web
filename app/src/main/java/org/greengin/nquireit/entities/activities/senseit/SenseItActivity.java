@@ -12,6 +12,8 @@ import lombok.Setter;
 import org.greengin.nquireit.entities.activities.base.BaseAnalysis;
 import org.greengin.nquireit.entities.data.DataCollectionActivity;
 import org.greengin.nquireit.entities.projects.Project;
+import org.greengin.nquireit.entities.projects.ProjectMetadata;
+import org.greengin.nquireit.entities.projects.ProjectMetadataBlock;
 import org.greengin.nquireit.entities.users.UserProfile;
 import org.greengin.nquireit.logic.ContextBean;
 import org.greengin.nquireit.logic.project.senseit.SenseItActivityActions;
@@ -33,4 +35,5 @@ public class SenseItActivity extends DataCollectionActivity<SenseItSeries, BaseA
     public void loadProjectData(ContextBean context, Project project, UserProfile user, HashMap<String, Long> data) {
         data.put("series", new SenseItActivityActions(context, project.getId(), user, true).getDataCount());
     }
+
 }

@@ -32,7 +32,7 @@
         <div class="project-section-content-column">
             <p class="project-section-content-header">Mission outline</p>
 
-            <p>{{projectData.project.description.teaser}}</p>
+            <p data-ng-bind-html="projectData.project.metadata.outline"></p>
 
             <div data-ng-if="templates.outlineData" data-ng-include="templates.outlineData"></div>
         </div>

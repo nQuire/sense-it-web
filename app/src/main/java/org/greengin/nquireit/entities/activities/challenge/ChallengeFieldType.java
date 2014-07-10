@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public enum ChallengeFieldType {
 	TEXTFIELD,
 	TEXTAREA,
-	TITLE,
 	TEXTANGULAR;
 
 	@JsonValue

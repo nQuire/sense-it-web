@@ -1,4 +1,4 @@
-angular.module('senseItWeb', null, null).controller('ProjectEditDescriptionCtrl', function ($scope, $state, ProjectService) {
+angular.module('senseItWeb', null, null).controller('ProjectEditDescriptionCtrl', function ($scope, ModalService) {
 
 
     $scope.tempBlock = false;
@@ -15,15 +15,15 @@ angular.module('senseItWeb', null, null).controller('ProjectEditDescriptionCtrl'
 
     $scope.addMetadataBlock = function () {
         var block = {title: '', content: ''};
-        $scope.tempBlock = $scope.projectData.project.description.blocks.length;
-        $scope.projectData.project.description.blocks.push(block);
+        $scope.tempBlock = $scope.projectData.project.metadata.blocks.length;
+        $scope.projectData.project.metadata.blocks.push(block);
         $scope.projectWatcher.saveMetadata();
 
-        $scope.form.open('block:' + ($scope.projectData.project.description.blocks.length - 1));
+        $scope.form.open('block:' + ($scope.projectData.project.metadata.blocks.length - 1));
     };
 
     $scope.moveMetadataBlock = function (index, up) {
-        var blocks = $scope.projectData.project.description.blocks;
+        var blocks = $scope.projectData.project.metadata.blocks;
         var otherIndex = index + (up ? -1 : 1);
         if (index >= 0 && index < blocks.length && otherIndex >= 0 && otherIndex < blocks.length) {
             var temp = blocks[otherIndex];
@@ -34,17 +34,25 @@ angular.module('senseItWeb', null, null).controller('ProjectEditDescriptionCtrl'
     };
 
     $scope.deleteMetadataBlock = function (index) {
-        $scope.projectData.project.description.blocks.splice(index, 1);
-        $scope.projectWatcher.saveMetadata();
+
+        ModalService.open({
+            body: 'Are you sure you want to delete this information block?',
+            title: 'Delete block',
+            ok: function () {
+                $scope.projectData.project.metadata.blocks.splice(index, 1);
+                $scope.projectWatcher.saveMetadata();
+            }
+        });
+
     };
 
     $scope.form = new SiwFormManager(function () {
             return $scope.projectData.project;
-        }, ['title', 'description'],
+        }, ['title', 'metadata'],
         function () {
             $scope.tempBlock = false;
             $scope.projectWatcher.saveMetadata($scope.form.files);
-        }, function() {
+        }, function () {
             if ($scope.tempBlock !== false) {
                 var index = $scope.tempBlock;
                 $scope.tempBlock = false;

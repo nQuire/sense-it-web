@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 
 import org.greengin.nquireit.entities.AbstractEntity;
 import org.greengin.nquireit.entities.projects.Project;
+import org.greengin.nquireit.entities.projects.ProjectMetadata;
 import org.greengin.nquireit.entities.users.UserProfile;
 import org.greengin.nquireit.logic.ContextBean;
 

@@ -5,7 +5,7 @@
                 <div class="project-item-image-container"
                      data-ui-sref="project.view.home({projectId: projectData.project.id})">
                     <img src=""
-                         data-ng-src="{{projectData.project.description.image | uploadedImage:'media/image_default.png'}}"
+                         data-ng-src="{{projectData.project.metadata.image | uploadedImage:'media/image_default.png'}}"
                          data-ui-sref="project.view.home({projectId: projectData.project.id})"/>
                 </div>
                 <div class="project-item-text-container">
@@ -21,7 +21,7 @@
                         <span data-ng-switch-when="challenge">Win-it</span>
                     </div>
 
-                    <p class="project-item-teaser">{{projectData.project.description.teaser}}</p>
+                    <p class="project-item-teaser">{{projectData.project.metadata.teaser}}</p>
 
                     <p class="project-item-author">A mission created by {{projectData.project.author.username}}.</p>
                 </div>

@@ -46,4 +46,9 @@ public class AdminActions extends AbstractContentManager {
             context.getProjectDao().setFeatured(projectId, data.isFeatured());
         }
     }
+
+    public Boolean updateModel() {
+        context.getProjectDao().updateDataModel();
+        return true;
+    }
 }

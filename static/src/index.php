@@ -13,6 +13,8 @@ ini_set('error_reporting', E_ALL);
     <link rel="stylesheet" href="css/nquire-it-bootstrap.css" type='text/css'>
     <link rel="stylesheet" href="css/font-awesome.css" type='text/css'>
 
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
+
     <script src="js/libs/jquery-2.1.0.min.js"></script>
     <script src="js/libs/bootstrap.js"></script>
     <script src="js/libs/angular.js"></script>
@@ -22,7 +24,6 @@ ini_set('error_reporting', E_ALL);
     <script src="js/libs/textAngular-sanitize.min.js"></script>
     <script src="js/libs/ui-bootstrap-tpls-0.11.0.min.js"></script>
 
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
     <script src="js/libs/markerclusterer_packed.js"></script>
     <script src="js/libs/oms.min.js"></script>
 
@@ -105,6 +106,7 @@ ini_set('error_reporting', E_ALL);
 
     <script src="js/app/controllers/project/view/project-view-controller.js"></script>
     <script src="js/app/controllers/project/view/project-view-data-controller.js"></script>
+    <script src="js/app/controllers/project/view/project-view-data-map-controller.js"></script>
 
     <script src="js/app/controllers/project/view/senseit/project-view-senseit-controller.js"></script>
 
