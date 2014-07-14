@@ -15,7 +15,7 @@
         </p>
 
         <ul>
-            <li data-ng-repeat="field in projectData.project.activity.fields">
+            <li data-ng-repeat="field in projectData.project.activity.fields | orderBy:weight">
                 <div data-ng-include="'partials/project/edit/challenge/project-edit-challenge-field.html'"
                      data-ng-controller="ProjectEditChallengeFieldCtrl"></div>
             </li>

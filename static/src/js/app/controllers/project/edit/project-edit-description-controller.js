@@ -23,12 +23,7 @@ angular.module('senseItWeb', null, null).controller('ProjectEditDescriptionCtrl'
     };
 
     $scope.moveMetadataBlock = function (index, up) {
-        var blocks = $scope.projectData.project.metadata.blocks;
-        var otherIndex = index + (up ? -1 : 1);
-        if (index >= 0 && index < blocks.length && otherIndex >= 0 && otherIndex < blocks.length) {
-            var temp = blocks[otherIndex];
-            blocks[otherIndex] = blocks[index];
-            blocks[index] = temp;
+        if (SigUtils.moveArrayItem($scope.projectData.project.metadata.blocks, index, up)) {
             $scope.projectWatcher.saveMetadata();
         }
     };

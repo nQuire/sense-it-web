@@ -1,4 +1,4 @@
-angular.module('senseItWeb', null, null).controller('ProjectViewDataCtrl', function ($scope, ProjectDataService, ModalService) {
+angular.module('senseItWeb', null, null).controller('ProjectViewDataCtrl', function ($scope, ProjectDataService, ModalService, $state) {
 
     $scope.dataReady = false;
     $scope.dataList = {
@@ -13,7 +13,7 @@ angular.module('senseItWeb', null, null).controller('ProjectViewDataCtrl', funct
             'votes': function (a, b) {
                 return siwCompare.voteCount(a.voteCount, b.voteCount);
             },
-            'date': function(a, b) {
+            'date': function (a, b) {
                 return a.date - b.date;
             }
         }
@@ -58,6 +58,17 @@ angular.module('senseItWeb', null, null).controller('ProjectViewDataCtrl', funct
                 }
             }
             $scope.dataReady = true;
+        });
+    };
+
+    $scope.createData = function (data, files, convertToMultipart) {
+        $scope.dataService.uploadData(data, files, convertToMultipart).then(function (updatedData) {
+            if (updatedData && updatedData.newItemId) {
+                $scope.dataReady = false;
+                $scope.dataList.items = updatedData.items;
+                $scope.dataReady = true;
+                $state.go('project.view.data-list', {item: updatedData.newItemId});
+            }
         });
     };
 

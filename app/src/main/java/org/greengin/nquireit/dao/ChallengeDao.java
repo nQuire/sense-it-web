@@ -10,10 +10,7 @@ import org.greengin.nquireit.entities.projects.Project;
 import org.greengin.nquireit.entities.projects.ProjectMetadata;
 import org.greengin.nquireit.entities.projects.ProjectMetadataBlock;
 import org.greengin.nquireit.entities.users.UserProfile;
-import org.greengin.nquireit.logic.project.challenge.ChallengeActivityRequest;
-import org.greengin.nquireit.logic.project.challenge.ChallengeAnswerRequest;
-import org.greengin.nquireit.logic.project.challenge.ChallengeFieldRequest;
-import org.greengin.nquireit.logic.project.challenge.ChallengeOutcomeRequest;
+import org.greengin.nquireit.logic.project.challenge.*;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +23,7 @@ import java.util.List;
 
 
 @Component
-public class ChallengeDao {
+public class ChallengeDao extends UtilsDao {
 
     private static final String FIELD_ACTIVITY_QUERY = "SELECT f FROM ChallengeActivity ac INNER JOIN ac.fields f WHERE ac = :activity AND f.id = :id";
 
@@ -192,5 +189,11 @@ public class ChallengeDao {
         field.setType(ChallengeFieldType.TEXTFIELD);
         em.persist(field);
         activity.getFields().add(field);
+    }
+
+    @Transactional
+    public void moveActivityField(ChallengeActivity activity, Long fieldId, ChallengeFieldMoveRequest fieldData) {
+        em.persist(activity);
+        this.move(activity.getFields(), fieldId, fieldData.getUp());
     }
 }

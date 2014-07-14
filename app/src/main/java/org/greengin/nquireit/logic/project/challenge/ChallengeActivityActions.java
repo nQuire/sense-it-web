@@ -186,4 +186,12 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
         return null;
     }
 
+    public ProjectResponse moveField(Long fieldId, ChallengeFieldMoveRequest fieldData) {
+        if (hasAccess(PermissionType.PROJECT_EDITION)) {
+            context.getChallengeDao().moveActivityField(activity, fieldId, fieldData);
+            return projectResponse(project);
+        }
+
+        return null;
+    }
 }

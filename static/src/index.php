@@ -66,6 +66,7 @@ ini_set('error_reporting', E_ALL);
     <script src="js/app/services/forum-service.js"></script>
     <script src="js/app/services/admin-service.js"></script>
     <script src="js/app/services/modal-service.js"></script>
+    <script src="js/app/services/file-reader-service.js"></script>
 
 
     <script src="js/app/directives/back-image.js"></script>
@@ -111,6 +112,7 @@ ini_set('error_reporting', E_ALL);
     <script src="js/app/controllers/project/view/senseit/project-view-senseit-controller.js"></script>
 
     <script src="js/app/controllers/project/view/spotit/project-view-spotit-controller.js"></script>
+    <script src="js/app/controllers/project/view/spotit/project-view-spotit-upload-controller.js"></script>
 
     <script src="js/app/controllers/project/view/challenge/project-view-challenge-controller.js"></script>
     <script src="js/app/controllers/project/view/challenge/project-view-challenge-outcome-controller.js"></script>

@@ -24,7 +24,7 @@ angular.module('senseItServices', null, null).factory('RestService', ['$http', f
                 params: data
             }));
         },
-        _createUploadPromise: function (method, path, data, files) {
+        _createUploadPromise: function (method, path, data, files, convertToMultipart) {
             var hasFiles = false;
             if (files) {
                 for (var fileId in files) {
@@ -40,7 +40,15 @@ angular.module('senseItServices', null, null).factory('RestService', ['$http', f
             if (hasFiles) {
                 var fd = new FormData();
 
-                fd.append("body", JSON.stringify(data));
+                if (convertToMultipart) {
+                    for (var key in data) {
+                        if (data.hasOwnProperty(key)) {
+                            fd.append(key, data[key]);
+                        }
+                    }
+                } else {
+                    fd.append("body", JSON.stringify(data));
+                }
 
                 for (fileId in files) {
                     if (files.hasOwnProperty(fileId)) {
@@ -65,8 +73,8 @@ angular.module('senseItServices', null, null).factory('RestService', ['$http', f
          * @param [files=null]
          * @returns {*}
          */
-        post: function (path, data, files) {
-            return service._createUploadPromise('post', path, data, files);
+        post: function (path, data, files, convertToMultipart) {
+            return service._createUploadPromise('post', path, data, files, convertToMultipart || false);
         },
         /**
          *

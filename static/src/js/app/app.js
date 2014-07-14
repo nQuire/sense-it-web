@@ -95,13 +95,18 @@ angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'textAngular', 'ui.boot
                 templateUrl: 'partials/project/view/project-view-comments.html'
             })
             .state('project.view.data-list', {
-                url: '/data',
+                url: '/data?item',
                 templateUrl: 'partials/project/view/data/project-view-data-table.html'
             })
             .state('project.view.data-map', {
                 url: '/map?item',
                 templateUrl: 'partials/project/view/data/project-view-data-map.html',
                 controller: 'ProjectViewDataMapCtrl'
+            })
+            .state('project.view.spotit-upload', {
+                url: '/upload',
+                templateUrl: 'partials/project/view/spotit/project-view-spotit-upload.html',
+                controller: 'ProjectViewSpotItUploadCtrl'
             })
             .state('project.view.challenge', {
                 url: '/challenge',

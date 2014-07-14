@@ -3,35 +3,24 @@ package org.greengin.nquireit.entities.activities.challenge;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 
-import org.greengin.nquireit.entities.AbstractEntity;
+import lombok.Getter;
+import lombok.Setter;
+import org.greengin.nquireit.entities.WeightedEntity;
 
 
 @Entity
-public class ChallengeField extends AbstractEntity {
-	
+public class ChallengeField extends WeightedEntity {
 
-	@Basic
-	ChallengeFieldType type;
-	
-	@Basic
-	String label;
-	
 
-	
-	public ChallengeFieldType getType() {
-		return type;
-	}
+    @Basic
+    @Getter
+    @Setter
+    ChallengeFieldType type;
 
-	public void setType(ChallengeFieldType type) {
-		this.type = type;
-	}
+    @Basic
+    @Getter
+    @Setter
+    String label;
 
-	public String getLabel() {
-		return label;
-	}
-
-	public void setLabel(String label) {
-		this.label = label;
-	}
 
 }

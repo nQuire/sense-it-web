@@ -9,7 +9,6 @@ angular.module('senseItWeb', null, null).controller('ProjectEditSenseItSensorCtr
         $scope.senseitEditor[method]($scope.sensorInput);
     });
 
-
     $scope.deleteInput = function () {
 
         ModalService.open({

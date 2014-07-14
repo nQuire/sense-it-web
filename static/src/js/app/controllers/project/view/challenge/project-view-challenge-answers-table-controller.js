@@ -1,10 +1,23 @@
 angular.module('senseItWeb', null, null).controller('ProjectViewChallengeAnswersTableCtrl', function ($scope) {
 
-    $scope.titleField = $scope.projectData.project.activity.fields.length > 0 ? $scope.projectData.project.activity.fields[0].id : -1;
+    if ($scope.projectData.project.activity.fields.length > 0) {
+        $scope.titleField = $scope.projectData.project.activity.fields[0].id;
+        $scope.titleLabel = $scope.projectData.project.activity.fields[0].label;
+    } else {
+        $scope.titleField = -1;
+        $scope.titleLabel = 'Title';
+    }
 
     $scope.answerTeaser = function (answer) {
         return $scope.titleField < 0 ? answer.id : answer.fieldValues[$scope.titleField];
     };
+
+    $scope.answerTeaserLabel = function (answer) {
+        return $scope.titleField < 0 ? answer.id : answer.fieldValues[$scope.titleField];
+    };
+
+
+
 
     $scope.filter = {
         params: {

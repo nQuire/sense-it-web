@@ -1,0 +1,29 @@
+@import "../variables/dimensions";
+@import "../variables/colors";
+@import "../layout/basic-header";
+
+.about-container {
+  margin: 0;
+
+  .about-header {
+    @include basic-header;
+  }
+
+  .about-content {
+    padding: $dim-common-margin;
+    background: $color-project-list-item-background;
+
+    p {
+      margin: $dim-common-margin 0;
+    }
+
+    .about-logos {
+      margin-top: $dim-common-margin;
+      text-align: center;
+
+      img {
+        margin: 0 $dim-common-small-margin;
+      }
+    }
+  }
+}

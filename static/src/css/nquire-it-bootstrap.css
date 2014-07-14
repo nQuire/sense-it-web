@@ -10692,6 +10692,44 @@ i.vote-icon.enabled:hover {
   .sortable-table th.descending:after {
     content: ' ▾'; }
 
+.about-container {
+  margin: 0; }
+  .about-container .about-header {
+    height: 26px;
+    line-height: 26px;
+    color: white;
+    background: #444444;
+    padding-left: 10px; }
+    .about-container .about-header .arrow {
+      color: #aaaaaa; }
+    .about-container .about-header a {
+      color: #73a9d7; }
+    .about-container .about-header .menu-item {
+      line-height: 26px;
+      font-weight: 400;
+      font-size: 14px;
+      color: white;
+      margin-right: 20px;
+      padding-bottom: 1px;
+      border-bottom-width: 3px;
+      border-bottom-style: solid;
+      border-bottom-color: rgba(255, 255, 255, 0); }
+      .about-container .about-header .menu-item.active {
+        font-weight: 700;
+        font-size: 14px;
+        color: white;
+        border-bottom-color: white; }
+  .about-container .about-content {
+    padding: 20px;
+    background: #f6f5f5; }
+    .about-container .about-content p {
+      margin: 20px 0; }
+    .about-container .about-content .about-logos {
+      margin-top: 20px;
+      text-align: center; }
+      .about-container .about-content .about-logos img {
+        margin: 0 10px; }
+
 .content-no-sidebar {
   margin: 0px; }
 
@@ -10737,6 +10775,22 @@ i.vote-icon.enabled:hover {
       font-weight: 700;
       font-size: 16px;
       color: #c4388a; }
+
+.project-view-challenge-sumbission {
+  background: white;
+  padding: 20px;
+  border: 1px solid #aaaaaa;
+  box-shadow: 5px 5px 5px #777777;
+  margin-bottom: 20px; }
+  .project-view-challenge-sumbission .project-view-challenge-sumbission-header {
+    font-weight: bold;
+    font-size: small;
+    color: #777777;
+    margin-bottom: 10px; }
+  .project-view-challenge-sumbission .project-view-challenge-sumbission-content {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #aaaaaa;
+    margin-bottom: 10px; }
 
 .project-main-container .project-section .project-section-header {
   height: 26px;

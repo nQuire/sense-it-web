@@ -1,0 +1,51 @@
+<div class="project-section-header" data-ng-include="'partials/project/blocks/project-menu.html'"></div>
+
+<div class="project-section-content">
+    <div class="project-section-description-column"
+         data-ng-include="'partials/project/blocks/project-metadata.html'">
+    </div>
+
+    <div class="project-section-content-column">
+
+        <p class="project-section-content-header">Upload picture</p>
+
+        <div data-ng-if="!status.logged">
+            <p>You need to <a href data-ui-sref="profile">sign in</a> or register to upload images to this mission.</p>
+        </div>
+
+        <div data-ng-if="status.logged">
+            <div data-ng-if="!projectData.access.member">
+                <p>You need to join this mission to upload images.</p>
+            </div>
+
+            <div data-ng-if="projectData.access.member">
+                <form>
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <input type="text" id="description" placeholder="Description" class="form-control"
+                               data-ng-model="description"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="file-select-input-image">Image:</label>
+
+                        <div data-ng-if="imageSrc">
+                            <img width="50%" data-ng-src="{{imageSrc}}" src=""/>
+                        </div>
+
+                        <div id="file-select-input-image" data-siw-file-select-widget data-ng-attr-filekey="image">
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default" data-ng-click="upload()">Upload image</button>
+                        <button type="button" class="btn btn-default" data-ng-click="reset()">Reset</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+

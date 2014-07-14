@@ -7,9 +7,9 @@ angular.module('senseItServices', null, null).factory('ProjectDataService', ['Pr
     };
 
 
-    ProjectDataService.prototype._dataRequest = function (method, dataId, data) {
+    ProjectDataService.prototype._dataRequest = function (method, dataId, data, files, convertToMultipart) {
         var path = this.projectWatcher.data.project.type + '/data' + (dataId ? '/' + dataId : '');
-        return this.projectWatcher.projectRequest(method, path, data);
+        return this.projectWatcher.projectRequest(method, path, data, files, convertToMultipart);
     };
 
 
@@ -17,9 +17,6 @@ angular.module('senseItServices', null, null).factory('ProjectDataService', ['Pr
         return this._dataRequest('get', false, false);
     };
 
-    ProjectDataService.prototype.createData = function (data) {
-        return this._dataRequest('post', false, data);
-    };
 
     ProjectDataService.prototype.deleteData = function (dataId) {
         return this._dataRequest('delete', dataId, false);
@@ -27,6 +24,11 @@ angular.module('senseItServices', null, null).factory('ProjectDataService', ['Pr
 
     ProjectDataService.prototype.updateData = function(dataId, data) {
         return this._dataRequest('put', dataId, data);
+    };
+
+
+    ProjectDataService.prototype.uploadData = function(data, files, convertToMultipart) {
+        return this._dataRequest('post', false, data, files, convertToMultipart);
     };
 
 

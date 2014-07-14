@@ -22,10 +22,11 @@ public class ChallengeActivity extends AbstractActivity {
     public static final int DEFAULT_MAX = 1;
 
     @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
+    @OrderBy("weight")
     @Getter
     @Setter
     @NonNull
-    Collection<ChallengeField> fields = new Vector<ChallengeField>();
+    List<ChallengeField> fields = new Vector<ChallengeField>();
 
     @Basic
     @Getter

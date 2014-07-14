@@ -45,15 +45,15 @@
         <div data-ng-controller="ProjectViewChallengeOutcomeCtrl">
             <div data-ng-if="outcomeReady">
                 <div data-ng-if="outcome.selectedAnswer">
-                    <p>This mission has now a winner!</p>
+                    <p>This mission has now a winner! See <a href data-ui-sref="project.view.challenge">all submissions</a>.</p>
 
-                    <div data-ng-include="'partials/project/view/challenge/project-view-challenge-answers-item-display.html'"></div>
+                    <div class="project-view-challenge-sumbission"
+                         data-ng-include="'partials/project/view/challenge/project-view-challenge-answers-item-display.html'"></div>
                 </div>
                 <div data-ng-if="!outcome.selectedAnswer">
-                    <p>This mission is waiting for the winner decision!</p>
+                    <p>This mission is waiting for the winner decision!<br/>
+                        See <a href data-ui-sref="project.view.challenge">all submissions</a></p>
                 </div>
-
-                <p>See <a href data-ui-sref="project.view.challenge">all submissions</a>!</p>
             </div>
         </div>
     </div>

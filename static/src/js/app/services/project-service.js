@@ -12,11 +12,12 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
          * @param path
          * @param data
          * @param [files=null]
+         * @param [convertToMultipart=false]
          * @returns {*}
          * @private
          */
-        request: function (method, path, data, files) {
-            return data ? RestService[method](path, data, files) : RestService[method](path);
+        request: function (method, path, data, files, convertToMultipart) {
+            return data ? RestService[method](path, data, files, convertToMultipart) : RestService[method](path);
         },
         /**
          *
@@ -25,11 +26,12 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
          * @param [path=null]
          * @param [data=null]
          * @param [files=null]
+         * @param [convertToMultipart=false]
          * @returns {*}
          */
-        projectRequest: function (method, projectId, path, data, files) {
+        projectRequest: function (method, projectId, path, data, files, convertToMultipart) {
             var _path = utils.composePath('api/project/' + projectId, path);
-            return utils.request(method, _path, data, files);
+            return utils.request(method, _path, data, files, convertToMultipart);
         },
 
         /**
@@ -134,8 +136,8 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
         this._reload();
     };
 
-    ProjectWatcher.prototype.projectRequest = function (method, path, data) {
-        return utils.projectRequest(method, this.projectId, path, data);
+    ProjectWatcher.prototype.projectRequest = function (method, path, data, files, convertToMultipart) {
+        return utils.projectRequest(method, this.projectId, path, data, files, convertToMultipart);
     };
 
     ProjectWatcher.prototype._reload = function () {
@@ -187,7 +189,6 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
 
     /**
      *
-     * @param {string} projectId
      * @param {string} method
      * @param {object} path
      * @param {object} [data=null]
@@ -208,7 +209,6 @@ angular.module('senseItServices', null, null).factory('ProjectService', ['RestSe
 
     /**
      *
-     * @param {string} projectId
      * @param {object} [files=null]
      * @returns {object}
      * @private

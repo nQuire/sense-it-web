@@ -43,7 +43,17 @@
 
     <span class="btn-group">
         <button class="btn btn-default" data-ng-click="form.open()">Edit</button>
-        <button class="btn btn-default" data-ng-click="deleteProfile()">Delete field</button>
+        <button type="button" class="btn btn-default" data-ng-disabled="$last"
+                data-ng-click="moveField(false)">
+            <i class="fa fa-arrow-down"></i>
+        </button>
+        <button type="button" class="btn btn-default" data-ng-disabled="$first"
+                            data-ng-click="moveField(true)">
+            <i class="fa fa-arrow-up"></i>
+        </button>
+        <button type="button" class="btn btn-default" data-ng-click="deleteField()">
+            <i class="fa fa-trash-o"></i>
+        </button>
     </span>
         </p>
     </div>

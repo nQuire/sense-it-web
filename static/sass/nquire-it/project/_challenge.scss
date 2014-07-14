@@ -1,0 +1,26 @@
+@import "../variables/dimensions";
+@import "../variables/colors";
+
+
+.project-view-challenge-sumbission {
+  background: white;
+  padding: $dim-common-margin;
+  border: 1px solid $color-light-grey;
+  box-shadow: 5px 5px 5px $color-medium-grey;
+  margin-bottom: $dim-common-margin;
+
+
+  .project-view-challenge-sumbission-header {
+    font-weight: bold;
+    font-size: small;
+    color: $color-medium-grey;
+    margin-bottom: $dim-common-small-margin;
+  }
+
+  .project-view-challenge-sumbission-content {
+    padding-bottom: $dim-common-small-margin;
+    border-bottom: 1px solid $color-light-grey;
+    margin-bottom: $dim-common-small-margin;
+  }
+
+}

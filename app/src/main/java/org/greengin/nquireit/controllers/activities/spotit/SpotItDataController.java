@@ -21,6 +21,7 @@ import org.springframework.web.multipart.support.DefaultMultipartHttpServletRequ
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Date;
 
 @Controller
 @RequestMapping(value = "/api/project/{projectId}/spotit/data")
@@ -54,7 +55,28 @@ public class SpotItDataController {
             requestData.setTitle(multiPartRequest.getParameter("title"));
             requestData.setDescription(multiPartRequest.getParameter("description"));
             requestData.setGeolocation(multiPartRequest.getParameter("geolocation"));
-            requestData.setDate(RequestsUtils.getLong(multiPartRequest, "date", 0));
+            requestData.setDate(RequestsUtils.getLong(multiPartRequest, "date", (new Date()).getTime()));
+
+            FileMapUpload.FileData file = RequestsUtils.getFile(request, "image");
+
+            return createManager(projectId, request).createData(new SpotItObservationManipulator(context, requestData, file));
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    @RequestMapping(value = "/files", method = RequestMethod.POST)
+    @ResponseBody
+    @ResponseView(value = Views.VotableCount.class)
+    public NewDataItemResponse<SpotItObservation> uploadFiles(@PathVariable("projectId") Long projectId,
+                                                         HttpServletRequest request) {
+        try {
+            DefaultMultipartHttpServletRequest multiPartRequest = (DefaultMultipartHttpServletRequest) request;
+            SpotItObservationRequest requestData = new SpotItObservationRequest();
+            requestData.setTitle(multiPartRequest.getParameter("title"));
+            requestData.setDescription(multiPartRequest.getParameter("description"));
+            requestData.setGeolocation(multiPartRequest.getParameter("geolocation"));
+            requestData.setDate(RequestsUtils.getLong(multiPartRequest, "date", (new Date()).getTime()));
 
             FileMapUpload.FileData file = RequestsUtils.getFile(request, "image");
 

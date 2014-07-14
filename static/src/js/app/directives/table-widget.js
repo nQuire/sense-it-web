@@ -15,8 +15,12 @@ angular.module('senseItWeb', null, null).directive('siwSortableTableWidget', fun
                 column: sortColumn,
                 ascending: !sortDescending,
                 compare: function (a, b) {
-                    var c = $scope.sort.f[$scope.sort.column](a, b);
-                    return $scope.sort.ascending ? c : -c;
+                    if ($scope.sort.f[$scope.sort.column]) {
+                        var c = $scope.sort.f[$scope.sort.column](a, b);
+                        return $scope.sort.ascending ? c : -c;
+                    } else {
+                        return 0;
+                    }
                 },
                 f: $scope[params.tableData].sort
             };
@@ -76,7 +80,7 @@ angular.module('senseItWeb', null, null).directive('siwSortableTableWidget', fun
 
             $scope.headerSort(sortColumn, sortDescending);
 
-            $scope.$on('$destroy', $scope.$watch(params.tableData + '.items', function() {
+            $scope.$on('$destroy', $scope.$watch(params.tableData + '.items', function () {
                 $scope.sort.sort();
             }));
         }

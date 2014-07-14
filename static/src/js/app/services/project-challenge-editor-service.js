@@ -30,6 +30,10 @@ angular.module('senseItServices', null, null).factory('ProjectChallengeEditorSer
         return this.projectWatcher.updateProjectAction('delete', 'challenge/field/' + fieldId);
     };
 
+    ProjectChallengeEditor.prototype.moveField = function (fieldId, up) {
+        return this.projectWatcher.updateProjectAction('post', 'challenge/field/' + fieldId + '/move', {up: up});
+    };
+
     ProjectChallengeEditor.prototype.updateActivity = function(activity) {
         return this.projectWatcher.updateProjectAction('put', 'challenge', {
             maxAnswers: activity.maxAnswers
