@@ -21,7 +21,7 @@ angular.module('senseItWeb', null, null).controller('CreateCtrl', function ($sco
     $scope.create = function () {
         if (this.title && this.title.length > 0) {
             ProjectService.createProject($scope.type, this.title).then(function(projectId) {
-                $state.go('project.edit.home', {projectId: projectId});
+                $state.go('project.edit.details', {projectId: projectId});
             });
         }
     };

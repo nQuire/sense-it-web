@@ -2,17 +2,20 @@ package org.greengin.nquireit.logic.data;
 
 import org.greengin.nquireit.entities.data.AbstractDataProjectItem;
 import org.greengin.nquireit.entities.data.DataCollectionActivity;
+import org.greengin.nquireit.entities.rating.Comment;
 import org.greengin.nquireit.entities.users.PermissionType;
 import org.greengin.nquireit.entities.rating.VotableEntity;
 import org.greengin.nquireit.entities.users.UserProfile;
 import org.greengin.nquireit.logic.ContextBean;
 import org.greengin.nquireit.logic.project.activity.AbstractActivityActions;
+import org.greengin.nquireit.logic.rating.CommentRequest;
 import org.greengin.nquireit.logic.rating.VoteCount;
 import org.greengin.nquireit.logic.rating.VoteRequest;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
+import java.util.List;
 
 public abstract class DataActions<E extends AbstractDataProjectItem, F extends AbstractDataProjectItem, T extends DataCollectionActivity<E, F>>
         extends AbstractActivityActions<T> {
@@ -156,4 +159,35 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
     }
 
 
+    public List<Comment> getDataComments(Long itemId) {
+        if (hasAccess(PermissionType.PROJECT_BROWSE)) {
+            E item = context.getDataActivityDao().getItem(dataType, itemId);
+            return item.getComments();
+        }
+        return null;
+    }
+
+    public List<Comment> commentData(Long itemId, CommentRequest data) {
+
+        if (hasAccess(PermissionType.PROJECT_COMMENT)) {
+            E item = context.getDataActivityDao().getItem(dataType, itemId);
+            if (item != null) {
+                context.getCommentsDao().comment(user, item, data);
+                return item.getComments();
+            }
+        }
+
+        return null;
+    }
+
+    public List<Comment> deleteDataComment(Long itemId, Long commentId) {
+        if (hasAccess(PermissionType.PROJECT_COMMENT)) {
+            E item = context.getDataActivityDao().getItem(dataType, itemId);
+            if (item != null && context.getCommentsDao().deleteComment(user, item, commentId)) {
+                return item.getComments();
+            }
+        }
+
+        return null;
+    }
 }

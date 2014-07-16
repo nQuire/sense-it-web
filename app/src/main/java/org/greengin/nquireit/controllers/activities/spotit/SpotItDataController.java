@@ -2,6 +2,7 @@ package org.greengin.nquireit.controllers.activities.spotit;
 
 import com.mangofactory.jsonview.ResponseView;
 import org.greengin.nquireit.entities.activities.spotit.SpotItObservation;
+import org.greengin.nquireit.entities.rating.Comment;
 import org.greengin.nquireit.json.JacksonObjectMapper;
 import org.greengin.nquireit.json.Views;
 import org.greengin.nquireit.logic.ContextBean;
@@ -11,6 +12,7 @@ import org.greengin.nquireit.logic.files.RequestsUtils;
 import org.greengin.nquireit.logic.project.spotit.SpotItActivityActions;
 import org.greengin.nquireit.logic.project.spotit.SpotItObservationManipulator;
 import org.greengin.nquireit.logic.project.spotit.SpotItObservationRequest;
+import org.greengin.nquireit.logic.rating.CommentRequest;
 import org.greengin.nquireit.logic.rating.VoteCount;
 import org.greengin.nquireit.logic.rating.VoteRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/api/project/{projectId}/spotit/data")
@@ -53,7 +56,6 @@ public class SpotItDataController {
             DefaultMultipartHttpServletRequest multiPartRequest = (DefaultMultipartHttpServletRequest) request;
             SpotItObservationRequest requestData = new SpotItObservationRequest();
             requestData.setTitle(multiPartRequest.getParameter("title"));
-            requestData.setDescription(multiPartRequest.getParameter("description"));
             requestData.setGeolocation(multiPartRequest.getParameter("geolocation"));
             requestData.setDate(RequestsUtils.getLong(multiPartRequest, "date", (new Date()).getTime()));
 
@@ -74,7 +76,6 @@ public class SpotItDataController {
             DefaultMultipartHttpServletRequest multiPartRequest = (DefaultMultipartHttpServletRequest) request;
             SpotItObservationRequest requestData = new SpotItObservationRequest();
             requestData.setTitle(multiPartRequest.getParameter("title"));
-            requestData.setDescription(multiPartRequest.getParameter("description"));
             requestData.setGeolocation(multiPartRequest.getParameter("geolocation"));
             requestData.setDate(RequestsUtils.getLong(multiPartRequest, "date", (new Date()).getTime()));
 
@@ -99,4 +100,25 @@ public class SpotItDataController {
         return createManager(projectId, request).voteItem(itemId, voteData);
     }
 
+
+    @RequestMapping(value = "/{dataId}/comments", method = RequestMethod.GET)
+    @ResponseBody
+    @ResponseView(value = Views.UserName.class)
+    public List<Comment> comments(@PathVariable("projectId") Long projectId, @PathVariable("dataId") Long dataId, HttpServletRequest request) {
+        return createManager(projectId, request).getDataComments(dataId);
+    }
+
+    @RequestMapping(value = "/{dataId}/comments", method = RequestMethod.POST)
+    @ResponseBody
+    @ResponseView(value = Views.UserName.class)
+    public List<Comment> commentsPost(@PathVariable("projectId") Long projectId, @PathVariable("dataId") Long dataId, @RequestBody CommentRequest data, HttpServletRequest request) {
+        return createManager(projectId, request).commentData(dataId, data);
+    }
+
+    @RequestMapping(value = "/{dataId}/comments/{commentId}", method = RequestMethod.DELETE)
+    @ResponseBody
+    @ResponseView(value = Views.UserName.class)
+    public List<Comment> commentsDelete(@PathVariable("projectId") Long projectId, @PathVariable("dataId") Long dataId, @PathVariable("commentId") Long commentId, HttpServletRequest request) {
+        return createManager(projectId, request).deleteDataComment(dataId, commentId);
+    }
 }

@@ -108,11 +108,13 @@ ini_set('error_reporting', E_ALL);
     <script src="js/app/controllers/project/view/project-view-controller.js"></script>
     <script src="js/app/controllers/project/view/project-view-data-controller.js"></script>
     <script src="js/app/controllers/project/view/project-view-data-map-controller.js"></script>
+    <script src="js/app/controllers/project/view/project-view-data-item-controller.js"></script>
 
     <script src="js/app/controllers/project/view/senseit/project-view-senseit-controller.js"></script>
 
     <script src="js/app/controllers/project/view/spotit/project-view-spotit-controller.js"></script>
     <script src="js/app/controllers/project/view/spotit/project-view-spotit-upload-controller.js"></script>
+    <script src="js/app/controllers/project/view/spotit/project-view-spotit-item-controller.js"></script>
 
     <script src="js/app/controllers/project/view/challenge/project-view-challenge-controller.js"></script>
     <script src="js/app/controllers/project/view/challenge/project-view-challenge-outcome-controller.js"></script>

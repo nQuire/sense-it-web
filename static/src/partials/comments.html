@@ -2,7 +2,7 @@
 
 
 <div class="comment-list" data-ng-controller="CommentsCtrl">
-    <div class="comment-list-header">Comments</div>
+    <div class="comment-list-header">{{commentThread.title}}</div>
 
     <div class="comment-new" data-ng-if="commentThread.postingEnabled()">
         <div data-ng-if="!posting.isOpen">

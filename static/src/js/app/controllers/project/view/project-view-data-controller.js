@@ -20,7 +20,9 @@ angular.module('senseItWeb', null, null).controller('ProjectViewDataCtrl', funct
     };
 
     $scope.dataVoteManager = {
-        votingEnabled: true,
+        votingEnabled: function () {
+            return $scope.status.logged && $scope.projectData.access.member && $scope.projectData.project.open;
+        },
         getPath: function (target) {
             return 'api/project/' + $scope.projectData.project.id + '/' + $scope.projectData.project.type + '/data/vote/' + target.id;
         }
@@ -91,6 +93,10 @@ angular.module('senseItWeb', null, null).controller('ProjectViewDataCtrl', funct
                 });
             }
         });
+    };
+
+    $scope.goToItem = function (index) {
+        $state.go('project.view.data-item', {itemIndex: index + 1});
     };
 
 });

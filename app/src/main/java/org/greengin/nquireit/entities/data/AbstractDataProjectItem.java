@@ -6,14 +6,14 @@ import javax.persistence.ManyToOne;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.greengin.nquireit.entities.rating.CommentThreadEntity;
 import org.greengin.nquireit.entities.rating.VotableEntity;
 import org.greengin.nquireit.entities.users.UserProfile;
 
 import java.util.Date;
 
 @Entity
-public abstract class AbstractDataProjectItem extends VotableEntity {
-	
+public abstract class AbstractDataProjectItem extends CommentThreadEntity {
 
     @Basic
     @Getter

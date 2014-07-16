@@ -21,10 +21,23 @@ public class FileController {
     @Autowired
     FileManagerBean fileManager;
 
-    @RequestMapping(value = "/image/**"/*, produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_GIF_VALUE, MediaType.IMAGE_PNG_VALUE}*/)
+    @RequestMapping(value = "/image/**")
     public void image(HttpServletRequest request, HttpServletResponse response) {
         String path = ((String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE)).substring("/files/image".length());
         File file = fileManager.get(path);
+
+        response.setContentType("image/" + FilenameUtils.getExtension(path));
+        try {
+            IOUtils.copy(new FileInputStream(file), response.getOutputStream());
+        } catch (IOException ignored) {
+        }
+
+    }
+
+    @RequestMapping(value = "/thumb/**")
+    public void thumb(HttpServletRequest request, HttpServletResponse response) {
+        String path = ((String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE)).substring("/files/thumb".length());
+        File file = fileManager.getThumb(path);
 
         response.setContentType("image/" + FilenameUtils.getExtension(path));
         try {

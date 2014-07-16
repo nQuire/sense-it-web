@@ -12,7 +12,9 @@ angular.module('senseItServices', null, null).factory('ProjectChallengeParticipa
             answers: [],
             editable: false,
             showVoting: true,
-            votingEnabled: false,
+            votingEnabled: function () {
+                return false;
+            },
             showAuthor: false,
             showFilter: false,
             showPublished: false
@@ -46,7 +48,7 @@ angular.module('senseItServices', null, null).factory('ProjectChallengeParticipa
 
     ProjectChallengeParticipant.prototype._reload = function () {
         var scope = this.scope;
-        this.projectWatcher.projectRequest('get', this._answersPath).then(function(answers) {
+        this.projectWatcher.projectRequest('get', this._answersPath).then(function (answers) {
             scope.answerData.answers = answers;
             scope.answerData.answersReady = true;
         });
@@ -64,7 +66,6 @@ angular.module('senseItServices', null, null).factory('ProjectChallengeParticipa
     ProjectChallengeParticipant.prototype.deleteAnswer = function (answerId) {
         return this.projectWatcher.projectRequest('delete', this._answerPath(answerId));
     };
-
 
 
     return {

@@ -27,7 +27,7 @@
                     <button class="btn btn-default" data-ng-click="closeProject()">Close project</button>
                 </p>
             </div>
-            <div data-ng-if="!projectData.project.open" class="btn-group">
+            <div data-ng-if="!projectData.project.open">
                 <p>
                     This project is currently <b>closed</b>. Therefore, you can
                     <a href data-ui-sref="project.edit.home">edit it</a>, but participants cannot access it.

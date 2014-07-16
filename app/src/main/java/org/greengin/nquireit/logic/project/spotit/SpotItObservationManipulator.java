@@ -28,7 +28,6 @@ public class SpotItObservationManipulator extends DataItemManipulator<SpotItActi
             newItem.setObservation(filename);
             newItem.setTitle(data.getTitle());
             newItem.setGeolocation(data.getGeolocation());
-            newItem.setDescription(data.getDescription());
             return true;
         } catch (IOException e) {
             return false;

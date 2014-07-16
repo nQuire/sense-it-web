@@ -4,19 +4,7 @@ angular.module('senseItWeb', null, null).controller('ProjectViewCtrl', function 
 
 
     $scope.joinProject = function () {
-        $scope.projectWatcher.joinProject().then(function () {
-            /*var view;
-            switch ($scope.projectData.project.type) {
-                case 'challenge':
-                    view = 'project.view.challenge';
-                    break;
-                case 'senseit':
-                default:
-                    view = 'project.view.data-list';
-                    break;
-            }
-            $state.go(view);*/
-        });
+        $scope.projectWatcher.joinProject();
     };
 
     $scope.leaveProject = function () {

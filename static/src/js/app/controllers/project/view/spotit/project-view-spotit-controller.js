@@ -4,6 +4,7 @@ angular.module('senseItWeb', null, null).controller('ProjectViewSpotItCtrl', fun
     $scope.templates.outlineData = 'partials/project/view/spotit/spotit-view-outline.html';
 
     $scope.templates.dataTable = 'partials/project/view/spotit/data-table-spotit.html';
+    $scope.templates.dataItem = 'partials/project/view/spotit/data-item-spotit.html';
 
 
     $scope.dataInfo = {

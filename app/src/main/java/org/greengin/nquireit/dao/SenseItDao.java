@@ -74,7 +74,8 @@ public class SenseItDao {
         link.setContent("This mission uses " +
                 "<a target=\"_blank\" " +
                 "href=\"https://play.google.com/store/apps/details?id=org.greengin.sciencetoolkit&hl=en\">" +
-                "Sense-it</a> to collect data. ");
+                "Sense-it</a> to collect data. " +
+                "<p><b><code>[Click 'Edit' to modify the information about this mission.]</code></b></p>");
         project.getMetadata().getBlocks().add(link);
 
         ProjectMetadataBlock addData = new ProjectMetadataBlock();

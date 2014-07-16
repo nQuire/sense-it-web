@@ -3,7 +3,9 @@ angular.module('senseItWeb', null, null).controller('ProjectViewChallengeStageVo
 
     $scope.answerData.editable = false;
     $scope.answerData.showVoting = true;
-    $scope.answerData.votingEnabled = true;
+    $scope.answerData.votingEnabled = function() {
+        return $scope.status.logged && $scope.projectData.access.member && $scope.projectData.project.open;
+    };
     $scope.answerData.showAuthor = true;
     $scope.answerData.showFilter = true;
     $scope.answerData.showPublished = false;

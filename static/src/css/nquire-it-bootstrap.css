@@ -10625,35 +10625,6 @@ i.vote-icon.enabled:hover {
   background: #519251;
   color: #aaa; }
 
-.spotit-observation {
-  width: 100%;
-  overflow: hidden;
-  position: relative;
-  margin-bottom: 20px; }
-  .spotit-observation > div {
-    height: 100%; }
-  .spotit-observation > img, .spotit-observation > div {
-    width: 100%;
-    position: absolute;
-    top: 0px;
-    left: 0px; }
-  .spotit-observation:before, .spotit-observation > div, .spotit-observation > img {
-    /* vertically center the image */
-    display: inline-block;
-    vertical-align: middle; }
-  .spotit-observation:before {
-    content: "";
-    /* Magic Number */
-    /* Set this to your desired height(to width) ratio */
-    padding-top: 60%;
-    /* % of original image width */ }
-  .spotit-observation .spotit-observation-metadata {
-    position: absolute;
-    width: 100%;
-    bottom: 0px;
-    padding: 10px;
-    background: rgba(255, 255, 255, 0.5); }
-
 .admin-page {
   padding: 0 20px; }
   .admin-page .admin-header {
@@ -11201,6 +11172,51 @@ i.vote-icon.enabled:hover {
     text-align: left;
     margin: 20px 20%;
     color: #777777; }
+
+.spotit-observation {
+  cursor: pointer;
+  width: 100%;
+  overflow: hidden;
+  position: relative; }
+  .spotit-observation > div {
+    height: 100%; }
+  .spotit-observation > img, .spotit-observation > div {
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px; }
+  .spotit-observation:before, .spotit-observation > div, .spotit-observation > img {
+    /* vertically center the image */
+    display: inline-block;
+    vertical-align: middle; }
+  .spotit-observation:before {
+    content: "";
+    /* Magic Number */
+    /* Set this to your desired height(to width) ratio */
+    padding-top: 60%;
+    /* % of original image width */ }
+
+.spotit-observation-metadata {
+  margin-bottom: 20px;
+  text-align: center;
+  background: white;
+  color: #777777;
+  padding-top: 10px;
+  border-bottom: 1px solid #aaaaaa;
+  border-left: 1px solid #aaaaaa;
+  border-right: 1px solid #aaaaaa; }
+
+.spotit-view-item {
+  padding-top: 10px; }
+  .spotit-view-item .spotit-item-menu {
+    text-align: center; }
+  .spotit-view-item .spotit-item-image img {
+    width: 100%; }
+  .spotit-view-item .spotit-comments-section {
+    position: relative;
+    margin: 20px 20%; }
+    .spotit-view-item .spotit-comments-section .spotit-vote-section {
+      float: right; }
 
 .forum-container {
   margin: 0 20px; }

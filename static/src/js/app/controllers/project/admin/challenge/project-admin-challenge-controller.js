@@ -7,7 +7,8 @@ angular.module('senseItWeb', null, null).controller('ProjectAdminChallengeCtrl',
     $scope.outcomeData = {
         editable: true,
         selectedAnswer: null,
-        selectCallback: function (answer) {},
+        selectCallback: function (answer) {
+        },
         updateCallback: function () {
             $scope.answerData.selectedAnswer = $scope.outcomeData.selectedAnswer;
         }
@@ -18,7 +19,9 @@ angular.module('senseItWeb', null, null).controller('ProjectAdminChallengeCtrl',
         answers: [],
         editable: false,
         showVoting: true,
-        votingEnabled: false,
+        votingEnabled: function () {
+            return false;
+        },
         showAuthor: true,
         showFilter: false,
         showPublished: false,

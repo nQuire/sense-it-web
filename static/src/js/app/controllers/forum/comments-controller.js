@@ -1,6 +1,6 @@
 angular.module('senseItWeb', null, null).controller('CommentsCtrl', function ($scope, CommentService) {
 
-    CommentService.get($scope.commentThread.type, $scope.commentThread.id, $scope, function () {});
+    CommentService.get($scope.commentThread, $scope, function () {});
 
     $scope.commentById = function (id) {
         for (var i = 0; i < $scope.comments.list.length; i++) {

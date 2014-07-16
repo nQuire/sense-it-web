@@ -102,6 +102,10 @@ angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'textAngular', 'ui.boot
                 url: '/map?item',
                 templateUrl: 'partials/project/view/data/project-view-data-map.html',
                 controller: 'ProjectViewDataMapCtrl'
+            }).state('project.view.data-item', {
+                url: '/item/{itemIndex}',
+                templateUrl: 'partials/project/view/data/project-view-data-item.html',
+                controller: 'ProjectViewDataItemCtrl'
             })
             .state('project.view.spotit-upload', {
                 url: '/upload',

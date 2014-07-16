@@ -1,0 +1,41 @@
+@import "../layout/image-crop";
+@import "../variables/dimensions";
+@import "../variables/colors";
+
+.spotit-observation {
+  cursor: pointer;
+  @include image-crop(60%);
+}
+
+.spotit-observation-metadata {
+  margin-bottom: $dim-common-margin;
+  text-align: center;
+  background: white;
+  color: $color-medium-grey;
+  padding-top: $dim-common-small-margin;
+  border-bottom: 1px solid $color-light-grey;
+  border-left: 1px solid $color-light-grey;
+  border-right: 1px solid $color-light-grey;
+}
+
+.spotit-view-item {
+  padding-top: $dim-common-small-margin;
+  .spotit-item-menu {
+    text-align: center;
+  }
+
+  .spotit-item-image {
+    img {
+      width: 100%;
+    }
+  }
+
+  .spotit-comments-section {
+    position: relative;
+    margin: $dim-common-margin 20%;
+
+    .spotit-vote-section {
+      float: right;
+    }
+  }
+}

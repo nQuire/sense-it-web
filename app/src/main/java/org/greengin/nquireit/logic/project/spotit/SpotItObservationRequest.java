@@ -12,10 +12,6 @@ public class SpotItObservationRequest {
 
     @Getter
     @Setter
-    String description;
-
-    @Getter
-    @Setter
     String geolocation;
 
     @Getter

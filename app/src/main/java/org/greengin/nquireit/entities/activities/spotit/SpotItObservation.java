@@ -25,9 +25,4 @@ public class SpotItObservation extends AbstractDataProjectItem {
     @Setter
     String observation;
 
-    @Basic
-    @Getter
-    @Setter
-    String description;
-
 }

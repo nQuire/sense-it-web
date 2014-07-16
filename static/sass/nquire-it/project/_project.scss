@@ -34,7 +34,7 @@
       @extend .row;
       margin: 0px;
 
-      background: $color-project-list-item-background;
+      background: $color-light-background;
 
       .project-section-content-header {
         @include text-project-title;

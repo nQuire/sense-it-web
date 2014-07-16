@@ -3,7 +3,7 @@ angular.module('senseItWeb', null, null).controller('ProjectViewChallengeOutcome
     $scope.challengeOutcome = ProjectChallengeOutcomeService.challengeOutcome($scope.projectWatcher);
 
     $scope.voteManager = {
-        votingEnabled: false
+        votingEnabled: function() {return false;}
     };
 
     if ($scope.outcomeData && $scope.outcomeData.editable) {

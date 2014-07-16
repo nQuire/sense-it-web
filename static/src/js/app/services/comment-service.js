@@ -3,9 +3,10 @@
 angular.module('senseItServices', null, null).factory('CommentService', ['RestService', function (RestService) {
 
 
-    var CommentManager = function (type, threadId) {
-        this.path = 'api/' + (type ? type + '/' : '') + threadId + '/comments';
+    var CommentManager = function (commentThread) {
+        this.path = 'api/' + commentThread.path + '/comments';
         this.list = [];
+        this.thread = commentThread.thread;
     };
 
     CommentManager.prototype.init = function () {
@@ -16,24 +17,31 @@ angular.module('senseItServices', null, null).factory('CommentService', ['RestSe
         });
     };
 
+    CommentManager.prototype._update = function (list) {
+        this.list = list;
+        if (this.thread) {
+            this.thread.commentCount = list.length;
+        }
+    };
+
     CommentManager.prototype.post = function (comment) {
         var self = this;
         return RestService.post(this.path, {comment: comment}).then(function (data) {
-            self.list = data;
+            self._update(data);
         });
     };
 
     CommentManager.prototype.deleteComment = function (commentId) {
         var self = this;
         return RestService.delete(this.path + '/' + commentId).then(function (data) {
-            self.list = data;
+            self._update(data);
         });
     };
 
     return {
-        get: function (type, threadId, scope, updateCallback) {
+        get: function (path, scope, updateCallback) {
             var stopWatching = scope.$watch('comments.list', updateCallback);
-            scope.comments = new CommentManager(type, threadId);
+            scope.comments = new CommentManager(path);
             scope.$on('$destroy', stopWatching);
             scope.comments.init();
         }

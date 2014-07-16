@@ -8,7 +8,7 @@ var SigUtils = {
         var otherIndex = index + (up ? -1 : 1);
         if (index >= 0 && index < array.length && otherIndex >= 0 && otherIndex < array.length) {
             var temp = array[otherIndex];
-            array[otherIndex] = blocks[index];
+            array[otherIndex] = array[index];
             array[index] = temp;
             return true;
         } else {

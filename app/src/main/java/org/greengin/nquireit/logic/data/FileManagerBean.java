@@ -4,12 +4,18 @@ package org.greengin.nquireit.logic.data;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.io.IOUtils;
+import org.imgscalr.Scalr;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
-import java.io.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 
 @Service
@@ -21,6 +27,9 @@ public class FileManagerBean implements InitializingBean {
     @Getter
     File path;
 
+    @Getter
+    File internalPath;
+
     @Setter
     String basePath;
 
@@ -30,6 +39,12 @@ public class FileManagerBean implements InitializingBean {
         if (!path.exists()) {
             path.mkdirs();
         }
+
+        internalPath = new File(path, "internal");
+        if (!internalPath.exists()) {
+            internalPath.mkdirs();
+        }
+
     }
 
 
@@ -72,4 +87,48 @@ public class FileManagerBean implements InitializingBean {
     }
 
 
+    public File getThumb(String thumb) {
+        String filename;
+        String contextPath;
+        String ext;
+        int sepPos = thumb.lastIndexOf('/') + 1;
+        if (sepPos > 0) {
+            filename = thumb.substring(sepPos);
+            contextPath = thumb.substring(0, sepPos);
+        } else {
+            filename = thumb;
+            contextPath = "/";
+        }
+
+        int extSepPos = filename.lastIndexOf('.');
+        if (extSepPos > 0) {
+            ext = filename.substring(extSepPos + 1).toLowerCase();
+        } else {
+            ext = "";
+        }
+
+        File original = get(thumb);
+        if (original.exists()) {
+            File folder = new File(this.internalPath, "/thumbs" + contextPath);
+
+            if (folder.exists() || folder.mkdirs()) {
+
+                File file = new File(folder, filename);
+                if (file.exists()) {
+                    return file;
+                }
+
+                try {
+                    BufferedImage img = ImageIO.read(original);
+                    BufferedImage scaledImg = Scalr.resize(img, 200);
+                    ImageIO.write(scaledImg, ext, file);
+                    return file;
+                } catch (IOException e) {
+                    return null;
+                }
+            }
+        }
+
+        return null;
+    }
 }

@@ -10,7 +10,7 @@ angular.module('senseItWeb', null, null).directive('siwVoteWidget', function () 
             $scope.voteIconClass = function (iconValue) {
                 var classes = []
 
-                if ($scope.voteManager.votingEnabled) {
+                if ($scope.voteManager.votingEnabled()) {
                     classes.push('enabled');
                 }
 
@@ -25,7 +25,7 @@ angular.module('senseItWeb', null, null).directive('siwVoteWidget', function () 
             };
 
             $scope.vote = function (iconValue) {
-                if ($scope.voteManager.votingEnabled) {
+                if ($scope.voteManager.votingEnabled()) {
                     var value = $scope.voteTarget.voteCount && $scope.voteTarget.voteCount.myVote && $scope.voteTarget.voteCount.myVote.value == iconValue ? 0 : iconValue;
                     VoteService.vote($scope.voteManager.getPath($scope.voteTarget), {value: value}).then(function (voteCount) {
                         if (voteCount) {

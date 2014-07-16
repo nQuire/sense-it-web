@@ -18,4 +18,8 @@ public abstract class CommentThreadEntity extends VotableEntity {
     @Setter
     @NonNull
     List<Comment> comments = new Vector<Comment>();
+
+    public int getCommentCount() {
+        return comments.size();
+    }
 }
