@@ -1,4 +1,13 @@
-angular.module('senseItWeb', null, null).controller('ProfileCtrl', function ($scope, $window, OpenIdService) {
+angular.module('senseItWeb', null, null).controller('ProfileCtrl', function ($scope, $window, OpenIdService, $state) {
+
+    if (!$scope.status.logged && $state.params.goBack) {
+        OpenIdService.registerWatcher($scope, function () {
+            if ($scope.status.logged) {
+                $state.go($state.previous);
+            }
+            console.log('go back');
+        });
+    }
 
     $scope.form = new SiwFormManager(function () {
             if ($scope.status.profile.metadata === null) {
@@ -280,5 +289,4 @@ angular.module('senseItWeb', null, null).controller('ProfileCtrl', function ($sc
             }
         }
     };
-})
-;
+});

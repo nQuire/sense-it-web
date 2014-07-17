@@ -51,7 +51,7 @@ public class ChallengeActivity extends AbstractActivity {
 
     @Override
     public void loadProjectData(ContextBean context, Project project, UserProfile user, HashMap<String, Long> data) {
-
+        data.put("data", (long)answers.size());
     }
 
 }

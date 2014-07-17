@@ -1,0 +1,13 @@
+<ul>
+    <li>Stage:
+        <b>
+            <span data-ng-switch="projectData.project.activity.stage">
+                <span data-ng-switch-when="proposal">Accepting submissions</span>
+                <span data-ng-switch-when="voting">Voting</span>
+                <span data-ng-switch-when="outcome">Ended</span>
+            </span>
+        </b>
+    </li>
+    <li>Members: <b>{{projectData.data.members}}</b></li>
+    <li>Submissions: <b>{{projectData.data.submissions}}</b></li>
+</ul>

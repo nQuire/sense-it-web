@@ -2,7 +2,6 @@
 @import "../layout/sidebar";
 @import "../layout/image-crop";
 @import "../layout/basic-header";
-
 @import "challenge";
 
 .project-main-container {
@@ -73,6 +72,8 @@
           }
         }
 
+
+
         .project-section-description-text {
           @include text-project-normal;
 
@@ -83,6 +84,8 @@
           position: relative;
           height: $dim-profile-image-size;
           vertical-align: bottom;
+          margin-bottom: $dim-common-margin;
+
           span.project-section-description-text-author-image {
             position: absolute;
           }
@@ -122,6 +125,13 @@
     min-height: 100%;
   }
 
+}
+
+.project-description-data {
+  ul > li {
+    list-style-image: url(images/bullet.png);
+    margin-left: -1.5em;
+  }
 }
 
 @mixin project-type($type-color) {

@@ -10367,6 +10367,7 @@ html {
 .sidebar-right, .project-main-container .project-comments-section {
   position: absolute;
   width: 230px;
+  min-height: 100%;
   top: 20px;
   right: 0px;
   padding: 0px 10px 20px 10px;
@@ -10526,7 +10527,8 @@ div#header {
       height: 30px; }
 
 .project-item {
-  margin-bottom: 30px; }
+  margin-bottom: 30px;
+  position: relative; }
   .project-item .project-item-image-container {
     width: 100%;
     overflow: hidden;
@@ -10549,8 +10551,16 @@ div#header {
       /* Set this to your desired height(to width) ratio */
       padding-top: 47.5%;
       /* % of original image width */ }
+  .project-item .project-item-metadata {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(255, 255, 255, 0.5);
+    padding: 2px 5px;
+    border-bottom-right-radius: 10px; }
   .project-item .project-item-text-container {
-    height: 154px;
+    position: relative;
+    height: 190px;
     background: #f6f5f5;
     padding: 0px 10px; }
     .project-item .project-item-text-container .project-item-type {
@@ -10563,12 +10573,15 @@ div#header {
       text-align: center; }
       .project-item .project-item-text-container .project-item-title a {
         font-weight: 700;
-        font-size: 20px; }
+        font-size: 22px; }
     .project-item .project-item-text-container .project-item-teaser {
       font-weight: 400;
       color: #444444;
       font-size: 14px; }
     .project-item .project-item-text-container .project-item-author {
+      position: absolute;
+      width: 100%;
+      bottom: 0px;
       font-weight: 400;
       font-style: italic;
       color: #444444;
@@ -10711,6 +10724,7 @@ i.vote-icon.enabled:hover {
 .sidebar-right, .project-main-container .project-comments-section {
   position: absolute;
   width: 230px;
+  min-height: 100%;
   top: 20px;
   right: 0px;
   padding: 0px 10px 20px 10px;
@@ -10851,7 +10865,8 @@ i.vote-icon.enabled:hover {
     .project-main-container .project-section .project-section-content .project-section-description-column .project-section-description-text-author {
       position: relative;
       height: 80px;
-      vertical-align: bottom; }
+      vertical-align: bottom;
+      margin-bottom: 20px; }
       .project-main-container .project-section .project-section-content .project-section-description-column .project-section-description-text-author span.project-section-description-text-author-image {
         position: absolute; }
       .project-main-container .project-section .project-section-content .project-section-description-column .project-section-description-text-author div.project-section-description-text-author-name {
@@ -10870,6 +10885,10 @@ i.vote-icon.enabled:hover {
     padding: 0px 10px 0px 20px; }
 .project-main-container .project-comments-section {
   min-height: 100%; }
+
+.project-description-data ul > li {
+  list-style-image: url(images/bullet.png);
+  margin-left: -1.5em; }
 
 .project-main-container.project-type-senseit .project-section-header {
   background: #079ccb; }

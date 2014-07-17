@@ -1,5 +1,6 @@
 $dim-common-margin: 20px;
 $dim-common-small-margin: 10px;
+$dim-common-tiny-margin: 5px;
 
 $dim-common-right-panel-content-width: 210px;
 $dim-common-right-panel-container-width: $dim-common-right-panel-content-width + 2 * $dim-common-small-margin;
@@ -31,17 +32,14 @@ $dim-right-menu-separator-line-width: 2px;
 $dim-common-banner: 26px;
 
 $dim-project-list-image-aspect-ratio: 47.5%;
-$dim-project-list-item-text-height: 154px;
+$dim-project-list-item-text-height: 190px;
 $dim-project-list-item-banner-height: $dim-common-banner;
 
-
 $dim-comment-author-image-size: 40px;
-
 
 $dim-project-create-type-height: 154px;
 $dim-project-create-image-width: 230px;
 $dim-project-create-banner-height: $dim-common-banner;
-
 
 $dim-profile-header-height: $dim-common-banner;
 $dim-profile-data-height: 34px;

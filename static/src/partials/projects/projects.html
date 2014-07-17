@@ -8,6 +8,10 @@
                          data-ng-src="{{projectData.project.metadata.image | uploadedImage:'media/image_default.png'}}"
                          data-ui-sref="project.view.home({projectId: projectData.project.id})"/>
                 </div>
+                <div class="project-item-metadata">
+                    <div><i class="fa fa-smile-o"></i> {{projectData.data.members}}</div>
+                    <div><i class="fa fa-file-o"></i> {{projectData.data.data}}</div>
+                </div>
                 <div class="project-item-text-container">
                     <div class="project-item-title">
                         <a href data-ui-sref="project.view.home({projectId: projectData.project.id})">
@@ -23,7 +27,18 @@
 
                     <p class="project-item-teaser">{{projectData.project.metadata.teaser}}</p>
 
-                    <p class="project-item-author">A mission created by {{projectData.project.author.username}}.</p>
+                    <div class="project-description-data"
+                         data-ng-if="projectData.project.type == 'challenge'">
+                        <ul>
+                            <li><span data-ng-switch="projectData.project.activity.stage">
+                            <span data-ng-switch-when="proposal">Accepting submissions</span>
+                            <span data-ng-switch-when="voting">Voting</span>
+                            <span data-ng-switch-when="outcome">Ended</span>
+                        </span></li>
+                        </ul>
+                    </div>
+
+                    <div class="project-item-author">A mission created by {{projectData.project.author.username}}.</div>
                 </div>
                 <div class="project-item-banner">
                     <a href data-ui-sref="project.view.home({projectId: projectData.project.id})">

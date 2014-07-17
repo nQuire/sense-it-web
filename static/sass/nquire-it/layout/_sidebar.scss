@@ -5,6 +5,7 @@
 .sidebar-right {
   position: absolute;
   width: $dim-common-right-panel-container-width;
+  min-height: 100%;
 
   top: $dim-common-margin;
   right: 0px;

@@ -16,6 +16,10 @@
         <div class="forum-thread-text" data-ng-bind-html="comment.comment"></div>
     </div>
 
+    <div data-ng-if="!status.logged">
+        <p><a href data-ng-click="openIdService.loginAndComeBack()">Log in</a> to post replies in this thread.</p>
+    </div>
+
     <div data-ng-if="status.logged">
         <div data-ng-if="!form.isOpen()">
             <button class="btn btn-default" data-ng-click="form.open()">Post comment</button>
@@ -26,18 +30,18 @@
                 <div class="form-group">
                     <label>Comment:</label>
                     <text-angular id="comment"
-                            name="comment"
-                            data-ng-model="form.values.comment"
-                            placeholder="Comment">
+                                  name="comment"
+                                  data-ng-model="form.values.comment"
+                                  placeholder="Comment">
                     </text-angular>
                 </div>
                 <div class="btn-group">
 
-                    <button class="btn btn-default" data-ng-disabled="okDisabled()" data-ng-click="form.save()">Post</button>
+                    <button class="btn btn-default" data-ng-disabled="okDisabled()" data-ng-click="form.save()">Post
+                    </button>
                     <button class="btn btn-default" data-ng-click="form.cancel()">Cancel</button>
                 </div>
             </form>
         </div>
-
     </div>
 </div>

@@ -33,12 +33,12 @@
         </tr>
         </thead>
         <tbody>
-        <tr data-ng-repeat="answer in sortedItems()">
+        <tr data-ng-repeat="answer in sortedData.data">
             <td data-ng-if="answerData.showAuthor">{{answer.author.username}}</td>
             <td data-ng-if="answerData.showVoting">
                 <div data-siw-vote-widget data-vote-manager="voteManager" data-vote-target="answer"></div>
             </td>
-            <td>{{answerTeaser(answer)}}</td>
+            <td data-ng-bind-html="answerTeaser(answer)"></td>
             <td>
                 <button class="btn btn-default"
                         data-ng-click="itemView.open(answer)">

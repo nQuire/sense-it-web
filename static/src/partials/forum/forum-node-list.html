@@ -4,6 +4,9 @@
     <p data-ng-if="status.logged">
         <button class="btn btn-default" data-ui-sref="forum.node.new-thread">Post new thread</button>
     </p>
+    <div data-ng-if="!status.logged">
+        <p><a href data-ng-click="openIdService.loginAndComeBack()">Log in</a> to post new threads.</p>
+    </div>
 
     <table class="table table-striped">
         <thead>

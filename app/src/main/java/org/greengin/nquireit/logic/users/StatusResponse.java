@@ -15,6 +15,10 @@ public class StatusResponse {
 
     @Getter
     @Setter
+    boolean newUser;
+
+    @Getter
+    @Setter
     UserProfile profile;
 
     @Getter

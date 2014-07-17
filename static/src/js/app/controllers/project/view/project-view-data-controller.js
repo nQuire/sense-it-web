@@ -1,4 +1,4 @@
-angular.module('senseItWeb', null, null).controller('ProjectViewDataCtrl', function ($scope, ProjectDataService, ModalService, $state) {
+angular.module('senseItWeb', null, null).controller('ProjectViewDataCtrl', function ($scope, ProjectDataService, SortedDataService, ModalService, $state) {
 
     $scope.dataReady = false;
     $scope.dataList = {
@@ -16,8 +16,14 @@ angular.module('senseItWeb', null, null).controller('ProjectViewDataCtrl', funct
             'date': function (a, b) {
                 return a.date - b.date;
             }
-        }
+        },
+        filters: []
     };
+
+    $scope.sortedData = SortedDataService.get(function () {
+        return $scope.dataList.items;
+    }, $scope.dataList.sort, null, $scope, 'dataList.items', false);
+
 
     $scope.dataVoteManager = {
         votingEnabled: function () {
@@ -74,7 +80,7 @@ angular.module('senseItWeb', null, null).controller('ProjectViewDataCtrl', funct
         });
     };
 
-    $scope.deleteData = function (data) {
+    $scope.deleteData = function (data, goto) {
         ModalService.open({
             title: 'Delete data',
             bodyTemplate: 'partials/project/view/data/project-view-data-delete-dlg.html',
@@ -87,6 +93,10 @@ angular.module('senseItWeb', null, null).controller('ProjectViewDataCtrl', funct
                                 $scope.dataList.items.splice(index, 1);
                                 break;
                             }
+                        }
+
+                        if (goto) {
+                            $state.go(goto);
                         }
                     }
                     $scope.dataReady = true;

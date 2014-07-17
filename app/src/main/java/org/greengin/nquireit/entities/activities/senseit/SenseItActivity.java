@@ -33,7 +33,7 @@ public class SenseItActivity extends DataCollectionActivity<SenseItSeries, BaseA
 
     @Override
     public void loadProjectData(ContextBean context, Project project, UserProfile user, HashMap<String, Long> data) {
-        data.put("series", new SenseItActivityActions(context, project.getId(), user, true).getDataCount());
+        data.put("data", new SenseItActivityActions(context, project.getId(), user, true).getDataCount());
     }
 
 }

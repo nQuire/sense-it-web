@@ -5,13 +5,24 @@
 
 .project-item {
   margin-bottom: 30px;
+  position: relative;
 
   .project-item-image-container {
     @include image-crop($dim-project-list-image-aspect-ratio);
     cursor: pointer;
   }
 
+  .project-item-metadata {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(255, 255, 255, .5);
+    padding: 2px 5px;
+    border-bottom-right-radius: 10px;
+  }
+
   .project-item-text-container {
+    position: relative;
     height: $dim-project-list-item-text-height;
     background: $color-light-background;
 
@@ -35,6 +46,9 @@
     }
 
     .project-item-author {
+      position: absolute;
+      width: 100%;
+      bottom: 0px;
       @include text-project-list-item-author;
     }
   }

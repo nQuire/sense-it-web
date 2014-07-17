@@ -159,7 +159,7 @@ angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'textAngular', 'ui.boot
                 templateUrl: 'partials/project/edit/challenge/project-edit-challenge-page.html'
             })
             .state('profile', {
-                url: '/profile',
+                url: '/profile?goBack',
                 templateUrl: 'partials/profile/profile.html',
                 controller: 'ProfileCtrl'
             });

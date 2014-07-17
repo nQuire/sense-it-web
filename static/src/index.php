@@ -67,6 +67,7 @@ ini_set('error_reporting', E_ALL);
     <script src="js/app/services/admin-service.js"></script>
     <script src="js/app/services/modal-service.js"></script>
     <script src="js/app/services/file-reader-service.js"></script>
+    <script src="js/app/services/sorted-data-service.js"></script>
 
 
     <script src="js/app/directives/back-image.js"></script>

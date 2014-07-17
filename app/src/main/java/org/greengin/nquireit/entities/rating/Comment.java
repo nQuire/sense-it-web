@@ -13,7 +13,7 @@ import java.util.Date;
 
 
 @Entity
-public class Comment extends AbstractEntity {
+public class Comment extends VotableEntity {
 
     @Basic
     @Getter

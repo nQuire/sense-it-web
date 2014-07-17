@@ -2,6 +2,7 @@
     <div data-ng-if="form.isOpen()">
         <form role="form">
             <div data-ng-repeat="field in projectData.project.activity.fields | orderBy:weight" class="form-group">
+
                 <label class="project-view-challenge-sumbission-header" for="{{field.id}}">{{field.label}}</label>
                 <textarea data-ng-if="field.type=='textarea'" class="form-control"
                           id="{{field.id}}" placeholder="{{field.label}}"
@@ -10,7 +11,7 @@
                        id="{{field.id}}" type="text" placeholder="{{field.label}}"
                        data-ng-model="form.values.fieldValues[field.id]"/>
                 <text-angular data-ng-if="field.type=='textangular'" id="{{field.id}}"
-                              name="project-block-content"
+                              name="project-block-content-{{field.id}}"
                               data-ng-model="form.values.fieldValues[field.id]">
                 </text-angular>
             </div>

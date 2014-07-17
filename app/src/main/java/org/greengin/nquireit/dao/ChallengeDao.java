@@ -145,6 +145,7 @@ public class ChallengeDao extends UtilsDao {
 
         ChallengeField field = new ChallengeField();
         fieldData.update(field);
+        field.setWeight(activity.getFields().size());
         activity.getFields().add(field);
     }
 

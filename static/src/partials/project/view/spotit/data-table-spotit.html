@@ -1,6 +1,6 @@
 <div class="container-fluid" data-siw-sortable-table-widget data-sort-column="date" data-table-data="dataList">
     <div class="row">
-        <div data-ng-repeat="item in sortedItems()"
+        <div data-ng-repeat="item in sortedData.data"
              class="col-xs-6 col-sm-4 col-md-3">
             <div class="spotit-observation">
                 <img data-ng-click="goToItem($index)" src="" data-ng-src="{{item.observation | uploadedThumb }}"/>

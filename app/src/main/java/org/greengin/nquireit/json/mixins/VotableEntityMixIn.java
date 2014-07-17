@@ -10,7 +10,6 @@ import org.greengin.nquireit.logic.rating.VoteCount;
 
 public abstract class VotableEntityMixIn {
 
-    @JsonView(Views.VotableNamedVotes.class) Collection<Vote> votes;
     @JsonView(Views.VotableNamedVotes.class) abstract Collection<Vote> getVotes();
 	@JsonView(Views.VotableCount.class) abstract VoteCount getVoteCount();
 	@JsonView(value = Views.VotableCountModeration.class) abstract ModerationStatus getModerationStatus();

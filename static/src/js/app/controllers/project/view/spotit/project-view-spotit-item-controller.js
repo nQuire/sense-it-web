@@ -4,4 +4,8 @@ angular.module('senseItWeb', null, null).controller('ProjectViewSpotItItemCtrl',
     }, ['title'], function () {
         $scope.updateData($scope.item.id, {title: $scope.item.title});
     });
+
+    $scope.deleteImage = function() {
+
+    }
 });

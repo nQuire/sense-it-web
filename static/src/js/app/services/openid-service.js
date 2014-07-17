@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('senseItServices', null, null).factory('OpenIdService', ['RestService', function (RestService) {
+angular.module('senseItServices', null, null).factory('OpenIdService', ['RestService', '$state', function (RestService, $state) {
 
     var service = {
         status: {
@@ -45,6 +45,11 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
 
             if (notify) {
                 service._fireLoginEvent(logged);
+            }
+
+            if (service.destination && service.status.logged) {
+                $state.go(service.destination.name, service.destination.params);
+                service.destination = null;
             }
 
             return data;
@@ -131,6 +136,16 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
     RestService.registerErrorListener(function () {
         return service._openIdRequest('api/security/profile', true, false);
     });
+
+    service.loginAndComeBack = function() {
+        if (!service.status.logged) {
+            service.destination = {
+                name: $state.current.name,
+                params: $state.params
+            };
+            $state.go('profile');
+        }
+    };
 
     return service;
 }]);
