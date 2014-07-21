@@ -1,4 +1,4 @@
-<p class="project-section-content-header">My submissions</p>
+<p class="project-section-content-header">My ideas</p>
 
 <div data-ng-if="status.logged">
     <div data-ng-if="projectData.access.member">
@@ -7,9 +7,9 @@
 
     </div>
     <div data-ng-if="!projectData.access.member">
-        <p>You need to join this project to post submissions.</p>
+        <p>You need to join this project to post ideas.</p>
     </div>
 </div>
 <div data-ng-if="!status.logged">
-    <p>You need to <a href data-ui-sref="profile">sign in</a> or register to post submissions.</p>
+    <p>You need to <a href data-ui-sref="profile">sign in</a> or register to post ideas.</p>
 </div>

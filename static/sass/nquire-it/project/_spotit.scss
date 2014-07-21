@@ -7,6 +7,13 @@
   @include image-crop(60%);
 }
 
+.spotit-observation-outline {
+  cursor: pointer;
+  @include image-crop(60%);
+  margin-left: 25%;
+  width: 50%;
+}
+
 .spotit-observation-metadata {
   margin-bottom: $dim-common-margin;
   text-align: center;

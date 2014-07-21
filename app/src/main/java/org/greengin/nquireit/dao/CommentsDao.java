@@ -2,8 +2,6 @@ package org.greengin.nquireit.dao;
 
 import org.greengin.nquireit.entities.rating.Comment;
 import org.greengin.nquireit.entities.rating.CommentThreadEntity;
-import org.greengin.nquireit.entities.rating.VotableEntity;
-import org.greengin.nquireit.entities.rating.Vote;
 import org.greengin.nquireit.entities.users.UserProfile;
 import org.greengin.nquireit.logic.rating.CommentRequest;
 import org.springframework.stereotype.Component;
@@ -14,12 +12,23 @@ import javax.persistence.PersistenceContext;
 
 @Component
 public class CommentsDao {
-    private static final String VOTE_QUERY = "SELECT v FROM Vote v WHERE v.target = :target AND v.user = :user";
+    private static final String VOTE_QUERY = "SELECT v FROM Vote v WHERE v.thread = :thread AND v.user = :user";
 
     @PersistenceContext
     EntityManager em;
 
 
+    public Comment getComment(CommentThreadEntity thread, Long commentId) {
+        if (thread != null && commentId != null) {
+            Comment c = em.find(Comment.class, commentId);
+
+            if (c != null && thread.equals(c.getTarget())) {
+                return c;
+            }
+        }
+
+        return null;
+    }
 
     @Transactional
     public Comment comment(UserProfile user, CommentThreadEntity target, CommentRequest request) {
@@ -28,14 +37,14 @@ public class CommentsDao {
         em.persist(comment);
         return comment;
     }
-    
+
     public Comment commentWithinTransaction(UserProfile user, CommentThreadEntity target, CommentRequest request) {
         Comment comment = new Comment();
         comment.setUser(user);
         comment.setTarget(target);
         target.getComments().add(comment);
         request.update(comment);
-        return comment;        
+        return comment;
     }
 
     @Transactional

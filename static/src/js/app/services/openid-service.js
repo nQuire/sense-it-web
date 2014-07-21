@@ -134,7 +134,7 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
     service.update();
 
     RestService.registerErrorListener(function () {
-        return service._openIdRequest('api/security/profile', true, false);
+        return service._openIdRequest('api/security/status', true, false);
     });
 
     service.loginAndComeBack = function() {

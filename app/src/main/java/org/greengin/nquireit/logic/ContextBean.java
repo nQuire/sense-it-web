@@ -16,6 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class ContextBean implements InitializingBean {
 
+    @Getter
+    static ContextBean context;
+
+
     @Setter
     private String httpProxyHost;
 
@@ -77,5 +81,7 @@ public class ContextBean implements InitializingBean {
             System.getProperties().put("http.proxyHost", httpProxyHost);
             System.getProperties().put("http.proxyPort", httpProxyPort);
         }
+
+        context = this;
     }
 }

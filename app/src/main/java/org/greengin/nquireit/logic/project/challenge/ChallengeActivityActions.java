@@ -33,15 +33,10 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
      */
 
     private List<ChallengeAnswer> getAnswers(boolean onlyMine, boolean onlyModerated) {
-        boolean access = hasAccess(PermissionType.PROJECT_ADMIN)
-                || (hasAccess(PermissionType.PROJECT_BROWSE) && (onlyMine || activity.getStage() != ChallengeActivityStage.PROPOSAL));
 
-        if (access) {
-            List<ChallengeAnswer> answers = context.getChallengeDao().getAnswers(onlyMine, project.getActivity(), user);
-            for (ChallengeAnswer answer : answers) {
-                answer.setSelectedVoteAuthor(user);
-            }
-            return answers;
+        if (hasAccess(PermissionType.PROJECT_ADMIN)
+                || (hasAccess(PermissionType.PROJECT_BROWSE) && (onlyMine || activity.getStage() != ChallengeActivityStage.PROPOSAL))) {
+            return context.getChallengeDao().getAnswers(onlyMine, project.getActivity(), user);
         }
 
         return null;

@@ -14,6 +14,8 @@ import javax.imageio.ImageIO;
 import org.greengin.nquireit.logic.project.senseit.transformations.SenseItProcessedSeriesVariable;
 import org.greengin.nquireit.utils.TimeValue;
 import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartRenderingInfo;
+import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
@@ -81,6 +83,7 @@ public class SenseItPlots {
         plot.setAxisOffset(new RectangleInsets(0, 0, 0, 0));
 
         Color gridLinesColor = new Color(200, 200, 200);
+        Color transparentColor = new Color(0, 0, 0, 0);
         Stroke gridLinesStroke = new BasicStroke(1f);
 
         plot.setDomainGridlinesVisible(true);
@@ -90,16 +93,17 @@ public class SenseItPlots {
         plot.setRangeGridlinePaint(gridLinesColor);
         plot.setRangeGridlineStroke(gridLinesStroke);
 
-        plot.setBackgroundAlpha(.0f);
+        plot.setBackgroundPaint(transparentColor);
+        plot.setBackgroundAlpha(0f);
 
         chart.setPadding(new RectangleInsets(0, 0, 0, 0));
+
 
         BufferedImage objBufferedImage = chart.createBufferedImage(360, 240);
         ByteArrayOutputStream bas = new ByteArrayOutputStream();
         try {
-            ImageIO.write(objBufferedImage, "png", bas);
-            byte[] imageData = bas.toByteArray();
-            return imageData;
+            ChartUtilities.writeBufferedImageAsPNG(bas, objBufferedImage, true, 0);
+            return bas.toByteArray();
         } catch (IOException e) {
             e.printStackTrace();
             return null;

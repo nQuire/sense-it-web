@@ -1,5 +1,7 @@
 package org.greengin.nquireit.logic.project;
 
+import org.greengin.nquireit.entities.activities.challenge.ChallengeActivityStage;
+import org.greengin.nquireit.entities.activities.challenge.ChallengeAnswer;
 import org.greengin.nquireit.entities.projects.Project;
 import org.greengin.nquireit.entities.projects.ProjectType;
 import org.greengin.nquireit.entities.rating.Comment;
@@ -10,6 +12,8 @@ import org.greengin.nquireit.entities.users.UserProfile;
 import org.greengin.nquireit.logic.AbstractContentManager;
 import org.greengin.nquireit.logic.ContextBean;
 import org.greengin.nquireit.logic.project.metadata.ProjectRequest;
+import org.greengin.nquireit.logic.rating.VoteCount;
+import org.greengin.nquireit.logic.rating.VoteRequest;
 import org.greengin.nquireit.logic.users.AccessLevel;
 import org.greengin.nquireit.logic.files.FileMapUpload;
 import org.greengin.nquireit.logic.rating.CommentRequest;
@@ -220,12 +224,7 @@ public class ProjectActions extends AbstractContentManager {
 
 
     public ProjectResponse get() {
-        if (accessLevel.isAdmin() || project.getOpen()) {
-            project.setSelectedVoteAuthor(user);
-            return projectResponse(project);
-        } else {
-            return null;
-        }
+        return accessLevel.isAdmin() || project.getOpen() ? projectResponse(project) : null;
     }
 
     /**
@@ -315,6 +314,17 @@ public class ProjectActions extends AbstractContentManager {
         if (hasAccess(PermissionType.PROJECT_COMMENT)) {
             if (context.getCommentsDao().deleteComment(user, project, commentId)) {
                 return project.getComments();
+            }
+        }
+
+        return null;
+    }
+
+    public VoteCount voteComment(Long commentId, VoteRequest voteData) {
+        if (hasAccess(PermissionType.PROJECT_COMMENT)) {
+            Comment comment = context.getCommentsDao().getComment(project, commentId);
+            if (comment != null) {
+                return context.getVoteDao().vote(user, comment, voteData);
             }
         }
 

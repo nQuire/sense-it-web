@@ -3,7 +3,7 @@ angular.module('senseItWeb', null, null).controller('ProjectViewSenseItCtrl', fu
     $scope.templates.menu = 'partials/project/view/senseit/senseit-view-menu.html';
     $scope.templates.projectData = 'partials/project/view/senseit/senseit-project-data.html';
     $scope.templates.dataTable = 'partials/project/view/senseit/data-table-senseit.html';
-
+    $scope.templates.projectDataCommentsDisabled = 'partials/project/view/senseit/senseit-posting-disabled.html';
 
     $scope.transformations = new SiwSenseItTransformations($scope.projectData.project.activity.profile.sensorInputs, $scope.projectData.project.activity.profile.tx);
 
@@ -18,19 +18,19 @@ angular.module('senseItWeb', null, null).controller('ProjectViewSenseItCtrl', fu
 
     $scope.edit = {
         selected: null,
-        open: function(item) {
+        open: function (item) {
             this.selected = item;
             $scope.form.open(item.id);
         },
 
-        update: function() {
+        update: function () {
             $scope.updateData(this.selected.id, {title: this.selected.title});
         }
     };
 
-    $scope.form = new SiwFormManager(function() {
+    $scope.form = new SiwFormManager(function () {
         return $scope.edit.selected;
-    }, ['title'], function() {
+    }, ['title'], function () {
         $scope.edit.update();
     });
 
@@ -77,7 +77,18 @@ angular.module('senseItWeb', null, null).controller('ProjectViewSenseItCtrl', fu
         url: function (item, v) {
             return 'api/project/' + $scope.projectData.project.id + '/senseit/data/' + item.id + '/' + v.id + '.png';
         }
-    }
+    };
+
+    $scope.comments = {
+        _open: {
+        },
+        isOpen: function (item) {
+            return !!this._open[item.id];
+        },
+        toggle: function (item) {
+            this._open[item.id] = !this.isOpen(item);
+        }
+    };
 
 
 });

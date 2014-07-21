@@ -45,12 +45,7 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
 
     private <K extends AbstractDataProjectItem> Collection<K> getItems(Class<K> type) {
         if (hasAccess(PermissionType.PROJECT_BROWSE)) {
-
-            Collection<K> list = context.getDataActivityDao().itemList(type, activity);
-            for (VotableEntity item : list) {
-                item.setSelectedVoteAuthor(user);
-            }
-            return list;
+            return context.getDataActivityDao().itemList(type, activity);
         }
 
         return null;
@@ -94,6 +89,7 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
             if (item != null && item.getDataStore() == activity && item.getAuthor().getId().equals(user.getId())) {
                 manipulator.init(project, activity);
                 context.getDataActivityDao().updateItem(item, manipulator);
+                return item;
             }
         }
 
@@ -185,6 +181,20 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
             E item = context.getDataActivityDao().getItem(dataType, itemId);
             if (item != null && context.getCommentsDao().deleteComment(user, item, commentId)) {
                 return item.getComments();
+            }
+        }
+
+        return null;
+    }
+
+    public VoteCount voteDataComment(Long itemId, Long commentId, VoteRequest voteData) {
+        if (hasAccess(PermissionType.PROJECT_COMMENT)) {
+            E item = context.getDataActivityDao().getItem(dataType, itemId);
+            if (item != null) {
+                Comment comment = context.getCommentsDao().getComment(item, commentId);
+                if (comment != null) {
+                    return context.getVoteDao().vote(user, comment, voteData);
+                }
             }
         }
 

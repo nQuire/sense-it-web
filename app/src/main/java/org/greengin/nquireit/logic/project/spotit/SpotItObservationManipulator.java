@@ -6,6 +6,7 @@ import org.greengin.nquireit.entities.projects.Project;
 import org.greengin.nquireit.logic.ContextBean;
 import org.greengin.nquireit.logic.data.DataItemManipulator;
 import org.greengin.nquireit.logic.files.FileMapUpload;
+import org.greengin.nquireit.logic.project.senseit.UpdateTitleRequest;
 
 import java.io.IOException;
 
@@ -14,11 +15,13 @@ public class SpotItObservationManipulator extends DataItemManipulator<SpotItActi
     SpotItObservationRequest data;
     FileMapUpload.FileData file;
     ContextBean context;
+    UpdateTitleRequest title;
 
-	public SpotItObservationManipulator(ContextBean context, SpotItObservationRequest data, FileMapUpload.FileData file) {
+	public SpotItObservationManipulator(ContextBean context, SpotItObservationRequest data, FileMapUpload.FileData file, UpdateTitleRequest title) {
         this.data = data;
 		this.file = file;
         this.context = context;
+        this.title = title;
 	}
 
 	@Override
@@ -36,6 +39,9 @@ public class SpotItObservationManipulator extends DataItemManipulator<SpotItActi
 
 	@Override
 	public void onUpdate(SpotItObservation item) {
+        if (title != null) {
+            item.setTitle(title.getTitle());
+        }
 	}
 
 	@Override

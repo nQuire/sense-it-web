@@ -105,6 +105,10 @@ angular.module('senseItWeb', null, null).controller('ProjectViewDataCtrl', funct
         });
     };
 
+    $scope.goToLast = function() {
+        $state.go('project.view.data-item', {itemIndex: $scope.dataList.items.length});
+    };
+
     $scope.goToItem = function (index) {
         $state.go('project.view.data-item', {itemIndex: index + 1});
     };

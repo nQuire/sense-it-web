@@ -9,9 +9,9 @@ ini_set('error_reporting', E_ALL);
     <meta charset="utf-8">
     <title>nQuire It</title>
 
-    <link href='https://fonts.googleapis.com/css?family=Fira+Sans:400,500,700,400italic,500italic|Cabin:400,500,600,700,400italic,500italic|Ubuntu:400,500,700,400italic,500italic|Alegreya+Sans:400,500,700,900,400italic,500italic|Merriweather+Sans:400,400italic,700,700italic,800' rel='stylesheet' type='text/css'>    <link rel="stylesheet" href="css/font-awesome.css" type='text/css'>
-    <link rel="stylesheet" href="css/nquire-it-bootstrap.css" type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Fira+Sans:400,500,700,400italic,500italic|Cabin:400,500,600,700,400italic,500italic|Ubuntu:400,500,700,400italic,500italic|Alegreya+Sans:400,500,700,900,400italic,500italic|Merriweather+Sans:400,400italic,700,700italic,800' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="css/font-awesome.css" type='text/css'>
+    <link rel="stylesheet" href="css/nquire-it-bootstrap.css" type='text/css'>
 
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
 
@@ -112,6 +112,7 @@ ini_set('error_reporting', E_ALL);
     <script src="js/app/controllers/project/view/project-view-data-item-controller.js"></script>
 
     <script src="js/app/controllers/project/view/senseit/project-view-senseit-controller.js"></script>
+    <script src="js/app/controllers/project/view/senseit/project-view-senseit-item-controller.js"></script>
 
     <script src="js/app/controllers/project/view/spotit/project-view-spotit-controller.js"></script>
     <script src="js/app/controllers/project/view/spotit/project-view-spotit-upload-controller.js"></script>

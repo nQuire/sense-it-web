@@ -11,30 +11,21 @@
     </tr>
     </thead>
     <tbody>
-    <tr data-ng-repeat-start="item in sortedData.data">
+    <tr data-ng-repeat-start="item in sortedData.data"
+        data-ng-class="$index % 2 ? 'senseit-series-odd' : 'senseit-series-even'">
         <td>
             <div data-ng-if="!form.isOpen(item.id)">
-                {{item.title}}
+                <p>{{item.title}}</p>
 
-                <div class="btn-group">
-                    <button class="btn btn-default btn-xs" data-ng-click="plots.togglePlot(item)">
-                        {{plots.plotOpen(item) ? 'Close plot' : 'Open plot'}}
-                    </button>
-                    <button class="btn btn-default btn-xs"
-                            data-ng-if="projectData.project.activity.profile.geolocated"
-                            data-ui-sref="project.view.data-map({item: item.id})">
-                        Open map
-                    </button>
-                </div>
-                <div class="btn-group">
-                    <button data-ng-if="item.author.id == status.profile.id"
-                            class="btn btn-default btn-xs" data-ng-click="edit.open(item)">
-                        Edit
-                    </button>
-                    <button data-ng-if="item.author.id == status.profile.id"
-                            class="btn btn-default btn-xs" data-ng-click="deleteData(item)">
-                        Delete
-                    </button>
+                <div data-ng-if="item.author.id == status.profile.id">
+                    <p class="btn-group">
+                        <button class="btn btn-default btn-xs" data-ng-click="edit.open(item)">
+                            Edit title
+                        </button>
+                        <button class="btn btn-default btn-xs" data-ng-click="deleteData(item)">
+                            Delete series
+                        </button>
+                    </p>
                 </div>
             </div>
             <div data-ng-if="form.isOpen(item.id)">
@@ -51,7 +42,19 @@
                     </div>
                 </form>
             </div>
+            <div>
+                <p>
+                    <small><a href data-ng-click="plots.togglePlot(item)">Toggle plot</a>
+                        <span data-ng-if="projectData.project.activity.profile.geolocated"> | </span>
+                        <a href data-ng-if="projectData.project.activity.profile.geolocated"
+                           data-ui-sref="project.view.data-map({item: item.id})">
+                            Open map
+                        </a>
+                    </small>
+                </p>
+            </div>
         </td>
+
         <td>
             {{item.author.username}}
         </td>
@@ -60,13 +63,25 @@
             {{dataInfo.tableValue(item, v)}}
         </td>
         <td>
-            <div data-siw-vote-widget data-vote-manager="dataVoteManager" data-vote-target="item"></div>
+            <p data-siw-vote-widget data-vote-manager="dataVoteManager" data-vote-target="item"></p>
+
+            <p><a href data-ng-click="comments.toggle(item)" ng-pluralize count="item.commentCount"
+                  when="{'1': '1 comment','other': '{} comments'}"></a></p>
         </td>
     </tr>
-    <tr data-ng-repeat-end data-ng-if="plots.plotOpen(item)">
+    <tr data-ng-if="plots.plotOpen(item)"
+        data-ng-class="$index % 2 ? 'senseit-series-odd' : 'senseit-series-even'">>
         <td colspan="{{4 + dataInfo.tableVariables.length}}">
             <img data-ng-repeat="v in dataInfo.plotVariables"
                  data-ng-src="{{plots.url(item, v)}}"/>
+        </td>
+    </tr>
+    <tr data-ng-repeat-end data-ng-if="comments.isOpen(item)"
+        data-ng-class="$index % 2 ? 'senseit-series-odd' : 'senseit-series-even'">>
+        <td colspan="{{4 + dataInfo.tableVariables.length}}">
+            <div data-ng-controller="ProjectViewSenseItItemCtrl">
+                <div class="senseit-comments" data-ng-include="'partials/comments.html'"></div>
+            </div>
         </td>
     </tr>
 

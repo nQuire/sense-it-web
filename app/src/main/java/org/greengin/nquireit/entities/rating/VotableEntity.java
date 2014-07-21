@@ -13,29 +13,26 @@ import lombok.NonNull;
 import lombok.Setter;
 import org.greengin.nquireit.entities.AbstractEntity;
 import org.greengin.nquireit.entities.users.UserProfile;
+import org.greengin.nquireit.logic.ContextBean;
 import org.greengin.nquireit.logic.moderation.ModerationStatus;
 import org.greengin.nquireit.logic.rating.VoteCount;
 
 @Entity
 public abstract class VotableEntity extends AbstractEntity {
-	
-	@OneToMany(mappedBy = "target", orphanRemoval = true, cascade = CascadeType.REMOVE)
+
+    @OneToMany(mappedBy = "target", orphanRemoval = true, cascade = CascadeType.REMOVE)
     @Getter
     @Setter
     @NonNull
     Collection<Vote> votes = new Vector<Vote>();
-	
-	@Basic
+
+    @Basic
     @Getter
     @Setter
-	ModerationStatus moderationStatus = ModerationStatus.UNMODERATED;
+    ModerationStatus moderationStatus = ModerationStatus.UNMODERATED;
 
 
-    @Setter
-	private transient UserProfile selectedVoteAuthor = null;
-
-
-	public VoteCount getVoteCount() {
-		return new VoteCount(getVotes(), this.selectedVoteAuthor);
-	}
+    public VoteCount getVoteCount() {
+        return new VoteCount(getVotes(), ContextBean.getContext().getUsersManager().currentUser());
+    }
 }

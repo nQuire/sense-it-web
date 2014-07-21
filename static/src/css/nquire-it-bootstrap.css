@@ -10552,12 +10552,10 @@ div#header {
       padding-top: 47.5%;
       /* % of original image width */ }
   .project-item .project-item-metadata {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background: rgba(255, 255, 255, 0.5);
-    padding: 2px 5px;
-    border-bottom-right-radius: 10px; }
+    font-size: .8em;
+    margin-right: 1em; }
+    .project-item .project-item-metadata i {
+      margin-right: .5em; }
   .project-item .project-item-text-container {
     position: relative;
     height: 190px;
@@ -10615,28 +10613,25 @@ div#header {
 .project-item.project-type-spotit .project-item-banner {
   background: #9fa609; }
 
-i.vote-icon {
-  margin: 0 .25em;
-  padding: .25em;
-  border-radius: .25em; }
-
-i.vote-icon.enabled {
-  cursor: pointer; }
-
-i.vote-icon {
-  color: #666;
-  background: transparent; }
-
-i.vote-icon.selected {
-  background: #519251;
-  color: white; }
-
-i.vote-icon.not-selected {
-  color: #aaa; }
-
-i.vote-icon.enabled:hover {
-  background: #519251;
-  color: #aaa; }
+.vote-widget {
+  white-space: nowrap; }
+  .vote-widget i.vote-icon {
+    margin: 0 .25em;
+    padding: .25em;
+    border-radius: .25em; }
+  .vote-widget i.vote-icon.enabled {
+    cursor: pointer; }
+  .vote-widget i.vote-icon {
+    color: #666;
+    background: transparent; }
+  .vote-widget i.vote-icon.selected {
+    background: #519251;
+    color: white; }
+  .vote-widget i.vote-icon.not-selected {
+    color: #aaa; }
+  .vote-widget i.vote-icon.enabled:hover {
+    background: #519251;
+    color: #aaa; }
 
 .admin-page {
   padding: 0 20px; }
@@ -10883,8 +10878,9 @@ i.vote-icon.enabled:hover {
         color: white; }
   .project-main-container .project-section .project-section-content .project-section-content-fill {
     padding: 0px 10px 0px 20px; }
-.project-main-container .project-comments-section {
-  min-height: 100%; }
+.project-main-container .project-comments-section .comment-date,
+.project-main-container .project-comments-section .comment-vote {
+  font-size: .9em; }
 
 .project-description-data ul > li {
   list-style-image: url(images/bullet.png);
@@ -11021,6 +11017,8 @@ i.vote-icon.enabled:hover {
       font-size: 12px;
       color: #777777;
       margin-left: 45px; }
+      .comment .comment-metadata div.comment-metadata-text .comment-vote {
+        float: right; }
   .comment .comment-content {
     font-weight: 400;
     font-size: 14px;
@@ -11215,6 +11213,31 @@ i.vote-icon.enabled:hover {
     padding-top: 60%;
     /* % of original image width */ }
 
+.spotit-observation-outline {
+  cursor: pointer;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  margin-left: 25%;
+  width: 50%; }
+  .spotit-observation-outline > div {
+    height: 100%; }
+  .spotit-observation-outline > img, .spotit-observation-outline > div {
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px; }
+  .spotit-observation-outline:before, .spotit-observation-outline > div, .spotit-observation-outline > img {
+    /* vertically center the image */
+    display: inline-block;
+    vertical-align: middle; }
+  .spotit-observation-outline:before {
+    content: "";
+    /* Magic Number */
+    /* Set this to your desired height(to width) ratio */
+    padding-top: 60%;
+    /* % of original image width */ }
+
 .spotit-observation-metadata {
   margin-bottom: 20px;
   text-align: center;
@@ -11236,6 +11259,15 @@ i.vote-icon.enabled:hover {
     margin: 20px 20%; }
     .spotit-view-item .spotit-comments-section .spotit-vote-section {
       float: right; }
+
+.senseit-comments {
+  margin: 0px 25%; }
+
+tr.senseit-series-odd td {
+  background: white; }
+
+tr.senseit-series-even td {
+  background: #e6e6e6; }
 
 .forum-container {
   margin: 0 20px; }

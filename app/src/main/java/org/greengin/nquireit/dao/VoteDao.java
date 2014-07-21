@@ -51,7 +51,6 @@ public class VoteDao {
             }
         }
 
-        target.setSelectedVoteAuthor(user);
         return target.getVoteCount();
     }
 }

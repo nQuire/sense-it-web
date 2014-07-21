@@ -26,11 +26,20 @@ angular.module('senseItWeb', null, null).controller('ProjectViewDataItemCtrl', f
                 return $scope.status.logged &&
                     ($scope.projectData.access.admin ||
                         ($scope.projectData.access.member && $scope.projectData.project.open));
+            },
+            postingDisabledTemplate: $scope.templates.projectDataCommentsDisabled
+        } : null;
+
+        $scope.commentVoteManager = $scope.item ? {
+            votingEnabled: $scope.commentThread.postingEnabled,
+            getPath: function (target) {
+                return 'api/project/' + $scope.projectData.project.id + '/' + $scope.projectData.project.type +
+                    '/data/' + $scope.item.id + '/comments/' + target.id + '/vote';
             }
         } : null;
     };
 
-    $scope.deleteDataItem = function() {
+    $scope.deleteDataItem = function () {
         $scope.deleteData($scope.item, 'project.view.data-list');
     };
 

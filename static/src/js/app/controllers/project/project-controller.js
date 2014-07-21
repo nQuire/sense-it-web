@@ -19,7 +19,16 @@ angular.module('senseItWeb', null, null).controller('ProjectCtrl', function ($sc
             return $scope.status.logged &&
                 ($scope.projectData.access.admin ||
                     ($scope.projectData.access.member && $scope.projectData.project.open));
+        },
+        postingDisabledTemplate: 'partials/project/comments/posting-disabled.html'
+    };
+
+    $scope.commentVoteManager = {
+        votingEnabled: $scope.commentThread.postingEnabled,
+        getPath: function (target) {
+            return 'api/project/' + $scope.projectData.project.id + '/comments/' + target.id + '/vote';
         }
     };
+
 });
 

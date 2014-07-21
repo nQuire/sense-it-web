@@ -2,7 +2,7 @@
 
 
 <div class="comment-list" data-ng-controller="CommentsCtrl">
-    <div class="comment-list-header">{{commentThread.title}}</div>
+    <div data-ng-if="commentThread.title" class="comment-list-header">{{commentThread.title}}</div>
 
     <div class="comment-new" data-ng-if="commentThread.postingEnabled()">
         <div data-ng-if="!posting.isOpen">
@@ -23,6 +23,8 @@
             </form>
         </div>
     </div>
+    <div class="comment-new" data-ng-if="!commentThread.postingEnabled()"
+         data-ng-include="commentThread.postingDisabledTemplate"></div>
 
 
     <div class="comment" data-ng-repeat="comment in comments.list | orderBy:'-date'">
@@ -32,8 +34,14 @@
 
             <div class="comment-metadata-text">
                 <div>
-                    <div class="comment-date">{{comment.date | fuzzyDate}}</div>
-                    <div class="comment-author">{{comment.user.username}} said:
+                    <span class="comment-date">
+                        {{comment.date | fuzzyDate}}
+                    </span>
+                    <span class="comment-vote" data-siw-vote-widget data-vote-manager="commentVoteManager"
+                          data-vote-target="comment"></span>
+
+                    <div class="comment-author">
+                        <span class="comment-author-username">{{comment.user.username}}</span> said:
                     </div>
                 </div>
             </div>

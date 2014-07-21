@@ -2,10 +2,12 @@ package org.greengin.nquireit.controllers.activities.senseit;
 
 import com.mangofactory.jsonview.ResponseView;
 import org.greengin.nquireit.entities.activities.senseit.SenseItSeries;
+import org.greengin.nquireit.entities.rating.Comment;
 import org.greengin.nquireit.json.Views;
 import org.greengin.nquireit.logic.data.NewDataItemResponse;
 import org.greengin.nquireit.logic.project.senseit.SenseItSeriesManipulator;
 import org.greengin.nquireit.logic.project.senseit.UpdateTitleRequest;
+import org.greengin.nquireit.logic.rating.CommentRequest;
 import org.greengin.nquireit.logic.rating.VoteCount;
 import org.greengin.nquireit.logic.rating.VoteRequest;
 import org.springframework.http.MediaType;
@@ -18,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/api/project/{projectId}/senseit/data")
@@ -77,6 +80,35 @@ public class SenseItDataController extends AbstractSenseItController {
             e.printStackTrace();
         }
 
+    }
+
+
+    @RequestMapping(value = "/{dataId}/comments", method = RequestMethod.GET)
+    @ResponseBody
+    @ResponseView(value = Views.VotableCount.class)
+    public List<Comment> comments(@PathVariable("projectId") Long projectId, @PathVariable("dataId") Long dataId, HttpServletRequest request) {
+        return createManager(projectId, request).getDataComments(dataId);
+    }
+
+    @RequestMapping(value = "/{dataId}/comments", method = RequestMethod.POST)
+    @ResponseBody
+    @ResponseView(value = Views.VotableCount.class)
+    public List<Comment> commentsPost(@PathVariable("projectId") Long projectId, @PathVariable("dataId") Long dataId, @RequestBody CommentRequest data, HttpServletRequest request) {
+        return createManager(projectId, request).commentData(dataId, data);
+    }
+
+    @RequestMapping(value = "/{dataId}/comments/{commentId}", method = RequestMethod.DELETE)
+    @ResponseBody
+    @ResponseView(value = Views.VotableCount.class)
+    public List<Comment> commentsDelete(@PathVariable("projectId") Long projectId, @PathVariable("dataId") Long dataId, @PathVariable("commentId") Long commentId, HttpServletRequest request) {
+        return createManager(projectId, request).deleteDataComment(dataId, commentId);
+    }
+
+    @RequestMapping(value = "/{dataId}/comments/{commentId}/vote", method = RequestMethod.POST)
+    @ResponseBody
+    @ResponseView(value = Views.VotableCount.class)
+    public VoteCount commentsVote(@PathVariable("projectId") Long projectId, @PathVariable("dataId") Long dataId, @PathVariable("commentId") Long commentId, @RequestBody VoteRequest voteData, HttpServletRequest request) {
+        return createManager(projectId, request).voteDataComment(dataId, commentId, voteData);
     }
 
 

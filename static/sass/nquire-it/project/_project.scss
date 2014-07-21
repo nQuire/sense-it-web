@@ -122,7 +122,11 @@
 
   .project-comments-section {
     @extend .sidebar-right;
-    min-height: 100%;
+
+    .comment-date,
+    .comment-vote {
+      font-size: .9em;
+    }
   }
 
 }

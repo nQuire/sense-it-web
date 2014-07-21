@@ -2,13 +2,11 @@
 @import "../text/text-styles";
 @import "../variables/colors";
 
-
 @mixin comment-bottom-border {
   padding-bottom: $dim-common-small-margin;
   margin-bottom: $dim-common-small-margin;
   border-bottom: solid $color-light-grey 1px;
 }
-
 
 .comment-list-header {
   @include text-comment-list-header;
@@ -43,6 +41,10 @@
     div.comment-metadata-text {
       @include text-comment-metadata;
       margin-left: $dim-comment-author-image-size + $dim-profile-image-margin;
+
+      .comment-vote {
+        float: right;
+      }
     }
   }
 

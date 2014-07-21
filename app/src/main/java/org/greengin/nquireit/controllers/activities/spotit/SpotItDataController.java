@@ -1,6 +1,7 @@
 package org.greengin.nquireit.controllers.activities.spotit;
 
 import com.mangofactory.jsonview.ResponseView;
+import org.greengin.nquireit.entities.activities.senseit.SenseItSeries;
 import org.greengin.nquireit.entities.activities.spotit.SpotItObservation;
 import org.greengin.nquireit.entities.rating.Comment;
 import org.greengin.nquireit.json.JacksonObjectMapper;
@@ -9,6 +10,8 @@ import org.greengin.nquireit.logic.ContextBean;
 import org.greengin.nquireit.logic.data.NewDataItemResponse;
 import org.greengin.nquireit.logic.files.FileMapUpload;
 import org.greengin.nquireit.logic.files.RequestsUtils;
+import org.greengin.nquireit.logic.project.senseit.SenseItSeriesManipulator;
+import org.greengin.nquireit.logic.project.senseit.UpdateTitleRequest;
 import org.greengin.nquireit.logic.project.spotit.SpotItActivityActions;
 import org.greengin.nquireit.logic.project.spotit.SpotItObservationManipulator;
 import org.greengin.nquireit.logic.project.spotit.SpotItObservationRequest;
@@ -61,10 +64,16 @@ public class SpotItDataController {
 
             FileMapUpload.FileData file = RequestsUtils.getFile(request, "image");
 
-            return createManager(projectId, request).createData(new SpotItObservationManipulator(context, requestData, file));
+            return createManager(projectId, request).createData(new SpotItObservationManipulator(context, requestData, file, null));
         } catch (IOException e) {
             return null;
         }
+    }
+
+    @RequestMapping(value = "/{dataId}", method = RequestMethod.PUT)
+    @ResponseBody
+    public SpotItObservation update(@PathVariable("projectId") Long projectId, @PathVariable("dataId") Long dataId, @RequestBody UpdateTitleRequest data, HttpServletRequest request) {
+        return createManager(projectId, request).updateData(dataId, new SpotItObservationManipulator(null, null, null, data));
     }
 
     @RequestMapping(value = "/files", method = RequestMethod.POST)
@@ -81,7 +90,7 @@ public class SpotItDataController {
 
             FileMapUpload.FileData file = RequestsUtils.getFile(request, "image");
 
-            return createManager(projectId, request).createData(new SpotItObservationManipulator(context, requestData, file));
+            return createManager(projectId, request).createData(new SpotItObservationManipulator(context, requestData, file, null));
         } catch (IOException e) {
             return null;
         }
@@ -90,7 +99,7 @@ public class SpotItDataController {
     @RequestMapping(value = "/{dataId}", method = RequestMethod.DELETE)
     @ResponseBody
     public Long delete(@PathVariable("projectId") Long projectId, @PathVariable("dataId") Long dataId, HttpServletRequest request) {
-        return createManager(projectId, request).deleteData(dataId, new SpotItObservationManipulator(context, null, null));
+        return createManager(projectId, request).deleteData(dataId, new SpotItObservationManipulator(context, null, null, null));
     }
 
     @RequestMapping(value = "/vote/{dataId}", method = RequestMethod.POST)
@@ -103,22 +112,29 @@ public class SpotItDataController {
 
     @RequestMapping(value = "/{dataId}/comments", method = RequestMethod.GET)
     @ResponseBody
-    @ResponseView(value = Views.UserName.class)
+    @ResponseView(value = Views.VotableCount.class)
     public List<Comment> comments(@PathVariable("projectId") Long projectId, @PathVariable("dataId") Long dataId, HttpServletRequest request) {
         return createManager(projectId, request).getDataComments(dataId);
     }
 
     @RequestMapping(value = "/{dataId}/comments", method = RequestMethod.POST)
     @ResponseBody
-    @ResponseView(value = Views.UserName.class)
+    @ResponseView(value = Views.VotableCount.class)
     public List<Comment> commentsPost(@PathVariable("projectId") Long projectId, @PathVariable("dataId") Long dataId, @RequestBody CommentRequest data, HttpServletRequest request) {
         return createManager(projectId, request).commentData(dataId, data);
     }
 
     @RequestMapping(value = "/{dataId}/comments/{commentId}", method = RequestMethod.DELETE)
     @ResponseBody
-    @ResponseView(value = Views.UserName.class)
+    @ResponseView(value = Views.VotableCount.class)
     public List<Comment> commentsDelete(@PathVariable("projectId") Long projectId, @PathVariable("dataId") Long dataId, @PathVariable("commentId") Long commentId, HttpServletRequest request) {
         return createManager(projectId, request).deleteDataComment(dataId, commentId);
+    }
+
+    @RequestMapping(value = "/{dataId}/comments/{commentId}/vote", method = RequestMethod.POST)
+    @ResponseBody
+    @ResponseView(value = Views.VotableCount.class)
+    public VoteCount commentsVote(@PathVariable("projectId") Long projectId, @PathVariable("dataId") Long dataId, @PathVariable("commentId") Long commentId, @RequestBody VoteRequest voteData, HttpServletRequest request) {
+        return createManager(projectId, request).voteDataComment(dataId, commentId, voteData);
     }
 }

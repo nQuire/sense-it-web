@@ -7,6 +7,8 @@ import org.greengin.nquireit.json.JacksonObjectMapper;
 import org.greengin.nquireit.json.Views;
 import org.greengin.nquireit.logic.ContextBean;
 import org.greengin.nquireit.logic.files.RequestsUtils;
+import org.greengin.nquireit.logic.rating.VoteCount;
+import org.greengin.nquireit.logic.rating.VoteRequest;
 import org.greengin.nquireit.logic.users.AccessLevel;
 import org.greengin.nquireit.logic.project.ProjectActions;
 import org.greengin.nquireit.logic.project.metadata.ProjectRequest;
@@ -113,23 +115,30 @@ public class ProjectController {
 
     @RequestMapping(value = "/comments", method = RequestMethod.GET)
     @ResponseBody
-    @ResponseView(value = Views.UserName.class)
+    @ResponseView(value = Views.VotableCount.class)
     public List<Comment> comments(@PathVariable("projectId") Long projectId, HttpServletRequest request) {
         return createProjectManager(projectId, request).getComments();
     }
 
     @RequestMapping(value = "/comments", method = RequestMethod.POST)
     @ResponseBody
-    @ResponseView(value = Views.UserName.class)
+    @ResponseView(value = Views.VotableCount.class)
     public List<Comment> commentsPost(@PathVariable("projectId") Long projectId, @RequestBody CommentRequest data, HttpServletRequest request) {
         return createProjectManager(projectId, request).comment(data);
     }
 
     @RequestMapping(value = "/comments/{commentId}", method = RequestMethod.DELETE)
     @ResponseBody
-    @ResponseView(value = Views.UserName.class)
+    @ResponseView(value = Views.VotableCount.class)
     public List<Comment> commentsDelete(@PathVariable("projectId") Long projectId, @PathVariable("commentId") Long commentId, HttpServletRequest request) {
         return createProjectManager(projectId, request).deleteComment(commentId);
+    }
+
+    @RequestMapping(value = "/comments/{commentId}/vote", method = RequestMethod.POST)
+    @ResponseBody
+    @ResponseView(value = Views.VotableCount.class)
+    public VoteCount commentsVote(@PathVariable("projectId") Long projectId, @PathVariable("commentId") Long commentId, @RequestBody VoteRequest voteData, HttpServletRequest request) {
+        return createProjectManager(projectId, request).voteComment(commentId, voteData);
     }
 
 }

@@ -131,7 +131,7 @@ angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'textAngular', 'ui.boot
                 templateUrl: 'partials/project/admin/challenge/project-admin-challenge-page.html'
             })
             .state('project.admin.challenge-answers', {
-                url: '/submissions',
+                url: '/ideas',
                 templateUrl: 'partials/project/admin/challenge/project-admin-challenge-answers-page.html'
             })
             .state('project.edit', {

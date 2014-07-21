@@ -56,13 +56,13 @@
 
     <div data-ng-if="answerData.editable">
         <div data-ng-if="maxAnswersReached()">
-            <p>You have created the maximum number of allowed submissions:
+            <p>You have created the maximum number of allowed ideas:
                 {{projectData.project.activity.maxAnswers}}.</p>
         </div>
         <div data-ng-if="!maxAnswersReached()">
-            <p>You can create up to {{projectData.project.activity.maxAnswers}} submissions.</p>
+            <p>You can create up to {{projectData.project.activity.maxAnswers}} ideas.</p>
             <button class="btn btn-default" data-ng-click="itemView.openNew()">
-                Create new submission
+                Create new idea
             </button>
         </div>
     </div>

@@ -1,0 +1,13 @@
+@import "../variables/colors";
+
+.senseit-comments {
+  margin: 0px 25%;
+}
+
+tr.senseit-series-odd td {
+  background: white;
+}
+
+tr.senseit-series-even td {
+  background: $color-header-search-box;
+}

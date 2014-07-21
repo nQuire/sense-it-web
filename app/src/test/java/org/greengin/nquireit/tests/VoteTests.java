@@ -24,7 +24,6 @@ public class VoteTests extends TestsBase {
     UserProfile user2;
 
     protected VoteCount count(UserProfile user) {
-        votable.setSelectedVoteAuthor(user);
         return votable.getVoteCount();
     }
 
