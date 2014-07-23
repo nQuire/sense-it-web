@@ -1,0 +1,15 @@
+.social-posting {
+  @extend .container-fluid;
+
+  .social-posting-links {
+    @extend .row;
+
+    .social-posting-link {
+      @extend .col-xs-4;
+
+      img {
+        width: 100%;
+      }
+    }
+  }
+}

@@ -1,3 +1,4 @@
+
 <table data-siw-sortable-table-widget data-table-data="dataList" data-sort-column="date" class="table table-bordered">
     <thead>
     <tr>
@@ -70,14 +71,14 @@
         </td>
     </tr>
     <tr data-ng-if="plots.plotOpen(item)"
-        data-ng-class="$index % 2 ? 'senseit-series-odd' : 'senseit-series-even'">>
+        data-ng-class="$index % 2 ? 'senseit-series-odd' : 'senseit-series-even'">
         <td colspan="{{4 + dataInfo.tableVariables.length}}">
             <img data-ng-repeat="v in dataInfo.plotVariables"
                  data-ng-src="{{plots.url(item, v)}}"/>
         </td>
     </tr>
     <tr data-ng-repeat-end data-ng-if="comments.isOpen(item)"
-        data-ng-class="$index % 2 ? 'senseit-series-odd' : 'senseit-series-even'">>
+        data-ng-class="$index % 2 ? 'senseit-series-odd' : 'senseit-series-even'">
         <td colspan="{{4 + dataInfo.tableVariables.length}}">
             <div data-ng-controller="ProjectViewSenseItItemCtrl">
                 <div class="senseit-comments" data-ng-include="'partials/comments.html'"></div>

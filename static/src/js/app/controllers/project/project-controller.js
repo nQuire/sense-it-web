@@ -1,4 +1,6 @@
-angular.module('senseItWeb', null, null).controller('ProjectCtrl', function ($scope, $state, ProjectService) {
+angular.module('senseItWeb', null, null).controller('ProjectCtrl', function ($scope, $state, ProjectService, $location) {
+
+    console.log($location.absUrl());
 
     $scope.templates = {};
 
@@ -30,5 +32,14 @@ angular.module('senseItWeb', null, null).controller('ProjectCtrl', function ($sc
         }
     };
 
-});
+    $scope.socialPosting = {
+        title: function (provider, name) {
+            return 'Share this mission with your friends on ' + name;
+        },
+        template: function (provider, name) {
+            return 'See the latest activity on this nQuire-it mission: ' + $scope.projectData.project.title +
+                "\n" + $location.absUrl();
+        }
+    };
 
+});

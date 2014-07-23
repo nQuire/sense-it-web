@@ -77,6 +77,7 @@ ini_set('error_reporting', E_ALL);
     <script src="js/app/directives/map.js"></script>
     <script src="js/app/directives/youtube.js"></script>
     <script src="js/app/directives/profile-provider-item.js"></script>
+    <script src="js/app/directives/auto-focus.js"></script>
     <script src="js/app/directives/user-block.js"></script>
     <script src="js/app/directives/menu-item.js"></script>
 
@@ -84,6 +85,8 @@ ini_set('error_reporting', E_ALL);
     <script src="js/app/filters/fuzzy-date.js"></script>
 
     <script src="js/app/controllers/common/modal-controller.js"></script>
+
+    <script src="js/app/controllers/social/social-actions-controller.js"></script>
 
     <script src="js/app/controllers/forum/comments-controller.js"></script>
     <script src="js/app/controllers/forum/forum-controller.js"></script>

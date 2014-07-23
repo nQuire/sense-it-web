@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('senseItServices', null, null).factory('OpenIdService', ['RestService', '$state', function (RestService, $state) {
+angular.module('senseItServices', null, null).factory('OpenIdService', ['RestService', '$state', '$window', function (RestService, $state, $window) {
 
     var service = {
         status: {
@@ -146,6 +146,15 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
             $state.go('profile');
         }
     };
+
+    service.providerLogin = function (provider) {
+        window.handleOpenIdResponse = function () {
+            service.update();
+        };
+
+        service.loginWindow = $window.open('social/' + provider + '/login');
+    };
+
 
     return service;
 }]);

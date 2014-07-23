@@ -170,7 +170,7 @@ angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'textAngular', 'ui.boot
             // $delegate is the taOptions we are decorating
             // here we override the default toolbars and classes specified in taOptions.
             taOptions.toolbar = [
-                ['h1', 'h2', 'p', 'pre', 'code', 'quote'],
+                ['h1', 'h2', 'p', 'pre', 'quote'],
                 ['bold', 'italics', 'underline', 'ul', 'ol', 'redo', 'undo', 'clear'],
                 ['justifyLeft','justifyCenter','justifyRight'],
                 ['html', 'insertImage', 'insertLink', 'insertVideo']

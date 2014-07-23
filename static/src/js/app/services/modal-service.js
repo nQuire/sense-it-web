@@ -7,7 +7,7 @@ angular.module('senseItServices', null, null).factory('ModalService', ['$modal',
             $modal.open({
                 templateUrl: 'partials/widgets/modal-template.html',
                 controller: 'ModalCtrl',
-                size: 'sm',
+                size: data.size || 'sm',
                 resolve: {
                     data: function () {
                         return data;

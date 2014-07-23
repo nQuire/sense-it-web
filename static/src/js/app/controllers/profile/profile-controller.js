@@ -1,4 +1,4 @@
-angular.module('senseItWeb', null, null).controller('ProfileCtrl', function ($scope, $window, OpenIdService, $state) {
+angular.module('senseItWeb', null, null).controller('ProfileCtrl', function ($scope, OpenIdService, $state) {
 
     if (!$scope.status.logged && $state.params.goBack) {
         OpenIdService.registerWatcher($scope, function () {
@@ -50,11 +50,7 @@ angular.module('senseItWeb', null, null).controller('ProfileCtrl', function ($sc
     };
 
     $scope.providerLogin = function (provider) {
-        window.handleOpenIdResponse = function () {
-            $scope.openIdService.update();
-        };
-
-        $scope.loginWindow = $window.open('social/' + provider + '/login');
+        OpenIdService.providerLogin(provider);
     };
 
     $scope.deleteConnection = function (providerId) {

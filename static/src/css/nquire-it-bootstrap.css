@@ -688,33 +688,33 @@ pre {
     .container, #page-background #page-background-center, #main .main-content-section .main-content, div#header div#header-content {
       width: 1170px; } }
 
-.container-fluid, .content-sidebar, .project-main-container .project-section {
+.container-fluid, .content-sidebar, .project-main-container .project-section, .social-posting {
   margin-right: auto;
   margin-left: auto;
   padding-left: 15px;
   padding-right: 15px; }
-  .container-fluid:before, .content-sidebar:before, .project-main-container .project-section:before, .container-fluid:after, .content-sidebar:after, .project-main-container .project-section:after {
+  .container-fluid:before, .content-sidebar:before, .project-main-container .project-section:before, .social-posting:before, .container-fluid:after, .content-sidebar:after, .project-main-container .project-section:after, .social-posting:after {
     content: " ";
     display: table; }
-  .container-fluid:after, .content-sidebar:after, .project-main-container .project-section:after {
+  .container-fluid:after, .content-sidebar:after, .project-main-container .project-section:after, .social-posting:after {
     clear: both; }
 
-.row, .profile-page, .project-main-container .project-section .project-section-header, .project-main-container .project-section .project-section-content {
+.row, .profile-page, .social-posting .social-posting-links, .project-main-container .project-section .project-section-header, .project-main-container .project-section .project-section-content {
   margin-left: -15px;
   margin-right: -15px; }
-  .row:before, .profile-page:before, .project-main-container .project-section .project-section-header:before, .project-main-container .project-section .project-section-content:before, .row:after, .profile-page:after, .project-main-container .project-section .project-section-header:after, .project-main-container .project-section .project-section-content:after {
+  .row:before, .profile-page:before, .social-posting .social-posting-links:before, .project-main-container .project-section .project-section-header:before, .project-main-container .project-section .project-section-content:before, .row:after, .profile-page:after, .social-posting .social-posting-links:after, .project-main-container .project-section .project-section-header:after, .project-main-container .project-section .project-section-content:after {
     content: " ";
     display: table; }
-  .row:after, .profile-page:after, .project-main-container .project-section .project-section-header:after, .project-main-container .project-section .project-section-content:after {
+  .row:after, .profile-page:after, .social-posting .social-posting-links:after, .project-main-container .project-section .project-section-header:after, .project-main-container .project-section .project-section-content:after {
     clear: both; }
 
-.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .profile-page .profile-logged-out .profile-logged-out-register-form-container label, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .profile-page .profile-logged-out .profile-logged-out-register-form-container div.input-container, .profile-page .profile-logged-in-left-section, .project-main-container .project-section .project-section-header .project-menu-main, .project-main-container .project-section .project-section-content .project-section-description-column, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .profile-page .profile-logged-in-right-section, .project-main-container .project-section .project-section-header .project-menu-sub, .project-main-container .project-section .project-section-content .project-section-content-column, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .profile-page .profile-logged-out, .col-sm-12, .col-md-12, .col-lg-12 {
+.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .profile-page .profile-logged-out .profile-logged-out-register-form-container label, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .profile-page .profile-logged-out .profile-logged-out-register-form-container div.input-container, .profile-page .profile-logged-in-left-section, .social-posting .social-posting-links .social-posting-link, .project-main-container .project-section .project-section-header .project-menu-main, .project-main-container .project-section .project-section-content .project-section-description-column, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .profile-page .profile-logged-in-right-section, .project-main-container .project-section .project-section-header .project-menu-sub, .project-main-container .project-section .project-section-content .project-section-content-column, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .profile-page .profile-logged-out, .col-sm-12, .col-md-12, .col-lg-12 {
   position: relative;
   min-height: 1px;
   padding-left: 15px;
   padding-right: 15px; }
 
-.col-xs-1, .col-xs-2, .profile-page .profile-logged-out .profile-logged-out-register-form-container label, .col-xs-3, .col-xs-4, .profile-page .profile-logged-out .profile-logged-out-register-form-container div.input-container, .profile-page .profile-logged-in-left-section, .project-main-container .project-section .project-section-header .project-menu-main, .project-main-container .project-section .project-section-content .project-section-description-column, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .profile-page .profile-logged-in-right-section, .project-main-container .project-section .project-section-header .project-menu-sub, .project-main-container .project-section .project-section-content .project-section-content-column, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12, .profile-page .profile-logged-out {
+.col-xs-1, .col-xs-2, .profile-page .profile-logged-out .profile-logged-out-register-form-container label, .col-xs-3, .col-xs-4, .profile-page .profile-logged-out .profile-logged-out-register-form-container div.input-container, .profile-page .profile-logged-in-left-section, .social-posting .social-posting-links .social-posting-link, .project-main-container .project-section .project-section-header .project-menu-main, .project-main-container .project-section .project-section-content .project-section-description-column, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .profile-page .profile-logged-in-right-section, .project-main-container .project-section .project-section-header .project-menu-sub, .project-main-container .project-section .project-section-content .project-section-content-column, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12, .profile-page .profile-logged-out {
   float: left; }
 
 .col-xs-1 {
@@ -726,7 +726,7 @@ pre {
 .col-xs-3 {
   width: 25%; }
 
-.col-xs-4, .profile-page .profile-logged-out .profile-logged-out-register-form-container div.input-container, .profile-page .profile-logged-in-left-section, .project-main-container .project-section .project-section-header .project-menu-main, .project-main-container .project-section .project-section-content .project-section-description-column {
+.col-xs-4, .profile-page .profile-logged-out .profile-logged-out-register-form-container div.input-container, .profile-page .profile-logged-in-left-section, .social-posting .social-posting-links .social-posting-link, .project-main-container .project-section .project-section-header .project-menu-main, .project-main-container .project-section .project-section-content .project-section-description-column {
   width: 33.33333%; }
 
 .col-xs-5 {
@@ -3307,9 +3307,11 @@ div#header div#header-content > .navbar-collapse,
 .container-fluid > .navbar-header,
 .content-sidebar > .navbar-header,
 .project-main-container .project-section > .navbar-header,
+.social-posting > .navbar-header,
 .container-fluid > .navbar-collapse,
 .content-sidebar > .navbar-collapse,
-.project-main-container .project-section > .navbar-collapse {
+.project-main-container .project-section > .navbar-collapse,
+.social-posting > .navbar-collapse {
   margin-right: -15px;
   margin-left: -15px; }
   @media (min-width: 768px) {
@@ -3321,9 +3323,11 @@ div#header div#header-content > .navbar-collapse,
     .container-fluid > .navbar-header,
     .content-sidebar > .navbar-header,
     .project-main-container .project-section > .navbar-header,
+    .social-posting > .navbar-header,
     .container-fluid > .navbar-collapse,
     .content-sidebar > .navbar-collapse,
-    .project-main-container .project-section > .navbar-collapse {
+    .project-main-container .project-section > .navbar-collapse,
+    .social-posting > .navbar-collapse {
       margin-right: 0;
       margin-left: 0; } }
 
@@ -3363,7 +3367,7 @@ div#header div#header-content > .navbar-collapse,
   .navbar-brand:hover, .navbar-brand:focus {
     text-decoration: none; }
   @media (min-width: 768px) {
-    .navbar > .container .navbar-brand, #page-background .navbar > #page-background-center .navbar-brand, #main .main-content-section .navbar > .main-content .navbar-brand, div#header .navbar > div#header-content .navbar-brand, .navbar > .container-fluid .navbar-brand, .navbar > .content-sidebar .navbar-brand, .project-main-container .navbar > .project-section .navbar-brand {
+    .navbar > .container .navbar-brand, #page-background .navbar > #page-background-center .navbar-brand, #main .main-content-section .navbar > .main-content .navbar-brand, div#header .navbar > div#header-content .navbar-brand, .navbar > .container-fluid .navbar-brand, .navbar > .content-sidebar .navbar-brand, .project-main-container .navbar > .project-section .navbar-brand, .navbar > .social-posting .navbar-brand {
       margin-left: -15px; } }
 
 .navbar-toggle {
@@ -6022,33 +6026,33 @@ pre {
     .container, #page-background #page-background-center, #main .main-content-section .main-content, div#header div#header-content {
       width: 1170px; } }
 
-.container-fluid, .content-sidebar, .project-main-container .project-section {
+.container-fluid, .content-sidebar, .project-main-container .project-section, .social-posting {
   margin-right: auto;
   margin-left: auto;
   padding-left: 15px;
   padding-right: 15px; }
-  .container-fluid:before, .content-sidebar:before, .project-main-container .project-section:before, .container-fluid:after, .content-sidebar:after, .project-main-container .project-section:after {
+  .container-fluid:before, .content-sidebar:before, .project-main-container .project-section:before, .social-posting:before, .container-fluid:after, .content-sidebar:after, .project-main-container .project-section:after, .social-posting:after {
     content: " ";
     display: table; }
-  .container-fluid:after, .content-sidebar:after, .project-main-container .project-section:after {
+  .container-fluid:after, .content-sidebar:after, .project-main-container .project-section:after, .social-posting:after {
     clear: both; }
 
-.row, .profile-page, .project-main-container .project-section .project-section-header, .project-main-container .project-section .project-section-content {
+.row, .profile-page, .social-posting .social-posting-links, .project-main-container .project-section .project-section-header, .project-main-container .project-section .project-section-content {
   margin-left: -15px;
   margin-right: -15px; }
-  .row:before, .profile-page:before, .project-main-container .project-section .project-section-header:before, .project-main-container .project-section .project-section-content:before, .row:after, .profile-page:after, .project-main-container .project-section .project-section-header:after, .project-main-container .project-section .project-section-content:after {
+  .row:before, .profile-page:before, .social-posting .social-posting-links:before, .project-main-container .project-section .project-section-header:before, .project-main-container .project-section .project-section-content:before, .row:after, .profile-page:after, .social-posting .social-posting-links:after, .project-main-container .project-section .project-section-header:after, .project-main-container .project-section .project-section-content:after {
     content: " ";
     display: table; }
-  .row:after, .profile-page:after, .project-main-container .project-section .project-section-header:after, .project-main-container .project-section .project-section-content:after {
+  .row:after, .profile-page:after, .social-posting .social-posting-links:after, .project-main-container .project-section .project-section-header:after, .project-main-container .project-section .project-section-content:after {
     clear: both; }
 
-.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .profile-page .profile-logged-out .profile-logged-out-register-form-container label, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .profile-page .profile-logged-out .profile-logged-out-register-form-container div.input-container, .profile-page .profile-logged-in-left-section, .project-main-container .project-section .project-section-header .project-menu-main, .project-main-container .project-section .project-section-content .project-section-description-column, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .profile-page .profile-logged-in-right-section, .project-main-container .project-section .project-section-header .project-menu-sub, .project-main-container .project-section .project-section-content .project-section-content-column, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .profile-page .profile-logged-out, .col-sm-12, .col-md-12, .col-lg-12 {
+.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .profile-page .profile-logged-out .profile-logged-out-register-form-container label, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .profile-page .profile-logged-out .profile-logged-out-register-form-container div.input-container, .profile-page .profile-logged-in-left-section, .social-posting .social-posting-links .social-posting-link, .project-main-container .project-section .project-section-header .project-menu-main, .project-main-container .project-section .project-section-content .project-section-description-column, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .profile-page .profile-logged-in-right-section, .project-main-container .project-section .project-section-header .project-menu-sub, .project-main-container .project-section .project-section-content .project-section-content-column, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .profile-page .profile-logged-out, .col-sm-12, .col-md-12, .col-lg-12 {
   position: relative;
   min-height: 1px;
   padding-left: 15px;
   padding-right: 15px; }
 
-.col-xs-1, .col-xs-2, .profile-page .profile-logged-out .profile-logged-out-register-form-container label, .col-xs-3, .col-xs-4, .profile-page .profile-logged-out .profile-logged-out-register-form-container div.input-container, .profile-page .profile-logged-in-left-section, .project-main-container .project-section .project-section-header .project-menu-main, .project-main-container .project-section .project-section-content .project-section-description-column, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .profile-page .profile-logged-in-right-section, .project-main-container .project-section .project-section-header .project-menu-sub, .project-main-container .project-section .project-section-content .project-section-content-column, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12, .profile-page .profile-logged-out {
+.col-xs-1, .col-xs-2, .profile-page .profile-logged-out .profile-logged-out-register-form-container label, .col-xs-3, .col-xs-4, .profile-page .profile-logged-out .profile-logged-out-register-form-container div.input-container, .profile-page .profile-logged-in-left-section, .social-posting .social-posting-links .social-posting-link, .project-main-container .project-section .project-section-header .project-menu-main, .project-main-container .project-section .project-section-content .project-section-description-column, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .profile-page .profile-logged-in-right-section, .project-main-container .project-section .project-section-header .project-menu-sub, .project-main-container .project-section .project-section-content .project-section-content-column, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12, .profile-page .profile-logged-out {
   float: left; }
 
 .col-xs-1 {
@@ -6060,7 +6064,7 @@ pre {
 .col-xs-3 {
   width: 25%; }
 
-.col-xs-4, .profile-page .profile-logged-out .profile-logged-out-register-form-container div.input-container, .profile-page .profile-logged-in-left-section, .project-main-container .project-section .project-section-header .project-menu-main, .project-main-container .project-section .project-section-content .project-section-description-column {
+.col-xs-4, .profile-page .profile-logged-out .profile-logged-out-register-form-container div.input-container, .profile-page .profile-logged-in-left-section, .social-posting .social-posting-links .social-posting-link, .project-main-container .project-section .project-section-header .project-menu-main, .project-main-container .project-section .project-section-content .project-section-description-column {
   width: 33.33333%; }
 
 .col-xs-5 {
@@ -8641,9 +8645,11 @@ div#header div#header-content > .navbar-collapse,
 .container-fluid > .navbar-header,
 .content-sidebar > .navbar-header,
 .project-main-container .project-section > .navbar-header,
+.social-posting > .navbar-header,
 .container-fluid > .navbar-collapse,
 .content-sidebar > .navbar-collapse,
-.project-main-container .project-section > .navbar-collapse {
+.project-main-container .project-section > .navbar-collapse,
+.social-posting > .navbar-collapse {
   margin-right: -15px;
   margin-left: -15px; }
   @media (min-width: 768px) {
@@ -8655,9 +8661,11 @@ div#header div#header-content > .navbar-collapse,
     .container-fluid > .navbar-header,
     .content-sidebar > .navbar-header,
     .project-main-container .project-section > .navbar-header,
+    .social-posting > .navbar-header,
     .container-fluid > .navbar-collapse,
     .content-sidebar > .navbar-collapse,
-    .project-main-container .project-section > .navbar-collapse {
+    .project-main-container .project-section > .navbar-collapse,
+    .social-posting > .navbar-collapse {
       margin-right: 0;
       margin-left: 0; } }
 
@@ -8697,7 +8705,7 @@ div#header div#header-content > .navbar-collapse,
   .navbar-brand:hover, .navbar-brand:focus {
     text-decoration: none; }
   @media (min-width: 768px) {
-    .navbar > .container .navbar-brand, #page-background .navbar > #page-background-center .navbar-brand, #main .main-content-section .navbar > .main-content .navbar-brand, div#header .navbar > div#header-content .navbar-brand, .navbar > .container-fluid .navbar-brand, .navbar > .content-sidebar .navbar-brand, .project-main-container .navbar > .project-section .navbar-brand {
+    .navbar > .container .navbar-brand, #page-background .navbar > #page-background-center .navbar-brand, #main .main-content-section .navbar > .main-content .navbar-brand, div#header .navbar > div#header-content .navbar-brand, .navbar > .container-fluid .navbar-brand, .navbar > .content-sidebar .navbar-brand, .project-main-container .navbar > .project-section .navbar-brand, .navbar > .social-posting .navbar-brand {
       margin-left: -15px; } }
 
 .navbar-toggle {
@@ -10364,7 +10372,7 @@ html {
   margin: 0px 230px 0px 0px;
   padding: 0px 10px 20px 20px; }
 
-.sidebar-right, .project-main-container .project-comments-section {
+.sidebar-right {
   position: absolute;
   width: 230px;
   min-height: 100%;
@@ -10372,34 +10380,34 @@ html {
   right: 0px;
   padding: 0px 10px 20px 10px;
   border-left: solid #f39a19 2px; }
-  .sidebar-right .sidebar-header, .project-main-container .project-comments-section .sidebar-header {
+  .sidebar-right .sidebar-header {
     font-weight: 700;
     font-size: 16px;
     color: #444444; }
-  .sidebar-right .sidebar-menu li, .project-main-container .project-comments-section .sidebar-menu li {
+  .sidebar-right .sidebar-menu li {
     padding: 2px 4px; }
-    .sidebar-right .sidebar-menu li a, .project-main-container .project-comments-section .sidebar-menu li a {
+    .sidebar-right .sidebar-menu li a {
       padding: 2px 4px;
       border: 1px solid transparent; }
-      .sidebar-right .sidebar-menu li a.selected, .project-main-container .project-comments-section .sidebar-menu li a.selected {
+      .sidebar-right .sidebar-menu li a.selected {
         border: 1px solid #aaaaaa;
         border-radius: 10px;
         background: #f6f5f5; }
-  .sidebar-right ul > li, .project-main-container .project-comments-section ul > li {
+  .sidebar-right ul > li {
     font-weight: 500;
     font-size: 14px;
     color: #444444;
     list-style-image: url(images/bullet.png);
     margin-left: -1.5em; }
-    .sidebar-right ul > li .sidebar-type-senseit, .project-main-container .project-comments-section ul > li .sidebar-type-senseit {
+    .sidebar-right ul > li .sidebar-type-senseit {
       font-weight: 700;
       font-size: 16px;
       color: #079ccb; }
-    .sidebar-right ul > li .sidebar-type-spotit, .project-main-container .project-comments-section ul > li .sidebar-type-spotit {
+    .sidebar-right ul > li .sidebar-type-spotit {
       font-weight: 700;
       font-size: 16px;
       color: #9fa609; }
-    .sidebar-right ul > li .sidebar-type-winit, .project-main-container .project-comments-section ul > li .sidebar-type-winit {
+    .sidebar-right ul > li .sidebar-type-winit {
       font-weight: 700;
       font-size: 16px;
       color: #c4388a; }
@@ -10709,6 +10717,9 @@ div#header {
       .about-container .about-content .about-logos img {
         margin: 0 10px; }
 
+.social-posting .social-posting-links .social-posting-link img {
+  width: 100%; }
+
 .content-no-sidebar {
   margin: 0px; }
 
@@ -10716,7 +10727,7 @@ div#header {
   margin: 0px 230px 0px 0px;
   padding: 0px 10px 20px 20px; }
 
-.sidebar-right, .project-main-container .project-comments-section {
+.sidebar-right {
   position: absolute;
   width: 230px;
   min-height: 100%;
@@ -10724,34 +10735,34 @@ div#header {
   right: 0px;
   padding: 0px 10px 20px 10px;
   border-left: solid #f39a19 2px; }
-  .sidebar-right .sidebar-header, .project-main-container .project-comments-section .sidebar-header {
+  .sidebar-right .sidebar-header {
     font-weight: 700;
     font-size: 16px;
     color: #444444; }
-  .sidebar-right .sidebar-menu li, .project-main-container .project-comments-section .sidebar-menu li {
+  .sidebar-right .sidebar-menu li {
     padding: 2px 4px; }
-    .sidebar-right .sidebar-menu li a, .project-main-container .project-comments-section .sidebar-menu li a {
+    .sidebar-right .sidebar-menu li a {
       padding: 2px 4px;
       border: 1px solid transparent; }
-      .sidebar-right .sidebar-menu li a.selected, .project-main-container .project-comments-section .sidebar-menu li a.selected {
+      .sidebar-right .sidebar-menu li a.selected {
         border: 1px solid #aaaaaa;
         border-radius: 10px;
         background: #f6f5f5; }
-  .sidebar-right ul > li, .project-main-container .project-comments-section ul > li {
+  .sidebar-right ul > li {
     font-weight: 500;
     font-size: 14px;
     color: #444444;
     list-style-image: url(images/bullet.png);
     margin-left: -1.5em; }
-    .sidebar-right ul > li .sidebar-type-senseit, .project-main-container .project-comments-section ul > li .sidebar-type-senseit {
+    .sidebar-right ul > li .sidebar-type-senseit {
       font-weight: 700;
       font-size: 16px;
       color: #079ccb; }
-    .sidebar-right ul > li .sidebar-type-spotit, .project-main-container .project-comments-section ul > li .sidebar-type-spotit {
+    .sidebar-right ul > li .sidebar-type-spotit {
       font-weight: 700;
       font-size: 16px;
       color: #9fa609; }
-    .sidebar-right ul > li .sidebar-type-winit, .project-main-container .project-comments-section ul > li .sidebar-type-winit {
+    .sidebar-right ul > li .sidebar-type-winit {
       font-weight: 700;
       font-size: 16px;
       color: #c4388a; }

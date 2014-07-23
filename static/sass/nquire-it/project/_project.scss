@@ -121,8 +121,6 @@
   }
 
   .project-comments-section {
-    @extend .sidebar-right;
-
     .comment-date,
     .comment-vote {
       font-size: .9em;
