@@ -3,7 +3,7 @@
         <div data-ng-repeat="item in sortedData.data"
              class="col-xs-6 col-sm-4 col-md-3">
             <div class="spotit-observation">
-                <img data-ng-click="goToItem($index)" src="" data-ng-src="{{item.observation | uploadedThumb }}"/>
+                <img data-ng-click="goToItem(item.id)" src="" data-ng-src="{{item.observation | uploadedThumb }}"/>
             </div>
             <div class="spotit-observation-metadata">
                 <b>{{item.title}}</b>

@@ -103,7 +103,7 @@ angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'textAngular', 'ui.boot
                 templateUrl: 'partials/project/view/data/project-view-data-map.html',
                 controller: 'ProjectViewDataMapCtrl'
             }).state('project.view.data-item', {
-                url: '/item/{itemIndex}',
+                url: '/item/{itemId}',
                 templateUrl: 'partials/project/view/data/project-view-data-item.html',
                 controller: 'ProjectViewDataItemCtrl'
             })

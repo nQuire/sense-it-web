@@ -4,13 +4,13 @@
     <div class="spotit-item-menu">
         <p class="btn-group">
 
-            <button class="btn btn-default" data-ng-disabled="!goto.hasPrevious()" data-ng-click="goto.previous()">
+            <button class="btn btn-default" data-ng-disabled="!itemIndex.previous" data-ng-click="goto.previous()">
                 <i class="fa fa-arrow-left"></i>
             </button>
             <button class="btn btn-default" data-ui-sref="project.view.data-list">
                 <i class="fa fa-times"></i>
             </button>
-            <button class="btn btn-default" data-ng-disabled="!goto.hasNext()" data-ng-click="goto.next()">
+            <button class="btn btn-default" data-ng-disabled="!itemIndex.next" data-ng-click="goto.next()">
                 <i class="fa fa-arrow-right"></i>
             </button>
         </p>

@@ -8,13 +8,13 @@ angular.module('senseItWeb', null, null).controller('SocialActionsCtrl', functio
         'facebook': 'Facebook'
     };
 
-    $scope.data = null;
-    $scope.result = {
-        state: 'idle'
-    };
+
 
     $scope.actions = {
         post: function (provider) {
+            $scope.result = {
+                state: 'idle'
+            };
 
             var posting = {
                 title: $scope.socialPosting.title(provider, $scope.providers[provider]),
@@ -47,7 +47,17 @@ angular.module('senseItWeb', null, null).controller('SocialActionsCtrl', functio
                 ok: function () {
                     if ($scope.result.state == 'idle') {
                         $scope.result.state = 'posting';
-                        RestService.post('api/social/' + provider + '/post', {title: null, content: posting.content});
+                        RestService.post('api/social/' + provider + '/post', {title: null, content: posting.content}).then(function (response) {
+                            if (response && response.url) {
+                                $scope.result.state = 'completed';
+                                $scope.result.url = response.url;
+                                $scope.result.error = null;
+                            } else {
+                                $scope.result.state = 'idle';
+                                $scope.result.url = null;
+                                $scope.result.error = response.error || 'unknown';
+                            }
+                        });
                         return false;
                     } else if ($scope.result.state == 'completed') {
                         return true;
