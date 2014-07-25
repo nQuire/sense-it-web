@@ -10679,6 +10679,15 @@ div#header {
   .sortable-table th.descending:after {
     content: ' ▾'; }
 
+.sortable-menu a {
+  margin-left: 20px; }
+  .sortable-menu a.ascending, .sortable-menu a.descending {
+    font-weight: bold; }
+  .sortable-menu a.ascending:after {
+    content: ' ▴'; }
+  .sortable-menu a.descending:after {
+    content: ' ▾'; }
+
 .about-container {
   margin: 0; }
   .about-container .about-header {

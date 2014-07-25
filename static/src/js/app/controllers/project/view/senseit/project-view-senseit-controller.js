@@ -3,6 +3,7 @@ angular.module('senseItWeb', null, null).controller('ProjectViewSenseItCtrl', fu
     $scope.templates.menu = 'partials/project/view/senseit/senseit-view-menu.html';
     $scope.templates.projectData = 'partials/project/view/senseit/senseit-project-data.html';
     $scope.templates.dataTable = 'partials/project/view/senseit/data-table-senseit.html';
+    $scope.templates.dataMap = 'partials/project/view/senseit/senseit-data-map.html';
     $scope.templates.projectDataCommentsDisabled = 'partials/project/view/senseit/senseit-posting-disabled.html';
 
     $scope.transformations = new SiwSenseItTransformations($scope.projectData.project.activity.profile.sensorInputs, $scope.projectData.project.activity.profile.tx);
@@ -46,24 +47,6 @@ angular.module('senseItWeb', null, null).controller('ProjectViewSenseItCtrl', fu
         $scope.dataList.sort[id] = createSortFunction(id);
     }
 
-
-    if ($scope.projectData.project.activity.profile.geolocated) {
-        $scope.mapData = {
-            mapVariables: $scope.dataInfo.tableVariables.map(function (v) {
-                return {id: v.id, label: v.label(), weight: v.weight};
-            }),
-            value: function (item, v) {
-                return item.varValue[v.id].v[0];
-            },
-            location: function (item) {
-                try {
-                    return JSON.parse(item.geolocation);
-                } catch (e) {
-                    return null;
-                }
-            }
-        };
-    }
 
 
     $scope.plots = {

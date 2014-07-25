@@ -8,7 +8,6 @@ angular.module('senseItServices', null, null).factory('SortedDataService', [func
         this.filterFunctions = filterFunctions || [];
 
         this.params = {
-            filter: null,
             column: null,
             ascending: true
         };
@@ -50,7 +49,6 @@ angular.module('senseItServices', null, null).factory('SortedDataService', [func
     SortedData.prototype._sortData = function () {
         this.data = this._originalData.filter(this._filter);
         this.data.sort(this._compare);
-        console.log(this.data);
     };
 
 

@@ -1,7 +1,5 @@
 angular.module('senseItWeb', null, null).controller('ProjectCtrl', function ($scope, $state, ProjectService, $location) {
 
-    console.log($location.absUrl());
-
     $scope.templates = {};
 
     $scope.projectMenu = {

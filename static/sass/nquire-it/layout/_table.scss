@@ -1,3 +1,5 @@
+@import "../variables/dimensions";
+
 .sortable-table {
 
   th {
@@ -10,4 +12,23 @@
       content: ' ▾';
     }
   }
+}
+
+.sortable-menu {
+  a {
+    margin-left: $dim-common-margin;
+
+    &.ascending,
+    &.descending {
+      font-weight: bold;
+    }
+
+    &.ascending:after {
+      content: ' ▴';
+    }
+    &.descending:after {
+      content: ' ▾';
+    }
+  }
+
 }

@@ -3,9 +3,11 @@ angular.module('senseItWeb').directive('siwMap', [function() {
 
 
         controller: function($scope, $element) {
-            $scope.renderer = new SiwMapRenderer($element, $scope.mapData, $scope.dataList, $scope.zoomToItem);
+            console.log($scope.sortedData);
 
-            var listener = $scope.$watch('dataList.items', function() {
+            $scope.renderer = new SiwMapRenderer($element, $scope.mapData, $scope.sortedData, $scope.zoomToItem);
+
+            var listener = $scope.$watch('sortedData.data', function() {
                 $scope.renderer.update();
             });
 

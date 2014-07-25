@@ -13,7 +13,7 @@ ini_set('error_reporting', E_ALL);
     <link rel="stylesheet" href="css/font-awesome.css" type='text/css'>
     <link rel="stylesheet" href="css/nquire-it-bootstrap.css" type='text/css'>
 
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=visualization&sensor=true"></script>
 
     <script src="js/libs/jquery-2.1.0.min.js"></script>
     <script src="js/libs/bootstrap.js"></script>
@@ -116,6 +116,7 @@ ini_set('error_reporting', E_ALL);
 
     <script src="js/app/controllers/project/view/senseit/project-view-senseit-controller.js"></script>
     <script src="js/app/controllers/project/view/senseit/project-view-senseit-item-controller.js"></script>
+    <script src="js/app/controllers/project/view/senseit/project-view-senseit-map-controller.js"></script>
 
     <script src="js/app/controllers/project/view/spotit/project-view-spotit-controller.js"></script>
     <script src="js/app/controllers/project/view/spotit/project-view-spotit-upload-controller.js"></script>

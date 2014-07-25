@@ -2,6 +2,4 @@ angular.module('senseItWeb', null, null).controller('ProjectViewDataMapCtrl', fu
 
     $scope.zoomToItem = $state.params.item;
 
-    console.log($scope.zoomToItem);
-
 });

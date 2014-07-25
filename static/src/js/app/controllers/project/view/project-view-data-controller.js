@@ -24,6 +24,8 @@ angular.module('senseItWeb', null, null).controller('ProjectViewDataCtrl', funct
         return $scope.dataList.items;
     }, $scope.dataList.sort, null, $scope, 'dataList.items', false);
 
+    $scope.sortedData.sort('date', false);
+
 
     $scope.dataVoteManager = {
         votingEnabled: function () {

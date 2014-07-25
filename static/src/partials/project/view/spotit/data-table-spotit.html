@@ -1,4 +1,4 @@
-<div class="container-fluid" data-siw-sortable-table-widget data-sort-column="date" data-table-data="dataList">
+<div class="container-fluid" data-siw-sortable-table-widget data-table-data="dataList">
     <div class="row">
         <div data-ng-repeat="item in sortedData.data"
              class="col-xs-6 col-sm-4 col-md-3">
@@ -6,7 +6,10 @@
                 <img data-ng-click="goToItem(item.id)" src="" data-ng-src="{{item.observation | uploadedThumb }}"/>
             </div>
             <div class="spotit-observation-metadata">
-                <b>{{item.title}}</b>
+                <p>
+                    <b data-ng-if="item.title">{{item.title}}</b>
+                    <i data-ng-if="!item.title">No title</i>
+                </p>
 
                 <div>{{item.author.username}}</div>
                 <div>{{item.date | fuzzyDate}}</div>
@@ -16,3 +19,4 @@
         </div>
     </div>
 </div>
+

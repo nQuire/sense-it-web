@@ -5,7 +5,6 @@ angular.module('senseItWeb', null, null).controller('ProfileCtrl', function ($sc
             if ($scope.status.logged) {
                 $state.go($state.previous);
             }
-            console.log('go back');
         });
     }
 

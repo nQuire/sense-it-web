@@ -6,6 +6,7 @@ var SiwMapRenderer = function (element, mapData, dataList, zoomToItem) {
 
     this.map = null;
     this.markers = {};
+    this.heatData = [];
 
     this.iconMaker = new SiwMapIcons(this.mapData.mapVariables.length);
 
@@ -24,9 +25,9 @@ SiwMapRenderer.prototype._calculateMaxMin = function () {
     var max = 0;
     var min = 0;
 
-    for (var i = 0; i < this.dataList.items.length; i++) {
+    for (var i = 0; i < this.dataList.data.length; i++) {
         for (var j = 0; j < this.mapData.mapVariables.length; j++) {
-            var value = this.mapData.value(this.dataList.items[i], this.mapData.mapVariables[j]);
+            var value = this.mapData.value(this.dataList.data[i], this.mapData.mapVariables[j]);
             max = Math.max(max, value);
             min = Math.min(min, value);
         }
@@ -38,16 +39,16 @@ SiwMapRenderer.prototype._calculateMaxMin = function () {
 SiwMapRenderer.prototype.getIcon = function (i, mode) {
     var values = [];
     for (var vi = 0; vi < this.mapData.mapVariables.length; vi++) {
-        var value = this.mapData.value(this.dataList.items[i], this.mapData.mapVariables[vi]);
+        var value = this.mapData.value(this.dataList.data[i], this.mapData.mapVariables[vi]);
         values.push(value);
     }
 
-    return this.iconMaker.getIcon(values, mode);
+    return this.iconMaker.getIcon(values, (i + 1), mode);
 };
 
 SiwMapRenderer.prototype.getLatLngById = function (id) {
-    for (var i = 0; i < this.dataList.items.length; i++) {
-        if (this.dataList.items[i].id == id) {
+    for (var i = 0; i < this.dataList.data.length; i++) {
+        if (this.dataList.data[i].id == id) {
             return this.getLatLng(i);
         }
     }
@@ -56,7 +57,7 @@ SiwMapRenderer.prototype.getLatLngById = function (id) {
 };
 
 SiwMapRenderer.prototype.getLatLng = function (i) {
-    var location = i < this.dataList.items.length ? this.mapData.location(this.dataList.items[i]) : false;
+    var location = i < this.dataList.data.length ? this.mapData.location(this.dataList.data[i]) : false;
     return location ? new google.maps.LatLng(location.lat, location.lon) : false;
 };
 
@@ -122,13 +123,19 @@ SiwMapRenderer.prototype.reset = function () {
     this.oms.clearMarkers();
     this.clusterer.clearMarkers();
     this.markers = {};
+    if (this.heatMap) {
+        this.heatMap.setMap(null);
+        this.heatMap = null;
+    }
 };
 
 SiwMapRenderer.prototype.update = function () {
     this.reset();
     this._calculateMaxMin();
 
-    if (!this.centerSet && this.dataList.items.length > 0) {
+    var heatData = [];
+
+    if (!this.centerSet && this.dataList.data.length > 0) {
         var center = this.zoomToItem ? this.getLatLngById(this.zoomToItem) : this.getLatLng(0);
         if (center) {
             this.map.setZoom(this.markerFocusZoom);
@@ -137,9 +144,11 @@ SiwMapRenderer.prototype.update = function () {
         }
     }
 
-    for (var i = 0; i < this.dataList.items.length; i++) {
+    for (var i = 0; i < this.dataList.data.length; i++) {
+        var item = this.dataList.data[i];
         var pos = this.getLatLng(i);
         if (pos) {
+            heatData.push({location: pos, weight: this.mapData.getItemHeat(item)});
 
             var marker = new google.maps.Marker({
                 position: pos,
@@ -153,16 +162,16 @@ SiwMapRenderer.prototype.update = function () {
             this.clusterer.addMarker(marker);
             this.oms.addMarker(marker);
 
-            var content = '';
-            for (var j = 0; j < this.mapData.mapVariables.length; j++) {
-                var v = this.mapData.mapVariables[j];
+            var content = this.mapData.infoWindow(item);
+            /*            for (var j = 0; j < this.mapData.mapVariables.length; j++) {
+             var v = this.mapData.mapVariables[j];
 
-                if (content.length > 0) {
-                    content += '<br/>';
-                }
-                content += '<b>' + v.label + ':</b> ' + this.mapData.value(this.dataList.items[i], v).toPrecision(4);
-            }
-
+             if (content.length > 0) {
+             content += '<br/>';
+             }
+             content += '<b>' + v.label + ':</b> ' + this.mapData.value(, v).toPrecision(4);
+             }
+             */
             this.markers[i] = {
                 marker: marker,
                 infowindow: new google.maps.InfoWindow({content: content})
@@ -175,6 +184,14 @@ SiwMapRenderer.prototype.update = function () {
     }
 
     this.needToInitCloseMarkers = true;
+
+    this.heatMap = new google.maps.visualization.HeatmapLayer({
+        data: heatData,
+        dissipating: true,
+        radius: 50
+    });
+
+    this.heatMap.setMap(this.map);
 
 };
 

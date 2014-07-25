@@ -22,9 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
-/**
- * Created by evilfer on 7/23/14.
- */
+
 @Controller
 public class SocialController {
 
