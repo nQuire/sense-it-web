@@ -173,8 +173,7 @@ public class ChallengeDao extends UtilsDao {
 
         ProjectMetadataBlock link = new ProjectMetadataBlock();
         link.setTitle("Mission goal");
-        link.setContent("This mission challenges users to propose answers to a specific question." +
-                "<p><b><code>[Click 'Edit' to modify the information about this mission.]</code></b></p>");
+        link.setContent("This mission challenges users to propose answers to a specific question.");
         project.getMetadata().getBlocks().add(link);
 
         ProjectMetadataBlock process = new ProjectMetadataBlock();

@@ -49,6 +49,14 @@ var SiwSenseItSensorData = {
                     "mbar": 1
                 }
             },
+            "lig": {
+                "name": "Light",
+                "output": "[tx]",
+                "labels": ["Light"],
+                "units": {
+                    "lux": 1
+                }
+            },
             "ambtmp": {
                 "name": "Ambient temperature",
                 "output": "[tx]",

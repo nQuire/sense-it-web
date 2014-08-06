@@ -103,6 +103,7 @@ angular.module('senseItWeb', null, null).controller('ProjectViewDataCtrl', funct
                     }
                     $scope.dataReady = true;
                 });
+                return true;
             }
         });
     };

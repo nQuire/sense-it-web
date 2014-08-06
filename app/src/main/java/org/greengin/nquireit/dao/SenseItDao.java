@@ -74,15 +74,14 @@ public class SenseItDao {
         link.setContent("This mission uses " +
                 "<a target=\"_blank\" " +
                 "href=\"https://play.google.com/store/apps/details?id=org.greengin.sciencetoolkit&hl=en\">" +
-                "Sense-it</a> to collect data. " +
-                "<p><b><code>[Click 'Edit' to modify the information about this mission.]</code></b></p>");
+                "Sense-it</a> to collect data. ");
         project.getMetadata().getBlocks().add(link);
 
         ProjectMetadataBlock addData = new ProjectMetadataBlock();
         addData.setTitle("Adding data");
         addData.setContent("To add data:" +
                 "<ol>" +
-                "<li>Run Sense-it in your Android device.</li>" +
+                "<li>Run Sense-it on your Android device.</li>" +
                 "<li>Activate this project (you need to join it of course!).</li>" +
                 "<li>On the <code>RECORD</code> tab, touch <code>Start</code> to start recording data.</li>" +
                 "<li>Touch <code>Stop</code> when your data series is complete.</li>" +

@@ -14,7 +14,8 @@
                 <div>{{item.author.username}}</div>
                 <div>{{item.date | fuzzyDate}}</div>
                 <div data-siw-vote-widget data-vote-manager="dataVoteManager" data-vote-target="item"></div>
-                <div ng-pluralize count="item.commentCount" when="{'1': '1 comment','other': '{} comments'}"></div>
+                <div><a href data-ng-click="goToItem(item.id)" ng-pluralize count="item.commentCount"
+                        when="{'1': '1 comment','other': '{} comments'}"></a></div>
             </div>
         </div>
     </div>

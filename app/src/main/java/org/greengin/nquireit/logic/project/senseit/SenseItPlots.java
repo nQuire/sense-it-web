@@ -43,7 +43,7 @@ public class SenseItPlots {
                 for (int i = 0; i < nv; i++) {
                     XYSeries series = new XYSeries(" " + (i + 1));
                     for (TimeValue v : data.values) {
-                        series.add(v.t - t0, v.v[i]);
+                        series.add(.001 * (v.t - t0), v.v[i]);
                     }
                     dataset.addSeries(series);
                 }
@@ -73,7 +73,7 @@ public class SenseItPlots {
             }
         }
 
-        JFreeChart chart = ChartFactory.createXYLineChart(title, "Time", units.toString(), dataset, PlotOrientation.VERTICAL, false, false, false);
+        JFreeChart chart = ChartFactory.createXYLineChart(title, "Time (sec)", units.toString(), dataset, PlotOrientation.VERTICAL, false, false, false);
         chart.getTitle().setFont(titleFont);
 
         XYPlot plot = (XYPlot) chart.getPlot();

@@ -30,8 +30,7 @@ public class SpotItDao {
 
         ProjectMetadataBlock link = new ProjectMetadataBlock();
         link.setTitle("Mission goal");
-        link.setContent("This mission is for people to share images about a specific topic." +
-                "<p><b><code>[Click 'Edit' to modify the information about this mission.]</code></b></p>");
+        link.setContent("This mission is for people to share images about a specific topic.");
         project.getMetadata().getBlocks().add(link);
 
         ProjectMetadataBlock process = new ProjectMetadataBlock();

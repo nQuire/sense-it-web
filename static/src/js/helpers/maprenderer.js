@@ -1,4 +1,5 @@
-var SiwMapRenderer = function (element, mapData, dataList, zoomToItem) {
+var SiwMapRenderer = function ($scope, element, mapData, dataList) {
+    this.$scope = $scope;
     this.element = element;
 
     this.mapData = mapData;
@@ -6,20 +7,34 @@ var SiwMapRenderer = function (element, mapData, dataList, zoomToItem) {
 
     this.map = null;
     this.markers = {};
-    this.heatData = [];
 
     this.iconMaker = new SiwMapIcons(this.mapData.mapVariables.length);
 
-    this.needToInitCloseMarkers = false;
-
-    this.zoomToItem = zoomToItem;
 
     this.clusterMaxZoom = 18;
     this.markerFocusZoom = this.clusterMaxZoom + 1;
 
-    this.init();
-    this.update();
+    var self = this;
+
+    self._updateSelectedIndex();
+    self.init();
+    self.update();
 };
+
+SiwMapRenderer.prototype._updateSelectedIndex = function () {
+    this.mapData.selectedIndex = this._indexById(this.mapData.selected);
+};
+
+SiwMapRenderer.prototype._indexById = function (id) {
+    for (var i = 0; i < this.dataList.data.length; i++) {
+        if (this.dataList.data[i].id == id) {
+            return i;
+        }
+    }
+
+    return -1;
+};
+
 
 SiwMapRenderer.prototype._calculateMaxMin = function () {
     var max = 0;
@@ -37,13 +52,7 @@ SiwMapRenderer.prototype._calculateMaxMin = function () {
 };
 
 SiwMapRenderer.prototype.getIcon = function (i, mode) {
-    var values = [];
-    for (var vi = 0; vi < this.mapData.mapVariables.length; vi++) {
-        var value = this.mapData.value(this.dataList.data[i], this.mapData.mapVariables[vi]);
-        values.push(value);
-    }
-
-    return this.iconMaker.getIcon(values, (i + 1), mode);
+    return this.iconMaker.getIcon(this.mapData.iconText(this.dataList.data[i]), mode);
 };
 
 SiwMapRenderer.prototype.getLatLngById = function (id) {
@@ -64,7 +73,7 @@ SiwMapRenderer.prototype.getLatLng = function (i) {
 SiwMapRenderer.prototype.init = function () {
     this.element.css('height', '600px');
 
-    var center = this.zoomToItem ? this.getLatLngById(this.zoomToItem) : this.getLatLng(0);
+    var center = this.mapData.selectedIndex ? this.getLatLng(this.mapData.selectedIndex) : this.getLatLng(0);
     if (center) {
         this.centerSet = true;
     } else {
@@ -89,19 +98,16 @@ SiwMapRenderer.prototype.init = function () {
 
     this.oms.addListener('click', function (marker, event) {
         self.markers[marker.series_id].infowindow.open(self.map, marker);
+        self.select(marker.data_id);
         return false;
     });
 
 
     this.oms.addListener('spiderfy', function (markers) {
-        self.setMarkersIcon(markers, 'green');
-        for (var i = 0; i < markers.length; i++) {
-            //self.markers[markers[i].series_id].infowindow.open(self.map, markers[i]);
-        }
+
     });
 
     this.oms.addListener('unspiderfy', function (markers) {
-        self.setMarkersIcon(markers, 'red');
         for (var i = 0; i < markers.length; i++) {
             self.markers[markers[i].series_id].infowindow.close();
         }
@@ -129,14 +135,44 @@ SiwMapRenderer.prototype.reset = function () {
     }
 };
 
+
+SiwMapRenderer.prototype.select = function (itemId) {
+    var self = this;
+    this.$scope.$apply(function () {
+        self.mapData.selected = itemId;
+    });
+};
+
+SiwMapRenderer.prototype.updateSelection = function () {
+    if (this.mapData.selectedIndex >= 0 && this.markers[this.mapData.selectedIndex]) {
+        this.updateIcon(this.mapData.selectedIndex, 'normal');
+        this.markers[this.mapData.selectedIndex].infowindow.close();
+    }
+
+    this._updateSelectedIndex();
+    if (this.mapData.selectedIndex >= 0) {
+        this.updateIcon(this.mapData.selectedIndex, 'selected');
+
+        var pos = this.getLatLng(this.mapData.selectedIndex);
+        if (pos) {
+            this.map.panTo(pos);
+        }
+    }
+
+};
+
 SiwMapRenderer.prototype.update = function () {
     this.reset();
     this._calculateMaxMin();
 
     var heatData = [];
 
+
+    this._updateSelectedIndex();
+    console.log(this.mapData.selectedIndex);
+
     if (!this.centerSet && this.dataList.data.length > 0) {
-        var center = this.zoomToItem ? this.getLatLngById(this.zoomToItem) : this.getLatLng(0);
+        var center = this.mapData.selectedIndex ? this.getLatLng(this.mapData.selectedIndex) : this.getLatLng(0);
         if (center) {
             this.map.setZoom(this.markerFocusZoom);
             this.map.setCenter(center);
@@ -149,14 +185,16 @@ SiwMapRenderer.prototype.update = function () {
         var pos = this.getLatLng(i);
         if (pos) {
             heatData.push({location: pos, weight: this.mapData.getItemHeat(item)});
+            var isSelected = i == this.mapData.selectedIndex;
 
             var marker = new google.maps.Marker({
                 position: pos,
                 map: this.map,
                 animation: google.maps.Animation.DROP,
-                icon: this.getIcon(i, 'normal'),
+                icon: this.getIcon(i, isSelected ? 'selected' : 'normal'),
                 title: "" + (i + 1),
-                series_id: i
+                series_id: i,
+                data_id: item.id
             });
 
             this.clusterer.addMarker(marker);
@@ -177,13 +215,11 @@ SiwMapRenderer.prototype.update = function () {
                 infowindow: new google.maps.InfoWindow({content: content})
             };
 
-            if (marker.series_id == this.zoomToItem) {
+            if (isSelected) {
                 this.markers[i].infowindow.open(this.map, marker);
             }
         }
     }
-
-    this.needToInitCloseMarkers = true;
 
     this.heatMap = new google.maps.visualization.HeatmapLayer({
         data: heatData,
@@ -196,14 +232,10 @@ SiwMapRenderer.prototype.update = function () {
 };
 
 SiwMapRenderer.prototype.idle = function () {
-    if (this.needToInitCloseMarkers) {
-        this.needToInitCloseMarkers = false;
-        this.setMarkersIcon(this.oms.markersNearAnyOtherMarker(), 'red');
-    }
 };
 
-SiwMapRenderer.prototype.setMarkersIcon = function (markers, icon) {
-    /*for (var i = 0; i < markers.length; i++) {
-     markers[i].setIcon(this.icons[icon]);
-     }*/
+SiwMapRenderer.prototype.updateIcon = function (index, mode) {
+    if (this.markers[index]) {
+        this.markers[index].marker.setIcon(this.getIcon(index, mode));
+    }
 };

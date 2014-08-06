@@ -15,29 +15,31 @@
 
         <div data-ng-if="status.logged">
             <div data-ng-if="!projectData.access.member">
-                <p>You need to join this mission to upload images.</p>
+                <p>You need to <a href data-ui-sref="project.view.home">join this mission </a> to upload images.</p>
             </div>
 
             <div data-ng-if="projectData.access.member">
                 <form>
                     <div class="form-group">
-                        <label for="description">Description:</label>
-                        <input type="text" id="description" placeholder="Description" class="form-control"
-                               data-ng-model="description"/>
+                        <label for="title">Title:</label>
+                        <input type="text" id="title" placeholder="Title" class="form-control"
+                               data-ng-model="formData.title"/>
+                        {{title}}
                     </div>
                     <div class="form-group">
                         <label for="file-select-input-image">Image:</label>
 
-                        <div data-ng-if="imageSrc">
-                            <img width="50%" data-ng-src="{{imageSrc}}" src=""/>
+                        <div data-ng-if="formData.imageSrc">
+                            <img width="50%" data-ng-src="{{formData.imageSrc}}" src=""/>
                         </div>
 
                         <div id="file-select-input-image" data-siw-file-select-widget data-ng-attr-filekey="image">
                         </div>
                     </div>
                     <div class="btn-group">
-                        <button type="button" class="btn btn-default" data-ng-click="upload()">Upload image</button>
-                        <button type="button" class="btn btn-default" data-ng-click="reset()">Reset</button>
+                        <button type="button" class="btn btn-default"
+                                data-ng-click="upload()" data-ng-disabled="!formData.imageSrc">Upload image</button>
+                        <!--<button type="button" class="btn btn-default" data-ng-click="reset()">Reset</button>-->
                     </div>
                 </form>
             </div>

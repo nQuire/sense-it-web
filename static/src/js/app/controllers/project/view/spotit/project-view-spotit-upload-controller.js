@@ -1,16 +1,18 @@
 angular.module('senseItWeb', null, null).controller('ProjectViewSpotItUploadCtrl', function ($scope, fileReader) {
 
-    $scope.imageSrc = null;
-    $scope.description = "";
+    $scope.formData = {
+        imageSrc: null,
+        title: ""
+    };
 
     $scope.getPreviewFile = function () {
         fileReader.readAsDataUrl($scope.filelistener.file, $scope).then(function (result) {
-            $scope.imageSrc = result;
+            $scope.formData.imageSrc = result;
         });
     };
 
     $scope.resetPreview = function () {
-        $scope.imageSrc = null;
+        $scope.formData.imageSrc = null;
     };
 
     $scope.filelistener = {
@@ -32,10 +34,10 @@ angular.module('senseItWeb', null, null).controller('ProjectViewSpotItUploadCtrl
     };
 
     $scope.upload = function () {
-        $scope.createData({description: $scope.description}, {image: $scope.filelistener.file}, true);
+        $scope.createData({title: $scope.formData.title}, {image: $scope.filelistener.file}, true);
     };
     $scope.reset = function () {
         $scope.filelistener.reset();
-        $scope.description = "";
+        $scope.formData.title = "";
     };
 });

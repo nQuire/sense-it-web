@@ -16,6 +16,7 @@ angular.module('senseItWeb', null, null).controller('ProjectEditSenseItSensorCtr
             title: 'Delete sensor',
             ok: function () {
                 $scope.senseitEditor.deleteInput($scope.sensorInput.id);
+                return true;
             }
         });
     };

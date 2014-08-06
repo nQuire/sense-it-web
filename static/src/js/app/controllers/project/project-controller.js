@@ -13,7 +13,7 @@ angular.module('senseItWeb', null, null).controller('ProjectCtrl', function ($sc
 
     $scope.commentThread = {
         thread: null,
-        title: 'Project discussion',
+        title: 'Mission discussion',
         path: 'project/' + $state.params['projectId'],
         postingEnabled: function () {
             return $scope.status.logged &&

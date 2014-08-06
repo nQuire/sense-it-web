@@ -36,6 +36,7 @@ angular.module('senseItWeb', null, null).controller('ProjectEditDescriptionCtrl'
             ok: function () {
                 $scope.projectData.project.metadata.blocks.splice(index, 1);
                 $scope.projectWatcher.saveMetadata();
+                return true;
             }
         });
 

@@ -19,6 +19,7 @@ angular.module('senseItWeb', null, null).controller('ProjectEditChallengeFieldCt
             title: 'Delete field',
             ok: function () {
                 $scope.challengeEditor.deleteField($scope.field.id);
+                return true;
             }
         });
     };
