@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+
+<div class="comment-list" data-ng-controller="CommentsCtrl">
+    <div data-ng-if="commentThread.title" class="comment-list-header">{{commentThread.title}}</div>
+
+    <div class="comment-new" data-ng-if="commentThread.postingEnabled()">
+        <div data-ng-if="!posting.isOpen">
+            <a href data-ng-click="posting.open()">New comment</a>
+        </div>
+        <div data-ng-if="posting.isOpen">
+            <form role="form">
+                <div class="form-group">
+                    <label for="comment-text-area">Comment:</label>
+                    <textarea id="comment-text-area" class="form-control" data-ng-model="posting.comment"></textarea>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default btn-sm" data-ng-click="posting.submit()">Submit
+                    </button>
+                    <button type="button" class="btn btn-default btn-sm" data-ng-click="posting.cancel()">Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="comment-new" data-ng-if="!commentThread.postingEnabled()"
+         data-ng-include="commentThread.postingDisabledTemplate"></div>
+
+
+    <div class="comment" data-ng-repeat="comment in comments.list | orderBy:'-date'">
+
+        <div class="comment-metadata">
+            <span class="comment-author-image" data-siw-user-image data-user="comment.user"></span>
+
+            <div class="comment-metadata-text">
+                <div>
+                    <span class="comment-date">
+                        {{comment.date | fuzzyDate}}
+                    </span>
+                    <span class="comment-vote" data-siw-vote-widget data-vote-manager="commentVoteManager"
+                          data-vote-target="comment"></span>
+
+                    <div class="comment-author">
+                        <span class="comment-author-username">{{comment.user.username}}</span> said:
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="comment-content">{{comment.comment}}</div>
+        <div data-ng-if="canDelete(comment.id)" class="comment-controls">
+            <!--<a href data-ng-click="posting.open()">Reply</a>-->
+            <a href data-ng-click="posting.deleteComment(comment.id)"
+                    >Delete
+            </a>
+        </div>
+    </div>
+
+</div>

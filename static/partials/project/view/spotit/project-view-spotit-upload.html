@@ -1,0 +1,53 @@
+<div class="project-section-header" data-ng-include="'partials/project/blocks/project-menu.html'"></div>
+
+<div class="project-section-content">
+    <div class="project-section-description-column"
+         data-ng-include="'partials/project/blocks/project-metadata.html'">
+    </div>
+
+    <div class="project-section-content-column">
+
+        <p class="project-section-content-header">Upload picture</p>
+
+        <div data-ng-if="!status.logged">
+            <p>You need to <a href data-ng-click="openIdService.loginAndComeBack()">sign in</a> or register to upload images to this mission.</p>
+        </div>
+
+        <div data-ng-if="status.logged">
+            <div data-ng-if="!projectData.access.member">
+                <p>You need to <a href data-ui-sref="project.view.home">join this mission </a> to upload images.</p>
+            </div>
+
+            <div data-ng-if="projectData.access.member">
+                <form>
+                    <div class="form-group">
+                        <label for="title">Title:</label>
+                        <input type="text" id="title" placeholder="Title" class="form-control"
+                               data-ng-model="formData.title"/>
+                        {{title}}
+                    </div>
+                    <div class="form-group">
+                        <label for="file-select-input-image">Image:</label>
+
+                        <div data-ng-if="formData.imageSrc">
+                            <img width="50%" data-ng-src="{{formData.imageSrc}}" src=""/>
+                        </div>
+
+                        <div id="file-select-input-image" data-siw-file-select-widget data-ng-attr-filekey="image">
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default"
+                                data-ng-click="upload()" data-ng-disabled="!formData.imageSrc">Upload image</button>
+                        <!--<button type="button" class="btn btn-default" data-ng-click="reset()">Reset</button>-->
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+

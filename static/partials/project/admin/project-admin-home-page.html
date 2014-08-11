@@ -1,0 +1,48 @@
+<div class="project-section-header" data-ng-include="'partials/project/blocks/project-menu.html'"></div>
+
+<div class="project-section-content">
+
+    <div data-ng-if="!projectData.access.admin">
+        You need admin rights to access this page.
+    </div>
+    <div data-ng-if="projectData.access.admin">
+        <div class="project-section-description-column">
+            <div data-ng-include="'partials/project/blocks/project-metadata.html'"></div>
+        </div>
+
+        <div class="project-section-content-column">
+            <p class="project-section-content-header">Mission administration</p>
+
+            <div data-ng-if="projectData.project.open">
+                <p>
+                    This project is currently <b>open</b>. Therefore, participants can join and browse it. However,
+                    you cannot edit it.
+                </p>
+
+                <p>
+                    If you need to edit this project, click on "Close project" to enable edition.
+                </p>
+
+                <p>
+                    <button class="btn btn-default" data-ng-click="closeProject()">Close project</button>
+                </p>
+            </div>
+            <div data-ng-if="!projectData.project.open">
+                <p>
+                    This project is currently <b>closed</b>. Therefore, you can
+                    <a href data-ui-sref="project.edit.home">edit it</a>, but participants cannot access it.
+                    Click on "Open project" to make the project public.
+                </p>
+
+                <p>
+                    <button class="btn btn-default" data-ng-click="openProject()">Open project</button>
+                </p>
+
+                <p>
+                    (Please note that you cannot edit the project while it is open.)
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+

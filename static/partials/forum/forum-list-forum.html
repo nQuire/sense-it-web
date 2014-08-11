@@ -1,0 +1,35 @@
+<td>
+    <div data-ng-if="!form.isOpen()">
+        <span class="arrow">▸</span>
+        <a href data-ui-sref="forum.node.list({forumId: forumNode.id})"><b>{{forumNode.title}}</b></a>
+        <button data-ng-if="adminAccess()" class="btn btn-default btn-xs" data-ng-click="form.open()">
+            {{isNew ? 'New forum' : 'Edit'}}
+        </button>
+    </div>
+
+    <div data-ng-if="form.isOpen()">
+        <form role="form" class="form">
+            <div class="form-group">
+                <label for="title">Title:</label>
+                <input id="title" class="form-control" data-ng-model="form.values.title" placeholder="Title"/>
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" class="form-control" data-ng-model="form.values.description"
+                          placeholder="Description"></textarea>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-default" data-ng-click="form.save()">Save</button>
+                <button class="btn btn-default" data-ng-click="form.cancel()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</td>
+<td>
+    <div data-ng-if="forumNode.lastPost">
+        <a href data-ui-sref="forum.thread({threadId: forumNode.lastPost.id})">{{forumNode.lastPost.title}}</a><br/>
+        {{forumNode.lastPost.lastComment.date | fuzzyDate}} by {{forumNode.lastPost.lastComment.user.username}}
+    </div>
+</td>
+<td>{{forumNode.threadCount}}</td>
+<td>{{forumNode.commentCount}}</td>

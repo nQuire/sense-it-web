@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<div class="project-section-header" data-ng-include="'partials/project/blocks/project-menu.html'"></div>
+
+<div class="project-section-content">
+    <div data-ng-if="!projectData.project.open && !projectData.access.admin" class="comments-noaccess-project-closed">
+        This project is still being edited by its author.
+    </div>
+
+    <div data-ng-if="projectData.project.open || projectData.access.admin">
+        <div class="project-section-description-column">
+            <div data-ng-include="'partials/project/blocks/project-metadata.html'"></div>
+
+            <div data-ng-if="!status.logged">
+                <p>You need to <a href data-ng-click="openIdService.loginAndComeBack()">sign in</a> before you can participate in projects.</p>
+            </div>
+            <div data-ng-if="status.logged">
+                <div class="btn-group project-section-description-join-leave"
+                     data-ng-if="projectData.project.open">
+                    <button data-ng-if="!projectData.access.member" type="button"
+                            class="btn btn-default project-join-button"
+                            data-ng-click="joinProject()">Join mission
+                    </button>
+                    <button data-ng-if="projectData.access.member" type="button" class="btn btn-default"
+                            data-ng-click="leaveProject()">Leave mission
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-section-content-column">
+            <p class="project-section-content-header">Mission outline</p>
+
+            <p data-ng-bind-html="projectData.project.metadata.outline"></p>
+
+            <div data-ng-if="templates.outlineData" data-ng-include="templates.outlineData"></div>
+        </div>
+
+
+    </div>
+</div>
+

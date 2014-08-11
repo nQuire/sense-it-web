@@ -1,0 +1,26 @@
+<div class="project-section-header" data-ng-include="'partials/project/blocks/project-menu.html'"></div>
+
+<div class="project-section-content">
+    <div class="project-section-description-column"
+         data-ng-include="'partials/project/blocks/project-metadata.html'">
+    </div>
+
+    <div class="project-section-content-column">
+
+
+        <div data-ng-switch="projectData.project.activity.stage">
+            <div data-ng-switch-when="proposal">
+                <div data-ng-include="'partials/project/view/challenge/project-view-challenge-stage-proposal.html'"
+                     data-ng-controller="ProjectViewChallengeStageProposalCtrl"></div>
+            </div>
+            <div data-ng-switch-when="voting">
+                <div data-ng-include="'partials/project/view/challenge/project-view-challenge-stage-vote.html'"
+                     data-ng-controller="ProjectViewChallengeStageVoteCtrl"></div>
+            </div>
+            <div data-ng-switch-when="outcome">
+                <div data-ng-include="'partials/project/view/challenge/project-view-challenge-stage-outcome.html'"
+                     data-ng-controller="ProjectViewChallengeStageOutcomeCtrl"></div>
+            </div>
+        </div>
+    </div>
+</div>

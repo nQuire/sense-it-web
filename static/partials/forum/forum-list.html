@@ -1,0 +1,23 @@
+<div class="forum-header">Forums</div>
+<div class="forum-content">
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Forum</th>
+            <th>Last post</th>
+            <th>Threads</th>
+            <th>Posts</th>
+        </tr>
+        </thead>
+
+        <tbody data-ng-repeat="category in forum.root.children"
+               data-ng-include="'partials/forum/forum-list-category.html'"
+               data-ng-controller="ForumListCategoryCtrl">
+        </tbody>
+    </table>
+
+
+    <div data-ng-if="adminAccess()" data-ng-include="'partials/forum/forum-list-category.html'"
+         data-ng-controller="ForumListCategoryCtrl"></div>
+</div>

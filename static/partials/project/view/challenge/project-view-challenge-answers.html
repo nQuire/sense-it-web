@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+
+
+<div data-ng-if="itemView.isOpen">
+    <div data-ng-include="'partials/project/view/challenge/project-view-challenge-answers-item.html'"
+         data-ng-controller="ProjectViewChallengeAnswersItemCtrl"></div>
+</div>
+<div data-ng-if="!itemView.isOpen">
+    <div data-ng-include="'partials/project/view/challenge/project-view-challenge-answers-table.html'"
+         data-ng-controller="ProjectViewChallengeAnswersTableCtrl"></div>
+</div>

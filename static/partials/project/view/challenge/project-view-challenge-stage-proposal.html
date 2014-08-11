@@ -1,0 +1,15 @@
+<p class="project-section-content-header">My ideas</p>
+
+<div data-ng-if="status.logged">
+    <div data-ng-if="projectData.access.member">
+        <div data-ng-include="'partials/project/view/challenge/project-view-challenge-answers.html'"
+             data-ng-controller="ProjectViewChallengeAnswersCtrl"></div>
+
+    </div>
+    <div data-ng-if="!projectData.access.member">
+        <p>You need to join this project to post ideas.</p>
+    </div>
+</div>
+<div data-ng-if="!status.logged">
+    <p>You need to <a href data-ui-sref="profile">sign in</a> or register to post ideas.</p>
+</div>

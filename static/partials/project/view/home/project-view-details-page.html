@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<div class="project-section-header" data-ng-include="'partials/project/blocks/project-menu.html'"></div>
+
+<div class="project-section-content">
+    <div data-ng-if="!projectData.project.open && !projectData.access.admin" class="comments-noaccess-project-closed">
+        This project is still being edited by its author.
+    </div>
+
+    <div data-ng-if="projectData.project.open || projectData.access.admin">
+        <div class="project-section-description-column">
+            <div data-ng-include="'partials/project/blocks/project-metadata.html'"></div>
+        </div>
+
+        <div class="project-section-content-column">
+            <p class="project-section-content-header">Mission details</p>
+
+            <div class="project-section-content-description-block"
+                 data-ng-repeat="block in projectData.project.metadata.blocks">
+                <p class="project-section-content-block-title">{{block.title}}</p>
+
+                <div class="project-section-content-description-block-content"
+                     data-ng-bind-html="block.content"></div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+
+<div data-ng-if="form.isOpen()">
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label for="sensor">Sensor:</label>
+            <select id="sensor" data-ng-model="form.values.sensor" class="form-control">
+                <option value="acc">Accelerometer</option>
+                <option value="snd">Sound</option>
+                <option value="mag">Magnetic field</option>
+                <option value="gyr">Gyroscope</option>
+                <option value="orn">Orientation</option>
+                <option value="pre">Pressure</option>
+                <option value="lig">Light</option>
+                <option value="ambtmp">Ambient temperature</option>
+                <option value="relhum">Relative humidity</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="rate">Samples / second</label>
+            <input class="form-control" id="rate" type="number" step="any" placeholder="Sampling rate"
+                   data-ng-model="form.values.rate"/>
+        </div>
+        <p class="btn-group">
+
+            <button class="btn btn-default" data-ng-disabled="form.okButtonDisabled()"
+                    data-ng-click="form.save()">
+                Save
+            </button>
+            <button class="btn btn-default"
+                    data-ng-disabled="form.resetButtonDisabled()"
+                    data-ng-click="form.cancel()">
+                Cancel
+            </button>
+        </p>
+    </form>
+</div>
+<div data-ng-if="!form.isOpen()">
+    <div data-ng-if="isNew">
+        <button class="btn btn-default" data-ng-click="form.open()">Add sensor input</button>
+    </div>
+    <div data-ng-if="!isNew">
+        <p>
+            Sensor:
+            <b><span data-ng-switch="sensorInput.sensor">
+                <span data-ng-switch-when="snd">Sound</span>
+                <span data-ng-switch-when="acc">Acceleration</span>
+                <span data-ng-switch-when="mag">Magnetic field</span>
+                <span data-ng-switch-when="gyr">Gyroscope</span>
+                <span data-ng-switch-when="orn">Orientation</span>
+                <span data-ng-switch-when="pre">Pressure</span>
+                <span data-ng-switch-when="lig">Light</span>
+                <span data-ng-switch-when="ambtmp">Ambient temperature</span>
+                <span data-ng-switch-when="relhum">Relative humidity</span>
+            </span>
+            </b> ({{sensorInput.rate}} samples/second).
+        </p>
+
+        <button class="btn btn-default" data-ng-click="form.open()">Edit</button>
+        <button class="btn btn-default" data-ng-click="deleteInput()">Delete sensor
+            input
+        </button>
+    </div>
+</div>
+

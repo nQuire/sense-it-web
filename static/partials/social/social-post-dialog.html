@@ -1,0 +1,66 @@
+<div data-ng-if="!data.status.logged">
+    <p>You need to <a href data-ng-click="close(data.provider.login)">Sign in</a> before posting on
+        {{data.provider.name}}.</p>
+</div>
+<div data-ng-if="data.status.logged">
+    <div data-ng-if="!data.provider.connected()">
+
+        <p>You have not linked a {{data.provider.name}} account yet.</p>
+
+        <p>
+            <button class="btn btn-default" data-ng-click="data.provider.link()">
+                Link with {{data.provider.name}}
+            </button>
+        </p>
+    </div>
+
+    <div data-ng-if="data.provider.connected()" class="social-posting-dialog">
+        <div data-ng-if="data.result.state == 'posting'">
+            <p><img src="media/throbber.gif"/> Awaiting response from {{data.provider.name}}... </p>
+        </div>
+
+        <div data-ng-if="data.result.state != 'posting'" data-ng-switch="data.result.error">
+
+            <p data-ng-switch-when="duplicate">
+                Sorry, you have posted already the same content! You may need to edit it
+                before posting.
+            </p>
+
+            <p data-ng-switch-when="connection">
+                Sorry, there was a problem with the connection with
+                {{data.provider.name}}.
+            </p>
+
+            <p data-ng-switch-when="unknown">
+                Sorry, there was a problem when trying to post your comment.
+            </p>
+        </div>
+
+
+        <p data-ng-if="data.result.state == 'completed'">
+            Post successful: <a href="{{data.result.url}}" target="_blank">{{data.result.url}}</a>
+        </p>
+
+
+        <form data-ng-if="data.posting.editTitle">
+            <div class="form-group">
+                <label for="social-posting-title">Title:</label>
+                <input data-ng-disabled="editDisabled()" id="social-posting-title" class="form-control"
+                       data-ng-model="data.posting.title" auto-focus/>
+            </div>
+            <div class="form-group">
+                <label for="social-posting-content">Content:</label>
+                <textarea data-ng-disabled="editDisabled()" id="social-posting-content"
+                          data-ng-model="data.posting.content" auto-focus></textarea>
+            </div>
+        </form>
+        <div data-ng-if="!data.posting.editTitle">
+            <p data-ng-if="data.result.state != 'completed'">{{data.posting.title}}</p>
+
+            <form>
+                <textarea data-ng-disabled="editDisabled()" class="form-control" data-ng-model="data.posting.content"
+                          auto-focus></textarea>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,59 @@
+<div class="content-sidebar">
+    <div class="row">
+        <div data-ng-repeat="projectData in filteredList()" class="col-xs-12 col-sm-6 col-md-4">
+            <div class="project-item" data-ng-class="projectClass(projectData)">
+                <div class="project-item-image-container"
+                     data-ui-sref="project.view.home({projectId: projectData.project.id})">
+                    <img src=""
+                         data-ng-src="{{projectData.project.metadata.image | uploadedImage:'media/image_default.png'}}"
+                         data-ui-sref="project.view.home({projectId: projectData.project.id})"/>
+                </div>
+                <div class="project-item-text-container">
+                    <div class="project-item-title">
+                        <a href data-ui-sref="project.view.home({projectId: projectData.project.id})">
+                            {{projectData.project.title}}
+                        </a>
+                    </div>
+
+                    <div class="project-item-type" data-ng-switch="projectData.project.type">
+                        <span data-ng-switch-when="senseit">Sense-it</span>
+                        <span data-ng-switch-when="spotit">Spot-it</span>
+                        <span data-ng-switch-when="challenge">Win-it</span>
+                    </div>
+
+                    <p class="project-item-teaser">{{projectData.project.metadata.teaser}}</p>
+
+                    <div class="project-description-data"
+                         data-ng-if="projectData.project.type == 'challenge'">
+                        <ul>
+                            <li><span data-ng-switch="projectData.project.activity.stage">
+                            <span data-ng-switch-when="proposal">Send your ideas</span>
+                            <span data-ng-switch-when="voting">Voting</span>
+                            <span data-ng-switch-when="outcome">Ended</span>
+                        </span></li>
+                        </ul>
+                    </div>
+
+                    <div class="project-item-author">A mission created by {{projectData.project.author.username}}.</div>
+                </div>
+                <div class="project-item-banner">
+                    <a href data-ui-sref="project.view.home({projectId: projectData.project.id})">
+                        <span class="project-item-metadata">
+                            {{projectData.data.members}} <i class="fa fa-child"></i>
+                            {{projectData.data.data}} <i class="fa fa-database"></i>
+                        </span>
+                        A
+                        <span class="project-item-banner-type" data-ng-switch="projectData.project.type">
+                            <span data-ng-switch-when="senseit">Sense-it</span>
+                            <span data-ng-switch-when="spotit">Spot-it</span>
+                            <span data-ng-switch-when="challenge">Win-it</span>
+                        </span>
+                        mission
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="sidebar-right" data-ng-include="'partials/projects/projects-sidebar.html'"></div>

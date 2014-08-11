@@ -1,0 +1,10 @@
+<div data-ng-if="dataList.last">
+    <p class="project-section-content-header">Last picture</p>
+
+    <p><a href data-ui-sref="project.view.data-list">See all </a></p>
+
+    <div class="spotit-observation-outline">
+        <img src data-ng-src="{{dataList.last.observation | uploadedImage }}" data-ng-click="goToLast()"/>
+    </div>
+</div>
+

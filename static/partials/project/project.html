@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+
+<div data-ng-if="projectData.ready" class="project-main-container"
+     data-ng-class="'project-type-' + projectData.project.type">
+
+
+    <div class="project-section">
+        <div data-ui-view></div>
+    </div>
+
+    <div class="sidebar-right">
+        <div class="project-social-section">
+            <div data-ng-include="'partials/social/social.html'"></div>
+        </div>
+        <div class="project-comments-section">
+            <div data-ng-include="'partials/comments.html'"></div>
+        </div>
+    </div>
+
+</div>
+<div data-ng-if="!projectData.ready">
+    <div class="header">
+        <div class="throbber"></div>
+        <h2>Loading...</h2>
+    </div>
+</div>

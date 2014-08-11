@@ -1,0 +1,70 @@
+
+<div data-ng-if="answerData.showFilter">
+    <form class="form-inline">
+        <div class="form-group">
+            <select id="author" data-ng-model="filter.params.type" class="form-control">
+                <option value="any">All answers</option>
+                <option value="mine">Only mine</option>
+                <option value="others">Only by others</option>
+            </select>
+
+            <input type="search" placeholder="Search" data-ng-model="filter.params.search" class="form-control"/>
+        </div>
+        <div class="btn-group">
+            <button type="reset" class="btn btn-default">Reset</button>
+        </div>
+    </form>
+</div>
+
+<div data-ng-if="answerData.answersReady">
+    <table data-siw-sortable-table-widget data-table-data="tableData" class="table table-bordered">
+        <thead>
+        <tr>
+            <th data-ng-if="answerData.showAuthor" data-ng-class="headerClass('author')"
+                data-ng-click="headerSort('author')">
+                Author
+            </th>
+            <th data-ng-if="answerData.showVoting" data-ng-class="headerClass('votes')"
+                data-ng-click="headerSort('votes')">
+                Votes
+            </th>
+            <th data-ng-class="headerClass('answer')" data-ng-click="headerSort('answer')">{{titleLabel}}</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr data-ng-repeat="answer in sortedData.data">
+            <td data-ng-if="answerData.showAuthor">{{answer.author.username}}</td>
+            <td data-ng-if="answerData.showVoting">
+                <div data-siw-vote-widget data-vote-manager="voteManager" data-vote-target="answer"></div>
+            </td>
+            <td data-ng-bind-html="answerTeaser(answer)"></td>
+            <td>
+                <button class="btn btn-default"
+                        data-ng-click="itemView.open(answer)">
+                    Open
+                </button>
+                <button data-ng-if="answerData.selectable" class="btn"
+                        data-ng-class="answer.id == answerData.selectedAnswer ? 'btn-primary btn-active' : 'btn-default'"
+                        data-ng-click="answerData.selectCallback(answer)">Select
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <div data-ng-if="answerData.editable">
+        <div data-ng-if="maxAnswersReached()">
+            <p>You have created the maximum number of allowed ideas:
+                {{projectData.project.activity.maxAnswers}}.</p>
+        </div>
+        <div data-ng-if="!maxAnswersReached()">
+            <p>You can create up to {{projectData.project.activity.maxAnswers}} ideas.</p>
+            <button class="btn btn-default" data-ng-click="itemView.openNew()">
+                Create new idea
+            </button>
+        </div>
+    </div>
+
+</div>

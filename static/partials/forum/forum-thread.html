@@ -1,0 +1,47 @@
+<div class="forum-header">
+    <a href data-ui-sref="forum.list">Forum</a> ▸
+    <a href data-ui-sref="forum.node.list({forumId: forum.thread.forum.id})">{{forum.thread.forum.title}}</a> ▸
+    {{forum.thread.title}}
+</div>
+<div class="forum-thread-content">
+
+    <div class="forum-thread-comment" data-ng-repeat="comment in forum.thread.comments">
+        <div class="forum-thread-comment-header">
+            <div class="username">{{comment.user.username}}</div>
+            <div class="date">{{comment.date | fuzzyDate }}</div>
+        </div>
+
+        <div class="forum-thread-author-image" data-siw-user-image data-user="comment.user"></div>
+
+        <div class="forum-thread-text" data-ng-bind-html="comment.comment"></div>
+    </div>
+
+    <div data-ng-if="!status.logged">
+        <p><a href data-ng-click="openIdService.loginAndComeBack()">Sign in</a> to post replies in this thread.</p>
+    </div>
+
+    <div data-ng-if="status.logged">
+        <div data-ng-if="!form.isOpen()">
+            <button class="btn btn-default" data-ng-click="form.open()">Post comment</button>
+        </div>
+        <div data-ng-if="form.isOpen()">
+
+            <form role="form">
+                <div class="form-group">
+                    <label>Comment:</label>
+                    <text-angular id="comment"
+                                  name="comment"
+                                  data-ng-model="form.values.comment"
+                                  placeholder="Comment">
+                    </text-angular>
+                </div>
+                <div class="btn-group">
+
+                    <button class="btn btn-default" data-ng-disabled="okDisabled()" data-ng-click="form.save()">Post
+                    </button>
+                    <button class="btn btn-default" data-ng-click="form.cancel()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

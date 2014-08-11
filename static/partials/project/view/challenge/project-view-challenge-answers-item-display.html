@@ -1,0 +1,15 @@
+
+
+<div data-ng-repeat="field in projectData.project.activity.fields | orderBy:weight">
+    <div class="project-view-challenge-sumbission-header">{{field.label}}</div>
+
+    <div class="project-view-challenge-sumbission-content" data-ng-if="field.type=='textangular'" data-ng-bind-html="itemView.answer.fieldValues[field.id]"></div>
+
+    <div class="project-view-challenge-sumbission-content" data-ng-if="field.type!='textangular'">{{itemView.answer.fieldValues[field.id]}}</div>
+</div>
+
+<p data-ng-if="answerData.showPublished">{{itemView.answer.published ? 'Published' : 'Not published yet'}}.</p>
+
+<div data-ng-if="answerData.showVoting">
+    <div data-siw-vote-widget data-vote-manager="voteManager" data-vote-target="itemView.answer"></div>
+</div>

@@ -1,0 +1,22 @@
+<ul>
+    <li>
+        <b>
+            <span data-ng-switch="projectData.project.activity.stage">
+                <span data-ng-switch-when="proposal">Accepting ideas</span>
+                <span data-ng-switch-when="voting">Voting</span>
+                <span data-ng-switch-when="outcome">Ended</span>
+            </span>
+        </b>
+    </li>
+    <li><b>{{projectData.data.members}}</b>
+        <span ng-pluralize count="projectData.data.members"
+              when="{'1': 'member',
+                     'other': 'members'}">
+        </span>
+    <li><b>{{projectData.data.data}}</b>
+        <span ng-pluralize count="projectData.data.data"
+              when="{'1': 'idea',
+                     'other': 'ideas'}">
+        </span>
+    </li>
+</ul>

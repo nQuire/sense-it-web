@@ -1,0 +1,6 @@
+<p data-ng-if="!status.logged">
+    <a href data-ng-click="openIdService.loginAndComeBack()">Sign in</a> to comment on this picture.
+</p>
+<p data-ng-if="status.logged && !projectData.access.member && !projectData.access.admin">
+    <a href data-ui-sref="project.view.home">Join</a> this mission to discuss about this picture.
+</p>

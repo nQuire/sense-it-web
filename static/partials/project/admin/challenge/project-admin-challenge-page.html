@@ -1,0 +1,36 @@
+<div class="project-section-header" data-ng-include="'partials/project/blocks/project-menu.html'"></div>
+
+<div class="project-section-content">
+
+    <div class="project-section-description-column">
+        <div data-ng-include="'partials/project/blocks/project-metadata.html'"></div>
+    </div>
+
+    <div class="project-section-content-column">
+
+
+
+        <p class="project-section-content-header">Stage selection</p>
+
+        <div class="btn-group">
+            <button class="btn"
+                    data-ng-class="stageButtonClass('proposal')"
+                    data-ng-click="setStage('proposal')">
+                Proposal stage
+            </button>
+            <button class="btn"
+                    data-ng-class="stageButtonClass('voting')"
+                    data-ng-click="setStage('voting')">
+                Voting stage
+            </button>
+            <button class="btn"
+                    data-ng-class="stageButtonClass('outcome')"
+                    data-ng-click="setStage('outcome')">
+                Outcome stage
+            </button>
+        </div>
+
+        <div data-ng-include="'partials/project/view/challenge/project-view-challenge-outcome.html'"></div>
+
+    </div>
+</div>

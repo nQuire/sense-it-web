@@ -1,0 +1,92 @@
+<div data-ng-controller="ProjectFilterSidebarCtrl">
+    <iframe width="210" height="118" src="//www.youtube.com/embed/w1M9xtkhYEQ" frameborder="0" allowfullscreen></iframe>
+
+    <div class="sidebar-teaser">
+        nQuire-it is developed by <a href="http://www.open.ac.uk" target="_blank">The Open University</a>
+        with support from <a href="http://www.nominettrust.org.uk/" target="_blank">Nominet Trust</a>.
+        It is free to use. Explore the missions, or sign in to join these missions or create your own.
+    </div>
+    <div class="sidebar-header">
+        Mission type
+    </div>
+    <div class="sidebar-menu">
+        <ul>
+            <li>
+                <a data-ui-sref="home({type: null, status: projectListFilter.status, filter: projectListFilter.filter})"
+                   data-ng-class="menuItemClass('type', null)">
+                    Any type
+                </a>
+            </li>
+            <li>
+                <a data-ui-sref="home({type: 'sense-it', status: projectListFilter.status, filter: projectListFilter.filter})"
+                   data-ng-class="menuItemClass('type', 'sense-it')">
+                    <span class="sidebar-type-senseit">Sense-it</span> missions
+                </a>
+            </li>
+            <li>
+                <a data-ui-sref="home({type: 'spot-it', status: projectListFilter.status, filter: projectListFilter.filter})"
+                   data-ng-class="menuItemClass('type', 'spot-it')">
+                    <span class="sidebar-type-spotit">Spot-it</span> missions
+                </a>
+            </li>
+            <li>
+                <a data-ui-sref="home({type: 'win-it', status: projectListFilter.status, filter: projectListFilter.filter})"
+                   data-ng-class="menuItemClass('type', 'win-it')">
+                    <span class="sidebar-type-winit">Win-it</span> missions
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="sidebar-header">
+        Status
+    </div>
+    <div class="sidebar-menu">
+        <ul>
+            <li>
+                <a data-ui-sref="home({type: projectListFilter.type, status: null, filter: projectListFilter.filter})"
+                   data-ng-class="menuItemClass('status', null)">
+                    All missions
+                </a>
+            </li>
+            <li>
+                <a data-ui-sref="home({type: projectListFilter.type, status: 'joined', filter: projectListFilter.filter})"
+                   data-ng-class="menuItemClass('status', 'joined')">
+                    Joined missions
+                </a>
+            </li>
+            <li>
+                <a data-ui-sref="home({type: projectListFilter.type, status: 'not-joined', filter: projectListFilter.filter})"
+                   data-ng-class="menuItemClass('status', 'not-joined')">
+                    Not joined missions
+                </a>
+            </li>
+            <li>
+                <a data-ui-sref="home({type: projectListFilter.type, status: 'mine', filter: projectListFilter.filter})"
+                   data-ng-class="menuItemClass('status', 'mine')">
+                    Created by me
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="sidebar-header">
+        Filter
+    </div>
+    <div class="sidebar-menu">
+
+        <ul>
+            <li>
+                <a data-ui-sref="home({type: projectListFilter.type, status: projectListFilter.status, filter: null})"
+                   data-ng-class="menuItemClass('filter', null)">
+                    Featured missions
+                </a>
+            </li>
+            <li>
+                <a data-ui-sref="home({type: projectListFilter.type, status: projectListFilter.status, filter: 'all'})"
+                   data-ng-class="menuItemClass('filter', 'all')">
+                    All
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

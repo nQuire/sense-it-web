@@ -1,0 +1,61 @@
+<div class="project-view-challenge-sumbission">
+    <div data-ng-if="form.isOpen()">
+        <form role="form">
+            <div data-ng-repeat="field in projectData.project.activity.fields | orderBy:weight" class="form-group">
+
+                <label class="project-view-challenge-sumbission-header" for="{{field.id}}">{{field.label}}</label>
+                <textarea data-ng-if="field.type=='textarea'" class="form-control"
+                          id="{{field.id}}" placeholder="{{field.label}}"
+                          data-ng-model="form.values.fieldValues[field.id]"></textarea>
+                <input data-ng-if="field.type=='textfield'" class="form-control"
+                       id="{{field.id}}" type="text" placeholder="{{field.label}}"
+                       data-ng-model="form.values.fieldValues[field.id]"/>
+                <text-angular data-ng-if="field.type=='textangular'" id="{{field.id}}"
+                              name="project-block-content-{{field.id}}"
+                              data-ng-model="form.values.fieldValues[field.id]">
+                </text-angular>
+            </div>
+
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" data-ng-model="form.values['published']"/> Published
+                </label>
+            </div>
+
+            <div class="btn-group">
+
+                <button class="btn btn-default" data-ng-disabled="form.okButtonDisabled()"
+                        data-ng-click="form.save()">
+                    {{isNew ? 'Create' : 'Save'}}
+                </button>
+                <button class="btn btn-default"
+                        data-ng-disabled="form.resetButtonDisabled()"
+                        data-ng-click="cancelForm()">
+                    Cancel
+                </button>
+            </div>
+        </form>
+
+    </div>
+    <div data-ng-if="!form.isOpen() && !itemView.isNew">
+        <div data-ng-include="'partials/project/view/challenge/project-view-challenge-answers-item-display.html'"></div>
+
+        <p>
+        <span class="btn-group">
+            <button data-ng-if="answerData.editable" class="btn btn-default"
+                    data-ng-click="form.open()">
+                Edit
+            </button>
+            <button data-ng-if="answerData.editable" class="btn btn-default"
+                    data-ng-click="deleteAnswer()">
+                Delete
+            </button>
+        </span>
+            <button data-ng-if="answerData.selectable" class="btn"
+                    data-ng-class="itemView.answer.id == answerData.selectedAnswer ? 'btn-success' : 'btn-default'"
+                    data-ng-click="answerData.selectCallback(itemView.answer)">Select
+            </button>
+            <a href data-ng-click="itemView.close()">Go back to list</a>
+        </p>
+    </div>
+</div>

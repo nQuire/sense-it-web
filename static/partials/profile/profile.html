@@ -1,0 +1,8 @@
+<div class="content-sidebar">
+
+    <div data-ng-if="status.logged" data-ng-include="'partials/profile/profile-logged-in.html'"></div>
+    <div data-ng-if="!status.logged" data-ng-include="'partials/profile/profile-logged-out.html'"></div>
+</div>
+
+<div class="sidebar-right" data-ng-include="'partials/projects/projects-sidebar.html'"></div>
+

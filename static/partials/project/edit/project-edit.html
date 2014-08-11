@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+<div data-ng-if="projectData.ready && status.logged && projectData.access.admin">
+
+    <div data-ng-if="!projectData.project.open">
+        <div data-ng-switch="projectData.project.type">
+            <div data-ng-switch-when="senseit">
+                <div data-ng-include="'partials/project/edit/senseit/project-edit-senseit.html'"></div>
+            </div>
+            <div data-ng-switch-when="challenge">
+                <div data-ng-include="'partials/project/edit/challenge/project-edit-challenge.html'"></div>
+            </div>
+            <div data-ng-switch-when="spotit">
+                <div data-ng-include="'partials/project/edit/spotit/project-edit-spotit.html'"></div>
+            </div>
+        </div>
+    </div>
+    <div data-ng-if="projectData.project.open">
+        <div data-ng-include="'partials/project/edit/project-edit-open-page.html'"></div>
+    </div>
+</div>

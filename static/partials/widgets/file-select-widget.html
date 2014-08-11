@@ -1,0 +1,25 @@
+<span data-ng-if="hasOriginal" data-ng-class="originalClass()">Current file: {{original}}</span><br/>
+
+<span data-ng-if="originalModified">
+    <button class="btn btn-default btn-sm" data-ng-click="actions.cancel()">
+        {{hasOriginal ? 'Cancel (keep current file)' : 'Cancel'}}
+    </button>
+</span>
+
+<span data-ng-if="!originalModified && hasOriginal">
+    <button class="btn btn-default btn-sm" data-ng-click="actions.deleteFile()">
+        Delete file
+    </button>
+</span>
+
+<span class="btn btn-default btn-file" data-ng-class="{'btn-sm': hasFile}">
+    {{hasFile ? 'Select different file' : 'Select file'}}
+    <input type="file" onchange="angular.element(this).scope().fileChosen(this.files[0])"/>
+</span>
+<br/>
+<span data-ng-if="selectedFile">
+    Selected file: {{selectedFile.name}}
+</span>
+
+
+

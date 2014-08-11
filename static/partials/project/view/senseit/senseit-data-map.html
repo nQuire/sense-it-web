@@ -1,0 +1,42 @@
+<div data-ng-controller="ProjectViewSenseItMapCtrl">
+    <p class="sortable-menu">
+        <b>Sort by: </b>
+        <a href data-ng-class="sortableClass('title')" data-ng-click="sort('title')">Title</a>
+        <a href data-ng-class="sortableClass('author')" data-ng-click="sort('author')">Author</a>
+        <a href data-ng-class="sortableClass('date')" data-ng-click="sort('date')">Date</a>
+        <a href data-ng-repeat="v in dataInfo.tableVariables"
+           data-ng-class="sortableClass(v.id)" data-ng-click="sort(v.id)">{{v.label()}}
+        </a>
+        <a href data-ng-class="sortableClass('votes')" data-ng-click="sort('votes')">Votes</a>
+    </p>
+
+    <form class="form-inline">
+        <div class="form-group">
+            <label>Show value:
+                <select class="form-control" data-ng-model="mapData.textKey"
+                        data-ng-options="obj.value as obj.label for obj in showOptions"></select>
+            </label>
+        </div>
+    </form>
+
+    <p class="btn-group" data-ng-if="sortedData.data.length > 0">
+        <button class="btn btn-default" data-ng-click="goto.first()">
+            <i class="fa fa-fast-backward"></i>
+        </button>
+        <button class="btn btn-default" data-ng-click="goto.previous()">
+            <i class="fa fa-arrow-left"></i>
+        </button>
+        <button class="btn btn-default" data-ui-sref="project.view.data-list" data-ng-disabled="true">
+            <span data-ng-if="mapData.selectedIndex >= 0">{{mapData.selectedIndex + 1}} / </span>
+            {{sortedData.data.length}}
+        </button>
+        <button class="btn btn-default" data-ng-click="goto.next()">
+            <i class="fa fa-arrow-right"></i>
+        </button>
+        <button class="btn btn-default" data-ng-click="goto.last()">
+            <i class="fa fa-fast-forward"></i>
+        </button>
+    </p>
+    <div data-siw-map data-map-zoom-to="zoomToItem"></div>
+
+</div>

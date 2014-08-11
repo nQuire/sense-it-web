@@ -1,0 +1,91 @@
+
+<table data-siw-sortable-table-widget data-table-data="dataList" class="table table-bordered">
+    <thead>
+    <tr>
+        <th data-ng-class="headerClass('title')" data-ng-click="headerSort('title')">Title</th>
+        <th data-ng-class="headerClass('author')" data-ng-click="headerSort('author')">Author</th>
+        <th data-ng-class="headerClass('date')" data-ng-click="headerSort('date')">Date</th>
+        <th data-ng-repeat="v in dataInfo.tableVariables"
+            data-ng-class="headerClass(v.id)" data-ng-click="headerSort(v.id)">{{v.label()}}
+        </th>
+        <th data-ng-class="headerClass('votes')" data-ng-click="headerSort('votes')">Votes</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr data-ng-repeat-start="item in sortedData.data"
+        data-ng-class="$index % 2 ? 'senseit-series-odd' : 'senseit-series-even'">
+        <td>
+            <div data-ng-if="!form.isOpen(item.id)">
+                <p>{{item.title}}</p>
+
+                <div data-ng-if="item.author.id == status.profile.id">
+                    <p class="btn-group">
+                        <button class="btn btn-default btn-xs" data-ng-click="edit.open(item)">
+                            Edit title
+                        </button>
+                        <button class="btn btn-default btn-xs" data-ng-click="deleteData(item)">
+                            Delete series
+                        </button>
+                    </p>
+                </div>
+            </div>
+            <div data-ng-if="form.isOpen(item.id)">
+                <form class="form-inline">
+                    <input class="form-control" data-ng-model="form.values.title" placeholder="title"/>
+
+                    <div class="btn-group">
+                        <button class="btn btn-default" data-ng-click="form.save()">
+                            Save
+                        </button>
+                        <button class="btn btn-default" data-ng-click="form.cancel()">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div>
+                <p>
+                    <small><a href data-ng-click="plots.togglePlot(item)">Toggle plot</a>
+                        <span data-ng-if="projectData.project.activity.profile.geolocated"> | </span>
+                        <a href data-ng-if="projectData.project.activity.profile.geolocated"
+                           data-ui-sref="project.view.data-map({item: item.id})">
+                            Open map
+                        </a>
+                    </small>
+                </p>
+            </div>
+        </td>
+
+        <td>
+            {{item.author.username}}
+        </td>
+        <td>{{item.date | fuzzyDate}}</td>
+        <td data-ng-repeat="v in dataInfo.tableVariables">
+            {{dataInfo.tableValue(item, v)}}
+        </td>
+        <td>
+            <p data-siw-vote-widget data-vote-manager="dataVoteManager" data-vote-target="item"></p>
+
+            <p><a href data-ng-click="comments.toggle(item)" ng-pluralize count="item.commentCount"
+                  when="{'1': '1 comment','other': '{} comments'}"></a></p>
+        </td>
+    </tr>
+    <tr data-ng-if="plots.plotOpen(item)"
+        data-ng-class="$index % 2 ? 'senseit-series-odd' : 'senseit-series-even'">
+        <td colspan="{{4 + dataInfo.tableVariables.length}}">
+            <img data-ng-repeat="v in dataInfo.plotVariables"
+                 data-ng-src="{{plots.url(item, v)}}"/>
+        </td>
+    </tr>
+    <tr data-ng-repeat-end data-ng-if="comments.isOpen(item)"
+        data-ng-class="$index % 2 ? 'senseit-series-odd' : 'senseit-series-even'">
+        <td colspan="{{4 + dataInfo.tableVariables.length}}">
+            <div data-ng-controller="ProjectViewSenseItItemCtrl">
+                <div class="senseit-comments" data-ng-include="'partials/comments.html'"></div>
+            </div>
+        </td>
+    </tr>
+
+    </tbody>
+
+</table>

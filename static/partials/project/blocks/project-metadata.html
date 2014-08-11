@@ -1,0 +1,27 @@
+<div class="project-section-description-image">
+    <img data-ng-src="{{projectData.project.metadata.image | uploadedImage:'media/image_default.png'}}"
+         src=""/>
+</div>
+<div class="project-section-description-text">
+    <p class="project-section-description-text-title">
+        <span class="project-section-description-text-mission">Mission: </span>
+        {{projectData.project.title}}
+    </p>
+
+    <div class="project-section-description-text-author">
+                        <span class="project-section-description-text-author-image" data-siw-user-image
+                              data-user="projectData.project.author"></span>
+
+        <div class="project-section-description-text-author-name">
+            <div>
+                Mission created by {{projectData.project.author.username}}.
+            </div>
+        </div>
+    </div>
+
+    <div data-ng-if="templates.projectData" class="project-description-data"
+            data-ng-include="templates.projectData">
+    </div>
+
+
+</div>

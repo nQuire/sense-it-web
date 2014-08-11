@@ -1,0 +1,12 @@
+<div data-ng-if="adminAccess()" class="admin-page">
+    <div class="admin-header">
+        <span data-siw-menu-item data-menu-linked-state="'admin.users'" data-menu-label="'Users'"></span>
+        <span data-siw-menu-item data-menu-linked-state="'admin.projects'" data-menu-label="'Projects'"></span>
+    </div>
+
+    <div class="admin-content" data-ui-view></div>
+</div>
+
+<div data-ng-if="!adminAccess()" class="admin-page">
+    <p>Sorry, you need admin access to view this page.</p>
+</div>

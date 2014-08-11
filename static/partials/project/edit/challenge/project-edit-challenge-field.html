@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+
+<div data-ng-if="form.isOpen()">
+    <form role="form">
+        <div class="form-group">
+            <label for="label">Field label:</label>
+            <input id="label" class="form-control" type="text" placeholder="Label" data-ng-model="form.values.label"/>
+        </div>
+        <div class="form-group">
+            <label for="type">Field type:</label>
+            <select id="type" class="form-control" data-ng-model="form.values.type">
+                <option value="textfield">Single-line text</option>
+                <option value="textarea">Multiple-line plain text</option>
+                <option value="textangular">Multiple-line formatted text</option>
+            </select>
+        </div>
+        <div class="btn-group">
+
+            <button class="btn btn-default" data-ng-disabled="form.okButtonDisabled()"
+                    data-ng-click="form.save()">
+                {{isNew ? 'Create' : 'Save'}}
+            </button>
+            <button class="btn btn-default" data-ng-disabled="form.resetButtonDisabled()"
+                    data-ng-click="form.cancel()">
+                Cancel
+            </button>
+        </div>
+    </form>
+</div>
+<div data-ng-if="!form.isOpen()">
+    <div data-ng-if="isNew">
+        <button class="btn btn-default" data-ng-click="form.open()">Add field</button>
+    </div>
+    <div data-ng-if="!isNew">
+        <p>
+            <b>{{field.label}}</b>
+    <span data-ng-switch="field.type">
+        <span data-ng-switch-when="textfield">(Single-line text)</span>
+        <span data-ng-switch-when="textarea">(Multiple-line plain text)</span>
+        <span data-ng-switch-when="textangular">(Multiple-line formatted text)</span>
+    </span>
+
+    <span class="btn-group">
+        <button class="btn btn-default" data-ng-click="form.open()">Edit</button>
+        <button type="button" class="btn btn-default" data-ng-disabled="$last"
+                data-ng-click="moveField(false)">
+            <i class="fa fa-arrow-down"></i>
+        </button>
+        <button type="button" class="btn btn-default" data-ng-disabled="$first"
+                            data-ng-click="moveField(true)">
+            <i class="fa fa-arrow-up"></i>
+        </button>
+        <button type="button" class="btn btn-default" data-ng-click="deleteField()">
+            <i class="fa fa-trash-o"></i>
+        </button>
+    </span>
+        </p>
+    </div>
+</div>
+

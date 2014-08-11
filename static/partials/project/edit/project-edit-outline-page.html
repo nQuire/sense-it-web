@@ -1,0 +1,53 @@
+<div class="project-section-header" data-ng-include="'partials/project/blocks/project-menu.html'"></div>
+
+<div class="project-section-content">
+    <div class="project-section-description-column"
+         data-ng-include="'partials/project/blocks/project-title-edit.html'"></div>
+
+    <div class="project-section-content-column">
+
+        <p class="project-section-content-header">Mission outline</p>
+
+        <div data-ng-if="!form.isOpen('teaser')">
+            <div class="project-section-content-description-block-content"
+                 data-ng-bind-html="projectData.project.metadata.outline"></div>
+
+            <div data-ng-if="!form.isOpen()" class="btn-group">
+                <button type="button" class="btn btn-default" data-ng-click="form.open('teaser')">
+                    Edit
+                </button>
+            </div>
+        </div>
+
+        <div data-ng-if="form.isOpen('teaser')">
+            <form role="form">
+                <div class="form-group">
+                    <label>Outline:</label>
+                    <text-angular name="outline" data-ng-model="form.values.metadata.outline"></text-angular>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" data-ng-click="form.save()">Save</button>
+                    <button type="button" class="btn btn-default" data-ng-click="form.cancel()">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+        <p class="project-section-content-header">Mission administration</p>
+
+        <p>
+            This project is currently <b>closed</b>. Therefore, you can
+            <a href data-ui-sref="project.edit.home">edit it</a>, but participants cannot access it.
+            Click on "Open project" to make the project public.
+        </p>
+
+        <p>
+            <button class="btn btn-default" data-ng-click="openProject()">Open project</button>
+        </p>
+
+        <p>
+            (Please note that you cannot edit the project while it is open.)
+        </p>
+
+    </div>
+</div>
+

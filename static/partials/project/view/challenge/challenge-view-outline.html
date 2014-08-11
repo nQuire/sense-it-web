@@ -1,0 +1,60 @@
+<p class="project-section-content-header">Mission status</p>
+
+<div data-ng-switch="projectData.project.activity.stage">
+    <div data-ng-switch-when="proposal">
+        <p>This mission is accepting ideas now!</p>
+
+        <div data-ng-if="status.logged">
+            <div data-ng-if="projectData.access.member">
+                <p>You have created <b><span ng-pluralize count="answerData.answers.length"
+                                             when="{
+                                  '0': 'no ideas yet',
+                                   '1': '1 idea',
+                                   'other': '{{answerData.answers.length}} ideas'}"></span></b>.</p>
+
+                <p>Send <a href data-ui-sref="project.view.challenge">your ideas</a>.</p>
+            </div>
+            <div data-ng-if="!projectData.access.member">
+                <p>You need to join this project to post ideas.</p>
+            </div>
+        </div>
+        <div data-ng-if="!status.logged">
+            <p>You need to <a href data-ui-sref="profile">sign in</a> or register to post ideas.</p>
+        </div>
+    </div>
+    <div data-ng-switch-when="voting">
+        <p>This mission is now voting the submitted ideas!</p>
+
+        <div data-ng-if="status.logged">
+            <div data-ng-if="projectData.access.member">
+                <p><span ng-pluralize count="answerData.answers.length"
+                         when="{'1': '1 idea','other': '{{answerData.answers.length}} ideas'}"></span>
+                    have been posted in this mission.</p>
+
+                <p>Click <a href data-ui-sref="project.view.challenge">here</a> to vote your favourite!</p>
+            </div>
+            <div data-ng-if="!projectData.access.member">
+                <p>You need to join this project to vote ideas.</p>
+            </div>
+        </div>
+        <div data-ng-if="!status.logged">
+            <p>You need to <a href data-ui-sref="profile">sign in</a> or register to vote ideas.</p>
+        </div>
+    </div>
+    <div data-ng-switch-when="outcome">
+        <div data-ng-controller="ProjectViewChallengeOutcomeCtrl">
+            <div data-ng-if="outcomeReady">
+                <div data-ng-if="outcome.selectedAnswer">
+                    <p>This mission has now a winner! See <a href data-ui-sref="project.view.challenge">all ideas</a>.</p>
+
+                    <div class="project-view-challenge-sumbission"
+                         data-ng-include="'partials/project/view/challenge/project-view-challenge-answers-item-display.html'"></div>
+                </div>
+                <div data-ng-if="!outcome.selectedAnswer">
+                    <p>This mission is waiting for the winner decision!<br/>
+                        See <a href data-ui-sref="project.view.challenge">all ideas</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

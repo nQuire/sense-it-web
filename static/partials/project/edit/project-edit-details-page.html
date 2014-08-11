@@ -1,0 +1,68 @@
+<div class="project-section-header" data-ng-include="'partials/project/blocks/project-menu.html'"></div>
+
+<div class="project-section-content">
+    <div class="project-section-description-column"
+         data-ng-include="'partials/project/blocks/project-title-edit.html'"></div>
+
+    <div class="project-section-content-column">
+        <p class="project-section-content-header">Mission details</p>
+
+        <div class="project-section-content-description-block"
+             data-ng-repeat="block in projectData.project.metadata.blocks">
+
+            <div data-ng-if="!form.isOpen('block:' + $index)">
+                <p class="project-section-content-block-title">
+                    {{block.title}}
+
+                <span data-ng-if="!form.isOpen()" class="btn-group">
+                    <button type="button" class="btn btn-default" data-ng-click="form.open('block:' + $index)">
+                        Edit
+                    </button>
+                    <button type="button" class="btn btn-default" data-ng-disabled="$last"
+                            data-ng-click="moveMetadataBlock($index, false)">
+                        <i class="fa fa-arrow-down"></i>
+                    </button>
+                    <button type="button" class="btn btn-default" data-ng-disabled="$first"
+                            data-ng-click="moveMetadataBlock($index, true)">
+                        <i class="fa fa-arrow-up"></i>
+                    </button>
+                    <button type="button" class="btn btn-default" data-ng-click="deleteMetadataBlock($index)">
+                        <i class="fa fa-trash-o"></i>
+                    </button>
+                </span>
+                </p>
+
+                <div class="project-section-content-description-block-content"
+                     data-ng-bind-html="block.content"></div>
+
+
+            </div>
+
+            <div data-ng-if="form.isOpen('block:' + $index)">
+                <form role="form">
+                    <div class="form-group">
+                        <label for="block-block-title">Title:</label>
+                        <input id="block-block-title" class="form-control" type="text" placeholder="Title"
+                               data-ng-model="form.values.metadata.blocks[$index].title"/>
+                    </div>
+                    <div class="form-group">
+                        <label>Text:</label>
+                        <text-angular
+                                name="project-block-content"
+                                data-ng-model="form.values.metadata.blocks[$index].content">
+                        </text-angular>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default" data-ng-click="form.save()">Save</button>
+                        <button type="button" class="btn btn-default" data-ng-click="form.cancel()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <p class="project-section-content-column-add-block" data-ng-if="!form.isOpen()">
+            <button type="button" class="btn btn-default" data-ng-click="addMetadataBlock()">Add block</button>
+        </p>
+    </div>
+</div>
+

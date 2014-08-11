@@ -1,0 +1,143 @@
+<div class="content-sidebar">
+    <div class="project-create-type-senseit" data-ng-class="typeClass('senseit')">
+        <div class="project-create-type-image"
+             data-ng-click="select('senseit')"></div>
+        <div class="project-create-type-info">
+            <p class="project-create-type-info-header"
+               data-ng-click="select('senseit')">Sense-it</p>
+
+            <p>Is there something you are curious about - asking how, where, when and what?</p>
+
+            <p>Find answers by using the sensors in your phone! Invite others to help collect data!</p>
+
+            <p>Make it your <span class="project-create-type">Sense-it</span> mission!</p>
+
+            <div class="project-create-type-banner"
+                 data-ng-click="select('senseit')">
+                Create your own <b>Sense-it</b> mission
+            </div>
+        </div>
+    </div>
+
+    <div class="project-create-type-spotit" data-ng-class="typeClass('spotit')">
+        <div class="project-create-type-image"
+             data-ng-click="select('spotit')"></div>
+        <div class="project-create-type-info">
+            <p class="project-create-type-info-header"
+               data-ng-click="select('spotit')">Spot-it</p>
+
+            <p>Have you spotted something interesting or unusual that you are amused or curious about?</p>
+
+            <p>Take a photo with your phone. Share the spot with other nQuirers.</p>
+
+            <p>Make it your <span class="project-create-type">Spot-it</span> mission!</p>
+
+            <div class="project-create-type-banner"
+                 data-ng-click="select('spotit')">
+                Create your own <b>Spot-it</b> mission
+            </div>
+        </div>
+    </div>
+
+    <div class="project-create-type-challenge" data-ng-class="typeClass('challenge')">
+        <div class="project-create-type-image"
+             data-ng-click="select('challenge')"></div>
+        <div class="project-create-type-info">
+            <p class="project-create-type-info-header"
+               data-ng-click="select('challenge')">Win-it</p>
+
+            <p>Do you need creative ideas about something from other nQuirers?
+                Would you be prepared to offer a prize for the best idea?
+            </p>
+
+            <p>Create a <b>Win-it</b> mission!</p>
+
+            <div class="project-create-type-banner"
+                 data-ng-click="select('challenge')">
+                Create your own <b>Win-it</b> mission
+            </div>
+        </div>
+    </div>
+
+    <div data-ng-if="type" class="project-create-form-container">
+        <div class="project-create-form-container-explanation" data-ng-if="type=='senseit'">
+            <p>
+                Sense-it missions are collaborative projects in which people collect data together.
+                To collect data, the Android
+                <a href="https://play.google.com/store/apps/details?id=org.greengin.sciencetoolkit&hl=en"
+                   target="_blank">
+                    Sense-it app</a> is used.
+            </p>
+
+            <p>As the mission owner, you will be able to decide what sensors are used to collect data.
+                The available sensors are: <b>Accelerometer</b>, <b>Sound</b>, <b>Magnetic field</b>, <b>Gyroscope</b>,
+                <b>Orientation</b>, <b>Pressure</b>, <b>Ambient temperature</b>, and <b>Relative humidity</b>.
+                (Please note that not all mobile devices has all these sensors.)
+            </p>
+        </div>
+        <div class="project-create-form-container-explanation" data-ng-if="type=='spotit'">
+            <p>
+                Spot-it missions are collaborative projects in which people collect pictures together about a
+                specific topic.
+            </p>
+
+            <p>As the mission owner, you will be able to decide the topic of the pictures. Uploaded pictures can be
+                voted, and you can also delete inappropriate pictures if necessary.
+            </p>
+        </div>
+        <div class="project-create-form-container-explanation" data-ng-if="type=='challenge'">
+            <p>
+                Win-it missions are competitive projects in which participante propose answers to a question or
+                challenge.
+            </p>
+
+            <p>As the mission owner, you will:</p>
+            <ul>
+                <li>Determine the challenge.</li>
+                <li>Specify the format of the ideas, by selecting a number of fields to be completed by
+                    the participants.
+                </li>
+                <li>Control the stage of the mission: proposal, voting, and winner announcement.</li>
+                <li>Select the winner.</li>
+            </ul>
+            <p>You are allowed to offer prizes for your missions! Check some examples in the front page of this
+                site.</p>
+        </div>
+        <div data-ng-if="status.logged">
+            <form class="form-inline" role="form">
+                <p>
+                    Enter the title of your new
+                    <b><span data-ng-switch="type">
+                        <span data-ng-switch-when="senseit">Sense-it</span>
+                        <span data-ng-switch-when="challenge">Win-it</span>
+                        <span data-ng-switch-when="spotit">Spot-it</span>
+                        </span>
+                    </b>
+                    mission and click "Create".
+                </p>
+
+                <div class="form-group">
+                    <label for="create-project-title">Title: </label>
+                    <input id="create-project-title" type="text" class="form-control" placeholder="Create"
+                           data-ng-model="title"/>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-default" data-ng-disabled="title.length == 0" data-ng-click="create()">Create
+                    </button>
+                    <button class="btn btn-default" data-ng-click="cancel()">Cancel</button>
+                </div>
+            </form>
+        </div>
+        <div data-ng-if="!status.logged">
+            <p>
+                You need to <a href data-ui-sref="profile">sign in or register</a> in order to create your own projects!
+            </p>
+
+            <p>
+                <button class="btn btn-default" data-ng-click="cancel()">Cancel</button>
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="sidebar-right" data-ng-include="'partials/projects/projects-sidebar.html'"></div>

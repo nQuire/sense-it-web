@@ -1,0 +1,53 @@
+<div class="project-section-header" data-ng-include="'partials/project/blocks/project-menu.html'"></div>
+
+<div class="project-section-content">
+    <div class="project-section-description-column"
+         data-ng-include="'partials/project/blocks/project-metadata.html'">
+    </div>
+
+    <div class="project-section-content-column">
+        <p class="project-section-content-header">Submission composition</p>
+
+        <p>
+            To configure this Win-it mission, you need to configure
+            the fields that will be used by participants to create
+            their answers.
+        </p>
+
+        <ul>
+            <li data-ng-repeat="field in projectData.project.activity.fields | orderBy:weight">
+                <div data-ng-include="'partials/project/edit/challenge/project-edit-challenge-field.html'"
+                     data-ng-controller="ProjectEditChallengeFieldCtrl"></div>
+            </li>
+        </ul>
+
+        <div data-ng-include="'partials/project/edit/challenge/project-edit-challenge-field.html'"
+             data-ng-controller="ProjectEditChallengeFieldCtrl"></div>
+
+        <p class="project-section-content-header">Submission limit</p>
+
+        <div data-ng-if="form.isOpen()">
+            <form class="form-inline" role="form">
+                <div class="form-group">
+                    <label for="max">Max answers per participant.</label>
+                    <input class="form-control" id="max" type="number" min="1" data-ng-model="form.values.maxAnswers">
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-default" data-ng-disabled="form.okButtonDisabled()"
+                            data-ng-click="form.save()">
+                        Save
+                    </button>
+                    <button class="btn btn-default" data-ng-disabled="form.resetButtonDisabled()"
+                            data-ng-click="form.cancel()">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div data-ng-if="!form.isOpen()">
+            <p>Max answers per participant: {{projectData.project.activity.maxAnswers}}</p>
+            <button class="btn btn-default" data-ng-click="form.open()">Edit</button>
+        </div>
+    </div>
+</div>
+

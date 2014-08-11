@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+
+<div data-ng-if="connectionExists">
+    <p>
+        <img src="" data-ng-src="media/{{providerId}}.png" />
+        <a href="{{profileUrl}}" target="_blank">{{providerName}}</a>
+        <button class="btn btn-default" data-ng-click="deleteConnection(providerId)">
+            Unlink {{providerName}} account
+        </button>
+    </p>
+</div>
+<div data-ng-if="!connectionExists">
+    <p>
+        <img src="" data-ng-src="media/{{providerId}}.png" />
+        {{providerName}}:
+        <button class="btn btn-default" data-ng-click="providerLogin(providerId)">Link with
+            {{providerName}}
+        </button>
+    </p>
+</div>

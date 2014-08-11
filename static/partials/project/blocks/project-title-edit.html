@@ -1,0 +1,62 @@
+<div data-ng-if="!form.isOpen('image')" class="project-section-description-image">
+    <img data-ng-src="{{projectData.project.metadata.image | uploadedImage:'media/image_default.png'}}"
+         src=""/>
+
+    <div data-ng-if="!form.isOpen()" class="project-description-block-edit-controls btn-group">
+        <button type="button" class="btn btn-default" data-ng-click="form.open('image')">Select image
+        </button>
+    </div>
+</div>
+<div data-ng-if="form.isOpen('image')">
+    <form role="form">
+        <div class="form-group">
+            <label for="file-select-input-image">Project image:</label>
+
+            <div id="file-select-input-image" data-siw-file-select-widget data-ng-attr-filekey="image"
+                 data-ng-attr-original="{{form.values.metadata.image}}">
+            </div>
+        </div>
+        <div class="btn-group">
+            <button type="button" class="btn btn-default" data-ng-click="form.save()">Save</button>
+            <button type="button" class="btn btn-default" data-ng-click="form.cancel()">Cancel</button>
+        </div>
+    </form>
+</div>
+
+<div data-ng-if="!form.isOpen('title')" class="project-section-description-text">
+    <p class="project-section-description-text-title">
+        <span class="project-section-description-text-mission">Mission: </span>
+        {{projectData.project.title}}
+    </p>
+
+    <p>
+        <b>Mission list teaser: </b><br/>
+        {{projectData.project.metadata.teaser}}
+    </p>
+
+    <p data-ng-if="!form.isOpen()" class="btn-group">
+        <button type="button" class="btn btn-default" data-ng-click="form.open('title')">Edit</button>
+    </p>
+</div>
+
+<div data-ng-if="form.isOpen('title')">
+    <form role="form">
+        <div class="form-group">
+            <label for="project-title">Title:</label>
+            <input id="project-title" class="form-control" type="text" placeholder="Title"
+                   data-ng-model="form.values.title"/>
+        </div>
+        <div class="form-group">
+            <label for="project-teaser">Mission list teaser:</label>
+            <textarea id="project-teaser" class="form-control" placeholder="Mission list teaser"
+                      data-ng-model="form.values.metadata.teaser"></textarea>
+        </div>
+
+        <div class="btn-group">
+            <button type="button" class="btn btn-default" data-ng-click="form.save()">Save</button>
+            <button type="button" class="btn btn-default" data-ng-click="form.cancel()">Cancel</button>
+        </div>
+    </form>
+</div>
+
+

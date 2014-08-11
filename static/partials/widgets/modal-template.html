@@ -1,0 +1,11 @@
+<div class="modal-header">
+    <h3 class="modal-title">{{data.title}}</h3>
+</div>
+<div class="modal-body">
+    <div data-ng-if="data.body" data-ng-bind-html="data.body"></div>
+    <div data-ng-if="data.bodyTemplate" data-ng-include="data.bodyTemplate"></div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" data-ng-disabled="okDisabled()" data-ng-click="ok()">{{okLabel()}}</button>
+    <button class="btn btn-warning" data-ng-click="cancel()">Cancel</button>
+</div>

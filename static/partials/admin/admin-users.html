@@ -1,0 +1,35 @@
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Username</th>
+        <th>email</th>
+        <th>Admin?</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr data-ng-repeat="user in admin.data.users">
+        <td>{{user.id}}</td>
+        <td>{{user.username}}</td>
+        <td>{{user.email}}</td>
+        <td>
+            <span data-ng-if="user.admin">
+                <b>Yes</b>
+                <button data-ng-if="user.id != status.profile.id"
+                        class="btn btn-default btn-xs"
+                        data-ng-click="actions.setAdmin(user.id, false)">Remove permission
+                </button>
+            </span>
+            <span data-ng-if="!user.admin">
+                No
+                <button class="btn btn-default btn-xs"
+                        data-ng-click="actions.setAdmin(user.id, true)">Grant permission
+                </button>
+            </span>
+        </td>
+    </tr>
+
+    </tbody>
+
+</table>

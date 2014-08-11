@@ -1,0 +1,118 @@
+<div class="profile-header">
+    <span>
+        <a href data-ng-click="loginMode.set('login')" data-ng-class="{'active': loginMode.is('login')}">Sign in</a>
+    </span>
+    <span>|</span>
+    <span>
+        <a href data-ng-click="loginMode.set('register')"
+           data-ng-class="{'active': loginMode.is('register')}">Register</a>
+    </span>
+</div>
+<div class="profile-page">
+
+    <div class="profile-logged-out" data-ng-if="loginMode.is('login')">
+
+        <div class="profile-logged-out-form-container">
+            <p>Sign in with your username and password: </p>
+
+            <form class="form-inline" role="form">
+                <div class="form-group">
+                    <label for="login_username">Username:</label>
+                    <input id="login_username" type="text" class="form-control"
+                           data-ng-model="login.editing.username"/>
+                <span data-ng-if="login.error.username"
+                      class="profile-login-username-error">{{login.error.username}}</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="login_password">Password:</label>
+                    <input id="login_password" type="password" class="form-control"
+                           data-ng-model="login.editing.password"/>
+                <span data-ng-if="login.error.password"
+                      class="profile-login-password-error">{{login.error.password}}</span>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-default" data-ng-click="login.submit()">
+                        Sign in
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="profile-logged-out-form-container">
+            <p>... or using one of the following identity providers:</p>
+
+            <p>
+                <img class="identity-provider" data-ng-click="providerLogin('google')"
+                     src="media/sign-in-with-google.png"/>
+                <img class="identity-provider" data-ng-click="providerLogin('facebook')"
+                     src="media/facebook-login-button.png"/>
+                <img class="identity-provider" data-ng-click="providerLogin('twitter')" src="media/TwitterLogin.png"/>
+            </p>
+        </div>
+    </div>
+
+
+    <div class="profile-logged-out" data-ng-if="loginMode.is('register')">
+
+        <div class="profile-logged-out-register-form-container">
+            <p>Register new account: </p>
+
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label for="register_username" class="control-label">Username:</label>
+
+                    <div class="input-container">
+                        <input id="register_username" type="text" class="form-control"
+                               data-ng-model="register.editing.username"/>
+                    </div>
+                <span data-ng-if="register.error.username"
+                      class="profile-login-username-error">{{register.error.username}}</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="register_email" class="control-label">Email:</label>
+
+                    <div class="input-container">
+                        <input id="register_email" type="email" class="form-control"
+                               data-ng-model="register.editing.email"/>
+                    </div>
+                <span data-ng-if="register.error.email"
+                      class="profile-login-username-error">{{register.error.email}}</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="register_password" class="control-label">Password:</label>
+
+                    <div class="input-container">
+                        <input id="register_password" type="password" class="form-control"
+                               data-ng-model="register.editing.password"/>
+                    </div>
+                <span data-ng-if="register.error.password"
+                      class="profile-login-password-error">{{register.error.password}}</span>
+                </div>
+                <div class="form-group">
+                    <label for="register_repeat_password" class="control-label">Repeat password:</label>
+
+                    <div class="input-container">
+                        <input id="register_repeat_password" type="password" class="form-control"
+                               data-ng-model="register.editing.repeatPassword"/>
+                    </div>
+                <span data-ng-if="register.error.repeatPassword"
+                      class="profile-login-password-error">{{register.error.repeatPassword}}</span>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-default" data-ng-click="register.submit()">
+                        Register new account
+                    </button>
+                    <button class="btn btn-default" data-ng-click="register.reset()">
+                        Reset
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>

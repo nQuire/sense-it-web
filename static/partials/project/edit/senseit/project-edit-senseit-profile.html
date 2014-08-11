@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+
+<div data-ng-if="form.isOpen()">
+    <form role="form">
+        <div class="form-group">
+            <label for="geolocated">Geolocated data:
+                <input id="geolocated" type="checkbox" placeholder="Title" data-ng-model="form.values.geolocated">
+            </label>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn btn-default" data-ng-disabled="form.okButtonDisabled()"
+                    data-ng-click="form.save()">
+                Save
+            </button>
+            <button class="btn btn-default"
+                    data-ng-disabled="form.resetButtonDisabled()"
+                    data-ng-click="form.cancel()">
+                Cancel
+            </button>
+        </div>
+    </form>
+</div>
+
+<div data-ng-if="!form.isOpen()">
+    <p>
+        Geolocated data: <b>{{projectData.project.activity.profile.geolocated ? 'Yes' : 'No'}}</b>
+        <button class="btn btn-default" data-ng-click="form.open()">Edit</button>
+    </p>
+</div>
+
+
+<ul>
+    <li data-ng-repeat="sensorInput in projectData.project.activity.profile.sensorInputs">
+        <div data-ng-include="'partials/project/edit/senseit/project-edit-senseit-sensor.html'"
+             data-ng-controller="ProjectEditSenseItSensorCtrl"></div>
+    </li>
+</ul>
+<div data-ng-include="'partials/project/edit/senseit/project-edit-senseit-sensor.html'"
+     data-ng-controller="ProjectEditSenseItSensorCtrl"></div>
+
+
+<div data-ng-include="'partials/project/edit/senseit/project-edit-senseit-analysis.html'"
+     data-ng-controller="ProjectEditSenseItAnalysisCtrl"></div>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<p class="project-section-content-header">Participants administration</p>
+
+<div data-ng-if="usersReady">
+    <table data-siw-sortable-table-widget data-table-data="tableData" class="table table-bordered">
+        <thead>
+        <tr>
+            <th data-ng-class="headerClass('username')"
+                data-ng-click="headerSort('username')">
+                User
+            </th>
+            <th data-ng-repeat="column in activityUsersManagement.columns"
+                data-ng-class="headerClass(column.id)"
+                data-ng-click="headerSort(column.id)">
+                {{column.label}}
+            </th>
+            <th data-ng-class="headerClass('status')"
+                data-ng-click="headerSort('status')">
+                Status
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr data-ng-repeat="user in sortedItems()" data-ng-class="rowClass(user)">
+            <td class="selectable" data-ng-click="select(user)">{{user.username}}</td>
+            <td data-ng-repeat="column in activityUsersManagement.columns"
+                data-ng-class="{'clickable': column.callback}" data-ng-click="column.callback(user)">
+                {{column.data(user)}}
+            </td>
+            <td>Member</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

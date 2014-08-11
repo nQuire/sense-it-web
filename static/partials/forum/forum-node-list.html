@@ -1,0 +1,29 @@
+<div class="forum-header"><a href data-ui-sref="forum.list">Forum</a> ▸ {{forum.node.title}}</div>
+<div class="forum-content">
+
+    <p data-ng-if="status.logged">
+        <button class="btn btn-default" data-ui-sref="forum.node.new-thread">Post new thread</button>
+    </p>
+    <div data-ng-if="!status.logged">
+        <p><a href data-ng-click="openIdService.loginAndComeBack()">Sign in</a> to post new threads.</p>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Thread</th>
+            <th>Starter</th>
+            <th>Last post</th>
+            <th>Replies</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr data-ng-repeat="thread in forum.node.threads | orderBy:'lastComment.date':true">
+            <td><a href data-ui-sref="forum.thread({threadId: thread.id})">{{thread.title}}</a></td>
+            <td>{{thread.author.username}}</td>
+            <td>{{thread.lastComment.user.username}}<br/>{{thread.lastComment.date | fuzzyDate}}</td>
+            <td>{{thread.commentCount  > 0 ? thread.commentCount - 1 : 0}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

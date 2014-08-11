@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<p class="project-section-content-header">Winner</p>
+
+<div class="project-view-challenge-sumbission" data-ng-if="outcome.selectedAnswer">
+    <div data-ng-include="'partials/project/view/challenge/project-view-challenge-answers-item-display.html'"></div>
+</div>
+<div data-ng-if="!outcome.selectedAnswer">
+    <p>No answer has been selected yet.</p>
+</div>
+
+<div data-ng-if="outcomeForm.isOpen()">
+    <form role="form">
+        <div class="form-group">
+            <label for="explanation">Explanation:</label>
+            <textarea id="explanation" placeholder="Explanation" class="form-control"
+                      data-ng-model="outcomeForm.values.explanation"></textarea>
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-default"
+                    data-ng-disabled="outcomeForm.okButtonDisabled()"
+                    data-ng-click="outcomeForm.save()">
+                Save
+            </button>
+            <button class="btn btn-default"
+                    data-ng-disabled="form.resetButtonDisabled()"
+                    data-ng-click="outcomeForm.cancel()">
+                Cancel
+            </button>
+        </div>
+    </form>
+</div>
+<div data-ng-if="!outcomeForm.isOpen() && outcome.explanation">
+    <p><b>Explanation:</b> {{outcome.explanation}}</p>
+    <button data-ng-if="outcomeData.editable" class="btn btn-default"
+            data-ng-click="outcomeForm.open()">Edit
+    </button>
+</div>
+

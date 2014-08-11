@@ -1,0 +1,26 @@
+<span data-active-manager="projectMenu">
+    <span class="project-menu-main" data-ng-if="projectData.access.admin">
+        <span data-siw-menu-item data-menu-linked-state="'project.view.home'" data-menu-label="'Participant'"
+              data-menu-active-state="'project.view'"></span>
+        <span data-siw-menu-item data-menu-linked-state="'project.admin.home'" data-menu-label="'Admin'"
+              data-menu-active-state="'project.admin'"></span>
+        <span data-siw-menu-item data-menu-linked-state="'project.edit.home'" data-menu-label="'Edit'"
+              data-menu-active-state="'project.edit'"></span>
+    </span>
+    <span class="project-menu-main" data-ng-if="!projectData.access.admin">
+        <span class="project-menu-item">
+            <b data-ng-switch="projectData.project.type">
+                <span data-ng-switch-when="senseit">Sense-it</span>
+                <span data-ng-switch-when="spotit">Spot-it</span>
+                <span data-ng-switch-when="challenge">Win-it</span>
+            </b> mission
+            <span data-ng-if="projectData.access.member">
+                | <b>Joined</b>
+            </span>
+        </span>
+
+    </span>
+
+    <span class="project-menu-sub" data-ng-if="templates.menu" data-ng-include="templates.menu"></span>
+
+</span>
