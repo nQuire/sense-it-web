@@ -14,6 +14,13 @@ angular.module('senseItServices', null, null).factory('AdminService', ['RestServ
         });
     };
 
+    AdminManager.prototype.setText = function (key, content) {
+        RestService.put('api/admin/text', {
+            key: key,
+            content: content
+        });
+    };
+
     AdminManager.prototype.setAdmin = function (userId, isAdmin) {
         var self = this;
         RestService.put('api/admin/user/' + userId + '/admin', {admin: isAdmin}).then(function (data) {
