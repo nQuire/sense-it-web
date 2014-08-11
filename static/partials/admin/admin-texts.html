@@ -16,10 +16,10 @@
                               data-ng-model="form.values[[item.id]]"
                               placeholder="{{item.label}}">
                 </text-angular>
-                <div data-ng-if="form.isOpen() && !item.format">
-                    <input type="text" data-ng-model="form.values[[item.id]]"
-                           placeholder="{{item.label}}"/>
-                </div>
+            </div>
+            <div data-ng-if="form.isOpen() && !item.format">
+                <input class="form-control" type="text" data-ng-model="form.values[[item.id]]"
+                       placeholder="{{item.label}}"/>
             </div>
         </td>
         <td>
