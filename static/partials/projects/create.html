@@ -147,7 +147,7 @@
         </div>
         <div data-ng-if="!status.logged">
             <p>
-                You need to <a href data-ui-sref="profile">sign in or register</a> in order to create your own projects!
+                You need to <a href data-ng-click="openIdService.loginAndComeBack()">sign in or register</a> in order to create your own projects!
             </p>
 
             <p>

@@ -29,6 +29,7 @@
                 Votes
             </th>
             <th data-ng-class="headerClass('answer')" data-ng-click="headerSort('answer')">{{titleLabel}}</th>
+            <th data-ng-class="headerClass('submitted')" data-ng-click="headerSort('submitted')">Submitted</th>
             <th></th>
         </tr>
         </thead>
@@ -39,6 +40,7 @@
                 <div data-siw-vote-widget data-vote-manager="voteManager" data-vote-target="answer"></div>
             </td>
             <td data-ng-bind-html="answerTeaser(answer)"></td>
+            <td>{{answer.published ? 'Yes' : 'No'}}</td>
             <td>
                 <button class="btn btn-default"
                         data-ng-click="itemView.open(answer)">

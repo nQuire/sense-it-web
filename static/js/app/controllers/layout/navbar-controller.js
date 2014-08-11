@@ -1,7 +1,6 @@
 angular.module('senseItWeb', null, null).controller('NavBarCtrl', function ($scope, $state, $stateParams) {
 
     $scope.params = $stateParams;
-    console.log($stateParams);
 
     $scope.$on('$destroy', $scope.$watch('params', function() {
         $scope.keyword = $scope.params.kw || null;

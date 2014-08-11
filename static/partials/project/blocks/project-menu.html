@@ -8,7 +8,7 @@
               data-menu-active-state="'project.edit'"></span>
     </span>
     <span class="project-menu-main" data-ng-if="!projectData.access.admin">
-        <span class="project-menu-item">
+        <a class="project-menu-item menu-item" href data-ui-sref="project.view.home">
             <b data-ng-switch="projectData.project.type">
                 <span data-ng-switch-when="senseit">Sense-it</span>
                 <span data-ng-switch-when="spotit">Spot-it</span>
@@ -17,8 +17,7 @@
             <span data-ng-if="projectData.access.member">
                 | <b>Joined</b>
             </span>
-        </span>
-
+        </a>
     </span>
 
     <span class="project-menu-sub" data-ng-if="templates.menu" data-ng-include="templates.menu"></span>

@@ -3,7 +3,7 @@ angular.module('senseItWeb', null, null).filter('fuzzyDate', function ($filter) 
         var now = new Date();
         var date = new Date(input);
 
-        var format = 'short';
+        var format = 'd/M/yy h:mm a';
         if (now.getFullYear() == date.getFullYear() && now.getMonth() == date.getMonth()) {
             if (now.getDate() == date.getDate()) {
                 format = "'Today' h:mm a";
