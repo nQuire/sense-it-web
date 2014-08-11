@@ -8,6 +8,7 @@ import org.greengin.nquireit.logic.ContextBean;
 import org.greengin.nquireit.logic.admin.AdminActions;
 import org.greengin.nquireit.logic.admin.ProjectFeaturedRequest;
 import org.greengin.nquireit.logic.admin.UserAdminRequest;
+import org.greengin.nquireit.logic.base.TextRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -59,6 +60,14 @@ public class AdminController {
         manager.setFeatured(projectId, data);
         return manager.getProjects();
     }
+
+    @RequestMapping(value = "/text", method = RequestMethod.PUT)
+    @ResponseBody
+    @ResponseView(value = Views.UserProfileData.class)
+    public Boolean setFeatured(@RequestBody TextRequest data, HttpServletRequest request) {
+        AdminActions manager = createAdminManager(request);
+        return manager.setText(data.getKey(), data.getContent());
+   }
 
     @RequestMapping(value = "/model/update", method = RequestMethod.POST)
     @ResponseBody

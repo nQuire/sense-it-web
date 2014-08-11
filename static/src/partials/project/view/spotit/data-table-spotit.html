@@ -2,20 +2,25 @@
     <div class="row">
         <div data-ng-repeat="item in sortedData.data"
              class="col-xs-6 col-sm-4 col-md-3">
-            <div class="spotit-observation">
-                <img data-ng-click="goToItem(item.id)" src="" data-ng-src="{{item.observation | uploadedThumb }}"/>
-            </div>
-            <div class="spotit-observation-metadata">
-                <p>
-                    <b data-ng-if="item.title">{{item.title}}</b>
-                    <i data-ng-if="!item.title">No title</i>
-                </p>
+            <div class="spotit-item">
+                <div class="spotit-observation">
+                    <img data-ng-click="goToItem(item.id)" src="" data-ng-src="{{item.observation | uploadedThumb }}"/>
+                </div>
+                <div class="spotit-observation-title">
+                    <p>
+                        <b data-ng-if="item.title">{{item.title}}</b>
+                        <i data-ng-if="!item.title">No title</i>
+                    </p>
+                </div>
 
-                <div>{{item.author.username}}</div>
-                <div>{{item.date | fuzzyDate}}</div>
-                <div data-siw-vote-widget data-vote-manager="dataVoteManager" data-vote-target="item"></div>
-                <div><a href data-ng-click="goToItem(item.id)" ng-pluralize count="item.commentCount"
-                        when="{'1': '1 comment','other': '{} comments'}"></a></div>
+                <div class="spotit-observation-metadata">
+
+                    <div>{{item.author.username}}</div>
+                    <div>{{item.date | fuzzyDate}}</div>
+                    <div data-siw-vote-widget data-vote-manager="dataVoteManager" data-vote-target="item"></div>
+                    <div><a href data-ng-click="goToItem(item.id)" ng-pluralize count="item.commentCount"
+                            when="{'1': '1 comment','other': '{} comments'}"></a></div>
+                </div>
             </div>
         </div>
     </div>

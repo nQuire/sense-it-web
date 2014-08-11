@@ -53,4 +53,16 @@ public class ChallengeAnswerController extends AbstractChallengeController{
         return createManager(projectId, request).deleteAnswer(answerId);
 	}
 
+    @RequestMapping(value = "/{answerId}/submit", method = RequestMethod.POST)
+    @ResponseBody
+	public Collection<ChallengeAnswer> submit(@PathVariable("projectId") Long projectId, @PathVariable("answerId") Long answerId, HttpServletRequest request) {
+        return createManager(projectId, request).submitAnswer(answerId, true);
+	}
+
+    @RequestMapping(value = "/{answerId}/withdraw", method = RequestMethod.POST)
+    @ResponseBody
+	public Collection<ChallengeAnswer> withdraw(@PathVariable("projectId") Long projectId, @PathVariable("answerId") Long answerId, HttpServletRequest request) {
+        return createManager(projectId, request).submitAnswer(answerId, false);
+	}
+
 }

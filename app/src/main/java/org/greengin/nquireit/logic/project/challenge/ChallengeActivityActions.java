@@ -189,4 +189,14 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 
         return null;
     }
+
+    public Collection<ChallengeAnswer> submitAnswer(Long answerId, boolean published) {
+        if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION) && activity.getStage() == ChallengeActivityStage.PROPOSAL) {
+            context.getChallengeDao().submitAnswer(activity, user, answerId, published);
+            return getAnswersForParticipant();
+        }
+
+        return null;
+    }
+
 }

@@ -154,6 +154,8 @@ ini_set('error_reporting', E_ALL);
     <script src="js/app/controllers/admin/admin-controller.js"></script>
     <script src="js/app/controllers/admin/admin-users-controller.js"></script>
     <script src="js/app/controllers/admin/admin-projects-controller.js"></script>
+    <script src="js/app/controllers/admin/admin-texts-controller.js"></script>
+    <script src="js/app/controllers/admin/admin-texts-item-controller.js"></script>
 
 
 

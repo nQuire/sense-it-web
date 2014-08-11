@@ -4,7 +4,7 @@
     <p><a href data-ui-sref="project.view.data-list">See all </a></p>
 
     <div class="spotit-observation-outline">
-        <img src data-ng-src="{{dataList.last.observation | uploadedImage }}" data-ng-click="goToLast()"/>
+        <img src data-ng-src="{{dataList.last.observation | uploadedImage }}" data-ng-click="goToItem(dataList.last.id)"/>
     </div>
 </div>
 

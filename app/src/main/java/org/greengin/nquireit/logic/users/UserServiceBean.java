@@ -142,7 +142,7 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
             securityContextRepository.saveContext(SecurityContextHolder.getContext(), request, response);
             rememberMeServices.loginSuccess(request, response, auth);
             request.getSession().setAttribute("nquire-it-token", new BigInteger(260, random).toString(32));
-        } catch (BadCredentialsException ex) {
+        } catch (Exception ex) {
             auth = null;
         }
 

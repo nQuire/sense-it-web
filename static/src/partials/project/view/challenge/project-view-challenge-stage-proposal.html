@@ -11,5 +11,5 @@
     </div>
 </div>
 <div data-ng-if="!status.logged">
-    <p>You need to <a href data-ui-sref="profile">sign in</a> or register to post ideas.</p>
+    <p>You need to <a href data-ng-click="openIdService.loginAndComeBack()">sign in</a> or register to post ideas.</p>
 </div>

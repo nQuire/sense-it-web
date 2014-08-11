@@ -48,7 +48,19 @@ public class AdminActions extends AbstractContentManager {
     }
 
     public Boolean updateModel() {
-        context.getProjectDao().updateDataModel();
-        return true;
+        if (isAdmin) {
+            context.getProjectDao().updateDataModel();
+            return true;
+        }
+        return false;
+    }
+
+    public Boolean setText(String textId, String content) {
+        if (isAdmin) {
+            return context.getTextDao().setText(textId, content);
+        }
+
+        return false;
+
     }
 }

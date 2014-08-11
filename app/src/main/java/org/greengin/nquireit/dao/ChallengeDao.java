@@ -197,4 +197,12 @@ public class ChallengeDao extends UtilsDao {
         em.persist(activity);
         this.move(activity.getFields(), fieldId, fieldData.getUp());
     }
+
+    @Transactional
+    public void submitAnswer(ChallengeActivity activity, UserProfile user, Long answerId, boolean published) {
+        ChallengeAnswer answer = getAnswer(activity, user, answerId);
+        if (answer != null) {
+            answer.setPublished(published);
+        }
+    }
 }

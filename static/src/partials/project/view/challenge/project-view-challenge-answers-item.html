@@ -16,12 +16,6 @@
                 </text-angular>
             </div>
 
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" data-ng-model="form.values['published']"/> Published
-                </label>
-            </div>
-
             <div class="btn-group">
 
                 <button class="btn btn-default" data-ng-disabled="form.okButtonDisabled()"
@@ -45,6 +39,10 @@
             <button data-ng-if="answerData.editable" class="btn btn-default"
                     data-ng-click="form.open()">
                 Edit
+            </button>
+            <button data-ng-if="answerData.editable" class="btn btn-default"
+                    data-ng-click="submitAnswer()">
+                {{itemView.answer.published ? 'Withdraw' : 'Submit'}}
             </button>
             <button data-ng-if="answerData.editable" class="btn btn-default"
                     data-ng-click="deleteAnswer()">

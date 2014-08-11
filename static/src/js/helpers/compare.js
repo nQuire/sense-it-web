@@ -12,5 +12,8 @@ var siwCompare = {
     voteCount: function(a, b) {
         var c = a.positive - a.negative - b.positive + b.negative;
         return c === 0 ? a.positive - b.positive : c;
+    },
+    boolean: function(a, b) {
+        return a ? (b ? 0 : -1) : (b ? 1 : 0);
     }
 };

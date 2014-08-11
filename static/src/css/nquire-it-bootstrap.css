@@ -11222,63 +11222,68 @@ div#header {
     margin: 20px 20%;
     color: #777777; }
 
-.spotit-observation {
-  cursor: pointer;
-  width: 100%;
-  overflow: hidden;
-  position: relative; }
-  .spotit-observation > div {
-    height: 100%; }
-  .spotit-observation > img, .spotit-observation > div {
-    width: 100%;
-    position: absolute;
-    top: 0px;
-    left: 0px; }
-  .spotit-observation:before, .spotit-observation > div, .spotit-observation > img {
-    /* vertically center the image */
-    display: inline-block;
-    vertical-align: middle; }
-  .spotit-observation:before {
-    content: "";
-    /* Magic Number */
-    /* Set this to your desired height(to width) ratio */
-    padding-top: 60%;
-    /* % of original image width */ }
-
-.spotit-observation-outline {
-  cursor: pointer;
-  width: 100%;
-  overflow: hidden;
-  position: relative;
-  margin-left: 25%;
-  width: 50%; }
-  .spotit-observation-outline > div {
-    height: 100%; }
-  .spotit-observation-outline > img, .spotit-observation-outline > div {
-    width: 100%;
-    position: absolute;
-    top: 0px;
-    left: 0px; }
-  .spotit-observation-outline:before, .spotit-observation-outline > div, .spotit-observation-outline > img {
-    /* vertically center the image */
-    display: inline-block;
-    vertical-align: middle; }
-  .spotit-observation-outline:before {
-    content: "";
-    /* Magic Number */
-    /* Set this to your desired height(to width) ratio */
-    padding-top: 60%;
-    /* % of original image width */ }
-
-.spotit-observation-metadata {
-  margin-bottom: 20px;
-  text-align: center;
+.spotit-item {
   background: white;
-  color: #777777;
-  padding-top: 10px;
-  border-bottom: 1px solid #aaaaaa;
-  border-left: 1px solid #aaaaaa;
-  border-right: 1px solid #aaaaaa; }
+  border: 1px solid #aaaaaa;
+  height: 270px;
+  position: relative; }
+  .spotit-item .spotit-observation {
+    cursor: pointer;
+    width: 100%;
+    overflow: hidden;
+    position: relative; }
+    .spotit-item .spotit-observation > div {
+      height: 100%; }
+    .spotit-item .spotit-observation > img, .spotit-item .spotit-observation > div {
+      width: 100%;
+      position: absolute;
+      top: 0px;
+      left: 0px; }
+    .spotit-item .spotit-observation:before, .spotit-item .spotit-observation > div, .spotit-item .spotit-observation > img {
+      /* vertically center the image */
+      display: inline-block;
+      vertical-align: middle; }
+    .spotit-item .spotit-observation:before {
+      content: "";
+      /* Magic Number */
+      /* Set this to your desired height(to width) ratio */
+      padding-top: 60%;
+      /* % of original image width */ }
+  .spotit-item .spotit-observation-outline {
+    cursor: pointer;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    margin-left: 25%;
+    width: 50%; }
+    .spotit-item .spotit-observation-outline > div {
+      height: 100%; }
+    .spotit-item .spotit-observation-outline > img, .spotit-item .spotit-observation-outline > div {
+      width: 100%;
+      position: absolute;
+      top: 0px;
+      left: 0px; }
+    .spotit-item .spotit-observation-outline:before, .spotit-item .spotit-observation-outline > div, .spotit-item .spotit-observation-outline > img {
+      /* vertically center the image */
+      display: inline-block;
+      vertical-align: middle; }
+    .spotit-item .spotit-observation-outline:before {
+      content: "";
+      /* Magic Number */
+      /* Set this to your desired height(to width) ratio */
+      padding-top: 60%;
+      /* % of original image width */ }
+  .spotit-item .spotit-observation-title {
+    text-align: center;
+    color: #777777;
+    padding-top: 10px; }
+  .spotit-item .spotit-observation-metadata {
+    position: absolute;
+    text-align: center;
+    color: #777777;
+    width: 100%;
+    left: 0px;
+    bottom: 10px; }
 
 .spotit-view-item {
   padding-top: 10px; }

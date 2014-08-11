@@ -40,11 +40,10 @@ angular.module('senseItWeb', null, null).controller('ProjectViewSenseItMapCtrl',
         textKey: $scope.dataInfo.tableVariables.length > 0 ? 0 : 'date',
         iconText: function (item) {
             var text = '';
-            console.log(item);
             switch (this.textKey) {
                 case 'date':
                     if (item.date) {
-                        var format = 'shortDate';
+                        var format = 'd/M/yy';
                         var now = new Date();
                         var date = new Date(item.date);
                         if (now.getFullYear() == date.getFullYear() && now.getMonth() == date.getMonth() && now.getDate() == date.getDate()) {
@@ -70,6 +69,7 @@ angular.module('senseItWeb', null, null).controller('ProjectViewSenseItMapCtrl',
         },
         infoWindow: function (item) {
             var content = '';
+            content += 'Title: ' + item.title + '<br/>';
             content += 'Author: ' + item.author.username + '<br/>';
             if (item.date) {
                 content += 'On ' + $filter('fuzzyDate')(item.date) + '<br/>';
