@@ -47,19 +47,30 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
 
     SecureRandom random;
 
+    HashMap<String, Boolean> newUsers = new HashMap<String, Boolean>();
+
+    public void newUser(String id) {
+        this.newUsers.put(id, true);
+    }
+
     @Override
     public UserProfile loadUserByUsername(String s) throws UsernameNotFoundException {
         return userProfileDao.loadUserByUsername(s);
     }
 
-    private StatusResponse createResponse(Authentication auth, HashMap<String, Connection<?>> connections, HttpSession session) {
+    private StatusResponse createResponse(Authentication auth, HashMap<String, Connection<?>> connections, HttpSession session, boolean resetNewUser) {
         StatusResponse result = new StatusResponse();
         result.getConnections().clear();
 
         if (auth != null && auth.getPrincipal() != null && auth.getPrincipal() instanceof UserProfile) {
+            UserProfile user = currentUser();
             result.setLogged(true);
-            result.setProfile(currentUser());
+            result.setProfile(user);
             result.setToken((String) session.getAttribute("nquire-it-token"));
+            result.setNewUser(newUsers.containsKey(user.getUsername()) && newUsers.get(user.getUsername()));
+            if (resetNewUser) {
+                newUsers.put(user.getUsername(), false);
+            }
 
             for (Map.Entry<String, Connection<?>> entry : connections.entrySet()) {
                 if (entry.getValue() != null) {
@@ -86,9 +97,9 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
         }
     }
 
-    public StatusResponse status(HashMap<String, Connection<?>> connections, HttpSession session) {
+    public StatusResponse status(HashMap<String, Connection<?>> connections, HttpSession session, boolean resetNewUser) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return createResponse(auth, connections, session);
+        return createResponse(auth, connections, session, resetNewUser);
     }
 
     public UserProfile currentUser() {
@@ -115,10 +126,11 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
         return login(user, session, new BigInteger(260, random).toString(32));
     }
 
-    public void login(UserProfile user, HttpServletRequest request, HttpServletResponse response) {
+    public Authentication login(UserProfile user, HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = login(user, request.getSession());
         securityContextRepository.saveContext(SecurityContextHolder.getContext(), request, response);
         rememberMeServices.loginSuccess(request, response, auth);
+        return auth;
     }
 
     public Boolean login(String username, String password, HttpServletRequest request, HttpServletResponse response) {
@@ -144,7 +156,7 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
         cookieClearingLogoutHandler.logout(request, response, null);
         securityContextLogoutHandler.logout(request, response, null);
 
-        return status(connections, request.getSession());
+        return status(connections, request.getSession(), true);
     }
 
     public UserProfile providerSignIn(String username, String providerId, String providerUserId) {
@@ -165,7 +177,9 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
                 initialUsername = String.format("%s_%d", username, i);
             }
 
-            return userProfileDao.createUser(initialUsername, null, email, email != null);
+            UserProfile user = userProfileDao.createUser(initialUsername, null, email, email != null);
+            newUser(user.getUsername());
+            return user;
         }
     }
 
@@ -252,9 +266,10 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
             } catch (UsernameNotFoundException e2) {
 
                 UserProfile user = userProfileDao.createUser(data.getUsername(), data.getPassword(), data.getEmail(), false);
+                newUser(user.getUsername());
                 login(user, request.getSession());
 
-                return status(connections, request.getSession());
+                return status(connections, request.getSession(), true);
             }
         }
     }

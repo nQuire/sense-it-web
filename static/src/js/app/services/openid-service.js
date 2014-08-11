@@ -34,6 +34,7 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
         return promise.then(function (data) {
             service.status = {
                 logged: data.logged,
+                newUser: data.newUser,
                 profile: data.profile,
                 connections: data.connections,
                 ready: true
@@ -48,7 +49,9 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
             }
 
             if (service.destination && service.status.logged) {
-                $state.go(service.destination.name, service.destination.params);
+                if (!service.status.newUser) {
+                    $state.go(service.destination.name, service.destination.params);
+                }
                 service.destination = null;
             }
 
@@ -66,20 +69,20 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
             username: username,
             password: password
         }).then(function (data) {
-                service.update();
-                callback(data);
-            });
+            service.update();
+            callback(data);
+        });
     };
 
     service.register = function (username, password, email, callback) {
-        return RestService.post('api/security/register', {
+        return service._openIdRequest('api/security/register', true, true, 'post', {
             username: username,
             password: password,
             email: email
         }).then(function (data) {
-                service.update();
-                callback(data);
-            });
+            service.update();
+            return data;
+        });
     };
 
     service.logout = function () {
@@ -137,7 +140,7 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
         return service._openIdRequest('api/security/status', true, false);
     });
 
-    service.loginAndComeBack = function() {
+    service.loginAndComeBack = function () {
         if (!service.status.logged) {
             service.destination = {
                 name: $state.current.name,

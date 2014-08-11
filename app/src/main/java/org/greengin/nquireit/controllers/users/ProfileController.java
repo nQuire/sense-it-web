@@ -81,7 +81,7 @@ public class ProfileController {
     @ResponseBody
     @JsonView(value = Views.UserProfileData.class)
     public StatusResponse update(@RequestBody ProfileRequest data, HttpServletRequest request) {
-        StatusResponse response = context.getUsersManager().status(getConnections(), request.getSession());
+        StatusResponse response = context.getUsersManager().status(getConnections(), request.getSession(), true);
         boolean completed = new UserProfileActions(context, request).updateProfile(response, data);
         return completed ? response : null;
     }
@@ -91,7 +91,7 @@ public class ProfileController {
     @ResponseView(value = Views.UserName.class)
     public StatusResponse update(HttpServletRequest request) {
         try {
-            StatusResponse response = context.getUsersManager().status(getConnections(), request.getSession());
+            StatusResponse response = context.getUsersManager().status(getConnections(), request.getSession(), true);
             FileMapUpload files = RequestsUtils.getFiles(request);
             boolean completed = new UserProfileActions(context, request).updateProfileImage(response, files);
             return completed ? response : null;
@@ -107,7 +107,7 @@ public class ProfileController {
     @ResponseBody
     @JsonView(value = Views.UserProfileData.class)
     public StatusResponse checkLogin(HttpServletRequest request) {
-        return context.getUsersManager().status(getConnections(), request.getSession());
+        return context.getUsersManager().status(getConnections(), request.getSession(), true);
     }
 
 
@@ -137,7 +137,7 @@ public class ProfileController {
     @ResponseBody
     @JsonView(value = Views.UserProfileData.class)
     public StatusResponse deleteConnection(@PathVariable("providerId") String providerId, HttpServletRequest request) {
-        StatusResponse response = context.getUsersManager().status(getConnections(), request.getSession());
+        StatusResponse response = context.getUsersManager().status(getConnections(), request.getSession(), true);
         boolean completed = new UserProfileActions(context, request).deleteConnection(response, providerId);
         return completed ? response : null;
     }
@@ -147,7 +147,7 @@ public class ProfileController {
     @ResponseBody
     @JsonView(value = Views.UserProfileData.class)
     public StatusResponse setPassword(@RequestBody PasswordRequest data, HttpServletRequest request) {
-        StatusResponse response = context.getUsersManager().status(getConnections(), request.getSession());
+        StatusResponse response = context.getUsersManager().status(getConnections(), request.getSession(), true);
         boolean completed = new UserProfileActions(context, request).setPassword(response, data);
         return completed ? response : null;
     }
@@ -182,7 +182,7 @@ public class ProfileController {
     public String welcome(Locale locale, Model model, HttpServletRequest request) {
         ObjectMapper mapper = new ObjectMapper();
 
-        StatusResponse status = context.getUsersManager().status(getConnections(), request.getSession());
+        StatusResponse status = context.getUsersManager().status(getConnections(), request.getSession(), false);
 
         try {
             model.addAttribute("user", mapper.writeValueAsString(status));

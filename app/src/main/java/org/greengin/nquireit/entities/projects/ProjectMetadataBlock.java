@@ -16,4 +16,9 @@ public class ProjectMetadataBlock {
     @Setter
     @Column(columnDefinition = "TEXT")
     String content;
+
+    public boolean containsKeyword(String keyword) {
+        return (title != null && title.contains(keyword)) ||
+                (content != null && content.contains(keyword));
+    }
 }

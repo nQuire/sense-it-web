@@ -30,4 +30,20 @@ public class ProjectMetadata {
     @Getter
     @Setter
     List<ProjectMetadataBlock> blocks;
+
+    public boolean containsKeyword(String keyword) {
+        if (outline != null && outline.contains(keyword)) {
+            return true;
+        }
+
+        if (blocks != null) {
+            for (ProjectMetadataBlock b : blocks) {
+                if (b.containsKeyword(keyword)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 }

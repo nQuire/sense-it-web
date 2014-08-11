@@ -2,8 +2,6 @@
 <div class="profile-page">
 
 
-
-
 <div class="profile-logged-in-left-section">
 
     <div data-ng-if="!imageForm.isOpen()">
@@ -19,7 +17,9 @@
     <div data-ng-if="imageForm.isOpen()">
         <form role="form">
             <div class="form-group">
-                <label for="file-select-input-image">Profile image:</label>
+                <div><label for="file-select-input-image">Profile image:</label></div>
+                <img data-ng-if="filelistener.previewFile" width="50%" data-ng-src="{{filelistener.previewFile}}" src=""/>
+                <img data-ng-if="!filelistener.previewFile" width="50%" data-ng-src="{{status.profile.image | uploadedImage}}" src=""/>
 
                 <div id="file-select-input-image" data-siw-file-select-widget data-ng-attr-filekey="image"
                      data-ng-attr-original="{{status.profile.image}}">

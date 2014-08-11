@@ -36,6 +36,7 @@ public class SocialAdapter implements SignInAdapter, ConnectionSignUp {
             org.springframework.social.connect.UserProfile profile = connection.fetchUserProfile();
             ConnectionData data = connection.createData();
             UserProfile user = userServiceBean.providerSignIn(profile.getUsername(), data.getProviderId(), data.getProviderUserId());
+
             return user.getUsername();
         } else {
             return current.getUsername();

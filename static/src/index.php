@@ -70,6 +70,7 @@ ini_set('error_reporting', E_ALL);
     <script src="js/app/services/sorted-data-service.js"></script>
 
 
+    <script src="js/app/directives/input-enter.js"></script>
     <script src="js/app/directives/back-image.js"></script>
     <script src="js/app/directives/vote-widget.js"></script>
     <script src="js/app/directives/file-select-widget.js"></script>
@@ -99,6 +100,7 @@ ini_set('error_reporting', E_ALL);
 
 
     <script src="js/app/controllers/layout/main-controller.js"></script>
+    <script src="js/app/controllers/layout/navbar-controller.js"></script>
 
     <script src="js/app/controllers/profile/profile-controller.js"></script>
 

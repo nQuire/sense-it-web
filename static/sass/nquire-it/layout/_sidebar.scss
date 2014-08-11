@@ -13,6 +13,11 @@
   padding: 0px $dim-common-small-margin $dim-common-margin $dim-common-small-margin;
   border-left: solid $color-orange $dim-right-menu-separator-line-width;
 
+  .sidebar-teaser {
+    @include text-sidebar-teaser;
+    margin: $dim-common-small-margin 0;
+  }
+
   .sidebar-header {
     @include text-sidebar-category;
   }

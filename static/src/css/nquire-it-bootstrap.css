@@ -10380,6 +10380,11 @@ html {
   right: 0px;
   padding: 0px 10px 20px 10px;
   border-left: solid #f39a19 2px; }
+  .sidebar-right .sidebar-teaser {
+    font-weight: 400;
+    font-size: 12px;
+    color: #aaaaaa;
+    margin: 10px 0; }
   .sidebar-right .sidebar-header {
     font-weight: 700;
     font-size: 16px;
@@ -10746,6 +10751,11 @@ div#header {
   right: 0px;
   padding: 0px 10px 20px 10px;
   border-left: solid #f39a19 2px; }
+  .sidebar-right .sidebar-teaser {
+    font-weight: 400;
+    font-size: 12px;
+    color: #aaaaaa;
+    margin: 10px 0; }
   .sidebar-right .sidebar-header {
     font-weight: 700;
     font-size: 16px;

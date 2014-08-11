@@ -70,7 +70,7 @@ public class ProjectActions extends AbstractContentManager {
     /**
      * any user actions *
      */
-    public ProjectListResponse getProjects(String typeStr, String status, String filter) {
+    public ProjectListResponse getProjects(String typeStr, String status, String filter, String keyword) {
 
         List<ProjectResponse> filtered = new Vector<ProjectResponse>();
         HashMap<String, Integer> categories = new HashMap<String, Integer>();
@@ -87,6 +87,7 @@ public class ProjectActions extends AbstractContentManager {
         boolean onlyJoined = "joined".equals(status);
         boolean onlyNotJoined = "not-joined".equals(status);
         boolean onlyMine = "mine".equals(status);
+        boolean useKeyword = !"".equals(keyword);
 
         ProjectType type = null;
         if ("sense-it".equals(typeStr)) {
@@ -112,6 +113,11 @@ public class ProjectActions extends AbstractContentManager {
                             (onlyJoined && access.isMember()) ||
                             (onlyNotJoined && !access.isMember()) ||
                             (onlyMine && access.isAdmin());
+
+                    if (add && useKeyword) {
+                        add = p.getTitle().contains(keyword) ||
+                                p.getMetadata().containsKeyword(keyword);
+                    }
 
                     if (add) {
                         filtered.add(projectResponse(p));

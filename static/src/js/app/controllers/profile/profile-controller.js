@@ -1,4 +1,4 @@
-angular.module('senseItWeb', null, null).controller('ProfileCtrl', function ($scope, OpenIdService, $state) {
+angular.module('senseItWeb', null, null).controller('ProfileCtrl', function ($scope, OpenIdService, $state, fileReader) {
 
     if (!$scope.status.logged && $state.params.goBack) {
         OpenIdService.registerWatcher($scope, function () {
@@ -33,16 +33,31 @@ angular.module('senseItWeb', null, null).controller('ProfileCtrl', function ($sc
     });
 
     $scope.filelistener = {
+        previewFile: null,
         set: function (key, file) {
             $scope.imageForm.setFile(key, file);
+            this.updatePreview();
         },
         clear: function (key) {
             $scope.imageForm.clearFile(key);
+            this.updatePreview();
         },
         deleteFile: function (key) {
             $scope.imageForm.deleteFile(key);
+            this.updatePreview();
+        },
+        updatePreview: function () {
+            if ($scope.imageForm.files['image']) {
+                fileReader.readAsDataUrl($scope.imageForm.files['image'], $scope).then(function (result) {
+                    $scope.filelistener.previewFile = result;
+                });
+            } else {
+                $scope.filelistener.previewFile = null;
+            }
         }
     };
+
+    $scope.filelistener.updatePreview();
 
     $scope.logout = function () {
         $scope.openIdService.logout();
@@ -154,7 +169,7 @@ angular.module('senseItWeb', null, null).controller('ProfileCtrl', function ($sc
 
             if (ok) {
                 var error = this.error = {username: false, password: false, repeatPassword: false, email: false};
-                OpenIdService.register(this.editing.username, this.clearPassword(), this.editing.email, function (data) {
+                OpenIdService.register(this.editing.username, this.clearPassword(), this.editing.email).then(function (data) {
                     switch (data.responses.registration) {
                         case 'username_exists':
                             error.username = 'Username not available.';

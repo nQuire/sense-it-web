@@ -23,6 +23,13 @@
   color: $color-dark-grey;
 }
 
+
+@mixin text-sidebar-teaser {
+  @include text-regular;
+  font-size: 12px;
+  color: $color-light-grey;
+}
+
 @mixin text-sidebar-category {
   @include text-bold;
 

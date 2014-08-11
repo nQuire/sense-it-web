@@ -40,6 +40,12 @@ public class UserProfile extends AbstractEntity implements UserDetails {
     boolean admin = false;
 
     @Basic
+    @Setter
+    @Getter
+    String status = "";
+
+
+    @Basic
     @Getter
     @Setter
     String image;
