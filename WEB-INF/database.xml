@@ -1,0 +1,59 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="username" value="${database.username}"/>
+        <property name="password" value="${database.password}"/>
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="${database.url}"/>
+    </bean>
+
+
+    <!--<bean class="org.springframework.orm.jpa.JpaTransactionManager" id="transactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>-->
+
+    <tx:annotation-driven transaction-manager="txManager"/>
+
+    <bean class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" id="entityManagerFactory">
+        <property name="persistenceUnitName" value="${persistence.unit}"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+
+    <!--    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+            <property name="dataSource" ref="dataSource"/>
+            <property name="persistenceUnitName" value="${persistence.unit}"/>
+            <property name="jpaDialect" ref="jpaDialect"/>
+            <property name="jpaVendorAdapter">
+                <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                </bean>
+            </property>
+        </bean>-->
+
+
+    <bean id="jpaDialect" class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>
+
+
+    <bean id="projectDao" class="org.greengin.nquireit.dao.ProjectDao"/>
+    <bean id="userProfileDao" class="org.greengin.nquireit.dao.UserProfileDao"/>
+    <bean id="dataActivityDao" class="org.greengin.nquireit.dao.DataActivityDao"/>
+    <bean id="senseItDao" class="org.greengin.nquireit.dao.SenseItDao"/>
+    <bean id="spotItDao" class="org.greengin.nquireit.dao.SpotItDao"/>
+    <bean id="challengeDao" class="org.greengin.nquireit.dao.ChallengeDao"/>
+    <bean id="forumDao" class="org.greengin.nquireit.dao.ForumDao"/>
+    <bean id="voteDao" class="org.greengin.nquireit.dao.VoteDao"/>
+    <bean id="commentsDao" class="org.greengin.nquireit.dao.CommentsDao"/>
+
+</beans>

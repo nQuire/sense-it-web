@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Welcome</title>
+</head>
+<body>
+
+<script>
+    if (window.opener) {
+        if (window.opener.handleOpenIdResponse) {
+            window.opener.handleOpenIdResponse();
+        }
+    }
+    window.close();
+</script>
+</body>
+</html>

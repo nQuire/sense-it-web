@@ -1,0 +1,14 @@
+database.username=senseit
+database.password=senseit
+database.url=jdbc:mysql://localhost/senseit
+persistence.unit=nquire-it-jpa
+
+server.appUrl=http://localhost
+server.proxyHost=
+server.proxyPort=
+
+facebook.clientId=id
+facebook.clientSecret=secret
+
+google.consumerKey=key
+google.consumerSecret=secret

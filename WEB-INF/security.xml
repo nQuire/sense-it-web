@@ -1,0 +1,101 @@
+<beans xmlns:sec="http://www.springframework.org/schema/security"
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+             http://www.springframework.org/schema/security	http://www.springframework.org/schema/security/spring-security-3.2.xsd
+             http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
+
+
+    <bean id="userService"
+          class="org.greengin.nquireit.logic.users.UserServiceBean">
+    </bean>
+
+    <bean id="securityContextRepository"
+          class="org.springframework.security.web.context.HttpSessionSecurityContextRepository"/>
+
+    <bean id="rememberMeServices"
+          class="org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices">
+        <property name="userDetailsService" ref="userService"/>
+        <property name="tokenValiditySeconds" value="3600"/>
+        <property name="cookieName" value="NQUIRE_IT_TOKEN"/>
+        <property name="key" value="xxxxxxx"/>
+    </bean>
+
+    <sec:http auto-config="true">
+        <sec:anonymous/>
+    </sec:http>
+
+
+    <bean id="passwordEncoder"
+          class="org.springframework.security.crypto.password.StandardPasswordEncoder">
+        <constructor-arg value="${security.encodingSecret}"/>
+    </bean>
+
+    <sec:authentication-manager alias="authenticationManager">
+        <sec:authentication-provider user-service-ref="userService">
+            <sec:password-encoder ref="passwordEncoder"/>
+        </sec:authentication-provider>
+    </sec:authentication-manager>
+
+
+    <bean id="textEncryptor" class="org.springframework.security.crypto.encrypt.Encryptors"
+          factory-method="text">
+        <constructor-arg value="${security.encryptPassword}"/>
+        <constructor-arg value="${security.encryptSalt}"/>
+    </bean>
+
+    <bean name="socialInAdapter" class="org.greengin.nquireit.logic.users.SocialAdapter"/>
+
+    <bean id="usersConnectionRepository" class="org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository">
+        <constructor-arg ref="dataSource"/>
+        <constructor-arg ref="connectionFactoryLocator"/>
+        <constructor-arg ref="textEncryptor"/>
+        <property name="connectionSignUp" ref="socialInAdapter"/>
+    </bean>
+
+    <bean id="connectionRepository" factory-method="createConnectionRepository" factory-bean="usersConnectionRepository"
+          scope="request">
+        <constructor-arg value="#{request.userPrincipal.name}"/>
+        <aop:scoped-proxy proxy-target-class="false"/>
+    </bean>
+
+    <bean id="connectionFactoryLocator" class="org.springframework.social.connect.support.ConnectionFactoryRegistry">
+        <property name="connectionFactories">
+            <list>
+                <bean class="org.springframework.social.google.connect.GoogleConnectionFactory">
+                    <constructor-arg value="${google.consumerKey}"/>
+                    <constructor-arg value="${google.consumerSecret}"/>
+                </bean>
+                <bean class="org.springframework.social.facebook.connect.FacebookConnectionFactory">
+                    <constructor-arg value="${facebook.clientId}"/>
+                    <constructor-arg value="${facebook.clientSecret}"/>
+                </bean>
+                <bean class="org.springframework.social.twitter.connect.TwitterConnectionFactory">
+                    <constructor-arg value="${twitter.consumerKey}"/>
+                    <constructor-arg value="${twitter.consumerSecret}"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="facebook" factory-bean="connectionRepository" factory-method="findPrimaryConnection" scope="request">
+        <constructor-arg value="org.springframework.social.facebook.api.Facebook"/>
+        <aop:scoped-proxy proxy-target-class="false"/>
+    </bean>
+    <bean id="google" factory-bean="connectionRepository" factory-method="findPrimaryConnection" scope="request">
+        <constructor-arg value="org.springframework.social.google.api.Google"/>
+        <aop:scoped-proxy proxy-target-class="true"/>
+    </bean>
+    <bean id="twitter" factory-bean="connectionRepository" factory-method="findPrimaryConnection" scope="request">
+        <constructor-arg value="org.springframework.social.twitter.api.Twitter"/>
+        <aop:scoped-proxy proxy-target-class="true"/>
+    </bean>
+
+    <bean class="org.greengin.nquireit.controllers.users.CustomProviderSignInController">
+        <property name="applicationUrlBase" value="${server.appUrl}"/>
+        <property name="signUpUrl" value="${server.appUrl}/social/new"/>
+        <property name="postSignInUrl" value="${server.appUrl}/social/welcome"/>
+    </bean>
+
+</beans>

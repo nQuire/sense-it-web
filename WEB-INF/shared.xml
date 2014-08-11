@@ -1,0 +1,67 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+    <context:component-scan base-package="org.greengin.nquireit.controllers"/>
+    <context:component-scan base-package="com.mangofactory.jsonview"/>
+
+    <bean id="templateResolver"
+          class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
+        <property name="prefix" value="/WEB-INF/templates/"/>
+        <property name="suffix" value=".html"/>
+    </bean>
+
+    <bean id="templateEngine"
+          class="org.thymeleaf.spring4.SpringTemplateEngine">
+        <property name="templateResolver" ref="templateResolver"/>
+    </bean>
+
+    <bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
+        <property name="templateEngine" ref="templateEngine"/>
+        <property name="order" value="1"/>
+        <property name="viewNames" value="*"/>
+    </bean>
+
+
+    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor "/>
+
+
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="10000000"/>
+    </bean>
+
+
+    <bean id="roleManager"
+          class="org.greengin.nquireit.logic.users.RoleManagerBean">
+    </bean>
+
+    <bean id="subscriptionManager"
+          class="org.greengin.nquireit.logic.users.SubscriptionManagerBean">
+    </bean>
+
+    <bean id="fileManager"
+          class="org.greengin.nquireit.logic.data.FileManagerBean">
+        <property name="basePath" value="files"/>
+    </bean>
+
+    <bean id="senseItOperations"
+          class="org.greengin.nquireit.logic.project.senseit.transformations.SenseItOperations">
+    </bean>
+
+    <bean class="com.mangofactory.jsonview.JsonViewSupportFactoryBean"/>
+
+    <bean id="objectMapper" class="org.greengin.nquireit.json.JacksonObjectMapper"/>
+
+
+    <bean id="context" class="org.greengin.nquireit.logic.ContextBean">
+        <property name="httpProxyHost" value="${server.proxyHost}"/>
+        <property name="httpProxyPort" value="${server.proxyPort}"/>
+    </bean>
+
+    <bean id="starter" init-method="start" class="org.greengin.nquireit.logic.update.ModelUpdaterBean" lazy-init="false"/>
+
+
+</beans>
