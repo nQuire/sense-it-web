@@ -6,11 +6,14 @@
             <p class="project-create-type-info-header"
                data-ng-click="select('senseit')">Sense-it</p>
 
+            <div data-ng-bind-html="txt.createSenseIt"></div>
+            <!--
             <p>Is there something you are curious about - asking how, where, when and what?</p>
 
             <p>Find answers by using the sensors in your phone! Invite others to help collect data!</p>
 
             <p>Make it your <span class="project-create-type">Sense-it</span> mission!</p>
+            -->
 
             <div class="project-create-type-banner"
                  data-ng-click="select('senseit')">
@@ -26,12 +29,14 @@
             <p class="project-create-type-info-header"
                data-ng-click="select('spotit')">Spot-it</p>
 
+            <div data-ng-bind-html="txt.createSpotIt"></div>
+            <!--
             <p>Have you spotted something interesting or unusual that you are amused or curious about?</p>
 
             <p>Take a photo with your phone. Share the spot with other nQuirers.</p>
 
             <p>Make it your <span class="project-create-type">Spot-it</span> mission!</p>
-
+            -->
             <div class="project-create-type-banner"
                  data-ng-click="select('spotit')">
                 Create your own <b>Spot-it</b> mission
@@ -46,10 +51,13 @@
             <p class="project-create-type-info-header"
                data-ng-click="select('challenge')">Win-it</p>
 
+            <div data-ng-bind-html="txt.createWinIt"></div>
+            <!--
+
             <p>Do you need creative ideas about something from other nQuirers?
                 Would you be prepared to offer a prize for the best idea?
             </p>
-
+            -->
             <p>Create a <b>Win-it</b> mission!</p>
 
             <div class="project-create-type-banner"
@@ -60,7 +68,9 @@
     </div>
 
     <div data-ng-if="type" class="project-create-form-container">
-        <div class="project-create-form-container-explanation" data-ng-if="type=='senseit'">
+        <div class="project-create-form-container-explanation" data-ng-if="type=='senseit'"
+             data-ng-bind-html="txt.createSenseItHelp">
+            <!--
             <p>
                 Sense-it missions are collaborative projects in which people collect data together.
                 To collect data, the Android
@@ -74,8 +84,11 @@
                 <b>Orientation</b>, <b>Pressure</b>, <b>Ambient temperature</b>, and <b>Relative humidity</b>.
                 (Please note that not all mobile devices has all these sensors.)
             </p>
+            -->
         </div>
-        <div class="project-create-form-container-explanation" data-ng-if="type=='spotit'">
+        <div class="project-create-form-container-explanation" data-ng-if="type=='spotit'"
+             data-ng-bind-html="txt.createSpotItHelp">
+            <!--
             <p>
                 Spot-it missions are collaborative projects in which people collect pictures together about a
                 specific topic.
@@ -84,8 +97,11 @@
             <p>As the mission owner, you will be able to decide the topic of the pictures. Uploaded pictures can be
                 voted, and you can also delete inappropriate pictures if necessary.
             </p>
+            -->
         </div>
-        <div class="project-create-form-container-explanation" data-ng-if="type=='challenge'">
+        <div class="project-create-form-container-explanation" data-ng-if="type=='challenge'"
+             data-ng-bind-html="txt.createWinItHelp">
+            <!--
             <p>
                 Win-it missions are competitive projects in which participante propose answers to a question or
                 challenge.
@@ -102,6 +118,7 @@
             </ul>
             <p>You are allowed to offer prizes for your missions! Check some examples in the front page of this
                 site.</p>
+                -->
         </div>
         <div data-ng-if="status.logged">
             <form class="form-inline" role="form">
