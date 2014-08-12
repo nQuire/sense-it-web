@@ -19,8 +19,12 @@
             <div class="btn-group">
 
                 <button class="btn btn-default" data-ng-disabled="form.okButtonDisabled()"
-                        data-ng-click="form.save()">
-                    {{isNew ? 'Create' : 'Save'}}
+                        data-ng-click="save(false)">
+                    {{itemView.isNew ? 'Create' : 'Save'}}
+                </button>
+                <button data-ng-if="!itemView.isNew" class="btn btn-default" data-ng-disabled="form.okButtonDisabled()"
+                        data-ng-click="save(true)">
+                    Save and continue
                 </button>
                 <button class="btn btn-default"
                         data-ng-disabled="form.resetButtonDisabled()"

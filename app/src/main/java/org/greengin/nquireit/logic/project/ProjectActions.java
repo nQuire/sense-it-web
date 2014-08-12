@@ -230,7 +230,7 @@ public class ProjectActions extends AbstractContentManager {
 
 
     public ProjectResponse get() {
-        return accessLevel.isAdmin() || project.getOpen() ? projectResponse(project) : null;
+        return project != null && (accessLevel.isAdmin() || project.getOpen()) ? projectResponse(project) : null;
     }
 
     /**

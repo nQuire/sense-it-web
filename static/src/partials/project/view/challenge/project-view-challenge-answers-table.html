@@ -17,7 +17,8 @@
 </div>
 
 <div data-ng-if="answerData.answersReady">
-    <table data-siw-sortable-table-widget data-table-data="tableData" class="table table-bordered">
+    <table data-ng-if="sortedData.data.length > 0"
+            data-siw-sortable-table-widget data-table-data="tableData" class="table table-bordered table-striped">
         <thead>
         <tr>
             <th data-ng-if="answerData.showAuthor" data-ng-class="headerClass('author')"

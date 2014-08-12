@@ -7,7 +7,10 @@
             <label for="label">Field label:</label>
             <input id="label" class="form-control" type="text" placeholder="Label" data-ng-model="form.values.label"/>
         </div>
+
+        {{form.values}}
         <div class="form-group">
+
             <label for="type">Field type:</label>
             <select id="type" class="form-control" data-ng-model="form.values.type">
                 <option value="textfield">Single-line text</option>

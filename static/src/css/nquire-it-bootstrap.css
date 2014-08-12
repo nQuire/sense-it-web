@@ -10733,8 +10733,10 @@ div#header {
       .about-container .about-content .about-logos img {
         margin: 0 10px; }
 
-.social-posting .social-posting-links .social-posting-link img {
-  width: 100%; }
+.social-posting .social-posting-links .social-posting-link {
+  padding: 0px 0px 20px 0px; }
+  .social-posting .social-posting-links .social-posting-link img {
+    width: 50%; }
 
 .content-no-sidebar {
   margin: 0px; }
@@ -11227,63 +11229,67 @@ div#header {
   border: 1px solid #aaaaaa;
   height: 270px;
   position: relative; }
-  .spotit-item .spotit-observation {
-    cursor: pointer;
+
+.spotit-observation {
+  cursor: pointer;
+  width: 100%;
+  overflow: hidden;
+  position: relative; }
+  .spotit-observation > div {
+    height: 100%; }
+  .spotit-observation > img, .spotit-observation > div {
     width: 100%;
-    overflow: hidden;
-    position: relative; }
-    .spotit-item .spotit-observation > div {
-      height: 100%; }
-    .spotit-item .spotit-observation > img, .spotit-item .spotit-observation > div {
-      width: 100%;
-      position: absolute;
-      top: 0px;
-      left: 0px; }
-    .spotit-item .spotit-observation:before, .spotit-item .spotit-observation > div, .spotit-item .spotit-observation > img {
-      /* vertically center the image */
-      display: inline-block;
-      vertical-align: middle; }
-    .spotit-item .spotit-observation:before {
-      content: "";
-      /* Magic Number */
-      /* Set this to your desired height(to width) ratio */
-      padding-top: 60%;
-      /* % of original image width */ }
-  .spotit-item .spotit-observation-outline {
-    cursor: pointer;
-    width: 100%;
-    overflow: hidden;
-    position: relative;
-    margin-left: 25%;
-    width: 50%; }
-    .spotit-item .spotit-observation-outline > div {
-      height: 100%; }
-    .spotit-item .spotit-observation-outline > img, .spotit-item .spotit-observation-outline > div {
-      width: 100%;
-      position: absolute;
-      top: 0px;
-      left: 0px; }
-    .spotit-item .spotit-observation-outline:before, .spotit-item .spotit-observation-outline > div, .spotit-item .spotit-observation-outline > img {
-      /* vertically center the image */
-      display: inline-block;
-      vertical-align: middle; }
-    .spotit-item .spotit-observation-outline:before {
-      content: "";
-      /* Magic Number */
-      /* Set this to your desired height(to width) ratio */
-      padding-top: 60%;
-      /* % of original image width */ }
-  .spotit-item .spotit-observation-title {
-    text-align: center;
-    color: #777777;
-    padding-top: 10px; }
-  .spotit-item .spotit-observation-metadata {
     position: absolute;
-    text-align: center;
-    color: #777777;
+    top: 0px;
+    left: 0px; }
+  .spotit-observation:before, .spotit-observation > div, .spotit-observation > img {
+    /* vertically center the image */
+    display: inline-block;
+    vertical-align: middle; }
+  .spotit-observation:before {
+    content: "";
+    /* Magic Number */
+    /* Set this to your desired height(to width) ratio */
+    padding-top: 60%;
+    /* % of original image width */ }
+
+.spotit-observation-outline {
+  cursor: pointer;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  margin-left: 25%;
+  width: 50%; }
+  .spotit-observation-outline > div {
+    height: 100%; }
+  .spotit-observation-outline > img, .spotit-observation-outline > div {
     width: 100%;
-    left: 0px;
-    bottom: 10px; }
+    position: absolute;
+    top: 0px;
+    left: 0px; }
+  .spotit-observation-outline:before, .spotit-observation-outline > div, .spotit-observation-outline > img {
+    /* vertically center the image */
+    display: inline-block;
+    vertical-align: middle; }
+  .spotit-observation-outline:before {
+    content: "";
+    /* Magic Number */
+    /* Set this to your desired height(to width) ratio */
+    padding-top: 60%;
+    /* % of original image width */ }
+
+.spotit-observation-title {
+  text-align: center;
+  color: #777777;
+  padding-top: 10px; }
+
+.spotit-observation-metadata {
+  position: absolute;
+  text-align: center;
+  color: #777777;
+  width: 100%;
+  left: 0px;
+  bottom: 10px; }
 
 .spotit-view-item {
   padding-top: 10px; }

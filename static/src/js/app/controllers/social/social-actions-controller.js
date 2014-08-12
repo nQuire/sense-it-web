@@ -1,9 +1,9 @@
 angular.module('senseItWeb', null, null).controller('SocialActionsCtrl', function ($scope, $state, ModalService, OpenIdService, RestService) {
 
     $scope.providers = {
-        'google': 'Google',
-        'twitter': 'Twitter',
-        'facebook': 'Facebook'
+        //'google': 'Google',
+        'twitter': 'Twitter'
+        //'facebook': 'Facebook'
     };
 
 

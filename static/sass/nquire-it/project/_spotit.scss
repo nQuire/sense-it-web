@@ -7,33 +7,34 @@
   border: 1px solid $color-light-grey;
   height: 270px;
   position: relative;
+}
 
-  .spotit-observation {
-    cursor: pointer;
-    @include image-crop(60%);
-  }
+.spotit-observation {
+  cursor: pointer;
+  @include image-crop(60%);
+}
 
-  .spotit-observation-outline {
-    cursor: pointer;
-    @include image-crop(60%);
-    margin-left: 25%;
-    width: 50%;
-  }
+.spotit-observation-outline {
+  cursor: pointer;
+  @include image-crop(60%);
+  margin-left: 25%;
+  width: 50%;
+}
 
-  .spotit-observation-title {
-    text-align: center;
-    color: $color-medium-grey;
-    padding-top: $dim-common-small-margin;
-  }
-  .spotit-observation-metadata {
-    position: absolute;
-    text-align: center;
-    color: $color-medium-grey;
+.spotit-observation-title {
+  text-align: center;
+  color: $color-medium-grey;
+  padding-top: $dim-common-small-margin;
+}
 
-    width: 100%;
-    left: 0px;
-    bottom: $dim-common-small-margin;
-  }
+.spotit-observation-metadata {
+  position: absolute;
+  text-align: center;
+  color: $color-medium-grey;
+
+  width: 100%;
+  left: 0px;
+  bottom: $dim-common-small-margin;
 }
 
 .spotit-view-item {

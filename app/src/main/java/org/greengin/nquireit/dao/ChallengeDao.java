@@ -33,7 +33,7 @@ public class ChallengeDao extends UtilsDao {
 
     private static final String MY_ANSWERS_QUERY = "SELECT an FROM ChallengeActivity ac INNER JOIN ac.answers an WHERE ac = :activity AND an.author = :author";
 
-    private static final String ALL_ANSWERS_QUERY = "SELECT an FROM ChallengeActivity ac INNER JOIN ac.answers an WHERE ac = :activity";
+    private static final String ALL_ANSWERS_QUERY = "SELECT an FROM ChallengeActivity ac INNER JOIN ac.answers an WHERE ac = :activity AND (an.author = :author OR an.published = TRUE)";
 
     private static final String ANSWER_COUNT_QUERY = "SELECT COUNT(an) AS N FROM ChallengeActivity ac INNER JOIN ac.answers an WHERE ac = :activity AND an.author = :author";
 
@@ -89,9 +89,8 @@ public class ChallengeDao extends UtilsDao {
         TypedQuery<ChallengeAnswer> query = em.createQuery(onlyMine ? MY_ANSWERS_QUERY : ALL_ANSWERS_QUERY,
                 ChallengeAnswer.class);
         query.setParameter("activity", activity);
-        if (onlyMine) {
-            query.setParameter("author", user);
-        }
+        query.setParameter("author", user);
+
         return query.getResultList();
     }
 
