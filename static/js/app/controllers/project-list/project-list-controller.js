@@ -12,7 +12,7 @@ angular.module('senseItWeb', null, null).controller('ProjectListCtrl', function 
         filter: $state.params.filter,
         kw: $state.params.kw,
         onlyFeatured: $state.params.filter != 'all',
-        hasConditions: $state.params.type || $state.params.type || $state.params.kw
+        hasConditions: $state.params.type || $state.params.status || $state.params.kw
     };
 
     $scope.projectListWatcher.query($scope.projectListFilter);

@@ -28,10 +28,6 @@ angular.module('senseItWeb', null, null).controller('ProjectEditCtrl', function 
                 return true;
             }
         });
-//        ProjectService.deleteProject($scope.project.id).then(function () {
-
-//        });
-        //
     };
 
     $scope.openProject = function() {

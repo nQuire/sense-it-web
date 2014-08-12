@@ -1,6 +1,8 @@
 angular.module('senseItWeb', null, null).controller('ProjectViewChallengeAnswersItemCtrl', function ($scope, ModalService) {
 
     if ($scope.answerData.editable && $scope.challengeParticipant) {
+        $scope.continueEditing = false;
+
         var editCallback = function () {
             if ($scope.itemView.isNew) {
                 $scope.challengeParticipant.newAnswer($scope.itemView.answer).then(function (data) {
@@ -14,7 +16,10 @@ angular.module('senseItWeb', null, null).controller('ProjectViewChallengeAnswers
             } else {
                 $scope.challengeParticipant.updateAnswer($scope.itemView.answer).then(function (answers) {
                     $scope.itemView.updateAnswers(answers);
+                    return true;
                 });
+
+                return $scope.continueEditing;
             }
         };
 
@@ -25,6 +30,11 @@ angular.module('senseItWeb', null, null).controller('ProjectViewChallengeAnswers
         };
 
         $scope.form = new SiwFormManager($scope.itemView.answer, ['fieldValues', 'published'], editCallback, cancelCallback);
+
+        $scope.save = function(continueEditing) {
+            $scope.continueEditing = continueEditing;
+            $scope.form.save();
+        }
     }
 
     if ($scope.itemView.isNew) {
