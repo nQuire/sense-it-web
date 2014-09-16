@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -47,7 +50,6 @@ public class FileManagerBean implements InitializingBean {
 
     }
 
-
     public String uploadFile(String context, String filename, InputStream input) throws IOException {
         File folder = new File(path, context);
 
@@ -82,10 +84,51 @@ public class FileManagerBean implements InitializingBean {
         }
     }
 
+    public void rotateImage(String filename, String direction) {
+        try {
+            String extension = null;
+            int extSepPos = filename.lastIndexOf('.');
+            if (extSepPos > 0) {
+                extension = filename.substring(extSepPos + 1);
+            }
+
+            File imagefile = new File(path, filename);
+            BufferedImage image = ImageIO.read(imagefile);
+            BufferedImage image2 = new BufferedImage(image.getHeight(), image.getWidth(), image.getType());
+
+            int nq, c;
+            if ("right".equals(direction)) {
+                nq = 1;
+                c = image.getHeight() / 2;
+            } else {
+                nq = 3;
+                c = image.getWidth() / 2;
+            }
+
+            AffineTransform tx = AffineTransform.getQuadrantRotateInstance(nq, c, c);
+            AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+
+            op.filter(image, image2);
+
+            ImageIO.write(image2, extension, imagefile);
+            deleteThumb("/" + filename);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return;
+    }
+
     public File get(String filename) {
         return new File(path, filename);
     }
 
+    private void deleteThumb(String filename) {
+        File thumb = getThumb(filename);
+        if (thumb.exists()) {
+            boolean ok = thumb.delete();
+            return;
+        }
+    }
 
     public File getThumb(String thumb) {
         String filename;

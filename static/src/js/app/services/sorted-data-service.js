@@ -22,7 +22,7 @@ angular.module('senseItServices', null, null).factory('SortedDataService', [func
             }
         };
 
-        this._filter = function(a) {
+        this._filter = function (a) {
             for (var i = 0; i < self.filterFunctions.length; i++) {
                 if (!self.filterFunctions(a)) {
                     return false;
@@ -37,7 +37,9 @@ angular.module('senseItServices', null, null).factory('SortedDataService', [func
 
 
     SortedData.prototype.sort = function (column, ascending) {
-        this.params = {column: column, ascending: ascending};
+        if (column) {
+            this.params = {column: column, ascending: ascending};
+        }
         this._sortData();
     };
 
@@ -58,6 +60,7 @@ angular.module('senseItServices', null, null).factory('SortedDataService', [func
             if (scope) {
                 if (watchKey) {
                     scope.$on('$destroy', scope.$watch(watchKey, function () {
+                        console.log('watchkey fired');
                         sd._update();
                     }));
                 }

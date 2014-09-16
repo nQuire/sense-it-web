@@ -2,11 +2,9 @@ package org.greengin.nquireit.logic.project.spotit;
 
 import org.greengin.nquireit.entities.activities.spotit.SpotItActivity;
 import org.greengin.nquireit.entities.activities.spotit.SpotItObservation;
-import org.greengin.nquireit.entities.projects.Project;
 import org.greengin.nquireit.logic.ContextBean;
 import org.greengin.nquireit.logic.data.DataItemManipulator;
 import org.greengin.nquireit.logic.files.FileMapUpload;
-import org.greengin.nquireit.logic.project.senseit.UpdateTitleRequest;
 
 import java.io.IOException;
 
@@ -15,13 +13,13 @@ public class SpotItObservationManipulator extends DataItemManipulator<SpotItActi
     SpotItObservationRequest data;
     FileMapUpload.FileData file;
     ContextBean context;
-    UpdateTitleRequest title;
+    UpdateImageRequest metadata;
 
-	public SpotItObservationManipulator(ContextBean context, SpotItObservationRequest data, FileMapUpload.FileData file, UpdateTitleRequest title) {
+	public SpotItObservationManipulator(ContextBean context, SpotItObservationRequest data, FileMapUpload.FileData file, UpdateImageRequest metadata) {
         this.data = data;
 		this.file = file;
         this.context = context;
-        this.title = title;
+        this.metadata = metadata;
 	}
 
 	@Override
@@ -39,8 +37,14 @@ public class SpotItObservationManipulator extends DataItemManipulator<SpotItActi
 
 	@Override
 	public void onUpdate(SpotItObservation item) {
-        if (title != null) {
-            item.setTitle(title.getTitle());
+        if (metadata != null) {
+            if (metadata.getTitle() != null) {
+                item.setTitle(metadata.getTitle());
+            }
+
+            if (metadata.getRotate() != null) {
+                context.getFileManager().rotateImage(item.getObservation(), metadata.getRotate());
+            }
         }
 	}
 
