@@ -8,9 +8,7 @@ angular.module('senseItWeb', null, null).directive('siwSortableTableWidget', fun
             var sortAscending = params.sortColumn && params.sortColumn.length > 0 && params.sortColumn[0] == '-';
             var sortColumn = sortAscending ? params.sortColumn.substr(1) : (params.sortColumn || null);
 
-            if (sortColumn) {
-                $scope.sortedData.sort(sortColumn, !!sortAscending);
-            }
+            $scope.sortedData.sort(sortColumn, !!sortAscending);
 
             $scope.headerClass = function (column) {
                 return column === $scope.sortedData.params.column ? ($scope.sortedData.params.ascending ? 'ascending' : 'descending') : '';

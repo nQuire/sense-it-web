@@ -58,7 +58,7 @@ angular.module('senseItWeb', null, null).controller('ProjectViewDataCtrl', funct
     });
 
     $scope.updateData = function (itemId, data) {
-        $scope.dataService.updateData(itemId, data).then(function (updatedData) {
+        return $scope.dataService.updateData(itemId, data).then(function (updatedData) {
             if (updatedData) {
                 for (var index = 0; index < $scope.dataList.items.length; index++) {
                     if ($scope.dataList.items[index].id == updatedData.id) {
@@ -68,6 +68,8 @@ angular.module('senseItWeb', null, null).controller('ProjectViewDataCtrl', funct
                 }
             }
             $scope.dataReady = true;
+
+            return updatedData;
         });
     };
 
