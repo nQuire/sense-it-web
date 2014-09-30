@@ -60,7 +60,6 @@ angular.module('senseItServices', null, null).factory('SortedDataService', [func
             if (scope) {
                 if (watchKey) {
                     scope.$on('$destroy', scope.$watch(watchKey, function () {
-                        console.log('watchkey fired');
                         sd._update();
                     }));
                 }

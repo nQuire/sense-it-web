@@ -2,29 +2,42 @@ package org.greengin.nquireit.logic.rating;
 
 import java.util.Collection;
 
+import lombok.Getter;
 import org.greengin.nquireit.entities.rating.Vote;
 import org.greengin.nquireit.entities.users.UserProfile;
 
 public class VoteCount {
-	
+
+    @Getter
 	int positive;
+
+    @Getter
 	int negative;
+
+    @Getter
 	int total;
-	
-	Vote myVote;
+
+    @Getter
+    boolean reported;
+
+    @Getter
+    Vote myVote;
 	
 	
 	public VoteCount(Collection<Vote> votes, UserProfile selectedVoteAuthor) {
 		positive = 0;
 		negative = 0;
 		myVote = null;
+        reported = false;
 		
 		for (Vote vote : votes) {
 			if (vote.getValue() > 0) {
 				positive++;
-			} else if (vote.getValue() < 0) {
+			} else if (vote.getValue() == -1) {
 				negative++;
-			}
+			} else if (vote.getValue() == -2) {
+                reported = true;
+            }
 			
 			if (selectedVoteAuthor != null && selectedVoteAuthor.getId().equals(vote.getUser().getId())) {
 				myVote = vote;
@@ -34,20 +47,4 @@ public class VoteCount {
         total = positive + negative;
 	}
 
-	public int getPositive() {
-		return positive;
-	}
-
-	public int getNegative() {
-		return negative;
-	}
-
-	public int getTotal() {
-		return total;
-	}
-
-	public Vote getMyVote() {
-		return myVote;
-	}
-	
 }

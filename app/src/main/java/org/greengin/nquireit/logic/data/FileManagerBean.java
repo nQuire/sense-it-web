@@ -115,7 +115,6 @@ public class FileManagerBean implements InitializingBean {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return;
     }
 
     public File get(String filename) {
@@ -125,8 +124,7 @@ public class FileManagerBean implements InitializingBean {
     private void deleteThumb(String filename) {
         File thumb = getThumb(filename);
         if (thumb.exists()) {
-            boolean ok = thumb.delete();
-            return;
+            thumb.delete();
         }
     }
 

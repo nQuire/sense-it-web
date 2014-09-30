@@ -11,6 +11,8 @@ import org.greengin.nquireit.logic.forum.ForumManager;
 import org.greengin.nquireit.logic.forum.ForumRequest;
 import org.greengin.nquireit.logic.project.metadata.ProjectRequest;
 import org.greengin.nquireit.logic.rating.CommentRequest;
+import org.greengin.nquireit.logic.rating.VoteCount;
+import org.greengin.nquireit.logic.rating.VoteRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -83,6 +85,13 @@ public class ForumController {
     @ResponseView(value = Views.ForumThread.class)
     public ForumThread commentsPost(@PathVariable("threadId") Long threadId, @RequestBody CommentRequest data, HttpServletRequest request) {
         return createForumManager(request).comment(threadId, data);
+    }
+
+    @RequestMapping(value = "/{threadId}/comments/{commentId}/vote", method = RequestMethod.POST)
+    @ResponseBody
+    @ResponseView(value = Views.VotableCount.class)
+    public VoteCount acommentsVote(@PathVariable("threadId") Long threadId, @PathVariable("commentId") Long commentId, @RequestBody VoteRequest voteData, HttpServletRequest request) {
+        return createForumManager(request).voteComment(threadId, commentId, voteData);
     }
 
 

@@ -6,30 +6,36 @@
     margin: 0 .25em;
     padding: .25em;
     border-radius: .25em;
-  }
-
-  i.vote-icon.enabled {
-    cursor: pointer;
-  }
-
-  i.vote-icon {
     color: #666;
     background: transparent;
-  }
 
-  i.vote-icon.selected {
-    background: #519251;
-    color: white;
-  }
+    &.report-icon {
+      padding: .25em .4em;
+    }
 
-  i.vote-icon.not-selected {
-    color: #aaa;
-  }
+    &.enabled {
+      cursor: pointer;
 
-  i.vote-icon.enabled:hover {
-    background: #519251;
-    color: #aaa;
+      &:hover {
+        color: #aaa;
+        background: #519251;
+        &.report-icon {
+          background: #b23131;
+        }
+      }
+    }
+
+    &.selected {
+      color: white;
+
+      background: #519251;
+      &.report-icon {
+        background: #b23131;
+      }
+    }
+
+    &.not-selected {
+      color: #aaa;
+    }
   }
 }
-
-
