@@ -10631,20 +10631,25 @@ div#header {
   .vote-widget i.vote-icon {
     margin: 0 .25em;
     padding: .25em;
-    border-radius: .25em; }
-  .vote-widget i.vote-icon.enabled {
-    cursor: pointer; }
-  .vote-widget i.vote-icon {
+    border-radius: .25em;
     color: #666;
     background: transparent; }
-  .vote-widget i.vote-icon.selected {
-    background: #519251;
-    color: white; }
-  .vote-widget i.vote-icon.not-selected {
-    color: #aaa; }
-  .vote-widget i.vote-icon.enabled:hover {
-    background: #519251;
-    color: #aaa; }
+    .vote-widget i.vote-icon.report-icon {
+      padding: .25em .4em; }
+    .vote-widget i.vote-icon.enabled {
+      cursor: pointer; }
+      .vote-widget i.vote-icon.enabled:hover {
+        color: #aaa;
+        background: #519251; }
+        .vote-widget i.vote-icon.enabled:hover.report-icon {
+          background: #b23131; }
+    .vote-widget i.vote-icon.selected {
+      color: white;
+      background: #519251; }
+      .vote-widget i.vote-icon.selected.report-icon {
+        background: #d23131; }
+    .vote-widget i.vote-icon.not-selected {
+      color: #aaa; }
 
 .admin-page {
   padding: 0 20px; }
@@ -11365,6 +11370,9 @@ tr.senseit-series-even td {
         margin-right: 10px; }
       .forum-container .forum-thread-content .forum-thread-comment .forum-thread-comment-header .date {
         display: inline-block; }
+      .forum-container .forum-thread-content .forum-thread-comment .forum-thread-comment-header .rate {
+        float: right;
+        color: none; }
     .forum-container .forum-thread-content .forum-thread-comment .forum-thread-author-image {
       position: absolute;
       float: left;
