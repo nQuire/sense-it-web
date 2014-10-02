@@ -3,6 +3,7 @@ package org.greengin.nquireit.entities.rating;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
+import org.greengin.nquireit.logic.ContextBean;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;

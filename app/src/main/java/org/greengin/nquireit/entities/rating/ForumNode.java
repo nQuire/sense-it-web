@@ -2,6 +2,7 @@ package org.greengin.nquireit.entities.rating;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.greengin.nquireit.entities.AbstractEntity;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.Vector;
 
 @Entity
-public class ForumNode extends VotableEntity {
+public class ForumNode extends AbstractEntity {
 
     @Getter
     @Setter

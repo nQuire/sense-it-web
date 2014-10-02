@@ -37,6 +37,8 @@ public class ChallengeDao extends UtilsDao {
 
     private static final String ANSWER_COUNT_QUERY = "SELECT COUNT(an) AS N FROM ChallengeActivity ac INNER JOIN ac.answers an WHERE ac = :activity AND an.author = :author";
 
+    private static final String FIND_ACTIVITY_QUERY = "SELECT ac FROM ChallengeActivity ac INNER JOIN ac.answers an WHERE an = :answer";
+
 
     @PersistenceContext
     @Getter
@@ -81,6 +83,12 @@ public class ChallengeDao extends UtilsDao {
         TypedQuery<Long> query = em.createQuery(ANSWER_COUNT_QUERY, Long.class);
         query.setParameter("activity", activity);
         query.setParameter("author", user);
+        return query.getSingleResult();
+    }
+
+    public ChallengeActivity findActivity(ChallengeAnswer answer) {
+        TypedQuery<ChallengeActivity> query = em.createQuery(FIND_ACTIVITY_QUERY, ChallengeActivity.class);
+        query.setParameter("answer", answer);
         return query.getSingleResult();
     }
 
