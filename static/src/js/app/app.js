@@ -44,6 +44,11 @@ angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'textAngular', 'ui.boot
                 templateUrl: 'partials/admin/admin-texts.html',
                 controller: 'AdminTextsCtrl'
             })
+            .state('admin.reported', {
+                url: '/reported',
+                templateUrl: 'partials/admin/admin-reported.html',
+                controller: 'AdminReportedCtrl'
+            })
             .state('forum', {
                 url: '/forum',
                 abstract: true,

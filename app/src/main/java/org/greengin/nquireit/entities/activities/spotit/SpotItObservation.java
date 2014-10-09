@@ -48,7 +48,7 @@ public class SpotItObservation extends AbstractDataProjectItem {
 
         info.addInfo("Title", title);
         String link = String.format("<a href=\"/files/image/%s\" target=\"_blank\">" +
-                "<img src=\"/files/thunb/%s\"/></a>", observation, observation);
+                "<img src=\"/files/thumb/%s\"/></a>", observation, observation);
         info.addInfo("Image", link);
     }
 }

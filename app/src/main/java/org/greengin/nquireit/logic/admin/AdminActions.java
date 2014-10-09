@@ -68,7 +68,10 @@ public class AdminActions extends AbstractContentManager {
 
 
     public HashMap<String, List<ReportedContent>> getReportedContent() {
-
-        return context.getVotableDao().getReportedContent(context);
+        if (isAdmin) {
+            return context.getVotableDao().getReportedContent(context);
+        } else {
+            return null;
+        }
     }
 }
