@@ -6,7 +6,9 @@ import org.greengin.nquireit.logic.AbstractContentManager;
 import org.greengin.nquireit.logic.ContextBean;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AdminActions extends AbstractContentManager {
 
@@ -62,5 +64,14 @@ public class AdminActions extends AbstractContentManager {
 
         return false;
 
+    }
+
+
+    public HashMap<String, List<ReportedContent>> getReportedContent() {
+        if (isAdmin) {
+            return context.getVotableDao().getReportedContent(context);
+        } else {
+            return null;
+        }
     }
 }

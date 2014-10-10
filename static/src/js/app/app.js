@@ -44,6 +44,11 @@ angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'textAngular', 'ui.boot
                 templateUrl: 'partials/admin/admin-texts.html',
                 controller: 'AdminTextsCtrl'
             })
+            .state('admin.reported', {
+                url: '/reported',
+                templateUrl: 'partials/admin/admin-reported.html',
+                controller: 'AdminReportedCtrl'
+            })
             .state('forum', {
                 url: '/forum',
                 abstract: true,
@@ -178,7 +183,7 @@ angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'textAngular', 'ui.boot
                 ['h1', 'h2', 'p', 'pre', 'quote'],
                 ['bold', 'italics', 'underline', 'ul', 'ol', 'redo', 'undo', 'clear'],
                 ['justifyLeft','justifyCenter','justifyRight'],
-                ['html', 'insertImage', 'insertLink', 'insertVideo']
+                ['html', 'insertImage', 'insertLink']
             ];
             taOptions.classes = {
                 focussed: 'focussed',

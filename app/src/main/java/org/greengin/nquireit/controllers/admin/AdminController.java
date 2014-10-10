@@ -7,6 +7,7 @@ import org.greengin.nquireit.json.Views;
 import org.greengin.nquireit.logic.ContextBean;
 import org.greengin.nquireit.logic.admin.AdminActions;
 import org.greengin.nquireit.logic.admin.ProjectFeaturedRequest;
+import org.greengin.nquireit.logic.admin.ReportedContent;
 import org.greengin.nquireit.logic.admin.UserAdminRequest;
 import org.greengin.nquireit.logic.base.TextRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Controller
@@ -61,13 +64,21 @@ public class AdminController {
         return manager.getProjects();
     }
 
+    @RequestMapping(value = "/reported", method = RequestMethod.GET)
+    @ResponseBody
+    @ResponseView(value = Views.UserName.class)
+    public HashMap<String, List<ReportedContent>> reported(HttpServletRequest request) {
+        return createAdminManager(request).getReportedContent();
+    }
+
+
     @RequestMapping(value = "/text", method = RequestMethod.PUT)
     @ResponseBody
     @ResponseView(value = Views.UserProfileData.class)
     public Boolean setFeatured(@RequestBody TextRequest data, HttpServletRequest request) {
         AdminActions manager = createAdminManager(request);
         return manager.setText(data.getKey(), data.getContent());
-   }
+    }
 
     @RequestMapping(value = "/model/update", method = RequestMethod.POST)
     @ResponseBody

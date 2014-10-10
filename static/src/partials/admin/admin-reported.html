@@ -1,0 +1,37 @@
+<div class="admin-reported">
+    <div class="admin-reported-menu">
+        <div data-ng-repeat="(cat, content) in admin.data.reported">
+            <a data-ng-class="categoryMenuItemClass(cat)"
+               href data-ng-click="selectCategory(cat)">
+                {{labels[cat]}}
+                <span class="badge">{{content.length}}</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<table data-ng-if="content" class="table table-striped">
+    <thead>
+    <tr>
+        <th>Author</th>
+        <th>Reports</th>
+        <th data-ng-repeat="infoKey in blocks">{{infoKey}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr data-ng-repeat="item in content">
+        <td>{{item.author.username}}</td>
+        <td>{{item.count}}</td>
+        <td data-ng-repeat="block in item.info">
+            <a data-ng-if="$first"
+               ng-href="#{{item.path}}" target="_blank"
+               data-ng-bind-html="block.content">
+            </a>
+
+            <div data-ng-if="!$first" data-ng-bind-html="block.content"></div>
+        </td>
+    </tr>
+
+    </tbody>
+
+</table>

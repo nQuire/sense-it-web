@@ -2,18 +2,24 @@ package org.greengin.nquireit.logic;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.greengin.nquireit.dao.*;
+import org.greengin.nquireit.dao.ChallengeDao;
+import org.greengin.nquireit.dao.CommentsDao;
+import org.greengin.nquireit.dao.DataActivityDao;
+import org.greengin.nquireit.dao.ForumDao;
+import org.greengin.nquireit.dao.ProjectDao;
+import org.greengin.nquireit.dao.SenseItDao;
+import org.greengin.nquireit.dao.SpotItDao;
+import org.greengin.nquireit.dao.TextDao;
+import org.greengin.nquireit.dao.UserProfileDao;
+import org.greengin.nquireit.dao.VotableDao;
+import org.greengin.nquireit.dao.VoteDao;
 import org.greengin.nquireit.logic.data.FileManagerBean;
 import org.greengin.nquireit.logic.users.SubscriptionManagerBean;
-import org.greengin.nquireit.dao.CommentsDao;
-import org.greengin.nquireit.dao.VoteDao;
 import org.greengin.nquireit.logic.users.UserServiceBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
-/**
- * Created by evilfer on 4/2/14.
- */
+
 public class ContextBean implements InitializingBean {
 
     @Getter
@@ -46,6 +52,10 @@ public class ContextBean implements InitializingBean {
     @Autowired
     @Getter
     VoteDao voteDao;
+
+    @Autowired
+    @Getter
+    VotableDao votableDao;
 
     @Autowired
     @Getter

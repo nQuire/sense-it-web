@@ -35,6 +35,13 @@ angular.module('senseItServices', null, null).factory('AdminService', ['RestServ
         });
     };
 
+  AdminManager.prototype.getReportedContent = function () {
+        var self = this;
+        return RestService.get('api/admin/reported').then(function (data) {
+            self.data.reported = data;
+        });
+    };
+
     AdminManager.prototype.setFeatured = function (projectId, isFeatured) {
         var self = this;
         RestService.put('api/admin/project/' + projectId + '/featured', {featured: isFeatured}).then(function (data) {
