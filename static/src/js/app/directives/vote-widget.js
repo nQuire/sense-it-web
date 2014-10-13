@@ -15,7 +15,8 @@ angular.module('senseItWeb', null, null).directive('siwVoteWidget', function (Mo
         }
 
         if (iconValue == -2) {
-          if ($scope.voteTarget.voteCount.myVote && $scope.voteTarget.voteCount.myVote.value == -2) {
+          if ($scope.voteTarget.voteCount && $scope.voteTarget.voteCount.myVote &&
+            $scope.voteTarget.voteCount.myVote.value == -2) {
             classes.push('selected');
           } else {
             classes.push('not-selected');
@@ -45,23 +46,22 @@ angular.module('senseItWeb', null, null).directive('siwVoteWidget', function (Mo
       };
 
       $scope.report = function () {
-        if ($scope.voteTarget.voteCount) {
-          if ($scope.voteTarget.voteCount.myVote.value == -2) {
-            $scope.vote(0);
-          } else {
-            ModalService.open({
-              body: '<p>Are you sure you want to report this as inapropriate content?</p>' +
-                '<p><b>Please note that the system admin will be notified, and ' +
-                'the content will be removed if demmed inappropriate.</b></p>' +
-                '<p>As this site is intended for all ages, please only report content ' +
-                'that is offensive or unsuitable for young people.</p>',
-              title: 'Report inappropriate content',
-              ok: function () {
-                $scope.vote(-2);
-                return true;
-              }
-            });
-          }
+        if ($scope.voteTarget.voteCount && $scope.voteTarget.voteCount.myVote &&
+          $scope.voteTarget.voteCount.myVote.value == -2) {
+          $scope.vote(0);
+        } else {
+          ModalService.open({
+            body: '<p>Are you sure you want to report this as inapropriate content?</p>' +
+            '<p><b>Please note that the system admin will be notified, and ' +
+            'the content will be removed if demmed inappropriate.</b></p>' +
+            '<p>As this site is intended for all ages, please only report content ' +
+            'that is offensive or unsuitable for young people.</p>',
+            title: 'Report inappropriate content',
+            ok: function () {
+              $scope.vote(-2);
+              return true;
+            }
+          });
         }
       };
     }
