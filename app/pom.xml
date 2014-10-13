@@ -11,6 +11,7 @@
         <spring.version>4.0.0.RELEASE</spring.version>
         <org.springframework.security.version>3.2.3.RELEASE</org.springframework.security.version>
         <org.springframework.social.version>1.1.0.RC1</org.springframework.social.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <repositories>
