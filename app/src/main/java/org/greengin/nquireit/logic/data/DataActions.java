@@ -65,10 +65,10 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
             try {
                 manipulator.init(project, activity);
 
-                Long newItemId = context.getDataActivityDao().createItem(user, type, manipulator);
-                if (newItemId != null) {
+                K newItem = context.getDataActivityDao().createItem(user, type, manipulator);
+                if (newItem != null) {
                     NewDataItemResponse<K> response = new NewDataItemResponse<K>();
-                    response.setNewItemId(newItemId);
+                    response.setNewItemId(newItem.getId());
                     response.setItems(getItems(type));
                     return response;
                 }
@@ -119,11 +119,19 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
     }
 
     public NewDataItemResponse<E> createData(DataItemManipulator<T, E> manipulator) {
-        return createItem(dataType, manipulator);
+        NewDataItemResponse<E> response = createItem(dataType, manipulator);
+        if (response != null) {
+            context.getLogManager().data(user, project, response.getNewItemId(), true);
+        }
+        return response;
     }
 
     public Long deleteData(Long itemId, DataItemManipulator<T, E> manipulator) {
-        return deleteItem(dataType, itemId, manipulator);
+        Long id = deleteItem(dataType, itemId, manipulator);
+        if (id != null) {
+            context.getLogManager().data(user, project, id, false);
+        }
+        return id;
     }
 
     public E updateData(Long itemId, DataItemManipulator<T, E> manipulator) {

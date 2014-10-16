@@ -57,5 +57,6 @@
     <bean id="votableDao" class="org.greengin.nquireit.dao.VotableDao"/>
     <bean id="commentsDao" class="org.greengin.nquireit.dao.CommentsDao"/>
     <bean id="textsDao" class="org.greengin.nquireit.dao.TextDao"/>
+    <bean id="logsDao" class="org.greengin.nquireit.dao.LogsDao"/>
 
 </beans>

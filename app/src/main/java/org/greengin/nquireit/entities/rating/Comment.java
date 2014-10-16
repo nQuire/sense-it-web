@@ -53,6 +53,11 @@ public class Comment extends VotableEntity {
     }
 
     @Override
+    public UserProfile getOwner(ContextBean context) {
+        return user;
+    }
+
+    @Override
     public void createReportedInfo(ReportedContent info, ContextBean context) {
         info.setAuthor(user);
         info.addInfo("Comment", comment);

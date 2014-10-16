@@ -66,6 +66,11 @@ public class Project extends CommentThreadEntity {
     }
 
     @Override
+    public UserProfile getOwner(ContextBean context) {
+        return author;
+    }
+
+    @Override
     public void createReportedInfo(ReportedContent info, ContextBean context) {
         info.setAuthor(author);
         info.setPath(getReportedPath(context));

@@ -1,18 +1,25 @@
 /*global dataLayer*/
 
-angular.module('senseItServices', null, null).factory('TrackingService', ['$rootScope', '$location',
-  function ($rootScope, $location) {
+angular.module('senseItServices', null, null).factory('TrackingService', ['$rootScope', '$location', 'RestService',
+  function ($rootScope, $location, RestService) {
 
     return {
+
       registerGA: function () {
-        if (dataLayer) {
-          $rootScope.$on('$stateChangeSuccess', function () {
+        var pageView = function () {
+          console.log('pageview');
+          var path = $location.path();
+          if (dataLayer) {
             dataLayer.push({
               'event': 'gaPageView',
-              'gaPagePath': $location.path()
+              'gaPagePath': path
             });
-          });
-        }
+          }
+          RestService.post('api/log', {path: path});
+        };
+
+        $rootScope.$on('$stateChangeSuccess', pageView);
       }
+
     };
   }]);

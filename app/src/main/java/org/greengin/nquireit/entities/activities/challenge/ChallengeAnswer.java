@@ -60,6 +60,11 @@ public class ChallengeAnswer extends VotableEntity {
         return formatReportedPath(project);
     }
 
+    @Override
+    public UserProfile getOwner(ContextBean context) {
+        return author;
+    }
+
     private String formatReportedPath(Project project) {
         return String.format("/project/%d/challenge", project.getId());
     }

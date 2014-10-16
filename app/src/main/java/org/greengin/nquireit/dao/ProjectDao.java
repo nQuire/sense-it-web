@@ -3,8 +3,6 @@ package org.greengin.nquireit.dao;
 
 import org.greengin.nquireit.entities.AbstractEntity;
 import org.greengin.nquireit.entities.activities.base.AbstractActivity;
-import org.greengin.nquireit.entities.activities.challenge.ChallengeActivity;
-import org.greengin.nquireit.entities.activities.challenge.ChallengeAnswer;
 import org.greengin.nquireit.entities.projects.*;
 import org.greengin.nquireit.entities.users.RoleType;
 import org.greengin.nquireit.entities.users.UserProfile;
@@ -22,7 +20,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
@@ -55,7 +52,7 @@ public class ProjectDao {
     ContextBean context;
 
     @Transactional
-    public Long createProject(ProjectCreationRequest projectData, UserProfile author) {
+    public Project createProject(ProjectCreationRequest projectData, UserProfile author) {
 
         Project project = new Project();
         project.setTitle("New project");
@@ -64,7 +61,7 @@ public class ProjectDao {
         projectData.initProject(project, context);
         em.persist(project);
         subscriptionManagerBean.projectCreatedInTransaction(em, project, author);
-        return project.getId();
+        return project;
     }
 
     public Project project(Long projectId) {

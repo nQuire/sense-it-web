@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
@@ -44,6 +45,10 @@ public class UserProfile extends AbstractEntity implements UserDetails {
     @Getter
     String status = "";
 
+    @Basic
+    @Getter
+    @Setter
+    Date date;
 
     @Basic
     @Getter
