@@ -10,7 +10,8 @@
         <p class="project-section-content-header">Upload picture</p>
 
         <div data-ng-if="!status.logged">
-            <p>You need to <a href data-ng-click="openIdService.loginAndComeBack()">sign in</a> or register to upload images to this mission.</p>
+            <p>You need to <a href data-ng-click="openIdService.loginAndComeBack()">sign in</a> or register to upload
+                images to this mission.</p>
         </div>
 
         <div data-ng-if="status.logged">
@@ -18,12 +19,15 @@
                 <p>You need to <a href data-ui-sref="project.view.home">join this mission </a> to upload images.</p>
             </div>
 
+            <p>Busy? {{busy}}</p>
+
             <div data-ng-if="projectData.access.member">
                 <form>
                     <div class="form-group">
                         <label for="title">Title:</label>
                         <input type="text" id="title" placeholder="Title" class="form-control"
-                               data-ng-model="formData.title"/>
+                               data-ng-model="formData.title"
+                               data-ng-disabled="busy"/>
                         {{title}}
                     </div>
                     <div class="form-group">
@@ -38,8 +42,9 @@
                     </div>
                     <div class="btn-group">
                         <button type="button" class="btn btn-default"
-                                data-ng-click="upload()" data-ng-disabled="!formData.imageSrc">Upload image</button>
-                        <!--<button type="button" class="btn btn-default" data-ng-click="reset()">Reset</button>-->
+                                data-ng-click="upload()" data-ng-disabled="!formData.imageSrc || busy">Upload image
+                        </button>
+                        <span data-ng-if="busy">Uploading...</span>
                     </div>
                 </form>
             </div>

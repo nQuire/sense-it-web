@@ -7,7 +7,6 @@ angular.module('senseItServices', null, null).factory('TrackingService', ['$root
 
       registerGA: function () {
         var pageView = function () {
-          console.log('pageview');
           var path = $location.path();
           if (dataLayer) {
             dataLayer.push({

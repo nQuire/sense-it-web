@@ -84,38 +84,6 @@ public class FileManagerBean implements InitializingBean {
         }
     }
 
-    public void rotateImage(String filename, String direction) {
-        try {
-            String extension = null;
-            int extSepPos = filename.lastIndexOf('.');
-            if (extSepPos > 0) {
-                extension = filename.substring(extSepPos + 1);
-            }
-
-            File imagefile = new File(path, filename);
-            BufferedImage image = ImageIO.read(imagefile);
-            BufferedImage image2 = new BufferedImage(image.getHeight(), image.getWidth(), image.getType());
-
-            int nq, c;
-            if ("right".equals(direction)) {
-                nq = 1;
-                c = image.getHeight() / 2;
-            } else {
-                nq = 3;
-                c = image.getWidth() / 2;
-            }
-
-            AffineTransform tx = AffineTransform.getQuadrantRotateInstance(nq, c, c);
-            AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-
-            op.filter(image, image2);
-
-            ImageIO.write(image2, extension, imagefile);
-            deleteThumb("/" + filename);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     public File get(String filename) {
         return new File(path, filename);
@@ -171,5 +139,65 @@ public class FileManagerBean implements InitializingBean {
         }
 
         return null;
+    }
+
+    public void rotateImage(String filename, String direction) {
+        rotateImage(filename, "right".equals(direction) ? 1 : 3);
+    }
+
+    public void rotateImage(String filename, int turns) {
+
+        try {
+            String extension = null;
+            int extSepPos = filename.lastIndexOf('.');
+            if (extSepPos > 0) {
+                extension = filename.substring(extSepPos + 1);
+            }
+
+            File imagefile = new File(path, filename);
+            BufferedImage image = ImageIO.read(imagefile);
+
+            int w, h;
+            double cx, cy;
+            if (turns == 0 || turns == 2) {
+                w = image.getWidth();
+                h = image.getHeight();
+                cx = image.getWidth() / 2;
+                cy = image.getHeight() / 2;
+            } else {
+                w = image.getHeight();
+                h = image.getWidth();
+                cx = cy = (turns == 1 ? image.getHeight() : image.getWidth()) / 2;
+            }
+
+            BufferedImage image2 = new BufferedImage(w, h, image.getType());
+
+            AffineTransform tx = AffineTransform.getQuadrantRotateInstance(turns, cx, cy);
+            AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+
+            op.filter(image, image2);
+
+            ImageIO.write(image2, extension, imagefile);
+            deleteThumb("/" + filename);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void imageInitialRotation(String filename, int orientation) {
+        int turns = 0;
+        switch ((orientation - 1) / 2) {
+            case 1:
+                turns = 2;
+                break;
+            case 2:
+                turns = 1;
+                break;
+            case 3:
+                turns = 3;
+                break;
+        }
+        rotateImage(filename, turns);
     }
 }

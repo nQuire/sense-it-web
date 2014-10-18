@@ -37,20 +37,20 @@
     </div>
     <div class="spotit-item-title" data-ng-if="form.isOpen()">
         <form class="form-inline">
-            <input class="form-control" data-ng-model="form.values.title" placeholder="title"/>
-            <div class="btn-group">
+            <p>
+                <input class="form-control" data-ng-model="form.values.title" placeholder="title"/>
+            <span class="btn-group">
                 <button class="btn btn-default" data-ng-click="form.save()">
                     Save
                 </button>
                 <button class="btn btn-default" data-ng-click="form.cancel()">
                     Cancel
                 </button>
-            </div>
+            </span>
+            </p>
         </form>
     </div>
-    <p>{{item.observation}}</p>
     <div class="spotit-item-image">
-
         <img src="" data-ng-src="{{item.observation | uploadedImage }}"/>
     </div>
     <div class="spotit-comments-section">
