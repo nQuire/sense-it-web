@@ -3,7 +3,9 @@ package org.greengin.nquireit.dao;
 import org.greengin.nquireit.entities.rating.Comment;
 import org.greengin.nquireit.entities.rating.CommentThreadEntity;
 import org.greengin.nquireit.entities.users.UserProfile;
+import org.greengin.nquireit.logic.log.LogManagerBean;
 import org.greengin.nquireit.logic.rating.CommentRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +19,8 @@ public class CommentsDao {
     @PersistenceContext
     EntityManager em;
 
+    @Autowired
+    LogManagerBean logManager;
 
     public Comment getComment(CommentThreadEntity thread, Long commentId) {
         if (thread != null && commentId != null) {
@@ -34,6 +38,7 @@ public class CommentsDao {
     public Comment comment(UserProfile user, CommentThreadEntity target, CommentRequest request) {
         em.persist(target);
         Comment comment = commentWithinTransaction(user, target, request);
+        logManager.comment(user, target, comment, true);
         em.persist(comment);
         return comment;
     }
@@ -54,6 +59,7 @@ public class CommentsDao {
             Comment c = em.find(Comment.class, commentId);
 
             if (c != null && user.equals(c.getUser()) && target.equals(c.getTarget())) {
+                logManager.comment(user, target, c, false);
                 target.getComments().remove(c);
                 em.remove(c);
                 return true;

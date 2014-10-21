@@ -69,6 +69,7 @@ ini_set('error_reporting', E_ALL);
     <script src="js/app/services/modal-service.js"></script>
     <script src="js/app/services/file-reader-service.js"></script>
     <script src="js/app/services/sorted-data-service.js"></script>
+    <script src="js/app/services/tracking-service.js"></script>
 
 
     <script src="js/app/directives/input-enter.js"></script>
@@ -169,6 +170,19 @@ ini_set('error_reporting', E_ALL);
 <?php else: ?>
     <body data-ng-app="senseItWeb">
 <?php endif; ?>
+<script>
+    var dataLayer = [{'gaProperty': 'UA-55775559-1'}];
+</script>
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-K3DZ53"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-K3DZ53');</script>
+<!-- End Google Tag Manager -->
+
 
     <div id="page-background">
         <div id="page-background-center"></div>

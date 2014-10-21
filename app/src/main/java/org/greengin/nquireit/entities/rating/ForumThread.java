@@ -61,6 +61,11 @@ public class ForumThread extends CommentThreadEntity {
     }
 
     @Override
+    public UserProfile getOwner(ContextBean context) {
+        return author;
+    }
+
+    @Override
     public void createReportedInfo(ReportedContent info, ContextBean context) {
         info.setAuthor(author);
         info.addInfo("OP", firstComment.getComment());

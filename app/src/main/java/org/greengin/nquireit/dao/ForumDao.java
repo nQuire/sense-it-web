@@ -4,6 +4,7 @@ import org.greengin.nquireit.entities.rating.Comment;
 import org.greengin.nquireit.entities.rating.ForumNode;
 import org.greengin.nquireit.entities.rating.ForumThread;
 import org.greengin.nquireit.entities.users.UserProfile;
+import org.greengin.nquireit.logic.ContextBean;
 import org.greengin.nquireit.logic.forum.ForumRequest;
 import org.greengin.nquireit.logic.rating.CommentRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class ForumDao {
     EntityManager em;
 
     @Autowired
-    CommentsDao commentsDao;
+    ContextBean context;
 
 
     @Transactional
@@ -92,7 +93,9 @@ public class ForumDao {
 
             CommentRequest commentRequest = new CommentRequest();
             commentRequest.setComment(forumData.getText());
-            Comment comment = commentsDao.commentWithinTransaction(user, thread, commentRequest);
+            Comment comment = context.getCommentsDao().commentWithinTransaction(user, thread, commentRequest);
+            context.getLogManager().newThread(user, thread);
+
             em.persist(comment);
 
             thread.setFirstComment(comment);
@@ -108,7 +111,8 @@ public class ForumDao {
     public void comment(UserProfile user, ForumThread thread, CommentRequest data) {
         em.persist(thread);
         em.persist(thread.getForum());
-        Comment comment = commentsDao.commentWithinTransaction(user, thread, data);
+        Comment comment = context.getCommentsDao().commentWithinTransaction(user, thread, data);
+        context.getLogManager().threadComment(user, thread, comment);
         thread.updateLastPost();
         em.persist(comment);
     }

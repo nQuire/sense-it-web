@@ -39,5 +39,6 @@ public abstract class VotableEntity extends AbstractEntity {
 
     public abstract String getReportedType(ContextBean context);
     public abstract String getReportedPath(ContextBean context);
+    public abstract UserProfile getOwner(ContextBean context);
     public abstract void createReportedInfo(ReportedContent info, ContextBean context);
 }

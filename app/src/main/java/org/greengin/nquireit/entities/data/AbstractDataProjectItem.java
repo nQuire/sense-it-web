@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.greengin.nquireit.entities.rating.CommentThreadEntity;
 import org.greengin.nquireit.entities.rating.VotableEntity;
 import org.greengin.nquireit.entities.users.UserProfile;
+import org.greengin.nquireit.logic.ContextBean;
 
 import java.util.Date;
 
@@ -30,4 +31,9 @@ public abstract class AbstractDataProjectItem extends CommentThreadEntity {
     @Setter
 	protected DataCollectionActivity<?, ?> dataStore;
 
+
+    @Override
+    public UserProfile getOwner(ContextBean context) {
+        return author;
+    }
 }

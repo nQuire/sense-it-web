@@ -2,18 +2,10 @@ package org.greengin.nquireit.logic;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.greengin.nquireit.dao.ChallengeDao;
-import org.greengin.nquireit.dao.CommentsDao;
-import org.greengin.nquireit.dao.DataActivityDao;
-import org.greengin.nquireit.dao.ForumDao;
-import org.greengin.nquireit.dao.ProjectDao;
-import org.greengin.nquireit.dao.SenseItDao;
-import org.greengin.nquireit.dao.SpotItDao;
-import org.greengin.nquireit.dao.TextDao;
-import org.greengin.nquireit.dao.UserProfileDao;
-import org.greengin.nquireit.dao.VotableDao;
-import org.greengin.nquireit.dao.VoteDao;
+import org.greengin.nquireit.dao.*;
 import org.greengin.nquireit.logic.data.FileManagerBean;
+import org.greengin.nquireit.logic.log.LogManager;
+import org.greengin.nquireit.logic.log.LogManagerBean;
 import org.greengin.nquireit.logic.users.SubscriptionManagerBean;
 import org.greengin.nquireit.logic.users.UserServiceBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -44,6 +36,10 @@ public class ContextBean implements InitializingBean {
     @Autowired
     @Getter
     FileManagerBean fileManager;
+
+    @Autowired
+    @Getter
+    LogManagerBean logManager;
 
     @Autowired
     @Getter

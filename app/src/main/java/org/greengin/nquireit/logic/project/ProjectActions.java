@@ -1,7 +1,5 @@
 package org.greengin.nquireit.logic.project;
 
-import org.greengin.nquireit.entities.activities.challenge.ChallengeActivityStage;
-import org.greengin.nquireit.entities.activities.challenge.ChallengeAnswer;
 import org.greengin.nquireit.entities.projects.Project;
 import org.greengin.nquireit.entities.projects.ProjectType;
 import org.greengin.nquireit.entities.rating.Comment;
@@ -193,7 +191,9 @@ public class ProjectActions extends AbstractContentManager {
      */
     public Long createProject(ProjectCreationRequest projectData) {
         if (hasAccess(PermissionType.CREATE_PROJECT)) {
-            return context.getProjectDao().createProject(projectData, user);
+            Project project = context.getProjectDao().createProject(projectData, user);
+            context.getLogManager().projectCreationAction(user, project, true);
+            return project.getId();
         }
         return null;
     }
@@ -240,6 +240,7 @@ public class ProjectActions extends AbstractContentManager {
     public AccessLevel join() {
         if (hasAccess(PermissionType.PROJECT_JOIN) && !accessLevel.isMember()) {
             context.getSubscriptionManager().subscribe(user, project, RoleType.MEMBER);
+            context.getLogManager().projectMembershipAction(user, project, true);
             return context.getSubscriptionManager().getAccessLevel(project, user);
         }
         return null;
@@ -248,6 +249,7 @@ public class ProjectActions extends AbstractContentManager {
     public AccessLevel leave() {
         if (this.hasAccess(PermissionType.PROJECT_MEMBER_ACTION)) {
             context.getSubscriptionManager().unsubscribe(user, project, RoleType.MEMBER);
+            context.getLogManager().projectMembershipAction(user, project, false);
             return context.getSubscriptionManager().getAccessLevel(project, user);
         }
 
@@ -287,6 +289,7 @@ public class ProjectActions extends AbstractContentManager {
     @Transactional
     public Boolean deleteProject() {
         if (hasAccess(PermissionType.PROJECT_EDITION)) {
+            context.getLogManager().projectCreationAction(user, project, false);
             return context.getProjectDao().deleteProject(project);
         }
         return null;

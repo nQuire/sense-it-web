@@ -14,6 +14,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -88,6 +89,7 @@ public class UserProfileDao {
         user.setUsername(username);
         user.setEmail(email);
         user.setEmailConfirmed(emailConfirmed);
+        user.setDate(new Date());
         user.setPassword(password != null ? passwordEncoder.encode(password) : null);
         em.persist(user);
 
