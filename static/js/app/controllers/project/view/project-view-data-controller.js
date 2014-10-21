@@ -74,7 +74,7 @@ angular.module('senseItWeb', null, null).controller('ProjectViewDataCtrl', funct
     };
 
     $scope.createData = function (data, files, convertToMultipart) {
-        $scope.dataService.uploadData(data, files, convertToMultipart).then(function (updatedData) {
+        return $scope.dataService.uploadData(data, files, convertToMultipart).then(function (updatedData) {
             if (updatedData && updatedData.newItemId) {
                 $scope.dataReady = false;
                 $scope.dataList.items = updatedData.items;

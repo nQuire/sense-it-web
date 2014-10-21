@@ -2,6 +2,7 @@ angular.module('senseItWeb', null, null).controller('AdminTextsCtrl', function (
 
     $scope.itemList = [
         {id: 'headerSubtitle', label: 'Header subtitle', format: false},
+        {id: 'nquireVideo', label: 'Project list video', format: false},
         {id: 'nquireTeaser', label: 'Project list teaser', format: true},
         {id: 'about', label: 'About', format: true},
         {id: 'createSenseIt', label: 'Create: Sense It intro', format: true},

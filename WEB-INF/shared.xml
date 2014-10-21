@@ -47,6 +47,10 @@
         <property name="basePath" value="files"/>
     </bean>
 
+    <bean id="logManager"
+          class="org.greengin.nquireit.logic.log.LogManagerBean">
+    </bean>
+
     <bean id="senseItOperations"
           class="org.greengin.nquireit.logic.project.senseit.transformations.SenseItOperations">
     </bean>

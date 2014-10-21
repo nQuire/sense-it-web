@@ -10647,7 +10647,7 @@ div#header {
       color: white;
       background: #519251; }
       .vote-widget i.vote-icon.selected.report-icon {
-        background: #d23131; }
+        background: #b23131; }
     .vote-widget i.vote-icon.not-selected {
       color: #aaa; }
 
@@ -10681,6 +10681,14 @@ div#header {
   .admin-page .admin-content {
     padding: 10px;
     background: #f6f5f5; }
+  .admin-page .admin-reported .admin-reported-menu {
+    margin-bottom: 20px; }
+    .admin-page .admin-reported .admin-reported-menu > div {
+      display: inline-block;
+      margin-right: 20px; }
+      .admin-page .admin-reported .admin-reported-menu > div a.selected {
+        font-weight: bold;
+        color: gray; }
 
 .sortable-table th {
   cursor: pointer; }
