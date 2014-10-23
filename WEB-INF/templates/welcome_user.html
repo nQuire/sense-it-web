@@ -1,17 +1,12 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>Welcome</title>
+    <title>Login complete!</title>
 </head>
 <body>
 
 <script>
-    if (window.opener) {
-        if (window.opener.handleOpenIdResponse) {
-            window.opener.handleOpenIdResponse();
-        }
-    }
-    window.close();
+    window.loginComplete = true;
 </script>
 </body>
 </html>
