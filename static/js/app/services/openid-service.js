@@ -151,24 +151,13 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
   };
 
   service.providerLogin = function (provider) {
-    /*window.handleOpenIdResponse = function () {
-     service.update();
-     };*/
-
-    var loginWindow = $window.open('social/' + provider + '/login');
-    var check = function () {
-      if (loginWindow.loginComplete) {
-        loginWindow.close();
-        service.update();
-      } else {
-        setTimeout(check, 100);
-      }
+    window.handleOpenIdResponse = function () {
+      service.update();
     };
 
-    check();
+    window.open('social/' + provider + '/login', 'nilp');
   };
 
 
   return service;
 }]);
-
