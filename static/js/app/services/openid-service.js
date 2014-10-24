@@ -30,7 +30,6 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
   service._openIdRequest = function (path, logged, notify, method, data, files) {
     var _method = method ? method : 'get';
     var promise = (data || files) ? RestService[_method](path, data, files) : RestService[_method](path);
-
     return promise.then(function (data) {
       service.status = {
         logged: data.logged,
@@ -152,7 +151,9 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
 
   service.providerLogin = function (provider) {
     window.handleOpenIdResponse = function () {
-      service.update();
+      setTimeout(function() {
+        service.update();
+      }, 100);
     };
 
     window.open('social/' + provider + '/login', 'nilp');
