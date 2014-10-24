@@ -181,6 +181,7 @@ public class ProfileController {
     @RequestMapping(value = "/social/welcome", method = RequestMethod.GET)
     public String welcome(Locale locale, Model model, HttpServletRequest request) {
         ObjectMapper mapper = new ObjectMapper();
+        model.addAttribute("origin", serverPath);
 
         StatusResponse status = context.getUsersManager().status(getConnections(), request.getSession(), false);
 
