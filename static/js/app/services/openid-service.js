@@ -33,7 +33,6 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
     return promise.then(function (data) {
       service.status = {
         logged: data.logged,
-        newUser: data.newUser,
         profile: data.profile,
         connections: data.connections,
         ready: true
@@ -47,20 +46,20 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
         service._fireLoginEvent(logged);
       }
 
-      if (service.destination && service.status.logged) {
-        if (!service.status.newUser) {
-          $location.path(service.destination);
-        }
-        service.destination = null;
-      }
-
       return data;
     });
   };
 
 
-  service.update = function () {
-    return service._openIdRequest('api/security/status', true, true);
+  service._update = function (redirect) {
+    return service._openIdRequest('api/security/status', true, true).then(function () {
+      if (service.status.logged) {
+        if (redirect && service.destination) {
+          $location.path(service.destination);
+        }
+        service.destination = null;
+      }
+    });
   };
 
   service.login = function (username, password, callback) {
@@ -68,7 +67,7 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
       username: username,
       password: password
     }).then(function (data) {
-      service.update();
+      service._update(true);
       callback(data);
     });
   };
@@ -79,7 +78,7 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
       password: password,
       email: email
     }).then(function (data) {
-      service.update();
+      service._update(false);
       return data;
     });
   };
@@ -133,7 +132,7 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
   };
 
 
-  service.update();
+  service._update(false);
 
   RestService.registerErrorListener(function () {
     return service._openIdRequest('api/security/status', true, false);
