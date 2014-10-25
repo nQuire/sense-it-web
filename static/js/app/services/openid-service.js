@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('senseItServices', null, null).factory('OpenIdService', ['RestService', '$state', '$window', function (RestService, $state, $window) {
+angular.module('senseItServices', null, null).factory('OpenIdService', ['RestService', '$state', '$location', '$window', function (RestService, $state, $location, $window) {
 
   var service = {
     status: {
@@ -49,7 +49,7 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
 
       if (service.destination && service.status.logged) {
         if (!service.status.newUser) {
-          $state.go(service.destination.name, service.destination.params);
+          $location.path(service.destination);
         }
         service.destination = null;
       }
@@ -141,22 +141,17 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
 
   service.loginAndComeBack = function () {
     if (!service.status.logged) {
-      service.destination = {
-        name: $state.current.name,
-        params: $state.params
-      };
+      service.destination = $location.path();
       $state.go('profile');
     }
   };
 
   service.providerLogin = function (provider) {
-    window.handleOpenIdResponse = function () {
-      setTimeout(function() {
-        service.update();
-      }, 100);
-    };
-
-    window.open('social/' + provider + '/login', 'nilp');
+    var href = 'social/' + provider + '/login';
+    if (service.destination) {
+      href += '?d=' + encodeURIComponent(service.destination);
+    }
+    $window.location.href = href;
   };
 
 
