@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('senseItServices', null, null).factory('OpenIdService', ['RestService', '$state', '$window', function (RestService, $state, $window) {
+angular.module('senseItServices', null, null).factory('OpenIdService', ['RestService', '$state', '$location', '$window', function (RestService, $state, $location, $window) {
 
   var service = {
     status: {
@@ -33,7 +33,6 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
     return promise.then(function (data) {
       service.status = {
         logged: data.logged,
-        newUser: data.newUser,
         profile: data.profile,
         connections: data.connections,
         ready: true
@@ -47,20 +46,20 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
         service._fireLoginEvent(logged);
       }
 
-      if (service.destination && service.status.logged) {
-        if (!service.status.newUser) {
-          $state.go(service.destination.name, service.destination.params);
-        }
-        service.destination = null;
-      }
-
       return data;
     });
   };
 
 
-  service.update = function () {
-    return service._openIdRequest('api/security/status', true, true);
+  service._update = function (redirect) {
+    return service._openIdRequest('api/security/status', true, true).then(function () {
+      if (service.status.logged) {
+        if (redirect && service.destination) {
+          $location.path(service.destination);
+        }
+        service.destination = null;
+      }
+    });
   };
 
   service.login = function (username, password, callback) {
@@ -68,7 +67,7 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
       username: username,
       password: password
     }).then(function (data) {
-      service.update();
+      service._update(true);
       callback(data);
     });
   };
@@ -79,7 +78,7 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
       password: password,
       email: email
     }).then(function (data) {
-      service.update();
+      service._update(false);
       return data;
     });
   };
@@ -133,7 +132,7 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
   };
 
 
-  service.update();
+  service._update(false);
 
   RestService.registerErrorListener(function () {
     return service._openIdRequest('api/security/status', true, false);
@@ -141,22 +140,17 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
 
   service.loginAndComeBack = function () {
     if (!service.status.logged) {
-      service.destination = {
-        name: $state.current.name,
-        params: $state.params
-      };
+      service.destination = $location.path();
       $state.go('profile');
     }
   };
 
   service.providerLogin = function (provider) {
-    window.handleOpenIdResponse = function () {
-      setTimeout(function() {
-        service.update();
-      }, 100);
-    };
-
-    window.open('social/' + provider + '/login', 'nilp');
+    var href = 'social/' + provider + '/login';
+    if (service.destination) {
+      href += '?d=' + encodeURIComponent(service.destination);
+    }
+    $window.location.href = href;
   };
 
 

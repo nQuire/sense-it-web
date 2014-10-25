@@ -1,0 +1,16 @@
+@import "../variables/dimensions";
+@import "../variables/colors";
+@import "../layout/basic-header";
+
+.login-container {
+  margin: 0 $dim-common-margin;
+
+  .login-header {
+    @include basic-header;
+  }
+
+  .login-content {
+    padding: $dim-common-small-margin;
+    background: $color-light-background;
+  }
+}

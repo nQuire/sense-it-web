@@ -11388,3 +11388,34 @@ tr.senseit-series-even td {
     .forum-container .forum-thread-content .forum-thread-comment .forum-thread-text {
       margin-left: 104px;
       padding: 10px 0; }
+
+.login-container {
+  margin: 0 20px; }
+  .login-container .login-header {
+    height: 26px;
+    line-height: 26px;
+    color: white;
+    background: #444444;
+    padding-left: 10px; }
+    .login-container .login-header .arrow {
+      color: #aaaaaa; }
+    .login-container .login-header a {
+      color: #73a9d7; }
+    .login-container .login-header .menu-item {
+      line-height: 26px;
+      font-weight: 400;
+      font-size: 14px;
+      color: white;
+      margin-right: 20px;
+      padding-bottom: 1px;
+      border-bottom-width: 3px;
+      border-bottom-style: solid;
+      border-bottom-color: rgba(255, 255, 255, 0); }
+      .login-container .login-header .menu-item.active {
+        font-weight: 700;
+        font-size: 14px;
+        color: white;
+        border-bottom-color: white; }
+  .login-container .login-content {
+    padding: 10px;
+    background: #f6f5f5; }
