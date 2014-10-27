@@ -8,7 +8,6 @@ import org.greengin.nquireit.logic.ContextBean;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class AdminActions extends AbstractContentManager {
 
@@ -69,6 +68,24 @@ public class AdminActions extends AbstractContentManager {
 
     public HashMap<String, List<ReportedContent>> getReportedContent() {
         if (isAdmin) {
+            return context.getVotableDao().getReportedContent(context);
+        } else {
+            return null;
+        }
+    }
+
+    public HashMap<String, List<ReportedContent>> deleteReportedContent(Long id) {
+        if (isAdmin) {
+            context.getVotableDao().deleteReportedEntity(id);
+            return context.getVotableDao().getReportedContent(context);
+        } else {
+            return null;
+        }
+    }
+
+    public HashMap<String, List<ReportedContent>> approveReportedContent(Long id) {
+        if (isAdmin) {
+            context.getVotableDao().approveReportedEntity(id);
             return context.getVotableDao().getReportedContent(context);
         } else {
             return null;

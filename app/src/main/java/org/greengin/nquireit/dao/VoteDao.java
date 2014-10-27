@@ -37,8 +37,6 @@ public class VoteDao {
 
         List<Vote> votes = query.getResultList();
 
-
-
         Vote vote;
 
         if (votes.size() == 0) {

@@ -2,6 +2,7 @@ package org.greengin.nquireit.dao;
 
 import org.greengin.nquireit.entities.rating.Comment;
 import org.greengin.nquireit.entities.rating.CommentThreadEntity;
+import org.greengin.nquireit.entities.rating.ForumThread;
 import org.greengin.nquireit.entities.users.UserProfile;
 import org.greengin.nquireit.logic.log.LogManagerBean;
 import org.greengin.nquireit.logic.rating.CommentRequest;
@@ -21,6 +22,9 @@ public class CommentsDao {
 
     @Autowired
     LogManagerBean logManager;
+
+    @Autowired
+    ForumDao forumDao;
 
     public Comment getComment(CommentThreadEntity thread, Long commentId) {
         if (thread != null && commentId != null) {
@@ -55,17 +59,36 @@ public class CommentsDao {
     @Transactional
     public boolean deleteComment(UserProfile user, CommentThreadEntity target, Long commentId) {
         if (user != null && target != null && commentId != null) {
-            em.persist(target);
             Comment c = em.find(Comment.class, commentId);
-
             if (c != null && user.equals(c.getUser()) && target.equals(c.getTarget())) {
                 logManager.comment(user, target, c, false);
-                target.getComments().remove(c);
-                em.remove(c);
+                deleteComment(c);
                 return true;
             }
         }
 
         return false;
+    }
+
+    @Transactional
+    public void deleteComment(Comment comment) {
+        em.persist(comment);
+        CommentThreadEntity thread = comment.getTarget();
+
+        boolean isForumThread = thread instanceof ForumThread;
+
+        if (isForumThread && ((ForumThread) thread).getFirstComment().equals(comment)) {
+            forumDao.deleteForumThread((ForumThread) thread);
+        } else {
+            if (thread != null) {
+                thread.getComments().remove(comment);
+            }
+
+            if (isForumThread) {
+                ((ForumThread) thread).updateLastPost();
+            }
+
+            em.remove(comment);
+        }
     }
 }

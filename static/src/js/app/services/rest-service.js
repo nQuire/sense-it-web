@@ -19,6 +19,20 @@ angular.module('senseItServices', null, null).factory('RestService', ['$http', f
         }
       });
     },
+    request: function (method, path, data, files, convertToMultipart) {
+      switch (method) {
+        case 'get':
+          return this.get(path, data);
+        case 'post':
+          return this.post(path, data, files, convertToMultipart);
+        case 'put':
+          return this.put(path, data, files);
+        case 'delete':
+          return this.delete(path);
+        default:
+          return null;
+      }
+    },
     get: function (path, data) {
       return service._promiserequest($http.get(path, {
         params: $.extend({t: new Date().getTime()}, data)

@@ -116,4 +116,15 @@ public class ForumDao {
         thread.updateLastPost();
         em.persist(comment);
     }
+
+    @Transactional
+    public void deleteForumThread(ForumThread thread) {
+        em.persist(thread);
+        ForumNode node = thread.getForum();
+        if (node != null) {
+            node.getThreads().remove(thread);
+            node.updateLastPost();
+        }
+        em.remove(thread);
+    }
 }

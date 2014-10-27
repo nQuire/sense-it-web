@@ -50,12 +50,16 @@ public class ForumNode extends AbstractEntity {
     @Getter
     ForumThread lastPost = null;
 
+    public void updateLastPost() {
+        updateLastPost(threads.size() > 0 ? threads.get(threads.size() - 1) : null);
+    }
+
     public void updateLastPost(ForumThread thread) {
         this.lastPost = thread;
         this.threadCount = threads.size();
         int n = 0;
         for (ForumThread t : threads) {
-            n += thread.getCommentCount();
+            n += t.getCommentCount();
         }
         this.commentCount = n;
     }

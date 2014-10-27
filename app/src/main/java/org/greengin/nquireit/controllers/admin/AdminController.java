@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 @Controller
@@ -69,6 +68,20 @@ public class AdminController {
     @ResponseView(value = Views.UserName.class)
     public HashMap<String, List<ReportedContent>> reported(HttpServletRequest request) {
         return createAdminManager(request).getReportedContent();
+    }
+
+    @RequestMapping(value = "/reported/{entityId}", method = RequestMethod.DELETE)
+    @ResponseBody
+    @ResponseView(value = Views.UserName.class)
+    public HashMap<String, List<ReportedContent>> deleteReported(@PathVariable("entityId") Long id, HttpServletRequest request) {
+        return createAdminManager(request).deleteReportedContent(id);
+    }
+
+    @RequestMapping(value = "/reported/{entityId}/approve", method = RequestMethod.POST)
+    @ResponseBody
+    @ResponseView(value = Views.UserName.class)
+    public HashMap<String, List<ReportedContent>> approveReported(@PathVariable("entityId") Long id, HttpServletRequest request) {
+        return createAdminManager(request).approveReportedContent(id);
     }
 
 

@@ -1,13 +1,15 @@
 package org.greengin.nquireit.dao;
 
-import org.greengin.nquireit.entities.rating.VotableEntity;
+import org.greengin.nquireit.entities.rating.*;
 import org.greengin.nquireit.logic.ContextBean;
 import org.greengin.nquireit.logic.admin.ReportedContent;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
@@ -16,6 +18,13 @@ import java.util.Vector;
 @Component
 public class VotableDao {
     private static final String REPORTED_CONTENT_QUERY = "SELECT t, COUNT(v.id) as N FROM VotableEntity t INNER JOIN t.votes v WHERE v.value = -2 GROUP BY t.id";
+    private static final String REPORTING_VOTE_QUERY = "SELECT v FROM Vote v WHERE v.target = :target AND v.value = -2";
+
+    @Autowired
+    ForumDao forumDao;
+
+    @Autowired
+    CommentsDao commentsDao;
 
     @PersistenceContext
     EntityManager em;
@@ -44,5 +53,38 @@ public class VotableDao {
         }
 
         return categories;
+    }
+
+    public boolean deleteReportedEntity(Long id) {
+        VotableEntity entity = em.find(VotableEntity.class, id);
+
+        if (entity != null) {
+            if (entity instanceof Comment) {
+                Comment comment = (Comment) entity;
+                commentsDao.deleteComment(comment);
+                return true;
+            } else if (entity instanceof ForumThread) {
+                forumDao.deleteForumThread((ForumThread) entity);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Transactional
+    public boolean approveReportedEntity(Long id) {
+        VotableEntity entity = em.find(VotableEntity.class, id);
+        if (entity != null) {
+            TypedQuery<Vote> query = em.createQuery(REPORTING_VOTE_QUERY, Vote.class);
+            query.setParameter("target", entity);
+            for (Vote v : query.getResultList()) {
+                v.setValue(0l);
+            }
+
+            return true;
+        } else {
+            return false;
+        }
     }
 }
