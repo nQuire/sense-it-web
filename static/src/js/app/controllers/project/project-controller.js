@@ -35,7 +35,7 @@ angular.module('senseItWeb', null, null).controller('ProjectCtrl', function ($sc
             return 'Share this mission with your friends on ' + name;
         },
         template: function (provider, name) {
-            return 'See the latest activity on this nQuire-it mission: ' + $scope.projectData.project.title +
+            return 'See the latest activity on this #nquireit mission: ' + $scope.projectData.project.title +
                 "\n" + $location.absUrl();
         }
     };
