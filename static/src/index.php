@@ -70,6 +70,7 @@ ini_set('error_reporting', E_ALL);
     <script src="js/app/services/file-reader-service.js"></script>
     <script src="js/app/services/sorted-data-service.js"></script>
     <script src="js/app/services/tracking-service.js"></script>
+    <script src="js/app/services/users-service.js"></script>
 
 
     <script src="js/app/directives/input-enter.js"></script>
@@ -81,6 +82,7 @@ ini_set('error_reporting', E_ALL);
     <script src="js/app/directives/youtube.js"></script>
     <script src="js/app/directives/profile-provider-item.js"></script>
     <script src="js/app/directives/auto-focus.js"></script>
+    <script src="js/app/directives/user-link.js"></script>
     <script src="js/app/directives/user-block.js"></script>
     <script src="js/app/directives/menu-item.js"></script>
 
@@ -106,6 +108,7 @@ ini_set('error_reporting', E_ALL);
     <script src="js/app/controllers/layout/navbar-controller.js"></script>
 
     <script src="js/app/controllers/profile/profile-controller.js"></script>
+    <script src="js/app/controllers/profile/profile-view-controller.js"></script>
 
     <script src="js/app/controllers/project-list/project-list-controller.js"></script>
     <script src="js/app/controllers/project-list/project-filter-sidebar-controller.js"></script>

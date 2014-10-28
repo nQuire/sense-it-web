@@ -144,27 +144,12 @@ public class ProjectActions extends AbstractContentManager {
     /**
      * any user actions *
      */
-    public MyProjectListResponse getMyProjects() {
-        MyProjectListResponse response = new MyProjectListResponse();
-
+    public UserProjectListResponse getMyProjects() {
         if (loggedWithToken) {
-            List<Object[]> all = context.getProjectDao().getMyProjects(user);
-
-            for (Object[] entry : all) {
-                if (entry.length == 2 && entry[0] instanceof Role && entry[1] instanceof Project) {
-                    Role r = (Role) entry[0];
-                    Project p = (Project) entry[1];
-
-                    if (r.getType() == RoleType.ADMIN) {
-                        response.getAdmin().add(new MyProjectResponse(p));
-                    } else if (r.getType() == RoleType.MEMBER) {
-                        response.getMember().add(new MyProjectResponse(p));
-                    }
-                }
-            }
+            return context.getProjectDao().getMyProjects(user, true, true);
+        } else {
+            return null;
         }
-
-        return response;
     }
 
     public List<SimpleProjectResponse> getProjectsSimple(String type) {

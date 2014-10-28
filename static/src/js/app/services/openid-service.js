@@ -94,7 +94,8 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
   service.saveProfile = function () {
     return service._openIdRequest('api/security/profile', true, false, 'put', {
       username: service.status.profile.username,
-      metadata: service.status.profile.metadata
+      metadata: service.status.profile.metadata,
+      visibility: service.status.profile.visibility
     });
   };
 

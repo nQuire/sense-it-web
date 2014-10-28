@@ -1,5 +1,6 @@
 package org.greengin.nquireit.logic.users;
 
+import org.greengin.nquireit.dao.ProjectDao;
 import org.greengin.nquireit.dao.UserProfileDao;
 import org.greengin.nquireit.entities.users.UserProfile;
 import org.greengin.nquireit.logic.files.FileMapUpload;
@@ -40,9 +41,11 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
     @Autowired
     RememberMeServices rememberMeServices;
 
-
     @Autowired
     UserProfileDao userProfileDao;
+
+    @Autowired
+    ProjectDao projectDao;
 
     SecureRandom random;
 
@@ -223,11 +226,8 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
             }
         }
 
-        if (data.getMetadata() != null) {
-            userProfileDao.updateUserMetadata(currentStatus.getProfile(), data.getMetadata());
-        }
+        userProfileDao.updateUserInformation(currentStatus.getProfile(), data.getMetadata(), data.getVisibility());
 
-        //update(currentStatus);
         return true;
     }
 
@@ -267,4 +267,24 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
         }
     }
 
+    public PublicProfileResponse getPublicProfile(Long userId) {
+        PublicProfileResponse response = new PublicProfileResponse();
+        UserProfile profile = userProfileDao.loadUserById(userId);
+
+        if (profile != null) {
+            response.setUsername(profile.getUsername());
+
+            if (profile.getVisibility() != null) {
+                if (profile.getVisibility().get("metadata") && profile.getMetadata() != null) {
+                    response.getMetadata().putAll(profile.getMetadata());
+                }
+
+                boolean joined = profile.getVisibility().get("projectsJoined");
+                boolean created = profile.getVisibility().get("projectsCreated");
+                response.setProjects(projectDao.getMyProjects(profile, joined, created));
+            }
+        }
+
+        return response;
+    }
 }

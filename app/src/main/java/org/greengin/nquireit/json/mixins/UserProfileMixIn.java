@@ -15,6 +15,7 @@ public abstract class UserProfileMixIn {
     @JsonView(Views.UserName.class) abstract String getUsername();
     @JsonView(Views.UserProfileData.class) abstract boolean isPasswordSet();
     @JsonView(Views.UserProfileData.class) abstract HashMap<String, String> getMetadata();
+    @JsonView(Views.UserProfileData.class) abstract HashMap<String, Boolean> getVisibility();
 
 
     @JsonView(Views.UserProfileData.class) abstract String getEmail();

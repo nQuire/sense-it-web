@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.mangofactory.jsonview.ResponseView;
 import org.greengin.nquireit.json.Views;
 import org.greengin.nquireit.logic.ContextBean;
-import org.greengin.nquireit.logic.project.MyProjectListResponse;
+import org.greengin.nquireit.logic.project.UserProjectListResponse;
 import org.greengin.nquireit.logic.project.ProjectActions;
 import org.greengin.nquireit.logic.project.ProjectListResponse;
 import org.greengin.nquireit.logic.project.ProjectCreationRequest;
@@ -36,7 +36,7 @@ public class ProjectListController {
     @RequestMapping(value = "/mine", method = RequestMethod.GET)
     @ResponseBody
     @ResponseView(Views.UserName.class)
-    public MyProjectListResponse myProjectList(HttpServletRequest request) {
+    public UserProjectListResponse myProjectList(HttpServletRequest request) {
         return createProjectManager(request).getMyProjects();
     }
 

@@ -4,12 +4,15 @@ package org.greengin.nquireit.dao;
 import org.greengin.nquireit.entities.AbstractEntity;
 import org.greengin.nquireit.entities.activities.base.AbstractActivity;
 import org.greengin.nquireit.entities.projects.*;
+import org.greengin.nquireit.entities.users.Role;
 import org.greengin.nquireit.entities.users.RoleType;
 import org.greengin.nquireit.entities.users.UserProfile;
 import org.greengin.nquireit.logic.ContextBean;
 import org.greengin.nquireit.logic.data.FileManagerBean;
 import org.greengin.nquireit.logic.files.FileMapUpload;
+import org.greengin.nquireit.logic.project.MyProjectResponse;
 import org.greengin.nquireit.logic.project.ProjectCreationRequest;
+import org.greengin.nquireit.logic.project.UserProjectListResponse;
 import org.greengin.nquireit.logic.project.metadata.ProjectRequest;
 import org.greengin.nquireit.logic.users.SubscriptionManagerBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -137,6 +140,27 @@ public class ProjectDao {
         TypedQuery<Object[]> query = em.createQuery(MY_PROJECTS_QUERY, Object[].class);
         query.setParameter("user", user);
         return query.getResultList();
+    }
+
+
+    public UserProjectListResponse getMyProjects(UserProfile user, boolean joined, boolean created) {
+        UserProjectListResponse response = new UserProjectListResponse(joined, created);
+        List<Object[]> all = context.getProjectDao().getMyProjects(user);
+
+        for (Object[] entry : all) {
+            if (entry.length == 2 && entry[0] instanceof Role && entry[1] instanceof Project) {
+                Role r = (Role) entry[0];
+                Project p = (Project) entry[1];
+
+                if (created && r.getType() == RoleType.ADMIN) {
+                    response.getAdmin().add(new MyProjectResponse(p));
+                } else if (joined && r.getType() == RoleType.MEMBER) {
+                    response.getMember().add(new MyProjectResponse(p));
+                }
+            }
+        }
+
+        return response;
     }
 
     public List<Project> getProjectsSimple(String type) {

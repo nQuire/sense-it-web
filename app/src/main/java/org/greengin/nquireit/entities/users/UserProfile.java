@@ -60,6 +60,11 @@ public class UserProfile extends AbstractEntity implements UserDetails {
     @Setter
     HashMap<String, String> metadata = new HashMap<String, String>();
 
+    @Lob
+    @Getter
+    @Setter
+    HashMap<String, Boolean> visibility = new HashMap<String, Boolean>();
+
     @Override
     public List<? extends GrantedAuthority> getAuthorities() {
         return null;

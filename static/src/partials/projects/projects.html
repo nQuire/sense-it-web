@@ -45,7 +45,10 @@
                         </ul>
                     </div>
 
-                    <div class="project-item-author">A mission created by {{projectData.project.author.username}}.</div>
+                    <div class="project-item-author">
+                        A mission created by
+                        <span data-siw-user-link="projectData.project.author"></span>.
+                    </div>
                 </div>
                 <div class="project-item-banner">
                     <a href data-ui-sref="project.view.home({projectId: projectData.project.id})">

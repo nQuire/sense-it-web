@@ -29,6 +29,11 @@
       }
     }
   }
+
+  button {
+    margin: 2px;
+    float: right;
+  }
 }
 
 .profile-page {
@@ -94,7 +99,7 @@
 
     .profile-logged-in-right-section-header {
       @include text-profile-title;
-      margin-bottom: $dim-common-small-margin;
+      margin: $dim-common-margin 0 $dim-common-small-margin;
 
       button {
         float: right;
