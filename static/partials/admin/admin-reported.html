@@ -14,21 +14,23 @@
     <thead>
     <tr>
         <th>Author</th>
+        <th>Content id</th>
         <th>Reports</th>
+        <th>Actions</th>
         <th data-ng-repeat="infoKey in blocks">{{infoKey}}</th>
     </tr>
     </thead>
     <tbody>
     <tr data-ng-repeat="item in content">
         <td>{{item.author.username}}</td>
+        <td><a ng-href="#{{item.path}}" target="_blank">{{item.id}}</a></td>
         <td>{{item.count}}</td>
+        <td>
+            <button class="btn btn-default btn-xs" data-ng-click="deleteReportedContent(item)">Delete</button>
+            <button class="btn btn-default btn-xs" data-ng-click="approveReportedContent(item)">Approve</button>
+        </td>
         <td data-ng-repeat="block in item.info">
-            <a data-ng-if="$first"
-               ng-href="#{{item.path}}" target="_blank"
-               data-ng-bind-html="block.content">
-            </a>
-
-            <div data-ng-if="!$first" data-ng-bind-html="block.content"></div>
+            <div data-ng-bind-html="block.content"></div>
         </td>
     </tr>
 
