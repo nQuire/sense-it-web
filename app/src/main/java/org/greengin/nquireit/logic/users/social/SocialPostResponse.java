@@ -1,4 +1,4 @@
-package org.greengin.nquireit.logic.users;
+package org.greengin.nquireit.logic.users.social;
 
 import lombok.Getter;
 import lombok.Setter;
