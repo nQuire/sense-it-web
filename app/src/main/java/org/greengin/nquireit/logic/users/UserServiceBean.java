@@ -6,7 +6,6 @@ import org.greengin.nquireit.logic.files.FileMapUpload;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,8 +24,8 @@ import javax.servlet.http.HttpSession;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 
 
 public class UserServiceBean implements UserDetailsService, InitializingBean {
@@ -47,10 +46,22 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
 
     SecureRandom random;
 
-    HashMap<String, Boolean> newUsers = new HashMap<String, Boolean>();
+    Vector<String> newUsers = new Vector<String>();
 
     public void newUser(String id) {
-        this.newUsers.put(id, true);
+        if (!newUsers.contains(id)) {
+            newUsers.add(id);
+        }
+    }
+
+    public boolean currentUserIsNew() {
+        UserProfile user = currentUser();
+        if (user != null && newUsers.contains(user.getUsername())) {
+            newUsers.remove(user.getUsername());
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -58,7 +69,7 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
         return userProfileDao.loadUserByUsername(s);
     }
 
-    private StatusResponse createResponse(Authentication auth, HashMap<String, Connection<?>> connections, HttpSession session, boolean resetNewUser) {
+    private StatusResponse createResponse(Authentication auth, HashMap<String, Connection<?>> connections, HttpSession session) {
         StatusResponse result = new StatusResponse();
         result.getConnections().clear();
 
@@ -67,10 +78,6 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
             result.setLogged(true);
             result.setProfile(user);
             result.setToken((String) session.getAttribute("nquire-it-token"));
-            result.setNewUser(newUsers.containsKey(user.getUsername()) && newUsers.get(user.getUsername()));
-            if (resetNewUser) {
-                newUsers.put(user.getUsername(), false);
-            }
 
             for (Map.Entry<String, Connection<?>> entry : connections.entrySet()) {
                 if (entry.getValue() != null) {
@@ -97,16 +104,15 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
         }
     }
 
-    public StatusResponse status(HashMap<String, Connection<?>> connections, HttpSession session, boolean resetNewUser) {
+    public StatusResponse status(HashMap<String, Connection<?>> connections, HttpSession session) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return createResponse(auth, connections, session, resetNewUser);
+        return createResponse(auth, connections, session);
     }
 
     public UserProfile currentUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return auth != null && auth.getPrincipal() != null && auth.getPrincipal() instanceof UserProfile ?
                 userProfileDao.user(((UserProfile) auth.getPrincipal())) : null;
-
     }
 
     public boolean checkToken(HttpServletRequest request) {
@@ -142,7 +148,7 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
             securityContextRepository.saveContext(SecurityContextHolder.getContext(), request, response);
             rememberMeServices.loginSuccess(request, response, auth);
             request.getSession().setAttribute("nquire-it-token", new BigInteger(260, random).toString(32));
-        } catch (BadCredentialsException ex) {
+        } catch (Exception ex) {
             auth = null;
         }
 
@@ -156,7 +162,7 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
         cookieClearingLogoutHandler.logout(request, response, null);
         securityContextLogoutHandler.logout(request, response, null);
 
-        return status(connections, request.getSession(), true);
+        return status(connections, request.getSession());
     }
 
     public UserProfile providerSignIn(String username, String providerId, String providerUserId) {
@@ -198,19 +204,8 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
         userProfileDao.setPassword(user, password);
     }
 
-
-    /*private void update(StatusResponse currentStatus) {
-        UserProfile profile = userProfileDao.user(currentStatus.profile.getId());
-        currentStatus.setProfile(profile);
-    }*/
-
     public boolean updateProfileImage(StatusResponse currentStatus, FileMapUpload files) {
-        if (userProfileDao.updateProfileImage(currentStatus.getProfile(), files)) {
-            //update(currentStatus);
-            return true;
-        }
-
-        return false;
+        return userProfileDao.updateProfileImage(currentStatus.getProfile(), files);
     }
 
 
@@ -264,12 +259,10 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
                 result.getResponses().put("registration", "email_exists");
                 return result;
             } catch (UsernameNotFoundException e2) {
-
                 UserProfile user = userProfileDao.createUser(data.getUsername(), data.getPassword(), data.getEmail(), false);
-                newUser(user.getUsername());
                 login(user, request.getSession());
 
-                return status(connections, request.getSession(), true);
+                return status(connections, request.getSession());
             }
         }
     }

@@ -13,4 +13,21 @@
     padding: $dim-common-small-margin;
     background: $color-light-background;
   }
+
+  .admin-reported {
+    .admin-reported-menu {
+      margin-bottom: 20px;
+
+      > div {
+
+        display: inline-block;
+        margin-right: 20px;
+
+        a.selected {
+          font-weight: bold;
+          color: gray;
+        }
+      }
+    }
+  }
 }

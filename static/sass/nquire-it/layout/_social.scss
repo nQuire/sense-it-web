@@ -1,3 +1,6 @@
+@import "../variables/dimensions";
+
+
 .social-posting {
   @extend .container-fluid;
 
@@ -6,9 +9,10 @@
 
     .social-posting-link {
       @extend .col-xs-4;
+      padding: 0px 0px $dim-common-margin 0px;
 
       img {
-        width: 100%;
+        width: 50%;
       }
     }
   }

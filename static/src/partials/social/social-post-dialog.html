@@ -26,6 +26,26 @@
                 before posting.
             </p>
 
+            <p data-ng-switch-when="permission">
+                Sorry, there was a problem with the permisions with
+                {{data.provider.name}}.
+            </p>
+
+            <p data-ng-switch-when="authorization">
+                Sorry, there was a problem with the authorization with
+                {{data.provider.name}}.
+            </p>
+
+            <p data-ng-switch-when="rate">
+                Sorry, there was a problem with the rate with
+                {{data.provider.name}}.
+            </p>
+
+            <p data-ng-switch-when="api">
+                Sorry, there was a problem with the api with
+                {{data.provider.name}}.
+            </p>
+
             <p data-ng-switch-when="connection">
                 Sorry, there was a problem with the connection with
                 {{data.provider.name}}.
@@ -42,25 +62,34 @@
         </p>
 
 
-        <form data-ng-if="data.posting.editTitle">
-            <div class="form-group">
-                <label for="social-posting-title">Title:</label>
-                <input data-ng-disabled="editDisabled()" id="social-posting-title" class="form-control"
-                       data-ng-model="data.posting.title" auto-focus/>
+        <div data-ng-switch="data.provider.id">
+            <div data-ng-switch-when="twitter">
+                <form>
+                    <textarea data-ng-disabled="editDisabled()" class="form-control"
+                              data-ng-model="data.posting.content.tweet"
+                              auto-focus></textarea>
+                </form>
             </div>
-            <div class="form-group">
-                <label for="social-posting-content">Content:</label>
-                <textarea data-ng-disabled="editDisabled()" id="social-posting-content"
-                          data-ng-model="data.posting.content" auto-focus></textarea>
+            <div data-ng-switch-when="facebook">
+                <form>
+                    <div class="form-group">
+                        <label for="fb-link" class="control-label">Link</label>
+                        <input id="fb-link" type="text" data-ng-disabled="editDisabled()" class="form-control"
+                               data-ng-model="data.posting.content.link"
+                               auto-focus/>
+                    </div>
+                    <div class="form-group">
+                        <label for="fb-caption" class="control-label">Caption</label>
+                        <input id="fb-caption" type="text" data-ng-disabled="editDisabled()" class="form-control"
+                               data-ng-model="data.posting.content.caption"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="fb-description" class="control-label">Email</label>
+                        <input id="fb-description" type="text" data-ng-disabled="editDisabled()" class="form-control"
+                               data-ng-model="data.posting.content.description"/>
+                    </div>
+                </form>
             </div>
-        </form>
-        <div data-ng-if="!data.posting.editTitle">
-            <p data-ng-if="data.result.state != 'completed'">{{data.posting.title}}</p>
-
-            <form>
-                <textarea data-ng-disabled="editDisabled()" class="form-control" data-ng-model="data.posting.content"
-                          auto-focus></textarea>
-            </form>
         </div>
     </div>
 </div>

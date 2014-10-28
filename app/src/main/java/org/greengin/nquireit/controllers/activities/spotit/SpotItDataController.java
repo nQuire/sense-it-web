@@ -15,6 +15,7 @@ import org.greengin.nquireit.logic.project.senseit.UpdateTitleRequest;
 import org.greengin.nquireit.logic.project.spotit.SpotItActivityActions;
 import org.greengin.nquireit.logic.project.spotit.SpotItObservationManipulator;
 import org.greengin.nquireit.logic.project.spotit.SpotItObservationRequest;
+import org.greengin.nquireit.logic.project.spotit.UpdateImageRequest;
 import org.greengin.nquireit.logic.rating.CommentRequest;
 import org.greengin.nquireit.logic.rating.VoteCount;
 import org.greengin.nquireit.logic.rating.VoteRequest;
@@ -72,8 +73,8 @@ public class SpotItDataController {
 
     @RequestMapping(value = "/{dataId}", method = RequestMethod.PUT)
     @ResponseBody
-    public SpotItObservation update(@PathVariable("projectId") Long projectId, @PathVariable("dataId") Long dataId, @RequestBody UpdateTitleRequest data, HttpServletRequest request) {
-        return createManager(projectId, request).updateData(dataId, new SpotItObservationManipulator(null, null, null, data));
+    public SpotItObservation update(@PathVariable("projectId") Long projectId, @PathVariable("dataId") Long dataId, @RequestBody UpdateImageRequest data, HttpServletRequest request) {
+        return createManager(projectId, request).updateData(dataId, new SpotItObservationManipulator(context, null, null, data));
     }
 
     @RequestMapping(value = "/files", method = RequestMethod.POST)

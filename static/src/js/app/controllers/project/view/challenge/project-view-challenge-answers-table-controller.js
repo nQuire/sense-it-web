@@ -66,6 +66,9 @@ angular.module('senseItWeb', null, null).controller('ProjectViewChallengeAnswers
     sort['answer'] = function (a, b) {
         return siwCompare.string($scope.answerTeaser(a), $scope.answerTeaser(b));
     };
+    sort['submitted'] = function (a, b) {
+        return siwCompare.boolean(a.published, b.published);
+    };
 
     $scope.sortedData = SortedDataService.get(function () {
         return $scope.answerData.answers;

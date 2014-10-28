@@ -2,6 +2,7 @@ package org.greengin.nquireit.dao;
 
 
 import org.greengin.nquireit.entities.AbstractEntity;
+import org.greengin.nquireit.entities.activities.base.AbstractActivity;
 import org.greengin.nquireit.entities.projects.*;
 import org.greengin.nquireit.entities.users.RoleType;
 import org.greengin.nquireit.entities.users.UserProfile;
@@ -19,7 +20,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
@@ -36,6 +36,8 @@ public class ProjectDao {
     static final String TYPED_PROJECTS_QUERY = "SELECT p FROM Project p WHERE p.type = :type";
     private static final String MY_PROJECTS_QUERY = "SELECT r, e FROM Role r INNER JOIN r.context e WHERE r.user = :user";
 
+    private static final String FIND_PROJECT_QUERY = "SELECT p FROM Project p WHERE p.activity = :activity";
+
 
     @PersistenceContext
     EntityManager em;
@@ -50,7 +52,7 @@ public class ProjectDao {
     ContextBean context;
 
     @Transactional
-    public Long createProject(ProjectCreationRequest projectData, UserProfile author) {
+    public Project createProject(ProjectCreationRequest projectData, UserProfile author) {
 
         Project project = new Project();
         project.setTitle("New project");
@@ -59,11 +61,17 @@ public class ProjectDao {
         projectData.initProject(project, context);
         em.persist(project);
         subscriptionManagerBean.projectCreatedInTransaction(em, project, author);
-        return project.getId();
+        return project;
     }
 
     public Project project(Long projectId) {
         return em.find(Project.class, projectId);
+    }
+
+    public Project findProject(AbstractActivity activity) {
+        TypedQuery<Project> query = em.createQuery(FIND_PROJECT_QUERY, Project.class);
+        query.setParameter("activity", activity);
+        return query.getSingleResult();
     }
 
     @Transactional

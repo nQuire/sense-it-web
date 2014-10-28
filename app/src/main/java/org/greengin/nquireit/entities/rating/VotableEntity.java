@@ -14,6 +14,7 @@ import lombok.Setter;
 import org.greengin.nquireit.entities.AbstractEntity;
 import org.greengin.nquireit.entities.users.UserProfile;
 import org.greengin.nquireit.logic.ContextBean;
+import org.greengin.nquireit.logic.admin.ReportedContent;
 import org.greengin.nquireit.logic.moderation.ModerationStatus;
 import org.greengin.nquireit.logic.rating.VoteCount;
 
@@ -35,4 +36,9 @@ public abstract class VotableEntity extends AbstractEntity {
     public VoteCount getVoteCount() {
         return new VoteCount(getVotes(), ContextBean.getContext().getUsersManager().currentUser());
     }
+
+    public abstract String getReportedType(ContextBean context);
+    public abstract String getReportedPath(ContextBean context);
+    public abstract UserProfile getOwner(ContextBean context);
+    public abstract void createReportedInfo(ReportedContent info, ContextBean context);
 }

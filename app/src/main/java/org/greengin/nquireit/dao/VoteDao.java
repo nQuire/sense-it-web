@@ -9,8 +9,10 @@ import javax.persistence.TypedQuery;
 import org.greengin.nquireit.entities.rating.VotableEntity;
 import org.greengin.nquireit.entities.rating.Vote;
 import org.greengin.nquireit.entities.users.UserProfile;
+import org.greengin.nquireit.logic.log.LogManagerBean;
 import org.greengin.nquireit.logic.rating.VoteCount;
 import org.greengin.nquireit.logic.rating.VoteRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,8 +24,12 @@ public class VoteDao {
     @PersistenceContext
     EntityManager em;
 
+    @Autowired
+    LogManagerBean logManager;
+
     @Transactional
     public VoteCount vote(UserProfile user, VotableEntity target, VoteRequest voteData) {
+        logManager.vote(user, target, voteData.getValue());
 
         TypedQuery<Vote> query = em.createQuery(VOTE_QUERY, Vote.class);
         query.setParameter("target", target);

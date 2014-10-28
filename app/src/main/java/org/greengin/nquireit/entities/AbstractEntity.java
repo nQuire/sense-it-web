@@ -6,7 +6,6 @@ import javax.persistence.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-//@DiscriminatorColumn(name = "ENTITY_TYPE")
 public abstract class AbstractEntity {
     @Id
     @Column(name = "ENTITY_ID", nullable = false)

@@ -8,7 +8,7 @@
     <div class="project-view-challenge-sumbission-content" data-ng-if="field.type!='textangular'">{{itemView.answer.fieldValues[field.id]}}</div>
 </div>
 
-<p data-ng-if="answerData.showPublished">{{itemView.answer.published ? 'Published' : 'Not published yet'}}.</p>
+<p data-ng-if="answerData.showPublished"><b>{{itemView.answer.published ? 'Submitted' : 'Not submitted yet'}}.</b></p>
 
 <div data-ng-if="answerData.showVoting">
     <div data-siw-vote-widget data-vote-manager="voteManager" data-vote-target="itemView.answer"></div>

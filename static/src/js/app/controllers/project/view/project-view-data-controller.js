@@ -58,7 +58,7 @@ angular.module('senseItWeb', null, null).controller('ProjectViewDataCtrl', funct
     });
 
     $scope.updateData = function (itemId, data) {
-        $scope.dataService.updateData(itemId, data).then(function (updatedData) {
+        return $scope.dataService.updateData(itemId, data).then(function (updatedData) {
             if (updatedData) {
                 for (var index = 0; index < $scope.dataList.items.length; index++) {
                     if ($scope.dataList.items[index].id == updatedData.id) {
@@ -68,11 +68,13 @@ angular.module('senseItWeb', null, null).controller('ProjectViewDataCtrl', funct
                 }
             }
             $scope.dataReady = true;
+
+            return updatedData;
         });
     };
 
     $scope.createData = function (data, files, convertToMultipart) {
-        $scope.dataService.uploadData(data, files, convertToMultipart).then(function (updatedData) {
+        return $scope.dataService.uploadData(data, files, convertToMultipart).then(function (updatedData) {
             if (updatedData && updatedData.newItemId) {
                 $scope.dataReady = false;
                 $scope.dataList.items = updatedData.items;
@@ -106,10 +108,6 @@ angular.module('senseItWeb', null, null).controller('ProjectViewDataCtrl', funct
                 return true;
             }
         });
-    };
-
-    $scope.goToLast = function () {
-        $state.go('project.view.data-item', {itemId: $scope.dataList.items[$scope.dataList.items.length - 1].id});
     };
 
     $scope.goToItem = function (id) {

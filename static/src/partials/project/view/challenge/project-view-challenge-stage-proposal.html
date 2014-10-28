@@ -1,5 +1,7 @@
 <p class="project-section-content-header">My ideas</p>
 
+<p>See and edit your ideas for this mission here.</p>
+
 <div data-ng-if="status.logged">
     <div data-ng-if="projectData.access.member">
         <div data-ng-include="'partials/project/view/challenge/project-view-challenge-answers.html'"
@@ -11,5 +13,5 @@
     </div>
 </div>
 <div data-ng-if="!status.logged">
-    <p>You need to <a href data-ui-sref="profile">sign in</a> or register to post ideas.</p>
+    <p>You need to <a href data-ng-click="openIdService.loginAndComeBack()">sign in</a> or register to post ideas.</p>
 </div>

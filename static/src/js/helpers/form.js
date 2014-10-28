@@ -7,7 +7,7 @@
  * @private
  */
 var SiwFormManager = function (object, keys, saveCallback, cancelCallback) {
-    this.getObject = !(object && object.constructor && object.call && object.apply) ? function() {
+    this.getObject = !(object && object.constructor && object.call && object.apply) ? function () {
         return object;
     } : object;
 
@@ -19,15 +19,15 @@ var SiwFormManager = function (object, keys, saveCallback, cancelCallback) {
     this.files = {};
 };
 
-SiwFormManager.prototype.setFile = function(name, file) {
+SiwFormManager.prototype.setFile = function (name, file) {
     this.files[name] = file;
 };
 
-SiwFormManager.prototype.clearFile = function(name) {
+SiwFormManager.prototype.clearFile = function (name) {
     delete this.files[name];
 };
 
-SiwFormManager.prototype.deleteFile = function(name) {
+SiwFormManager.prototype.deleteFile = function (name) {
     this.files[name] = false;
 };
 
@@ -74,9 +74,14 @@ SiwFormManager.prototype.cancel = function () {
 
 SiwFormManager.prototype.save = function () {
     this._copyValues(this.values, this.getObject());
-    this._close();
+
+    var close = true;
     if (this.saveCallback) {
-        this.saveCallback();
+        close = !this.saveCallback();
+    }
+
+    if (close) {
+        this._close();
     }
 };
 

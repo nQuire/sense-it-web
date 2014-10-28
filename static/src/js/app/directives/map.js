@@ -3,8 +3,6 @@ angular.module('senseItWeb').directive('siwMap', [function () {
 
 
         controller: function ($scope, $element) {
-            console.log($scope.sortedData);
-
             $scope.renderer = new SiwMapRenderer($scope, $element, $scope.mapData, $scope.sortedData);
 
             $scope.$on('$destroy', $scope.$watch('sortedData.data', function () {

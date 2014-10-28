@@ -2,17 +2,50 @@
 
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Home</title>
+    <title>nQuire-it | OAuth login</title>
+    <link rel="stylesheet" href="/css/nquire-it-bootstrap.css" type='text/css'/>
 </head>
-<body onload="document.forms['oauth-form-redirection'].submit();">
-<h1>
-    Redirecting to provider...
-</h1>
+<body>
+<div id="page-background">
+    <div id="page-background-center"></div>
+</div>
+<div id="main">
+    <div id="header">
+        <div id="header-content">
+            <div id="logo-container">
+                <a href="#/home" data-ui-sref="home({type: null, status: null, filter: ull, kw: null})">
+                    <img src="/css/images/nquire-it-logo.jpg"/>
+                </a>
 
-<form name="oauth-form-redirection" th:action="${signin_url}" method="POST">
-    <button type="submit">Sign in with <span th:text="${provider}"></span></button>
-    <input type="hidden" name="scope" th:value="${scopes}"/>
-</form>
+                <p>Join missions to explore your world...</p>
+            </div>
+        </div>
+    </div>
 
+    <div class="main-content-section">
+        <div class="main-content">
+            <div class="login-container">
+                <div class="login-header">Sign in with <span th:text="${provider_name}"></span></div>
+                <div class="login-content">
+                    <p><b>Redirecting to <span th:text="${provider_name}"></span>...</b></p>
+
+                    <form id="oauth-form-redirection" name="oauth-form-redirection" th:action="${signin_url}"
+                          method="POST">
+                        <button id="form-submit" type="submit">Sign in</button>
+                        <input type="hidden" name="scope" th:value="${scopes}"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/libs/jquery-2.1.0.min.js"></script>
+<script>
+    $(function () {
+        $('#oauth-form-redirection').submit();
+        $('#form-submit').hide();
+    });
+</script>
 </body>
 </html>

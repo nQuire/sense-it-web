@@ -1,4 +1,5 @@
 <span class="vote-widget">
     <i class="fa fa-thumbs-up vote-icon" data-ng-class="voteIconClass(1)" data-ng-click="vote(1)"></i>{{voteTarget.voteCount.positive}}
     <i class="fa fa-thumbs-down vote-icon" data-ng-class="voteIconClass(-1)" data-ng-click="vote(-1)"></i>{{voteTarget.voteCount.negative}}
+    <i class="fa fa-exclamation vote-icon report-icon" data-ng-class="voteIconClass(-2)" data-ng-click="report()"></i>
 </span>

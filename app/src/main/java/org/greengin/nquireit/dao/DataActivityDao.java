@@ -60,7 +60,7 @@ public class DataActivityDao {
     }
 
     @Transactional
-    public <K extends AbstractDataProjectItem> Long createItem(UserProfile author, Class<K> type, DataItemManipulator<?, K> manipulator) throws Exception {
+    public <K extends AbstractDataProjectItem> K createItem(UserProfile author, Class<K> type, DataItemManipulator<?, K> manipulator) throws Exception {
         K item = type.newInstance();
         item.setDataStore(manipulator.getActivity());
         item.setAuthor(author);
@@ -68,7 +68,7 @@ public class DataActivityDao {
 
         if (manipulator.onCreate(item)) {
             em.persist(item);
-            return item.getId();
+            return item;
         } else {
             return null;
         }

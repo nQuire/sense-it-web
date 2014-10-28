@@ -4,16 +4,14 @@ import lombok.Getter;
 import lombok.Setter;
 import org.greengin.nquireit.dao.*;
 import org.greengin.nquireit.logic.data.FileManagerBean;
+import org.greengin.nquireit.logic.log.LogManager;
+import org.greengin.nquireit.logic.log.LogManagerBean;
 import org.greengin.nquireit.logic.users.SubscriptionManagerBean;
-import org.greengin.nquireit.dao.CommentsDao;
-import org.greengin.nquireit.dao.VoteDao;
 import org.greengin.nquireit.logic.users.UserServiceBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
-/**
- * Created by evilfer on 4/2/14.
- */
+
 public class ContextBean implements InitializingBean {
 
     @Getter
@@ -41,11 +39,19 @@ public class ContextBean implements InitializingBean {
 
     @Autowired
     @Getter
+    LogManagerBean logManager;
+
+    @Autowired
+    @Getter
     UserProfileDao userProfileDao;
 
     @Autowired
     @Getter
     VoteDao voteDao;
+
+    @Autowired
+    @Getter
+    VotableDao votableDao;
 
     @Autowired
     @Getter
@@ -74,6 +80,10 @@ public class ContextBean implements InitializingBean {
     @Autowired
     @Getter
     SpotItDao spotItDao;
+
+    @Autowired
+    @Getter
+    TextDao textDao;
 
     @Override
     public void afterPropertiesSet() throws Exception {

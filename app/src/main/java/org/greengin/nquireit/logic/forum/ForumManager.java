@@ -3,11 +3,14 @@ package org.greengin.nquireit.logic.forum;
 import org.greengin.nquireit.entities.rating.Comment;
 import org.greengin.nquireit.entities.rating.ForumNode;
 import org.greengin.nquireit.entities.rating.ForumThread;
+import org.greengin.nquireit.entities.users.PermissionType;
 import org.greengin.nquireit.entities.users.UserProfile;
 import org.greengin.nquireit.json.Views;
 import org.greengin.nquireit.logic.AbstractContentManager;
 import org.greengin.nquireit.logic.ContextBean;
 import org.greengin.nquireit.logic.rating.CommentRequest;
+import org.greengin.nquireit.logic.rating.VoteCount;
+import org.greengin.nquireit.logic.rating.VoteRequest;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -82,6 +85,20 @@ public class ForumManager extends AbstractContentManager {
             ForumThread thread = context.getForumDao().findThread(threadId);
             context.getForumDao().comment(user, thread, data);
             return thread;
+        }
+
+        return null;
+    }
+
+    public VoteCount voteComment(Long threadId, Long commentId, VoteRequest voteData) {
+        if (loggedWithToken) {
+            ForumThread thread = context.getForumDao().findThread(threadId);
+            if (thread != null) {
+                Comment comment = context.getCommentsDao().getComment(thread, commentId);
+                if (comment != null) {
+                    return context.getVoteDao().vote(user, comment, voteData);
+                }
+            }
         }
 
         return null;

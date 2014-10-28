@@ -67,6 +67,10 @@ angular.module('senseItServices', null, null).factory('ProjectChallengeParticipa
         return this.projectWatcher.projectRequest('delete', this._answerPath(answerId));
     };
 
+    ProjectChallengeParticipant.prototype.submitAnswer = function (answer) {
+        return this.projectWatcher.projectRequest('post', this._answerPath(answer.id) + '/' + (answer.published ? 'withdraw' : 'submit'));
+    };
+
 
     return {
         challengeParticipant: function (projectWatcher) {

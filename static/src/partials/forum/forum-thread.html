@@ -9,6 +9,9 @@
         <div class="forum-thread-comment-header">
             <div class="username">{{comment.user.username}}</div>
             <div class="date">{{comment.date | fuzzyDate }}</div>
+            <div class="rate">
+                <div data-siw-vote-widget data-vote-manager="dataVoteManager" data-vote-target="comment"></div>
+            </div>
         </div>
 
         <div class="forum-thread-author-image" data-siw-user-image data-user="comment.user"></div>

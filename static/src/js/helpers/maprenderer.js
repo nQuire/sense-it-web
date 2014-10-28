@@ -23,6 +23,10 @@ var SiwMapRenderer = function ($scope, element, mapData, dataList) {
 
 SiwMapRenderer.prototype._updateSelectedIndex = function () {
     this.mapData.selectedIndex = this._indexById(this.mapData.selected);
+    if (this.mapData.selectedIndex < 0 && this.dataList.data.length > 0) {
+        this.mapData.selectedIndex = 0;
+        this.mapData.selected = this.dataList.data[0].id;
+    }
 };
 
 SiwMapRenderer.prototype._indexById = function (id) {
@@ -73,7 +77,7 @@ SiwMapRenderer.prototype.getLatLng = function (i) {
 SiwMapRenderer.prototype.init = function () {
     this.element.css('height', '600px');
 
-    var center = this.mapData.selectedIndex ? this.getLatLng(this.mapData.selectedIndex) : this.getLatLng(0);
+    var center = this.mapData.selectedIndex >= 0 ? this.getLatLng(this.mapData.selectedIndex) : this.getLatLng(0);
     if (center) {
         this.centerSet = true;
     } else {
@@ -171,8 +175,11 @@ SiwMapRenderer.prototype.update = function () {
     this._updateSelectedIndex();
     console.log(this.mapData.selectedIndex);
 
+    console.log(this.centerSet, this.dataList.data.length);
+
     if (!this.centerSet && this.dataList.data.length > 0) {
-        var center = this.mapData.selectedIndex ? this.getLatLng(this.mapData.selectedIndex) : this.getLatLng(0);
+        var center = this.mapData.selectedIndex >= 0 ? this.getLatLng(this.mapData.selectedIndex) : this.getLatLng(0);
+        console.log(center);
         if (center) {
             this.map.setZoom(this.markerFocusZoom);
             this.map.setCenter(center);

@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import org.greengin.nquireit.entities.users.UserProfile;
+import org.greengin.nquireit.logic.ContextBean;
+import org.greengin.nquireit.logic.admin.ReportedContent;
 
 import javax.persistence.*;
 import java.util.List;
@@ -46,5 +48,28 @@ public class ForumThread extends CommentThreadEntity {
         lastComment = comments.get(comments.size() - 1);
         this.commentCount = comments.size();
         this.forum.updateLastPost(this);
+    }
+
+    @Override
+    public String getReportedType(ContextBean context) {
+        return "forumThread";
+    }
+
+    @Override
+    public String getReportedPath(ContextBean context) {
+        return String.format("/forum/thread/%d", getId());
+    }
+
+    @Override
+    public UserProfile getOwner(ContextBean context) {
+        return author;
+    }
+
+    @Override
+    public void createReportedInfo(ReportedContent info, ContextBean context) {
+        info.setAuthor(author);
+        info.addInfo("OP", firstComment.getComment());
+        info.addInfo("Comments", String.valueOf(commentCount));
+        info.setPath(getReportedPath(context));
     }
 }

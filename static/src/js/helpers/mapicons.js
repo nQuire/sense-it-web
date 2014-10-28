@@ -86,7 +86,6 @@ SiwMapIcons.prototype.getIcon = function (value, mode) {
      */
     icon += '</g></svg>';
 
-    console.log("v: " + value);
     return icon;
 };
 

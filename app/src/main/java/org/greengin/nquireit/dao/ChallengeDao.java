@@ -33,9 +33,11 @@ public class ChallengeDao extends UtilsDao {
 
     private static final String MY_ANSWERS_QUERY = "SELECT an FROM ChallengeActivity ac INNER JOIN ac.answers an WHERE ac = :activity AND an.author = :author";
 
-    private static final String ALL_ANSWERS_QUERY = "SELECT an FROM ChallengeActivity ac INNER JOIN ac.answers an WHERE ac = :activity";
+    private static final String ALL_ANSWERS_QUERY = "SELECT an FROM ChallengeActivity ac INNER JOIN ac.answers an WHERE ac = :activity AND (an.author = :author OR an.published = TRUE)";
 
     private static final String ANSWER_COUNT_QUERY = "SELECT COUNT(an) AS N FROM ChallengeActivity ac INNER JOIN ac.answers an WHERE ac = :activity AND an.author = :author";
+
+    private static final String FIND_ACTIVITY_QUERY = "SELECT ac FROM ChallengeActivity ac INNER JOIN ac.answers an WHERE an = :answer";
 
 
     @PersistenceContext
@@ -84,14 +86,19 @@ public class ChallengeDao extends UtilsDao {
         return query.getSingleResult();
     }
 
+    public ChallengeActivity findActivity(ChallengeAnswer answer) {
+        TypedQuery<ChallengeActivity> query = em.createQuery(FIND_ACTIVITY_QUERY, ChallengeActivity.class);
+        query.setParameter("answer", answer);
+        return query.getSingleResult();
+    }
+
     @Transactional
     public List<ChallengeAnswer> getAnswers(boolean onlyMine, AbstractActivity activity, UserProfile user) {
         TypedQuery<ChallengeAnswer> query = em.createQuery(onlyMine ? MY_ANSWERS_QUERY : ALL_ANSWERS_QUERY,
                 ChallengeAnswer.class);
         query.setParameter("activity", activity);
-        if (onlyMine) {
-            query.setParameter("author", user);
-        }
+        query.setParameter("author", user);
+
         return query.getResultList();
     }
 
@@ -196,5 +203,13 @@ public class ChallengeDao extends UtilsDao {
     public void moveActivityField(ChallengeActivity activity, Long fieldId, ChallengeFieldMoveRequest fieldData) {
         em.persist(activity);
         this.move(activity.getFields(), fieldId, fieldData.getUp());
+    }
+
+    @Transactional
+    public void submitAnswer(ChallengeActivity activity, UserProfile user, Long answerId, boolean published) {
+        ChallengeAnswer answer = getAnswer(activity, user, answerId);
+        if (answer != null) {
+            answer.setPublished(published);
+        }
     }
 }

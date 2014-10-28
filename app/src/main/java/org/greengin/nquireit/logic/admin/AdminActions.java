@@ -6,6 +6,7 @@ import org.greengin.nquireit.logic.AbstractContentManager;
 import org.greengin.nquireit.logic.ContextBean;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
 
 public class AdminActions extends AbstractContentManager {
@@ -48,7 +49,46 @@ public class AdminActions extends AbstractContentManager {
     }
 
     public Boolean updateModel() {
-        context.getProjectDao().updateDataModel();
-        return true;
+        if (isAdmin) {
+            context.getProjectDao().updateDataModel();
+            return true;
+        }
+        return false;
+    }
+
+    public Boolean setText(String textId, String content) {
+        if (isAdmin) {
+            return context.getTextDao().setText(textId, content);
+        }
+
+        return false;
+
+    }
+
+
+    public HashMap<String, List<ReportedContent>> getReportedContent() {
+        if (isAdmin) {
+            return context.getVotableDao().getReportedContent(context);
+        } else {
+            return null;
+        }
+    }
+
+    public HashMap<String, List<ReportedContent>> deleteReportedContent(Long id) {
+        if (isAdmin) {
+            context.getVotableDao().deleteReportedEntity(id);
+            return context.getVotableDao().getReportedContent(context);
+        } else {
+            return null;
+        }
+    }
+
+    public HashMap<String, List<ReportedContent>> approveReportedContent(Long id) {
+        if (isAdmin) {
+            context.getVotableDao().approveReportedEntity(id);
+            return context.getVotableDao().getReportedContent(context);
+        } else {
+            return null;
+        }
     }
 }

@@ -2,6 +2,13 @@
 @import "../variables/dimensions";
 @import "../variables/colors";
 
+.spotit-item {
+  background: white;
+  border: 1px solid $color-light-grey;
+  height: 270px;
+  position: relative;
+}
+
 .spotit-observation {
   cursor: pointer;
   @include image-crop(60%);
@@ -14,15 +21,20 @@
   width: 50%;
 }
 
-.spotit-observation-metadata {
-  margin-bottom: $dim-common-margin;
+.spotit-observation-title {
   text-align: center;
-  background: white;
   color: $color-medium-grey;
   padding-top: $dim-common-small-margin;
-  border-bottom: 1px solid $color-light-grey;
-  border-left: 1px solid $color-light-grey;
-  border-right: 1px solid $color-light-grey;
+}
+
+.spotit-observation-metadata {
+  position: absolute;
+  text-align: center;
+  color: $color-medium-grey;
+
+  width: 100%;
+  left: 0px;
+  bottom: $dim-common-small-margin;
 }
 
 .spotit-view-item {
@@ -46,3 +58,4 @@
     }
   }
 }
+

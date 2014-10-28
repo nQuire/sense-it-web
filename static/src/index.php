@@ -11,6 +11,7 @@ ini_set('error_reporting', E_ALL);
 
     <link href='https://fonts.googleapis.com/css?family=Fira+Sans:400,500,700,400italic,500italic|Cabin:400,500,600,700,400italic,500italic|Ubuntu:400,500,700,400italic,500italic|Alegreya+Sans:400,500,700,900,400italic,500italic|Merriweather+Sans:400,400italic,700,700italic,800' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="css/font-awesome.css" type='text/css'>
+    <link rel="stylesheet" href="css/textAngular.min.css" type='text/css'>
     <link rel="stylesheet" href="css/nquire-it-bootstrap.css" type='text/css'>
 
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=visualization&sensor=true"></script>
@@ -68,6 +69,7 @@ ini_set('error_reporting', E_ALL);
     <script src="js/app/services/modal-service.js"></script>
     <script src="js/app/services/file-reader-service.js"></script>
     <script src="js/app/services/sorted-data-service.js"></script>
+    <script src="js/app/services/tracking-service.js"></script>
 
 
     <script src="js/app/directives/input-enter.js"></script>
@@ -84,6 +86,7 @@ ini_set('error_reporting', E_ALL);
 
     <script src="js/app/filters/uploaded-image-filter.js"></script>
     <script src="js/app/filters/fuzzy-date.js"></script>
+    <script src="js/app/filters/youtube-video.js"></script>
 
     <script src="js/app/controllers/common/modal-controller.js"></script>
 
@@ -154,6 +157,9 @@ ini_set('error_reporting', E_ALL);
     <script src="js/app/controllers/admin/admin-controller.js"></script>
     <script src="js/app/controllers/admin/admin-users-controller.js"></script>
     <script src="js/app/controllers/admin/admin-projects-controller.js"></script>
+    <script src="js/app/controllers/admin/admin-texts-controller.js"></script>
+    <script src="js/app/controllers/admin/admin-texts-item-controller.js"></script>
+    <script src="js/app/controllers/admin/admin-reported-controller.js"></script>
 
 
 
@@ -164,6 +170,19 @@ ini_set('error_reporting', E_ALL);
 <?php else: ?>
     <body data-ng-app="senseItWeb">
 <?php endif; ?>
+<script>
+    var dataLayer = [{'gaProperty': 'UA-55775559-1'}];
+</script>
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-K3DZ53"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-K3DZ53');</script>
+<!-- End Google Tag Manager -->
+
 
     <div id="page-background">
         <div id="page-background-center"></div>

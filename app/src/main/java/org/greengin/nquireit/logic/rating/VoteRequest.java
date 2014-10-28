@@ -11,6 +11,6 @@ public class VoteRequest {
     Long value;
 
     public void update(Vote vote) {
-        vote.setValue(value);
+        vote.setValue(Math.min(1, Math.max(-2, value)));
     }
 }

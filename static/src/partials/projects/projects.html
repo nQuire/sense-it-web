@@ -1,6 +1,17 @@
 <div class="content-sidebar">
     <div class="row">
-        <div data-ng-repeat="projectData in filteredList()" class="col-xs-12 col-sm-6 col-md-4">
+        <div data-ng-if="projectList.projects.length == 0 && projectList.ready">
+            <p>No missions available at the moment.</p>
+            <ul>
+                <li data-ng-if="projectListFilter.onlyFeatured">
+                    Try searching including <a href data-ui-sref="home({filter: 'all'})">non-featured missions</a>.
+                </li>
+                <li data-ng-if="projectListFilter.hasConditions">
+                    Try without <a href data-ui-sref="home({kw: null, status: null, type: null})">search conditions</a>.
+                </li>
+            </ul>
+        </div>
+        <div data-ng-repeat="projectData in projectList.projects" class="col-xs-12 col-sm-6 col-md-4">
             <div class="project-item" data-ng-class="projectClass(projectData)">
                 <div class="project-item-image-container"
                      data-ui-sref="project.view.home({projectId: projectData.project.id})">

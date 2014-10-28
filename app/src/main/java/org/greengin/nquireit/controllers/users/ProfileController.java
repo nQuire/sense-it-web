@@ -2,23 +2,25 @@ package org.greengin.nquireit.controllers.users;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mangofactory.jsonview.ResponseView;
+import org.apache.commons.lang3.text.WordUtils;
 import org.greengin.nquireit.json.JacksonObjectMapper;
 import org.greengin.nquireit.json.Views;
 import org.greengin.nquireit.logic.ContextBean;
 import org.greengin.nquireit.logic.files.FileMapUpload;
 import org.greengin.nquireit.logic.files.RequestsUtils;
-import org.greengin.nquireit.logic.project.ProjectResponse;
-import org.greengin.nquireit.logic.project.metadata.ProjectRequest;
-import org.greengin.nquireit.logic.users.*;
+import org.greengin.nquireit.logic.users.LoginRequest;
+import org.greengin.nquireit.logic.users.PasswordRequest;
+import org.greengin.nquireit.logic.users.ProfileRequest;
+import org.greengin.nquireit.logic.users.RegisterRequest;
+import org.greengin.nquireit.logic.users.StatusResponse;
+import org.greengin.nquireit.logic.users.UserProfileActions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -81,7 +83,7 @@ public class ProfileController {
     @ResponseBody
     @JsonView(value = Views.UserProfileData.class)
     public StatusResponse update(@RequestBody ProfileRequest data, HttpServletRequest request) {
-        StatusResponse response = context.getUsersManager().status(getConnections(), request.getSession(), true);
+        StatusResponse response = context.getUsersManager().status(getConnections(), request.getSession());
         boolean completed = new UserProfileActions(context, request).updateProfile(response, data);
         return completed ? response : null;
     }
@@ -91,7 +93,7 @@ public class ProfileController {
     @ResponseView(value = Views.UserName.class)
     public StatusResponse update(HttpServletRequest request) {
         try {
-            StatusResponse response = context.getUsersManager().status(getConnections(), request.getSession(), true);
+            StatusResponse response = context.getUsersManager().status(getConnections(), request.getSession());
             FileMapUpload files = RequestsUtils.getFiles(request);
             boolean completed = new UserProfileActions(context, request).updateProfileImage(response, files);
             return completed ? response : null;
@@ -107,7 +109,7 @@ public class ProfileController {
     @ResponseBody
     @JsonView(value = Views.UserProfileData.class)
     public StatusResponse checkLogin(HttpServletRequest request) {
-        return context.getUsersManager().status(getConnections(), request.getSession(), true);
+        return context.getUsersManager().status(getConnections(), request.getSession());
     }
 
 
@@ -137,7 +139,7 @@ public class ProfileController {
     @ResponseBody
     @JsonView(value = Views.UserProfileData.class)
     public StatusResponse deleteConnection(@PathVariable("providerId") String providerId, HttpServletRequest request) {
-        StatusResponse response = context.getUsersManager().status(getConnections(), request.getSession(), true);
+        StatusResponse response = context.getUsersManager().status(getConnections(), request.getSession());
         boolean completed = new UserProfileActions(context, request).deleteConnection(response, providerId);
         return completed ? response : null;
     }
@@ -147,14 +149,16 @@ public class ProfileController {
     @ResponseBody
     @JsonView(value = Views.UserProfileData.class)
     public StatusResponse setPassword(@RequestBody PasswordRequest data, HttpServletRequest request) {
-        StatusResponse response = context.getUsersManager().status(getConnections(), request.getSession(), true);
+        StatusResponse response = context.getUsersManager().status(getConnections(), request.getSession());
         boolean completed = new UserProfileActions(context, request).setPassword(response, data);
         return completed ? response : null;
     }
 
 
     @RequestMapping(value = "/social/{provider}/login", method = RequestMethod.GET)
-    public String login(@PathVariable("provider") String provider, Locale locale, Model model) {
+    public String login(@PathVariable("provider") String provider, @RequestParam(value = "d", required = false) String destination, Model model, HttpServletRequest request) {
+
+        request.getSession(true).setAttribute("destination", destination);
 
         String scopes = "";
         if ("facebook".equals(provider)) {
@@ -167,40 +171,38 @@ public class ProfileController {
 
         model.addAttribute("signin_url", String.format("%s/signin/%s", serverPath, provider));
         model.addAttribute("provider", provider);
+        model.addAttribute("provider_name", WordUtils.capitalize(provider));
         model.addAttribute("scopes", scopes);
         return "provider_login";
     }
 
+    private String providerLoginRedirect(HttpServletRequest request) {
+        String destination = null;
+
+        if (!context.getUsersManager().currentUserIsNew()) {
+            try {
+                destination = (String) request.getSession().getAttribute("destination");
+                request.getSession().removeAttribute("destination");
+            } catch (Exception ignored) {
+            }
+        }
+
+        if (destination == null) {
+            destination = "/profile";
+        }
+
+
+        return String.format("redirect:/#%s", destination);
+    }
 
     @RequestMapping(value = "/social/new")
-    public String newuser(Locale locale, Model model) {
-        return "welcome_user";
+    public String newuser(HttpServletRequest request) {
+        return providerLoginRedirect(request);
     }
 
 
     @RequestMapping(value = "/social/welcome", method = RequestMethod.GET)
-    public String welcome(Locale locale, Model model, HttpServletRequest request) {
-        ObjectMapper mapper = new ObjectMapper();
-
-        StatusResponse status = context.getUsersManager().status(getConnections(), request.getSession(), false);
-
-        try {
-            model.addAttribute("user", mapper.writeValueAsString(status));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
-            model.addAttribute("google", google.test());
-        } catch (Exception e) {
-            model.addAttribute("google", false);
-        }
-        try {
-            model.addAttribute("facebook", facebook.test());
-        } catch (Exception e) {
-            model.addAttribute("facebook", false);
-        }
-
-        return "welcome_user";
+    public String welcome(HttpServletRequest request) {
+        return providerLoginRedirect(request);
     }
 }

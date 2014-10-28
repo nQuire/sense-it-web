@@ -16,5 +16,5 @@ public class Views {
 
     public static interface ForumList extends UserName {};
     public static interface ForumNode extends UserName {};
-    public static interface ForumThread extends UserName {};
+    public static interface ForumThread extends VotableCount {};
 }
