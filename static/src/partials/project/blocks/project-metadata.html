@@ -14,13 +14,13 @@
 
         <div class="project-section-description-text-author-name">
             <div>
-                Mission created by {{projectData.project.author.username}}.
+                Mission created by <span siw-user-link="projectData.project.author"></span>.
             </div>
         </div>
     </div>
 
     <div data-ng-if="templates.projectData" class="project-description-data"
-            data-ng-include="templates.projectData">
+         data-ng-include="templates.projectData">
     </div>
 
 

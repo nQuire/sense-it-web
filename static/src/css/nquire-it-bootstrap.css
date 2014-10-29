@@ -10394,24 +10394,30 @@ html {
         border: 1px solid #aaaaaa;
         border-radius: 10px;
         background: #f6f5f5; }
-  .sidebar-right ul > li {
-    font-weight: 500;
-    font-size: 14px;
-    color: #444444;
-    list-style-image: url(images/bullet.png);
-    margin-left: -1.5em; }
-    .sidebar-right ul > li .sidebar-type-senseit {
-      font-weight: 700;
-      font-size: 16px;
-      color: #079ccb; }
-    .sidebar-right ul > li .sidebar-type-spotit {
-      font-weight: 700;
-      font-size: 16px;
-      color: #9fa609; }
-    .sidebar-right ul > li .sidebar-type-winit {
-      font-weight: 700;
-      font-size: 16px;
-      color: #c4388a; }
+  .sidebar-right ul {
+    list-style-image: url(images/bullet.png); }
+    .sidebar-right ul > li {
+      font-weight: 500;
+      font-size: 14px;
+      color: #444444;
+      margin-left: -1.5em; }
+      .sidebar-right ul > li .sidebar-type-senseit {
+        font-weight: 700;
+        font-size: 16px;
+        color: #079ccb; }
+      .sidebar-right ul > li .sidebar-type-spotit {
+        font-weight: 700;
+        font-size: 16px;
+        color: #9fa609; }
+      .sidebar-right ul > li .sidebar-type-winit {
+        font-weight: 700;
+        font-size: 16px;
+        color: #c4388a; }
+  .sidebar-right .sidebar-feed li {
+    margin-bottom: 10px; }
+    .sidebar-right .sidebar-feed li .feed-comment {
+      font-weight: bold;
+      color: grey; }
 
 div#header {
   padding: 10px 20px 20px 10px;
@@ -10515,7 +10521,7 @@ div#header {
     font-weight: 700;
     font-size: 20px;
     color: #f39a19;
-    margin: 20px 0 20px; }
+    margin: 20px 0 10px; }
     .profile-page .profile-logged-in-right-section .profile-logged-in-right-section-header button {
       float: right; }
   .profile-page .profile-logged-in-right-section .profile-logged-in-right-section-data-label {
@@ -10783,24 +10789,30 @@ div#header {
         border: 1px solid #aaaaaa;
         border-radius: 10px;
         background: #f6f5f5; }
-  .sidebar-right ul > li {
-    font-weight: 500;
-    font-size: 14px;
-    color: #444444;
-    list-style-image: url(images/bullet.png);
-    margin-left: -1.5em; }
-    .sidebar-right ul > li .sidebar-type-senseit {
-      font-weight: 700;
-      font-size: 16px;
-      color: #079ccb; }
-    .sidebar-right ul > li .sidebar-type-spotit {
-      font-weight: 700;
-      font-size: 16px;
-      color: #9fa609; }
-    .sidebar-right ul > li .sidebar-type-winit {
-      font-weight: 700;
-      font-size: 16px;
-      color: #c4388a; }
+  .sidebar-right ul {
+    list-style-image: url(images/bullet.png); }
+    .sidebar-right ul > li {
+      font-weight: 500;
+      font-size: 14px;
+      color: #444444;
+      margin-left: -1.5em; }
+      .sidebar-right ul > li .sidebar-type-senseit {
+        font-weight: 700;
+        font-size: 16px;
+        color: #079ccb; }
+      .sidebar-right ul > li .sidebar-type-spotit {
+        font-weight: 700;
+        font-size: 16px;
+        color: #9fa609; }
+      .sidebar-right ul > li .sidebar-type-winit {
+        font-weight: 700;
+        font-size: 16px;
+        color: #c4388a; }
+  .sidebar-right .sidebar-feed li {
+    margin-bottom: 10px; }
+    .sidebar-right .sidebar-feed li .feed-comment {
+      font-weight: bold;
+      color: grey; }
 
 .project-view-challenge-sumbission {
   background: white;
@@ -11010,7 +11022,7 @@ div#header {
     font-weight: 700;
     font-size: 20px;
     color: #f39a19;
-    margin: 20px 0 20px; }
+    margin: 20px 0 10px; }
     .profile-page .profile-logged-in-right-section .profile-logged-in-right-section-header button {
       float: right; }
   .profile-page .profile-logged-in-right-section .profile-logged-in-right-section-data-label {

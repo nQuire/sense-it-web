@@ -1,4 +1,3 @@
-
 <div data-ng-if="answerData.showFilter">
     <form class="form-inline">
         <div class="form-group">
@@ -18,7 +17,7 @@
 
 <div data-ng-if="answerData.answersReady">
     <table data-ng-if="sortedData.data.length > 0"
-            data-siw-sortable-table-widget data-table-data="tableData" class="table table-bordered table-striped">
+           data-siw-sortable-table-widget data-table-data="tableData" class="table table-bordered table-striped">
         <thead>
         <tr>
             <th data-ng-if="answerData.showAuthor" data-ng-class="headerClass('author')"
@@ -36,7 +35,9 @@
         </thead>
         <tbody>
         <tr data-ng-repeat="answer in sortedData.data">
-            <td data-ng-if="answerData.showAuthor">{{answer.author.username}}</td>
+            <td data-ng-if="answerData.showAuthor">
+                <span siw-user-link="answer.author"></span>
+            </td>
             <td data-ng-if="answerData.showVoting">
                 <div data-siw-vote-widget data-vote-manager="voteManager" data-vote-target="answer"></div>
             </td>

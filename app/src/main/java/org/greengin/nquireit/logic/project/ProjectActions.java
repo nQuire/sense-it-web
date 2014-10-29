@@ -141,6 +141,8 @@ public class ProjectActions extends AbstractContentManager {
     }
 
 
+
+
     /**
      * any user actions *
      */
@@ -285,6 +287,14 @@ public class ProjectActions extends AbstractContentManager {
     /**
      * comment actions
      */
+
+    public List<ProjectsCommentFeedResponse> getProjectCommentFeed() {
+        List<ProjectsCommentFeedResponse> list = new Vector<ProjectsCommentFeedResponse>();
+        for (Comment c : context.getCommentsDao().commentsFeed(Project.class, 3)) {
+            list.add(new ProjectsCommentFeedResponse(c));
+        }
+        return list;
+    }
 
     public List<Comment> getComments() {
         if (hasAccess(PermissionType.PROJECT_BROWSE)) {

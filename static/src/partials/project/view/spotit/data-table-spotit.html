@@ -15,7 +15,7 @@
 
                 <div class="spotit-observation-metadata">
 
-                    <div>{{item.author.username}}</div>
+                    <div siw-user-link="item.author"></div>
                     <div>{{item.date | fuzzyDate}}</div>
                     <div data-siw-vote-widget data-vote-manager="dataVoteManager" data-vote-target="item"></div>
                     <div><a href data-ng-click="goToItem(item.id)" ng-pluralize count="item.commentCount"

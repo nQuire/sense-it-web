@@ -112,6 +112,7 @@ ini_set('error_reporting', E_ALL);
 
     <script src="js/app/controllers/project-list/project-list-controller.js"></script>
     <script src="js/app/controllers/project-list/project-filter-sidebar-controller.js"></script>
+    <script src="js/app/controllers/project-list/project-list-comment-feed.js"></script>
     <script src="js/app/controllers/project-list/project-list-mine-controller.js"></script>
     <script src="js/app/controllers/project-list/create-controller.js"></script>
 

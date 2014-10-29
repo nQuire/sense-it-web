@@ -1,8 +1,10 @@
 package org.greengin.nquireit.dao;
 
 import org.greengin.nquireit.entities.rating.*;
+import org.greengin.nquireit.entities.users.UserProfile;
 import org.greengin.nquireit.logic.ContextBean;
 import org.greengin.nquireit.logic.admin.ReportedContent;
+import org.greengin.nquireit.logic.log.LogManagerBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +27,9 @@ public class VotableDao {
 
     @Autowired
     CommentsDao commentsDao;
+
+    @Autowired
+    LogManagerBean logManager;
 
     @PersistenceContext
     EntityManager em;
@@ -55,15 +60,17 @@ public class VotableDao {
         return categories;
     }
 
-    public boolean deleteReportedEntity(Long id) {
+    public boolean deleteReportedEntity(UserProfile admin, Long id) {
         VotableEntity entity = em.find(VotableEntity.class, id);
 
         if (entity != null) {
             if (entity instanceof Comment) {
                 Comment comment = (Comment) entity;
+                logManager.reportedContentRemoved(admin, comment);
                 commentsDao.deleteComment(comment);
                 return true;
             } else if (entity instanceof ForumThread) {
+                logManager.reportedContentRemoved(admin, entity);
                 forumDao.deleteForumThread((ForumThread) entity);
                 return true;
             }
@@ -73,13 +80,19 @@ public class VotableDao {
     }
 
     @Transactional
-    public boolean approveReportedEntity(Long id) {
+    public boolean approveReportedEntity(UserProfile admin, Long id) {
         VotableEntity entity = em.find(VotableEntity.class, id);
         if (entity != null) {
             TypedQuery<Vote> query = em.createQuery(REPORTING_VOTE_QUERY, Vote.class);
             query.setParameter("target", entity);
+            boolean wasReported = false;
             for (Vote v : query.getResultList()) {
                 v.setValue(0l);
+                wasReported = true;
+            }
+
+            if (wasReported) {
+                logManager.reportedContentApproved(admin, entity);
             }
 
             return true;

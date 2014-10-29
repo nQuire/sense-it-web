@@ -40,22 +40,35 @@
     }
   }
 
-  ul > li {
-    @include text-sidebar-normal;
+  ul {
     list-style-image: url(images/bullet.png);
-    margin-left: -1.5em;
+    > li {
 
-    .sidebar-type-senseit {
-      @include text-sidebar-mission-type;
-      color: $color-mission-senseit;
+      @include text-sidebar-normal;
+      margin-left: -1.5em;
+
+      .sidebar-type-senseit {
+        @include text-sidebar-mission-type;
+        color: $color-mission-senseit;
+      }
+      .sidebar-type-spotit {
+        @include text-sidebar-mission-type;
+        color: $color-mission-spotit;
+      }
+      .sidebar-type-winit {
+        @include text-sidebar-mission-type;
+        color: $color-mission-winit;
+      }
     }
-    .sidebar-type-spotit {
-      @include text-sidebar-mission-type;
-      color: $color-mission-spotit;
-    }
-    .sidebar-type-winit {
-      @include text-sidebar-mission-type;
-      color: $color-mission-winit;
+  }
+
+  .sidebar-feed {
+    li {
+      margin-bottom: $dim-common-small-margin;
+      .feed-comment {
+        font-weight: bold;
+        color: grey;
+      }
     }
   }
 

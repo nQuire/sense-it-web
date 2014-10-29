@@ -3,6 +3,7 @@ package org.greengin.nquireit.dao;
 import org.greengin.nquireit.entities.rating.Comment;
 import org.greengin.nquireit.entities.rating.CommentThreadEntity;
 import org.greengin.nquireit.entities.rating.ForumThread;
+import org.greengin.nquireit.entities.rating.VotableEntity;
 import org.greengin.nquireit.entities.users.UserProfile;
 import org.greengin.nquireit.logic.log.LogManagerBean;
 import org.greengin.nquireit.logic.rating.CommentRequest;
@@ -12,10 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import java.util.List;
 
 @Component
 public class CommentsDao {
-    private static final String VOTE_QUERY = "SELECT v FROM Vote v WHERE v.thread = :thread AND v.user = :user";
+    private static final String COMMENT_FEED_QUERY = "SELECT c FROM Comment c WHERE c.target.class = %s ORDER BY c.date DESC";
 
     @PersistenceContext
     EntityManager em;
@@ -90,5 +93,11 @@ public class CommentsDao {
 
             em.remove(comment);
         }
+    }
+
+    public <E extends VotableEntity> List<Comment> commentsFeed(Class<E> threadClass, int commentCount) {
+        TypedQuery<Comment> query = em.createQuery(String.format(COMMENT_FEED_QUERY, threadClass.getSimpleName()), Comment.class);
+        query.setMaxResults(commentCount);
+        return query.getResultList();
     }
 }

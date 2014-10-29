@@ -1,5 +1,6 @@
 package org.greengin.nquireit.logic.log;
 
+import org.greengin.nquireit.entities.rating.VotableEntity;
 import org.greengin.nquireit.entities.users.UserProfile;
 import org.greengin.nquireit.logic.AbstractContentManager;
 import org.greengin.nquireit.logic.ContextBean;
@@ -24,5 +25,6 @@ public class LogManager extends AbstractContentManager {
     public Boolean pageView(String path, String session) {
         return context.getLogManager().pageView(user, path, session);
     }
+
 
 }

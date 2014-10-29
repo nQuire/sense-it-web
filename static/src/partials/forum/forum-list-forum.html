@@ -28,7 +28,8 @@
 <td>
     <div data-ng-if="forumNode.lastPost">
         <a href data-ui-sref="forum.thread({threadId: forumNode.lastPost.id})">{{forumNode.lastPost.title}}</a><br/>
-        {{forumNode.lastPost.lastComment.date | fuzzyDate}} by {{forumNode.lastPost.lastComment.user.username}}
+        {{forumNode.lastPost.lastComment.date | fuzzyDate}} by
+        <span siw-user-link="forumNode.lastPost.lastComment.user"></span>
     </div>
 </td>
 <td>{{forumNode.threadCount}}</td>

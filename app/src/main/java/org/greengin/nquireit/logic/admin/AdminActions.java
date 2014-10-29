@@ -76,7 +76,7 @@ public class AdminActions extends AbstractContentManager {
 
     public HashMap<String, List<ReportedContent>> deleteReportedContent(Long id) {
         if (isAdmin) {
-            context.getVotableDao().deleteReportedEntity(id);
+            context.getVotableDao().deleteReportedEntity(user, id);
             return context.getVotableDao().getReportedContent(context);
         } else {
             return null;
@@ -85,7 +85,8 @@ public class AdminActions extends AbstractContentManager {
 
     public HashMap<String, List<ReportedContent>> approveReportedContent(Long id) {
         if (isAdmin) {
-            context.getVotableDao().approveReportedEntity(id);
+            context.getVotableDao().approveReportedEntity(user, id);
+
             return context.getVotableDao().getReportedContent(context);
         } else {
             return null;

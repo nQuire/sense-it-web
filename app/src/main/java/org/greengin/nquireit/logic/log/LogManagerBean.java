@@ -74,4 +74,19 @@ public class LogManagerBean {
         String path = project.getReportedPath(context);
         logsDao.log(user, type, path, project, project.getOwner(context), String.valueOf(dataId));
     }
+
+    public void reportedContentRemoved(UserProfile admin, VotableEntity entity) {
+        reportedContentAction(admin, entity, false);
+    }
+
+    public void reportedContentApproved(UserProfile admin, VotableEntity entity) {
+        reportedContentAction(admin, entity, true);
+    }
+
+    public void reportedContentAction(UserProfile admin, VotableEntity entity, boolean approved) {
+        String type = approved ? "reported-content-approved" : "reported-content-removed";
+        String path = entity.getReportedPath(context);
+        logsDao.log(admin, type, path, entity, entity.getOwner(context), null);
+    }
+
 }
