@@ -30,7 +30,7 @@
     <div class="comment" data-ng-repeat="comment in comments.list | orderBy:'-date'">
 
         <div class="comment-metadata">
-            <span class="comment-author-image" data-siw-user-image data-user="comment.user"></span>
+            <span class="comment-author-image" data-siw-user-image data-user="comment.author"></span>
 
             <div class="comment-metadata-text">
                 <div>
@@ -41,7 +41,7 @@
                           data-vote-target="comment"></span>
 
                     <div class="comment-author">
-                        <span class="comment-author-username" siw-user-link="comment.user"></span> said:
+                        <span class="comment-author-username" siw-user-link="comment.author"></span> said:
                     </div>
                 </div>
             </div>

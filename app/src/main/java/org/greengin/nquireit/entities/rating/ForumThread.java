@@ -22,11 +22,6 @@ public class ForumThread extends CommentThreadEntity {
     @ManyToOne
     @Getter
     @Setter
-    UserProfile author;
-
-    @ManyToOne
-    @Getter
-    @Setter
     ForumNode forum;
 
     @OneToOne
@@ -58,11 +53,6 @@ public class ForumThread extends CommentThreadEntity {
     @Override
     public String getReportedPath(ContextBean context) {
         return String.format("/forum/thread/%d", getId());
-    }
-
-    @Override
-    public UserProfile getOwner(ContextBean context) {
-        return author;
     }
 
     @Override

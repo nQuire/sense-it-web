@@ -10,7 +10,7 @@ import org.greengin.nquireit.json.Views;
 
 public abstract class CommentMixIn {
 	@JsonView(Views.User.class)
-    UserProfile user;
+    UserProfile author;
 	@JsonIgnore abstract Project getProject();
 	@JsonIgnore
     abstract CommentThreadEntity getTarget();

@@ -34,11 +34,6 @@ public class Comment extends VotableEntity {
 	@ManyToOne
     @Getter
     @Setter
-    UserProfile user;
-
-	@ManyToOne
-    @Getter
-    @Setter
 	CommentThreadEntity target;
 
     @Override
@@ -53,13 +48,8 @@ public class Comment extends VotableEntity {
     }
 
     @Override
-    public UserProfile getOwner(ContextBean context) {
-        return user;
-    }
-
-    @Override
     public void createReportedInfo(ReportedContent info, ContextBean context) {
-        info.setAuthor(user);
+        info.setAuthor(author);
         info.addInfo("Comment", comment);
         info.setPath(target.getReportedPath(context));
     }

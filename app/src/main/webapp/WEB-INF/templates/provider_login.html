@@ -13,11 +13,9 @@
     <div id="header">
         <div id="header-content">
             <div id="logo-container">
-                <a href="#/home" data-ui-sref="home({type: null, status: null, filter: ull, kw: null})">
+                <a href="#/home" target="_blank">
                     <img src="/css/images/nquire-it-logo.jpg"/>
                 </a>
-
-                <p>Join missions to explore your world...</p>
             </div>
         </div>
     </div>
@@ -25,7 +23,7 @@
     <div class="main-content-section">
         <div class="main-content">
             <div class="login-container">
-                <div class="login-header">Sign in with <span th:text="${provider_name}"></span></div>
+                <div class="login-header"><span th:text="${msg}"></span></div>
                 <div class="login-content">
                     <p><b>Redirecting to <span th:text="${provider_name}"></span>...</b></p>
 

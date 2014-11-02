@@ -21,7 +21,7 @@
         <tr data-ng-repeat="thread in forum.node.threads | orderBy:'lastComment.date':true">
             <td><a href data-ui-sref="forum.thread({threadId: thread.id})">{{thread.title}}</a></td>
             <td><span siw-user-link="thread.author"></span></td>
-            <td><span siw-user-link="thread.lastComment.user"></span><br/>{{thread.lastComment.date | fuzzyDate}}</td>
+            <td><span siw-user-link="thread.lastComment.author"></span><br/>{{thread.lastComment.date | fuzzyDate}}</td>
             <td>{{thread.commentCount  > 0 ? thread.commentCount - 1 : 0}}</td>
         </tr>
         </tbody>

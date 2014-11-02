@@ -1,0 +1,111 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>nQuire-it | OAuth login</title>
+    <link rel="stylesheet" href="/css/nquire-it-bootstrap.css" type='text/css'/>
+</head>
+<body>
+<div id="page-background">
+    <div id="page-background-center"></div>
+</div>
+<div id="main">
+    <div id="header">
+        <div id="header-content">
+            <div id="logo-container">
+                <a href="/#/home" target="_blank">
+                    <img src="/css/images/nquire-it-logo.jpg"/>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content-section">
+        <div class="main-content">
+            <div class="login-container">
+                <div class="login-header">Merge accounts</div>
+                <div class="login-content">
+                    <p>You have selected to link a <span th:text="${provider_name}"></span>
+                        account with your nQuire-it account:
+                        <b><a th:href="@{/#/profile/${current_user.id}}"
+                              th:text="${current_user.username}"
+                              target="_blank"></a></b>. However, it was not possible to complete this
+                        action automatically, because this <span th:text="${provider_name}"></span> account is already
+                        linked with a different nQuire-it account:
+                        <b><a th:href="@{/#/profile/${merge_user.id}}"
+                              th:text="${merge_user.username}"
+                              target="_blank"></a></b>.</p>
+
+                    <ul>
+
+                        <li>If you wish to go back to your profile, without linking the
+                            <span th:text="${provider_name}"></span> account, click <a href="/#/profile">here</a>.
+                            You can later sign out of your <span th:text="${provider_name}"></span> account, and
+                            try linking again.
+                        </li>
+
+                        <li><p>Alternatively, if both nQuire-it accounts
+                            (<b><span th:text="${current_user.username}"></span></b>
+                            and <b><span th:text="${merge_user.username}"></span></b>) belong to you, you can
+                            <i>merge</i> these accounts.</p>
+
+                            <p>Merging the accounts means that all the content created by
+                                <b><span th:text="${merge_user.username}"></span></b> will be
+                                transferred to <b><span th:text="${current_user.username}"></span></b>.
+                                Additionally, your <span th:text="${provider_name}"></span> account will
+                                also be linked with <b><span th:text="${current_user.username}"></span></b>.
+                            </p>
+
+                            <p><b>Please note that this action cannot be undone!</b></p>
+
+                            <form action="#" th:action="@{/social/merge}" th:object="${seedStarter}" method="post">
+                                <ul>
+                                    <li>
+                                        <label for="merge-accept-ownership">I confirm that both nQuire-it accounts
+                                            <i><span th:text="${merge_user.username}"></span></i> and
+                                            <i><span th:text="${current_user.username}"></span></i> belong to me
+                                        </label>
+                                        <input id="merge-accept-ownership" class="merge-accept" type="checkbox"
+                                               value="Merge accounts"/>
+                                    </li>
+                                    <li>
+                                        <label for="merge-accept-changes">I understand that the account
+                                            <i><span th:text="${merge_user.username}"></span></i> will be merged into
+                                            <i><span th:text="${current_user.username}"></span></i>, and deleted
+                                        </label>
+                                        <input id="merge-accept-changes" class="merge-accept" type="checkbox"
+                                               value="Merge accounts"/>
+                                    </li>
+                                    <li>
+                                        <label for="merge-accept-undo">I understand that this action cannot be undone
+                                        </label>
+                                        <input id="merge-accept-undo" class="merge-accept" type="checkbox"
+                                               value="Merge accounts"/>
+                                    </li>
+                                </ul>
+                                <p>
+                                    <button class="btn btn-danger" id="merge-submit" type="submit">
+                                        Merge accounts
+                                    </button>
+                                </p>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/libs/jquery-2.1.0.min.js"></script>
+<script>
+    $(function () {
+        var checkboxes = $('.merge-accept');
+        checkboxes.change(function () {
+            //$('#merge-submit').attr('disabled', checkboxes.filter(':not(:checked)').length > 0);
+        });
+    });
+</script>
+
+</body>
+</html>

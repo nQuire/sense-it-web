@@ -85,8 +85,8 @@ angular.module('senseItWeb', null, null).controller('ProfileCtrl', function ($sc
     $scope.openIdService.logout();
   };
 
-  $scope.providerLogin = function (provider) {
-    OpenIdService.providerLogin(provider);
+  $scope.providerLogin = function (provider, action) {
+    OpenIdService.providerLogin(provider, action);
   };
 
   $scope.deleteConnection = function (providerId) {

@@ -21,6 +21,7 @@ import java.util.Vector;
 public class VotableDao {
     private static final String REPORTED_CONTENT_QUERY = "SELECT t, COUNT(v.id) as N FROM VotableEntity t INNER JOIN t.votes v WHERE v.value = -2 GROUP BY t.id";
     private static final String REPORTING_VOTE_QUERY = "SELECT v FROM Vote v WHERE v.target = :target AND v.value = -2";
+    private static final String USERS_QUERY = "SELECT e FROM VotableEntity e WHERE e.author = :author";
 
     @Autowired
     ForumDao forumDao;
@@ -98,6 +99,17 @@ public class VotableDao {
             return true;
         } else {
             return false;
+        }
+    }
+
+    @Transactional
+    public void transferContent(UserProfile fromUser, UserProfile toUser) {
+        TypedQuery<VotableEntity> query = em.createQuery(USERS_QUERY, VotableEntity.class);
+        query.setParameter("author", fromUser);
+
+        for (VotableEntity entity : query.getResultList()) {
+            entity.setAuthor(toUser);
+            em.persist(entity);
         }
     }
 }

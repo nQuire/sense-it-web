@@ -3,10 +3,7 @@ package org.greengin.nquireit.entities.rating;
 import java.util.Collection;
 import java.util.Vector;
 
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import lombok.Getter;
 import lombok.NonNull;
@@ -20,6 +17,11 @@ import org.greengin.nquireit.logic.rating.VoteCount;
 
 @Entity
 public abstract class VotableEntity extends AbstractEntity {
+
+    @ManyToOne
+    @Getter
+    @Setter
+    protected UserProfile author;
 
     @OneToMany(mappedBy = "target", orphanRemoval = true, cascade = CascadeType.REMOVE)
     @Getter
@@ -39,6 +41,5 @@ public abstract class VotableEntity extends AbstractEntity {
 
     public abstract String getReportedType(ContextBean context);
     public abstract String getReportedPath(ContextBean context);
-    public abstract UserProfile getOwner(ContextBean context);
     public abstract void createReportedInfo(ReportedContent info, ContextBean context);
 }

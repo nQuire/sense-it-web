@@ -19,7 +19,9 @@ public class RoleManagerBean {
 
     private static final String USER_HAS_QUERY = "SELECT CASE WHEN (COUNT(r) > 0) THEN 1 ELSE 0 END FROM Role r WHERE r.context= :context AND r.user = :user AND r.type = :type";
 
-    private static final String USER_QUERY = "SELECT u FROM Role r INNER JOIN r.user u WHERE r.context = :context AND r.type = :type";
+    private static final String USER_TYPE_QUERY = "SELECT u FROM Role r INNER JOIN r.user u WHERE r.context = :context AND r.type = :type";
+
+    private static final String USER_QUERY = "SELECT r FROM Role r WHERE r.user = :user";
 
     private static final String USER_QUERY_COUNT = "SELECT COUNT(u) FROM Role r INNER JOIN r.user u WHERE r.context = :context AND r.type = :type";
 
@@ -40,7 +42,7 @@ public class RoleManagerBean {
     }
 
     public List<UserProfile> contextUsers(AbstractEntity context, RoleType type) {
-        TypedQuery<UserProfile> query = em.createQuery(USER_QUERY, UserProfile.class);
+        TypedQuery<UserProfile> query = em.createQuery(USER_TYPE_QUERY, UserProfile.class);
         query.setParameter("context", context);
         query.setParameter("type", type);
         return query.getResultList();
@@ -98,5 +100,23 @@ public class RoleManagerBean {
         for (Role r : query.getResultList()) {
             em.remove(r);
         }
+    }
+
+    @Transactional
+    public void transferRoles(UserProfile fromUser, UserProfile toUser) {
+        TypedQuery<Role> query = em.createQuery(USER_QUERY, Role.class);
+        query.setParameter("user", fromUser);
+
+        for (Role r : query.getResultList()) {
+            AbstractEntity context = r.getContext();
+            RoleType type = r.getType();
+
+            em.remove(r);
+
+            if (!is(type, context, toUser)) {
+                addRoleInTransaction(em, context, toUser, type);
+            }
+        }
+
     }
 }

@@ -6,10 +6,12 @@ import java.util.HashMap;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.mangofactory.jsonview.ResponseView;
 import org.apache.commons.lang3.text.WordUtils;
+import org.greengin.nquireit.entities.users.UserProfile;
 import org.greengin.nquireit.json.JacksonObjectMapper;
 import org.greengin.nquireit.json.Views;
 import org.greengin.nquireit.logic.ContextBean;
@@ -78,6 +80,27 @@ public class ProfileController {
         return connections;
     }
 
+    private boolean hasConnection(String provider) {
+        Connection<?> c = null;
+        if ("google".equals(provider)) {
+            c = google;
+        } else if ("facebook".equals(provider)) {
+            c = facebook;
+        } else if ("twitter".equals(provider)) {
+            c = twitter;
+        }
+
+        if (c == null) {
+            return false;
+        }
+
+        try {
+            return c.test();
+        } catch (Exception ignored) {
+            return false;
+        }
+    }
+
 
     @RequestMapping(value = "/api/security/profile", method = RequestMethod.PUT)
     @ResponseBody
@@ -117,6 +140,7 @@ public class ProfileController {
     @ResponseBody
     @JsonView(value = Views.UserProfileData.class)
     public Boolean performLogin(@RequestBody LoginRequest data, HttpServletRequest request, HttpServletResponse response) {
+        resetLoginSessionAttr(request);
         return context.getUsersManager().login(data.getUsername(), data.getPassword(), request, response);
     }
 
@@ -124,6 +148,7 @@ public class ProfileController {
     @ResponseBody
     @JsonView(value = Views.UserProfileData.class)
     public StatusResponse performLogout(HttpServletRequest request, HttpServletResponse response) {
+        resetLoginSessionAttr(request);
         return context.getUsersManager().logout(getConnections(), request, response);
     }
 
@@ -132,6 +157,7 @@ public class ProfileController {
     @ResponseBody
     @JsonView(value = Views.UserProfileData.class)
     public StatusResponse performRegister(@RequestBody RegisterRequest data, HttpServletRequest request) {
+        resetLoginSessionAttr(request);
         return context.getUsersManager().registerUser(data, getConnections(), request);
     }
 
@@ -154,55 +180,126 @@ public class ProfileController {
         return completed ? response : null;
     }
 
-
-    @RequestMapping(value = "/social/{provider}/login", method = RequestMethod.GET)
-    public String login(@PathVariable("provider") String provider, @RequestParam(value = "d", required = false) String destination, Model model, HttpServletRequest request) {
-
-        request.getSession(true).setAttribute("destination", destination);
-
-        String scopes = "";
-        if ("facebook".equals(provider)) {
-            scopes = "email,user_likes,friends_likes,publish_stream";
-        } else if ("google".equals(provider)) {
-            scopes = "email";
-        } else if ("twitter".equals(provider)) {
-            scopes = "email";
-        }
-
-        model.addAttribute("signin_url", String.format("%s/signin/%s", serverPath, provider));
-        model.addAttribute("provider", provider);
-        model.addAttribute("provider_name", WordUtils.capitalize(provider));
-        model.addAttribute("scopes", scopes);
-        return "provider_login";
+    @RequestMapping(value = "/social/new")
+    public String newuser(HttpServletRequest request, Model model) {
+        return providerLoginRedirect(request, model);
     }
 
-    private String providerLoginRedirect(HttpServletRequest request) {
-        String destination = null;
+
+    @RequestMapping(value = "/social/welcome", method = RequestMethod.GET)
+    public String welcome(HttpServletRequest request, Model model) {
+        return providerLoginRedirect(request, model);
+    }
+
+    @RequestMapping(value = "/social/merge", method = RequestMethod.POST)
+    public String login(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+
+        String action = (String) session.getAttribute("oauth-action");
+        String provider = (String) session.getAttribute("oauth-provider");
+        Long[] mergeIds = (Long[]) session.getAttribute("oauth-merge");
+        session.removeAttribute("destination");
+
+        if ("link".equals(action) && provider != null && mergeIds != null
+                && mergeIds.length == 2
+                && !hasConnection(provider)) {
+
+            UserProfile currentUser = context.getUsersManager().currentUser();
+            UserProfile mergeUser = context.getUserProfileDao().loadUserById(mergeIds[1]);
+            if (currentUser != null && mergeUser != null &&
+                    currentUser.getId().equals(mergeIds[0]) && !currentUser.equals(mergeUser)) {
+
+                if (context.getUsersManager().mergeAccount(currentUser, mergeUser, provider)) {
+                    return String.format("redirect:/social/%s/link", provider);
+                }
+            }
+        }
+
+
+        return "redirect:/#/profile";
+    }
+
+
+    @RequestMapping(value = "/social/{provider}/{action}", method = RequestMethod.GET)
+    public String login(@PathVariable("provider") String provider, @PathVariable("action") String action, @RequestParam(value = "d", required = false) String destination, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession(true);
+        resetLoginSessionAttr(session);
+
+        if ("login".equals(action) || "link".equals(action)) {
+            session.setAttribute("destination", destination);
+            session.setAttribute("oauth-action", action);
+            session.setAttribute("oauth-provider", provider);
+
+            String providerName = providerName(provider);
+            String msgTmpl = "login".equals(action) ? "Sign in with %s" : "Link %s account";
+            String scopes = "";
+            if ("facebook".equals(provider)) {
+                scopes = "email,user_likes,friends_likes,publish_stream";
+            } else if ("google".equals(provider)) {
+                scopes = "email";
+            } else if ("twitter".equals(provider)) {
+                scopes = "email";
+            }
+
+
+            model.addAttribute("signin_url", String.format("%s/signin/%s", serverPath, provider));
+            model.addAttribute("provider", provider);
+            model.addAttribute("provider_name", providerName);
+            model.addAttribute("scopes", scopes);
+            model.addAttribute("msg", String.format(msgTmpl, providerName));
+            return "provider_login";
+        } else {
+            return "redirect:/#/profile";
+        }
+    }
+
+    private void resetLoginSessionAttr(HttpServletRequest request) {
+        resetLoginSessionAttr(request.getSession());
+    }
+
+    private void resetLoginSessionAttr(HttpSession session) {
+        session.removeAttribute("oauth-action");
+        session.removeAttribute("oauth-provider");
+        session.removeAttribute("oauth-merge");
+    }
+
+    private String providerName(String providerId) {
+        return WordUtils.capitalize(providerId);
+    }
+
+    private String providerLoginRedirect(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+
+        String destination = (String) request.getSession().getAttribute("destination");
+        String action = (String) session.getAttribute("oauth-action");
+        String provider = (String) session.getAttribute("oauth-provider");
+        Long[] mergeIds = (Long[]) session.getAttribute("oauth-merge");
+
+        if ("link".equals(action) && provider != null && mergeIds != null
+                && mergeIds.length == 2
+                && !hasConnection(provider)) {
+
+            UserProfile currentUser = context.getUsersManager().currentUser();
+            UserProfile mergeUser = context.getUserProfileDao().loadUserById(mergeIds[1]);
+            if (currentUser != null && mergeUser != null &&
+                    currentUser.getId().equals(mergeIds[0]) && !currentUser.equals(mergeUser)) {
+                model.addAttribute("current_user", currentUser);
+                model.addAttribute("merge_user", mergeUser);
+                model.addAttribute("provider_name", providerName(provider));
+                return "provider_merge";
+            }
+        }
 
         if (!context.getUsersManager().currentUserIsNew()) {
-            try {
-                destination = (String) request.getSession().getAttribute("destination");
-                request.getSession().removeAttribute("destination");
-            } catch (Exception ignored) {
-            }
+            request.getSession().removeAttribute("destination");
         }
 
         if (destination == null) {
             destination = "/profile";
         }
 
+        resetLoginSessionAttr(session);
 
         return String.format("redirect:/#%s", destination);
-    }
-
-    @RequestMapping(value = "/social/new")
-    public String newuser(HttpServletRequest request) {
-        return providerLoginRedirect(request);
-    }
-
-
-    @RequestMapping(value = "/social/welcome", method = RequestMethod.GET)
-    public String welcome(HttpServletRequest request) {
-        return providerLoginRedirect(request);
     }
 }

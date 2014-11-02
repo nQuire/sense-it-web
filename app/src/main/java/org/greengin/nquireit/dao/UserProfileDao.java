@@ -188,4 +188,10 @@ public class UserProfileDao {
             user.setAdmin(isAdmin);
         }
     }
+
+    @Transactional
+    public void deleteUser(UserProfile user) {
+        em.persist(user);
+        em.remove(user);
+    }
 }

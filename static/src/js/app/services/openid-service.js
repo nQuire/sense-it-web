@@ -146,8 +146,8 @@ angular.module('senseItServices', null, null).factory('OpenIdService', ['RestSer
     }
   };
 
-  service.providerLogin = function (provider) {
-    var href = 'social/' + provider + '/login';
+  service.providerLogin = function (provider, action) {
+    var href = 'social/' + provider + '/' + action;
     if (service.destination) {
       href += '?d=' + encodeURIComponent(service.destination);
     }

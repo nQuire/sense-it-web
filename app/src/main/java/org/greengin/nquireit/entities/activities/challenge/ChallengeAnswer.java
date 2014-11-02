@@ -21,11 +21,6 @@ import java.util.Map;
 @Entity
 public class ChallengeAnswer extends VotableEntity {
 
-    @ManyToOne
-    @Getter
-    @Setter
-    UserProfile author;
-
     @Basic
     @Getter
     @Setter
@@ -58,11 +53,6 @@ public class ChallengeAnswer extends VotableEntity {
         ChallengeActivity activity = context.getChallengeDao().findActivity(this);
         Project project = context.getProjectDao().findProject(activity);
         return formatReportedPath(project);
-    }
-
-    @Override
-    public UserProfile getOwner(ContextBean context) {
-        return author;
     }
 
     private String formatReportedPath(Project project) {

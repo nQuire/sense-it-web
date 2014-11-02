@@ -24,16 +24,6 @@ public abstract class AbstractDataProjectItem extends CommentThreadEntity {
 	@ManyToOne
     @Getter
     @Setter
-    UserProfile author;
-
-	@ManyToOne
-    @Getter
-    @Setter
 	protected DataCollectionActivity<?, ?> dataStore;
 
-
-    @Override
-    public UserProfile getOwner(ContextBean context) {
-        return author;
-    }
 }

@@ -1,8 +1,7 @@
 package org.greengin.nquireit.logic.users;
 
-import org.greengin.nquireit.dao.ProjectDao;
-import org.greengin.nquireit.dao.UserProfileDao;
 import org.greengin.nquireit.entities.users.UserProfile;
+import org.greengin.nquireit.logic.ContextBean;
 import org.greengin.nquireit.logic.files.FileMapUpload;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,10 +41,7 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
     RememberMeServices rememberMeServices;
 
     @Autowired
-    UserProfileDao userProfileDao;
-
-    @Autowired
-    ProjectDao projectDao;
+    ContextBean context;
 
     SecureRandom random;
 
@@ -69,7 +65,7 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
 
     @Override
     public UserProfile loadUserByUsername(String s) throws UsernameNotFoundException {
-        return userProfileDao.loadUserByUsername(s);
+        return context.getUserProfileDao().loadUserByUsername(s);
     }
 
     private StatusResponse createResponse(Authentication auth, HashMap<String, Connection<?>> connections, HttpSession session) {
@@ -115,7 +111,7 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
     public UserProfile currentUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return auth != null && auth.getPrincipal() != null && auth.getPrincipal() instanceof UserProfile ?
-                userProfileDao.user(((UserProfile) auth.getPrincipal())) : null;
+                context.getUserProfileDao().user(((UserProfile) auth.getPrincipal())) : null;
     }
 
     public boolean checkToken(HttpServletRequest request) {
@@ -169,7 +165,7 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
     }
 
     public UserProfile providerSignIn(String username, String providerId, String providerUserId) {
-        UserProfile existingUser = userProfileDao.loadUserByProviderUserId(providerId, providerUserId);
+        UserProfile existingUser = context.getUserProfileDao().loadUserByProviderUserId(providerId, providerUserId);
         if (existingUser != null) {
             return existingUser;
         } else {
@@ -186,7 +182,7 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
                 initialUsername = String.format("%s_%d", username, i);
             }
 
-            UserProfile user = userProfileDao.createUser(initialUsername, null, email, email != null);
+            UserProfile user = context.getUserProfileDao().createUser(initialUsername, null, email, email != null);
             newUser(user.getUsername());
             return user;
         }
@@ -200,15 +196,15 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
 
 
     public boolean matchPassword(UserProfile user, String password) {
-        return userProfileDao.matchPassword(user, password);
+        return context.getUserProfileDao().matchPassword(user, password);
     }
 
     public void setPassword(UserProfile user, String password) {
-        userProfileDao.setPassword(user, password);
+        context.getUserProfileDao().setPassword(user, password);
     }
 
     public boolean updateProfileImage(StatusResponse currentStatus, FileMapUpload files) {
-        return userProfileDao.updateProfileImage(currentStatus.getProfile(), files);
+        return context.getUserProfileDao().updateProfileImage(currentStatus.getProfile(), files);
     }
 
 
@@ -221,18 +217,20 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
                 } else if (!usernameIsAvailable(data.getUsername())) {
                     currentStatus.getResponses().put("username", "username_not_available");
                 } else {
-                    userProfileDao.updateUsername(currentStatus.getProfile(), data.getUsername());
+                    context.getUserProfileDao().updateUsername(currentStatus.getProfile(), data.getUsername());
                 }
             }
         }
 
-        userProfileDao.updateUserInformation(currentStatus.getProfile(), data.getMetadata(), data.getVisibility());
+        context.getUserProfileDao().updateUserInformation(currentStatus.getProfile(), data.getMetadata(), data.getVisibility());
 
         return true;
     }
 
     public boolean deleteConnection(StatusResponse currentStatus, String providerId) {
-        if (((currentStatus.getProfile().getPassword() != null && currentStatus.getProfile().getPassword().length() > 0) || currentStatus.getConnections().size() > 1) && userProfileDao.deleteConnection(currentStatus.getProfile(), providerId)) {
+        if (((currentStatus.getProfile().getPassword() != null && currentStatus.getProfile().getPassword().length() > 0) ||
+                currentStatus.getConnections().size() > 1) &&
+                context.getUserProfileDao().deleteConnection(currentStatus.getProfile(), providerId)) {
             currentStatus.getConnections().remove(providerId);
             return true;
         }
@@ -252,14 +250,14 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
         } catch (UsernameNotFoundException e) {
 
             try {
-                userProfileDao.loadUserByUsername(data.getEmail());
+                context.getUserProfileDao().loadUserByUsername(data.getEmail());
                 StatusResponse result = new StatusResponse();
                 result.setLogged(false);
                 result.setProfile(null);
                 result.getResponses().put("registration", "email_exists");
                 return result;
             } catch (UsernameNotFoundException e2) {
-                UserProfile user = userProfileDao.createUser(data.getUsername(), data.getPassword(), data.getEmail(), false);
+                UserProfile user = context.getUserProfileDao().createUser(data.getUsername(), data.getPassword(), data.getEmail(), false);
                 login(user, request.getSession());
 
                 return status(connections, request.getSession());
@@ -269,7 +267,7 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
 
     public PublicProfileResponse getPublicProfile(Long userId) {
         PublicProfileResponse response = new PublicProfileResponse();
-        UserProfile profile = userProfileDao.loadUserById(userId);
+        UserProfile profile = context.getUserProfileDao().loadUserById(userId);
 
         if (profile != null) {
             response.setUsername(profile.getUsername());
@@ -281,10 +279,22 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
 
                 boolean joined = profile.getVisibility().get("projectsJoined");
                 boolean created = profile.getVisibility().get("projectsCreated");
-                response.setProjects(projectDao.getMyProjects(profile, joined, created));
+                response.setProjects(context.getProjectDao().getMyProjects(profile, joined, created));
             }
         }
 
         return response;
+    }
+
+    public boolean mergeAccount(UserProfile user, UserProfile mergedUser, String provider) {
+        if (context.getUserProfileDao().deleteConnection(mergedUser, provider)) {
+            context.getVotableDao().transferContent(mergedUser, user);
+            context.getVoteDao().transferVotes(mergedUser, user);
+            context.getRoleManager().transferRoles(mergedUser, user);
+            context.getUserProfileDao().deleteUser(mergedUser);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -24,11 +24,6 @@ public class Project extends CommentThreadEntity {
     @Setter
     String title;
 
-    @ManyToOne
-    @Getter
-    @Setter
-    UserProfile author;
-
     @Getter
     @Setter
     @Embedded
@@ -63,11 +58,6 @@ public class Project extends CommentThreadEntity {
     @Override
     public String getReportedPath(ContextBean context) {
         return String.format("/project/%d", getId());
-    }
-
-    @Override
-    public UserProfile getOwner(ContextBean context) {
-        return author;
     }
 
     @Override

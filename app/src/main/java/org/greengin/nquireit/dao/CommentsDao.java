@@ -52,7 +52,7 @@ public class CommentsDao {
 
     public Comment commentWithinTransaction(UserProfile user, CommentThreadEntity target, CommentRequest request) {
         Comment comment = new Comment();
-        comment.setUser(user);
+        comment.setAuthor(user);
         comment.setTarget(target);
         target.getComments().add(comment);
         request.update(comment);
@@ -63,7 +63,7 @@ public class CommentsDao {
     public boolean deleteComment(UserProfile user, CommentThreadEntity target, Long commentId) {
         if (user != null && target != null && commentId != null) {
             Comment c = em.find(Comment.class, commentId);
-            if (c != null && user.equals(c.getUser()) && target.equals(c.getTarget())) {
+            if (c != null && user.equals(c.getAuthor()) && target.equals(c.getTarget())) {
                 logManager.comment(user, target, c, false);
                 deleteComment(c);
                 return true;

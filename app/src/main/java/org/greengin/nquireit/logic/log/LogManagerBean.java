@@ -41,7 +41,7 @@ public class LogManagerBean {
             String type = create ? "comment" : "comment-delete";
             String path = String.format("%s : %s", target.getReportedPath(context),
                     target.getReportedType(context));
-            logsDao.log(user, type, path, target, target.getOwner(context), comment != null ? comment.getComment() : null);
+            logsDao.log(user, type, path, target, target.getAuthor(), comment != null ? comment.getComment() : null);
         }
     }
 
@@ -49,7 +49,7 @@ public class LogManagerBean {
         if (thread != null && comment != null) {
             String type = "thread-comment";
             String path = thread.getReportedPath(context);
-            logsDao.log(user, type, path, thread, thread.getOwner(context), comment.getComment());
+            logsDao.log(user, type, path, thread, thread.getAuthor(), comment.getComment());
         }
     }
 
@@ -66,13 +66,13 @@ public class LogManagerBean {
         String path = String.format("%s : %s", target.getReportedPath(context),
                 target.getReportedType(context));
 
-        logsDao.log(user, type, path, target, target.getOwner(context), String.valueOf(value));
+        logsDao.log(user, type, path, target, target.getAuthor(), String.valueOf(value));
     }
 
     public void data(UserProfile user, Project project, Long dataId, boolean create) {
         String type = create ? "data-create" : "data-delete";
         String path = project.getReportedPath(context);
-        logsDao.log(user, type, path, project, project.getOwner(context), String.valueOf(dataId));
+        logsDao.log(user, type, path, project, project.getAuthor(), String.valueOf(dataId));
     }
 
     public void reportedContentRemoved(UserProfile admin, VotableEntity entity) {
@@ -86,7 +86,7 @@ public class LogManagerBean {
     public void reportedContentAction(UserProfile admin, VotableEntity entity, boolean approved) {
         String type = approved ? "reported-content-approved" : "reported-content-removed";
         String path = entity.getReportedPath(context);
-        logsDao.log(admin, type, path, entity, entity.getOwner(context), null);
+        logsDao.log(admin, type, path, entity, entity.getAuthor(), null);
     }
 
 }
