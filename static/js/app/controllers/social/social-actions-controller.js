@@ -32,8 +32,11 @@ angular.module('senseItWeb', null, null).controller('SocialActionsCtrl', functio
           login: function () {
             OpenIdService.loginAndComeBack();
           },
+          oauthLogin: function () {
+            OpenIdService.providerLogin(provider, 'login');
+          },
           link: function () {
-            OpenIdService.providerLogin(provider);
+            OpenIdService.providerLogin(provider, 'link');
           }
         },
         posting: posting,

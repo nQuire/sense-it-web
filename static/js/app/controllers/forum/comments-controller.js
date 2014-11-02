@@ -14,7 +14,7 @@ angular.module('senseItWeb', null, null).controller('CommentsCtrl', function ($s
 
     $scope.canDelete = function (id) {
         var comment = $scope.commentById(id);
-        return comment && $scope.status && $scope.status.logged && ($scope.status.profile.id == comment.user.id);
+        return comment && $scope.status && $scope.status.logged && ($scope.status.profile.id == comment.author.id);
     };
 
 

@@ -1,0 +1,75 @@
+<div class="content-sidebar">
+    <div class="profile-header">User profile: <b>{{profile.username}}</b></div>
+    <div class="profile-page">
+
+
+        <div class="profile-logged-in-left-section">
+
+            <div>
+                <span data-siw-user-image data-user="status.profile"></span>
+            </div>
+
+            <div data-ng-controller="ProjectListMineCtrl" class="profile-project-list">
+                <div data-ng-if="profile.projects.admin">
+                    <div class="profile-project-list-header">Projects created by {{profile.username}}:</div>
+                    <ul>
+                        <li data-ng-repeat="project in profile.projects.admin">
+                            <a href data-ui-sref="project.view.home({projectId:project.id})">
+                                {{project.title}}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div data-ng-if="profile.projects.member">
+                    <div class="profile-project-list-header">Projects joined by {{profile.username}}</div>
+                    <ul>
+                        <li data-ng-repeat="project in profile.projects.member">
+                            <a href data-ui-sref="project.view.home({projectId:project.id})">
+                                {{project.title}}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="profile-logged-in-right-section">
+            <div class="profile-logged-in-right-section-header">
+                Login information
+            </div>
+
+            <!-- username -->
+            <div class="profile-logged-in-right-section-data">
+                <span class="profile-logged-in-right-section-data-label">Username:</span>
+                <span class="profile-logged-in-right-section-data-value">{{profile.username}}</span>
+            </div>
+
+
+            <div data-ng-if="profile.metadata">
+                <div class="profile-logged-in-right-section-header">
+                    Profile information
+                </div>
+
+                <div data-ng-if="profile.metadata.name" class="profile-logged-in-right-section-data">
+                    <span class="profile-logged-in-right-section-data-label">Name:</span>
+                    <span class="profile-logged-in-right-section-data-value">{{profile.metadata.name}}</span>
+                </div>
+                <div data-ng-if="profile.metadata.dob" class="profile-logged-in-right-section-data">
+                    <span class="profile-logged-in-right-section-data-label">Date of birth:</span>
+                    <span class="profile-logged-in-right-section-data-value">{{profile.metadata.dob}}</span>
+                </div>
+                <div data-ng-if="profile.metadata.location" class="profile-logged-in-right-section-data">
+                    <span class="profile-logged-in-right-section-data-label">Location:</span>
+                    <span class="profile-logged-in-right-section-data-value">{{profile.metadata.location}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="sidebar-right" data-ng-include="'partials/projects/projects-sidebar.html'"></div>
+
