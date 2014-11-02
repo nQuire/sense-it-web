@@ -84,7 +84,7 @@
                                     </li>
                                 </ul>
                                 <p>
-                                    <button class="btn btn-danger" id="merge-submit" type="submit">
+                                    <button class="btn btn-danger" id="merge-submit" type="submit" disabled="true">
                                         Merge accounts
                                     </button>
                                 </p>
@@ -102,7 +102,7 @@
     $(function () {
         var checkboxes = $('.merge-accept');
         checkboxes.change(function () {
-            //$('#merge-submit').attr('disabled', checkboxes.filter(':not(:checked)').length > 0);
+            $('#merge-submit').attr('disabled', checkboxes.filter(':not(:checked)').length > 0);
         });
     });
 </script>
