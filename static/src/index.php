@@ -102,6 +102,7 @@ ini_set('error_reporting', E_ALL);
     <script src="js/app/controllers/forum/forum-node-controller.js"></script>
     <script src="js/app/controllers/forum/forum-node-new-thread-controller.js"></script>
     <script src="js/app/controllers/forum/forum-thread-controller.js"></script>
+    <script src="js/app/controllers/forum/forum-comment-feed.js"></script>
 
 
     <script src="js/app/controllers/layout/main-controller.js"></script>

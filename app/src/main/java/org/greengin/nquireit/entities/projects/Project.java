@@ -19,11 +19,6 @@ public class Project extends CommentThreadEntity {
         this.activity = null;
     }
 
-    @Basic
-    @Getter
-    @Setter
-    String title;
-
     @Getter
     @Setter
     @Embedded

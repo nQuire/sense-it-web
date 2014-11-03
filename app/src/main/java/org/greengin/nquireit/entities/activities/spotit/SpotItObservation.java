@@ -17,11 +17,6 @@ public class SpotItObservation extends AbstractDataProjectItem {
     @Basic
     @Getter
     @Setter
-    String title;
-
-    @Basic
-    @Getter
-    @Setter
     String geolocation;
 
     @Basic

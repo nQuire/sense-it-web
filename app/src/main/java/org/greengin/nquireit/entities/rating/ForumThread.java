@@ -13,12 +13,6 @@ import java.util.Vector;
 
 @Entity
 public class ForumThread extends CommentThreadEntity {
-
-    @Basic
-    @Getter
-    @Setter
-    String title;
-
     @ManyToOne
     @Getter
     @Setter

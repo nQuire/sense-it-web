@@ -2,14 +2,13 @@ package org.greengin.nquireit.controllers.forum;
 
 
 import com.mangofactory.jsonview.ResponseView;
-import org.greengin.nquireit.entities.rating.Comment;
 import org.greengin.nquireit.entities.rating.ForumNode;
 import org.greengin.nquireit.entities.rating.ForumThread;
 import org.greengin.nquireit.json.Views;
 import org.greengin.nquireit.logic.ContextBean;
 import org.greengin.nquireit.logic.forum.ForumManager;
 import org.greengin.nquireit.logic.forum.ForumRequest;
-import org.greengin.nquireit.logic.project.metadata.ProjectRequest;
+import org.greengin.nquireit.logic.rating.CommentFeedResponse;
 import org.greengin.nquireit.logic.rating.CommentRequest;
 import org.greengin.nquireit.logic.rating.VoteCount;
 import org.greengin.nquireit.logic.rating.VoteRequest;
@@ -94,8 +93,10 @@ public class ForumController {
         return createForumManager(request).voteComment(threadId, commentId, voteData);
     }
 
-
-
-
+    @RequestMapping(value = "/feed", method = RequestMethod.GET)
+    @ResponseBody
+    public List<CommentFeedResponse> commentFeed(HttpServletRequest request) {
+        return createForumManager(request).getForumCommentFeed();
+    }
 
 }

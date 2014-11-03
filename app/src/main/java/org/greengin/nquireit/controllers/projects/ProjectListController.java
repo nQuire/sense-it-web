@@ -3,10 +3,10 @@ package org.greengin.nquireit.controllers.projects;
 import javax.servlet.http.HttpServletRequest;
 
 import com.mangofactory.jsonview.ResponseView;
-import org.greengin.nquireit.entities.rating.Comment;
 import org.greengin.nquireit.json.Views;
 import org.greengin.nquireit.logic.ContextBean;
 import org.greengin.nquireit.logic.project.*;
+import org.greengin.nquireit.logic.rating.CommentFeedResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -49,7 +49,7 @@ public class ProjectListController {
 
     @RequestMapping(value = "/feed", method = RequestMethod.GET)
     @ResponseBody
-    public List<ProjectsCommentFeedResponse> commentFeed(HttpServletRequest request) {
+    public List<CommentFeedResponse> commentFeed(HttpServletRequest request) {
         return createProjectManager(request).getProjectCommentFeed();
     }
 

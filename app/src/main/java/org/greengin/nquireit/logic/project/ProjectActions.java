@@ -4,12 +4,12 @@ import org.greengin.nquireit.entities.projects.Project;
 import org.greengin.nquireit.entities.projects.ProjectType;
 import org.greengin.nquireit.entities.rating.Comment;
 import org.greengin.nquireit.entities.users.PermissionType;
-import org.greengin.nquireit.entities.users.Role;
 import org.greengin.nquireit.entities.users.RoleType;
 import org.greengin.nquireit.entities.users.UserProfile;
 import org.greengin.nquireit.logic.AbstractContentManager;
 import org.greengin.nquireit.logic.ContextBean;
 import org.greengin.nquireit.logic.project.metadata.ProjectRequest;
+import org.greengin.nquireit.logic.rating.CommentFeedResponse;
 import org.greengin.nquireit.logic.rating.VoteCount;
 import org.greengin.nquireit.logic.rating.VoteRequest;
 import org.greengin.nquireit.logic.users.AccessLevel;
@@ -288,10 +288,10 @@ public class ProjectActions extends AbstractContentManager {
      * comment actions
      */
 
-    public List<ProjectsCommentFeedResponse> getProjectCommentFeed() {
-        List<ProjectsCommentFeedResponse> list = new Vector<ProjectsCommentFeedResponse>();
+    public List<CommentFeedResponse> getProjectCommentFeed() {
+        List<CommentFeedResponse> list = new Vector<CommentFeedResponse>();
         for (Comment c : context.getCommentsDao().commentsFeed(Project.class, 3)) {
-            list.add(new ProjectsCommentFeedResponse(c));
+            list.add(new CommentFeedResponse(c));
         }
         return list;
     }

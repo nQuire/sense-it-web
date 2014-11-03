@@ -1,0 +1,22 @@
+<div data-ng-controller="ProjectListCommentFeedCtrl">
+    <div class="sidebar-feed" data-ng-if="feed">
+        <div class="sidebar-header">Recent mission comments:</div>
+        <ul>
+            <li data-ng-repeat="item in feed">
+                "<span class="feed-comment">{{item.comment}}</span>" in
+                <a data-ui-sref="project.view.home({projectId: item.threadId})">{{item.threadTitle}}</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div data-ng-controller="ForumCommentFeedCtrl">
+    <div class="sidebar-feed" data-ng-if="feed">
+        <div class="sidebar-header">Recent forum posts:</div>
+        <ul>
+            <li data-ng-repeat="item in feed">
+                "<span class="feed-comment">{{item.comment}}</span>" in
+                <a data-ui-sref="forum.thread({threadId: item.threadId})">{{item.threadTitle}}</a>
+            </li>
+        </ul>
+    </div>
+</div>
