@@ -10470,6 +10470,10 @@ div#header {
           color: #444444;
           display: inline-block; }
 
+.profile-logged-icon-on {
+  color: #76c200;
+  font-size: .8em; }
+
 .profile-image {
   width: 80px;
   height: 80px;
@@ -10751,6 +10755,37 @@ div#header {
       .about-container .about-content .about-logos img {
         margin: 0 10px; }
 
+.users-container {
+  margin: 0; }
+  .users-container .users-header {
+    height: 26px;
+    line-height: 26px;
+    color: white;
+    background: #444444;
+    padding-left: 10px; }
+    .users-container .users-header .arrow {
+      color: #aaaaaa; }
+    .users-container .users-header a {
+      color: #73A9D7; }
+    .users-container .users-header .menu-item {
+      line-height: 26px;
+      font-weight: 400;
+      font-size: 14px;
+      color: white;
+      margin-right: 20px;
+      padding-bottom: 1px;
+      border-bottom-width: 3px;
+      border-bottom-style: solid;
+      border-bottom-color: rgba(255, 255, 255, 0); }
+      .users-container .users-header .menu-item.active {
+        font-weight: 700;
+        font-size: 14px;
+        color: white;
+        border-bottom-color: white; }
+  .users-container .users-content {
+    padding: 20px;
+    background: #f6f5f5; }
+
 .social-posting .social-posting-links .social-posting-link {
   padding: 0px 0px 20px 0px; }
   .social-posting .social-posting-links .social-posting-link img {
@@ -10970,6 +11005,10 @@ div#header {
   color: #c4388a; }
 .project-main-container.project-type-challenge .project-section-description-join-leave button.project-join-button {
   background: #c4388a; }
+
+.profile-logged-icon-on {
+  color: #76c200;
+  font-size: .8em; }
 
 .profile-image {
   width: 80px;

@@ -1,1 +1,1 @@
-<a data-ui-sref="profile-view({uid: user.id})">{{user.username}}</a>
+<i data-ng-if="user.loggedIn" class="profile-logged-icon-on fa fa-circle"></i> <a data-ui-sref="profile-view({uid: user.id})">{{user.username}}</a>
