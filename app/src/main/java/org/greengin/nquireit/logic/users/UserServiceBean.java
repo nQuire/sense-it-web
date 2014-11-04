@@ -309,6 +309,7 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
 
     public boolean mergeAccount(UserProfile user, UserProfile mergedUser, String provider) {
         if (context.getUserProfileDao().deleteConnection(mergedUser, provider)) {
+            context.getLogManager().usersMerged(user, mergedUser);
             context.getVotableDao().transferContent(mergedUser, user);
             context.getVoteDao().transferVotes(mergedUser, user);
             context.getRoleManager().transferRoles(mergedUser, user);

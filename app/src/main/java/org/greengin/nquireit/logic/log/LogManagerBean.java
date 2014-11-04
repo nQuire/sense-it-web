@@ -89,4 +89,7 @@ public class LogManagerBean {
         logsDao.log(admin, type, path, entity, entity.getAuthor(), null);
     }
 
+    public void usersMerged(UserProfile user, UserProfile mergedUser) {
+        logsDao.log(user, "users-merged", null, null, mergedUser, mergedUser.getUsername());
+    }
 }

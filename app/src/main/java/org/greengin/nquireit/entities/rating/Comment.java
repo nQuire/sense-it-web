@@ -14,6 +14,7 @@ import org.greengin.nquireit.logic.admin.ReportedContent;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import java.util.Date;
 
@@ -26,7 +27,7 @@ public class Comment extends VotableEntity {
     @Setter
     Date date;
 
-	@Basic
+	@Lob
     @Getter
     @Setter
 	String comment;
