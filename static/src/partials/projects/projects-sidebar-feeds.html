@@ -1,6 +1,6 @@
 <div data-ng-controller="ProjectListCommentFeedCtrl">
     <div class="sidebar-feed" data-ng-if="feed">
-        <div class="sidebar-header">Recent mission comments:</div>
+        <div class="sidebar-header"><a data-ui-sref="home">Recent mission comments:</a></div>
         <ul>
             <li data-ng-repeat="item in feed">
                 "<span class="feed-comment">{{item.comment}}</span>" in
@@ -11,7 +11,7 @@
 </div>
 <div data-ng-controller="ForumCommentFeedCtrl">
     <div class="sidebar-feed" data-ng-if="feed">
-        <div class="sidebar-header">Recent forum posts:</div>
+        <div class="sidebar-header"><a data-ui-sref="forum.list">Recent forum posts:</a></div>
         <ul>
             <li data-ng-repeat="item in feed">
                 "<span class="feed-comment">{{item.comment}}</span>" in
@@ -20,3 +20,21 @@
         </ul>
     </div>
 </div>
+<div data-ng-controller="ProfileLoggedInFeedCtrl">
+    <div class="sidebar-feed" data-ng-if="feed">
+        <div class="sidebar-header"><a data-ui-sref="users">Users logged in:</a></div>
+        <ul>
+            <li data-ng-repeat="user in feed.users">
+                <span siw-user-link="user"></span>
+            </li>
+        </ul>
+        <p data-ng-if="feed.count > 0">
+            <a data-ui-sref="users">{{feed.count}}
+            <span ng-pluralize count="feed.count"
+                  when="{'1': 'user',
+                     'other': 'users'}"></span>
+                online</a>
+        </p>
+    </div>
+</div>
+

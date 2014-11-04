@@ -2,27 +2,21 @@ package org.greengin.nquireit.controllers.users;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import com.mangofactory.jsonview.ResponseView;
 import org.apache.commons.lang3.text.WordUtils;
 import org.greengin.nquireit.entities.users.UserProfile;
-import org.greengin.nquireit.json.JacksonObjectMapper;
 import org.greengin.nquireit.json.Views;
 import org.greengin.nquireit.logic.ContextBean;
 import org.greengin.nquireit.logic.files.FileMapUpload;
 import org.greengin.nquireit.logic.files.RequestsUtils;
-import org.greengin.nquireit.logic.users.LoginRequest;
-import org.greengin.nquireit.logic.users.PasswordRequest;
-import org.greengin.nquireit.logic.users.ProfileRequest;
-import org.greengin.nquireit.logic.users.RegisterRequest;
-import org.greengin.nquireit.logic.users.StatusResponse;
-import org.greengin.nquireit.logic.users.UserProfileActions;
+import org.greengin.nquireit.logic.users.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -60,9 +54,6 @@ public class ProfileController {
 
     @Autowired
     ContextBean context;
-
-    @Autowired
-    JacksonObjectMapper objectMapper;
 
 
     private HashMap<String, Connection<?>> getConnections() {
@@ -104,7 +95,7 @@ public class ProfileController {
 
     @RequestMapping(value = "/api/security/profile", method = RequestMethod.PUT)
     @ResponseBody
-    @JsonView(value = Views.UserProfileData.class)
+    @ResponseView(value = Views.UserProfileData.class)
     public StatusResponse update(@RequestBody ProfileRequest data, HttpServletRequest request) {
         StatusResponse response = context.getUsersManager().status(getConnections(), request.getSession());
         boolean completed = new UserProfileActions(context, request).updateProfile(response, data);
@@ -130,7 +121,7 @@ public class ProfileController {
 
     @RequestMapping(value = "/api/security/status", method = RequestMethod.GET)
     @ResponseBody
-    @JsonView(value = Views.UserProfileData.class)
+    @ResponseView(value = Views.UserProfileData.class)
     public StatusResponse checkLogin(HttpServletRequest request) {
         return context.getUsersManager().status(getConnections(), request.getSession());
     }
@@ -138,7 +129,7 @@ public class ProfileController {
 
     @RequestMapping(value = "/api/security/login", method = RequestMethod.POST)
     @ResponseBody
-    @JsonView(value = Views.UserProfileData.class)
+    @ResponseView(value = Views.UserProfileData.class)
     public Boolean performLogin(@RequestBody LoginRequest data, HttpServletRequest request, HttpServletResponse response) {
         resetLoginSessionAttr(request);
         return context.getUsersManager().login(data.getUsername(), data.getPassword(), request, response);
@@ -146,7 +137,7 @@ public class ProfileController {
 
     @RequestMapping(value = "/api/security/logout", method = RequestMethod.POST)
     @ResponseBody
-    @JsonView(value = Views.UserProfileData.class)
+    @ResponseView(value = Views.UserProfileData.class)
     public StatusResponse performLogout(HttpServletRequest request, HttpServletResponse response) {
         resetLoginSessionAttr(request);
         return context.getUsersManager().logout(getConnections(), request, response);
@@ -155,15 +146,15 @@ public class ProfileController {
 
     @RequestMapping(value = "/api/security/register", method = RequestMethod.POST)
     @ResponseBody
-    @JsonView(value = Views.UserProfileData.class)
-    public StatusResponse performRegister(@RequestBody RegisterRequest data, HttpServletRequest request) {
+    @ResponseView(value = Views.UserProfileData.class)
+    public StatusResponse performRegister(@RequestBody RegisterRequest data, HttpServletRequest request, HttpServletResponse response) {
         resetLoginSessionAttr(request);
-        return context.getUsersManager().registerUser(data, getConnections(), request);
+        return context.getUsersManager().registerUser(data, getConnections(), request, response);
     }
 
     @RequestMapping(value = "/api/security/connection/{providerId}", method = RequestMethod.DELETE)
     @ResponseBody
-    @JsonView(value = Views.UserProfileData.class)
+    @ResponseView(value = Views.UserProfileData.class)
     public StatusResponse deleteConnection(@PathVariable("providerId") String providerId, HttpServletRequest request) {
         StatusResponse response = context.getUsersManager().status(getConnections(), request.getSession());
         boolean completed = new UserProfileActions(context, request).deleteConnection(response, providerId);
@@ -173,11 +164,25 @@ public class ProfileController {
 
     @RequestMapping(value = "/api/security/password", method = RequestMethod.PUT)
     @ResponseBody
-    @JsonView(value = Views.UserProfileData.class)
+    @ResponseView(value = Views.UserProfileData.class)
     public StatusResponse setPassword(@RequestBody PasswordRequest data, HttpServletRequest request) {
         StatusResponse response = context.getUsersManager().status(getConnections(), request.getSession());
         boolean completed = new UserProfileActions(context, request).setPassword(response, data);
         return completed ? response : null;
+    }
+
+    @RequestMapping(value = "/api/profiles/feed", method = RequestMethod.GET)
+    @ResponseBody
+    @ResponseView(value = Views.UserName.class)
+    public LoggedInProfilesResponse getLoggedInUsersFeed(HttpServletRequest request) {
+        return context.getUsersManager().getLoggedUsers(3);
+    }
+
+    @RequestMapping(value = "/api/profiles/loggedin", method = RequestMethod.GET)
+    @ResponseBody
+    @ResponseView(value = Views.UserName.class)
+    public List<UserProfile> getLoggedInUsers() {
+        return context.getUsersManager().getLoggedUsers();
     }
 
     @RequestMapping(value = "/social/new")

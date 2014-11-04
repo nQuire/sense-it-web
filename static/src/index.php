@@ -110,6 +110,8 @@ ini_set('error_reporting', E_ALL);
 
     <script src="js/app/controllers/profile/profile-controller.js"></script>
     <script src="js/app/controllers/profile/profile-view-controller.js"></script>
+    <script src="js/app/controllers/profile/profile-loggedin.js"></script>
+    <script src="js/app/controllers/profile/profile-loggedin-feed.js"></script>
 
     <script src="js/app/controllers/project-list/project-list-controller.js"></script>
     <script src="js/app/controllers/project-list/project-filter-sidebar-controller.js"></script>

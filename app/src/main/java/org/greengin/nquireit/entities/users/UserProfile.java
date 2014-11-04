@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import org.greengin.nquireit.entities.AbstractEntity;
+import org.greengin.nquireit.logic.ContextBean;
 import org.greengin.nquireit.utils.TimeValue;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -102,6 +103,10 @@ public class UserProfile extends AbstractEntity implements UserDetails {
 
     public boolean isPasswordSet() {
         return password != null && password.length() > 0;
+    }
+
+    public boolean isLoggedIn() {
+        return ContextBean.getContext().getUsersManager().isLoggedIn(this);
     }
 
     @Override

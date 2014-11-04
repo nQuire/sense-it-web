@@ -23,7 +23,9 @@
     </bean>
 
     <sec:http auto-config="true">
-        <sec:anonymous/>
+        <sec:session-management>
+            <sec:concurrency-control session-registry-alias="sessionRegistry"/>
+        </sec:session-management>
     </sec:http>
 
 

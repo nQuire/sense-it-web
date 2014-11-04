@@ -40,7 +40,7 @@
             <div data-ng-if="status.ready">
                 <div data-ng-if="status.logged">
                     <div id="header-profile-username-block">
-                        <div>Hi, <a href data-ui-sref="profile" siw-user-link="status.profile"></a>,</div>
+                        <div>Hi, <a href data-ui-sref="profile">{{status.profile.username}}</a>,</div>
                         <div>you are signed in.</div>
                         <div><a href data-ng-click="openIdService.logout()">Sign out</a></div>
                     </div>

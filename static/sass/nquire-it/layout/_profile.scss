@@ -2,6 +2,12 @@
 @import "../variables/colors";
 @import "../text/text-styles";
 
+
+.profile-logged-icon-on {
+  color: #76c200;
+  font-size: .8em;
+}
+
 .profile-image {
   width: $dim-profile-image-size;
   height: $dim-profile-image-size;

@@ -1,7 +1,7 @@
 package org.greengin.nquireit.controllers.users;
 
 
-import com.fasterxml.jackson.annotation.JsonView;
+import com.mangofactory.jsonview.ResponseView;
 import org.greengin.nquireit.json.Views;
 import org.greengin.nquireit.logic.ContextBean;
 import org.greengin.nquireit.logic.users.social.FacebookPostRequest;
@@ -9,7 +9,11 @@ import org.greengin.nquireit.logic.users.social.TweeterPostRequest;
 import org.greengin.nquireit.logic.users.social.SocialPostResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.social.*;
+import org.springframework.social.ApiException;
+import org.springframework.social.DuplicateStatusException;
+import org.springframework.social.InsufficientPermissionException;
+import org.springframework.social.MissingAuthorizationException;
+import org.springframework.social.RateLimitExceededException;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.FacebookLink;
@@ -22,7 +26,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 
 
 @Controller
@@ -43,8 +46,8 @@ public class SocialController {
 
     @RequestMapping(value = "/api/social/twitter/post", method = RequestMethod.POST)
     @ResponseBody
-    @JsonView(value = Views.UserProfileData.class)
-    public SocialPostResponse twitterPost(@RequestBody TweeterPostRequest data, HttpServletRequest request) {
+    @ResponseView(value = Views.UserProfileData.class)
+    public SocialPostResponse twitterPost(@RequestBody TweeterPostRequest data) {
         SocialPostResponse response = new SocialPostResponse();
         if (twitter.test()) {
             try {
@@ -61,8 +64,8 @@ public class SocialController {
 
     @RequestMapping(value = "/api/social/facebook/post", method = RequestMethod.POST)
     @ResponseBody
-    @JsonView(value = Views.UserProfileData.class)
-    public SocialPostResponse facebookPost(@RequestBody FacebookPostRequest data, HttpServletRequest request) {
+    @ResponseView(value = Views.UserProfileData.class)
+    public SocialPostResponse facebookPost(@RequestBody FacebookPostRequest data) {
 
         SocialPostResponse response = new SocialPostResponse();
         if (facebook.test()) {

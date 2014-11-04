@@ -5,10 +5,12 @@ import org.greengin.nquireit.logic.ContextBean;
 import org.greengin.nquireit.logic.files.FileMapUpload;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.RememberMeServices;
@@ -24,6 +26,7 @@ import javax.servlet.http.HttpSession;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
@@ -42,6 +45,10 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
 
     @Autowired
     ContextBean context;
+
+    @Autowired
+    @Qualifier("sessionRegistry")
+    SessionRegistry sessionRegistry;
 
     SecureRandom random;
 
@@ -120,39 +127,54 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
         return attr != null && attr.toString().equals(request.getHeader("nquire-it-token"));
     }
 
-    public Authentication login(UserProfile user, HttpSession session, String token) {
-        Authentication auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(auth);
-        session.setAttribute("nquire-it-token", token);
-        return auth;
-    }
+    private boolean initSession(UserProfile user, String password, boolean requirePassword, HttpServletRequest request, HttpServletResponse response) {
 
-    public Authentication login(UserProfile user, HttpSession session) {
-        return login(user, session, new BigInteger(260, random).toString(32));
-    }
-
-    public Authentication login(UserProfile user, HttpServletRequest request, HttpServletResponse response) {
-        Authentication auth = login(user, request.getSession());
-        securityContextRepository.saveContext(SecurityContextHolder.getContext(), request, response);
-        rememberMeServices.loginSuccess(request, response, auth);
-        return auth;
-    }
-
-    public Boolean login(String username, String password, HttpServletRequest request, HttpServletResponse response) {
         Authentication auth;
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
+
         try {
-            auth = authenticationManager.authenticate(token);
+            if (requirePassword) {
+                UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getUsername(), password);
+                auth = authenticationManager.authenticate(token);
+            } else {
+                auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+            }
+
             SecurityContextHolder.getContext().setAuthentication(auth);
             securityContextRepository.saveContext(SecurityContextHolder.getContext(), request, response);
             rememberMeServices.loginSuccess(request, response, auth);
+            sessionRegistry.registerNewSession(request.getRequestedSessionId(), user);
             request.getSession().setAttribute("nquire-it-token", new BigInteger(260, random).toString(32));
         } catch (Exception ex) {
             auth = null;
         }
 
+        return auth != null && auth.getPrincipal() != null && auth.getPrincipal() instanceof UserProfile;
+    }
+
+
+    public Boolean login(UserProfile user, HttpServletRequest request, HttpServletResponse response) {
+        return initSession(user, null, false, request, response);
+    }
+
+    public Boolean testLogin(UserProfile user, HttpSession session, String sessionToken) {
+
+        Authentication auth;
+
+        try {
+            auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(auth);
+            sessionRegistry.registerNewSession(session.getId(), user);
+            session.setAttribute("nquire-it-token", sessionToken);
+        } catch (Exception ex) {
+            auth = null;
+        }
 
         return auth != null && auth.getPrincipal() != null && auth.getPrincipal() instanceof UserProfile;
+    }
+
+    public Boolean login(String username, String password, HttpServletRequest request, HttpServletResponse response) {
+        UserProfile user = context.getUserProfileDao().loadUserByUsername(username);
+        return user != null && initSession(user, password, true, request, response);
     }
 
     public StatusResponse logout(HashMap<String, Connection<?>> connections, HttpServletRequest request, HttpServletResponse response) {
@@ -160,7 +182,7 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
         SecurityContextLogoutHandler securityContextLogoutHandler = new SecurityContextLogoutHandler();
         cookieClearingLogoutHandler.logout(request, response, null);
         securityContextLogoutHandler.logout(request, response, null);
-
+        sessionRegistry.removeSessionInformation(request.getRequestedSessionId());
         return status(connections, request.getSession());
     }
 
@@ -239,7 +261,7 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
     }
 
 
-    public StatusResponse registerUser(RegisterRequest data, HashMap<String, Connection<?>> connections, HttpServletRequest request) {
+    public StatusResponse registerUser(RegisterRequest data, HashMap<String, Connection<?>> connections, HttpServletRequest request, HttpServletResponse response) {
         try {
             loadUserByUsername(data.getUsername());
             StatusResponse result = new StatusResponse();
@@ -258,8 +280,7 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
                 return result;
             } catch (UsernameNotFoundException e2) {
                 UserProfile user = context.getUserProfileDao().createUser(data.getUsername(), data.getPassword(), data.getEmail(), false);
-                login(user, request.getSession());
-
+                login(user, request, response);
                 return status(connections, request.getSession());
             }
         }
@@ -296,5 +317,36 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
         } else {
             return false;
         }
+    }
+
+    public boolean isLoggedIn(UserProfile user) {
+        return sessionRegistry.getAllPrincipals().contains(user);
+    }
+
+    public LoggedInProfilesResponse getLoggedUsers(int max) {
+        LoggedInProfilesResponse response = new LoggedInProfilesResponse();
+        List<Object> principals = sessionRegistry.getAllPrincipals();
+        for (Object p : principals) {
+            if (p instanceof UserProfile && !response.getUsers().contains(p)) {
+                response.getUsers().add((UserProfile) p);
+                if (response.getUsers().size() == max) {
+                    break;
+                }
+            }
+        }
+
+        response.setCount(principals.size());
+        return response;
+    }
+
+    public List<UserProfile> getLoggedUsers() {
+        Vector<UserProfile> list = new Vector<UserProfile>();
+        for (Object p : sessionRegistry.getAllPrincipals()) {
+            if (p instanceof UserProfile && !list.contains(p)) {
+                list.add((UserProfile) p);
+            }
+        }
+
+        return list;
     }
 }
