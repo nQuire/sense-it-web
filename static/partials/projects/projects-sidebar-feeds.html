@@ -23,11 +23,10 @@
 <div data-ng-controller="ProfileLoggedInFeedCtrl">
     <div class="sidebar-feed" data-ng-if="feed">
         <div class="sidebar-header"><a data-ui-sref="users">Users logged in:</a></div>
-        <ul>
-            <li data-ng-repeat="user in feed.users">
-                <span siw-user-link="user"></span>
-            </li>
-        </ul>
+        <p data-ng-repeat="user in feed.users">
+            <span siw-user-link="user"></span>
+        </p>
+
         <p data-ng-if="feed.count > 0">
             <a data-ui-sref="users">{{feed.count}}
             <span ng-pluralize count="feed.count"
