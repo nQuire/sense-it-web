@@ -85,6 +85,7 @@ ini_set('error_reporting', E_ALL);
     <script src="js/app/directives/user-link.js"></script>
     <script src="js/app/directives/user-block.js"></script>
     <script src="js/app/directives/menu-item.js"></script>
+    <script src="js/app/directives/sidebar-toggle.js"></script>
 
     <script src="js/app/filters/uploaded-image-filter.js"></script>
     <script src="js/app/filters/fuzzy-date.js"></script>
@@ -200,7 +201,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
         <div class="main-content-section">
             <div class="main-content">
-                <div data-ui-view></div>
+                <div class="main-content-inner" data-ui-view></div>
             </div>
         </div>
     </div>

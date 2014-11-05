@@ -291,7 +291,9 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
         UserProfile profile = context.getUserProfileDao().loadUserById(userId);
 
         if (profile != null) {
+            response.setId(profile.getId());
             response.setUsername(profile.getUsername());
+            response.setImage(profile.getImage());
 
             if (profile.getVisibility() != null) {
                 if (profile.getVisibility().get("metadata") && profile.getMetadata() != null) {

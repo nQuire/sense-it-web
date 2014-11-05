@@ -24,7 +24,7 @@ public class PublicProfileController {
     @RequestMapping(value = "/api/profiles/{userId}", method = RequestMethod.GET)
     @ResponseBody
     @ResponseView(value = Views.UserProfileData.class)
-    public PublicProfileResponse getPublicProfile(@PathVariable Long userId, HttpServletRequest request) {
+    public PublicProfileResponse getPublicProfile(@PathVariable Long userId) {
         return context.getUsersManager().getPublicProfile(userId);
     }
 

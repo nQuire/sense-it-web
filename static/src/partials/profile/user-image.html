@@ -1,2 +1,4 @@
 <span data-ng-if="showUsername" siw-user-link="user"></span>
-<div class="profile-image" data-back-img="{{user.image}}"></div>
+<a data-ui-sref="profile-view({uid: user.id})">
+    <div class="profile-image" data-back-img="{{user.image}}"></div>
+</a>

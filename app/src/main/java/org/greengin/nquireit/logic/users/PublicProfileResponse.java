@@ -20,6 +20,10 @@ public class PublicProfileResponse {
 
     @Getter
     @Setter
+    String image;
+
+    @Getter
+    @Setter
     HashMap<String, String> metadata = new HashMap<String, String>();
 
     @Getter

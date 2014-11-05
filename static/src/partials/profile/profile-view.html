@@ -6,7 +6,7 @@
         <div class="profile-logged-in-left-section">
 
             <div>
-                <span data-siw-user-image data-user="status.profile"></span>
+                <span data-siw-user-image data-user="profile"></span>
             </div>
 
             <div data-ng-controller="ProjectListMineCtrl" class="profile-project-list">
@@ -71,5 +71,6 @@
 
 </div>
 
-<div class="sidebar-right" data-ng-include="'partials/projects/projects-sidebar.html'"></div>
-
+<div class="sidebar-right" data-siw-sidebar-toggle>
+    <div class="sidebar-content" data-ng-include="'partials/projects/projects-sidebar.html'"></div>
+</div>
