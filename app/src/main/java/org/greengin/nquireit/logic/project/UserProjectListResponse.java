@@ -18,7 +18,7 @@ public class UserProjectListResponse {
         this(true, true);
     }
 
-    public UserProjectListResponse(boolean admin, boolean member) {
+    public UserProjectListResponse(boolean member, boolean admin) {
         this.admin = admin ? new Vector<MyProjectResponse>() : null;
         this.member = member ? new Vector<MyProjectResponse>() : null;
     }

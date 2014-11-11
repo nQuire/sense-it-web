@@ -62,9 +62,22 @@ public class UserProfile extends AbstractEntity implements UserDetails {
     HashMap<String, String> metadata = new HashMap<String, String>();
 
     @Lob
-    @Getter
     @Setter
     HashMap<String, Boolean> visibility = new HashMap<String, Boolean>();
+
+    public HashMap<String, Boolean> getVisibility() {
+        if (visibility == null) {
+            visibility = new HashMap<String, Boolean>();
+        }
+
+        for (String key : new String[] {"metadata", "projectsJoined", "projectsCreated"}) {
+            if (!visibility.containsKey(key)) {
+                visibility.put(key, true);
+            }
+        }
+
+        return visibility;
+    }
 
     @Override
     public List<? extends GrantedAuthority> getAuthorities() {
