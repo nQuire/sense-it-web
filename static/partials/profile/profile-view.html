@@ -9,8 +9,8 @@
                 <span data-siw-user-image data-user="profile"></span>
             </div>
 
-            <div data-ng-controller="ProjectListMineCtrl" class="profile-project-list">
-                <div data-ng-if="profile.projects.admin">
+            <div class="profile-project-list">
+                <div data-ng-if="!!profile.projects.admin">
                     <div class="profile-project-list-header">Projects created by {{profile.username}}:</div>
                     <ul>
                         <li data-ng-repeat="project in profile.projects.admin">
@@ -21,7 +21,7 @@
                     </ul>
                 </div>
 
-                <div data-ng-if="profile.projects.member">
+                <div data-ng-if="!!profile.projects.member">
                     <div class="profile-project-list-header">Projects joined by {{profile.username}}</div>
                     <ul>
                         <li data-ng-repeat="project in profile.projects.member">
@@ -52,18 +52,21 @@
                 <div class="profile-logged-in-right-section-header">
                     Profile information
                 </div>
-
-                <div data-ng-if="profile.metadata.name" class="profile-logged-in-right-section-data">
+                <div data-ng-if="!!profile.metadata.name" class="profile-logged-in-right-section-data">
                     <span class="profile-logged-in-right-section-data-label">Name:</span>
                     <span class="profile-logged-in-right-section-data-value">{{profile.metadata.name}}</span>
                 </div>
-                <div data-ng-if="profile.metadata.dob" class="profile-logged-in-right-section-data">
-                    <span class="profile-logged-in-right-section-data-label">Date of birth:</span>
-                    <span class="profile-logged-in-right-section-data-value">{{profile.metadata.dob}}</span>
-                </div>
-                <div data-ng-if="profile.metadata.location" class="profile-logged-in-right-section-data">
+                <div data-ng-if="!!profile.metadata.location" class="profile-logged-in-right-section-data">
                     <span class="profile-logged-in-right-section-data-label">Location:</span>
                     <span class="profile-logged-in-right-section-data-value">{{profile.metadata.location}}</span>
+                </div>
+                <div data-ng-if="!!profile.metadata.description" class="profile-logged-in-right-section-data">
+                    <span class="profile-logged-in-right-section-data-label">Description:</span>
+                    <span class="profile-logged-in-right-section-data-value">{{profile.metadata.description}}</span>
+                </div>
+                <div data-ng-if="!!profile.metadata.interests" class="profile-logged-in-right-section-data">
+                    <span class="profile-logged-in-right-section-data-label">Interests:</span>
+                    <span class="profile-logged-in-right-section-data-value">{{profile.metadata.interests}}</span>
                 </div>
             </div>
         </div>
