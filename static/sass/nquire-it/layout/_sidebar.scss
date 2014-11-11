@@ -8,6 +8,7 @@
   right: 0;
   transition: width 250ms;
   width: 0;
+  font-size: 12px;
 
   .sidebar-content {
     width: 100%;
@@ -83,10 +84,10 @@
   .sidebar-menu {
 
     li {
-      padding: 2px 4px;
+      padding: 0 4px;
 
       a {
-        padding: 2px 4px;
+        padding: 0 4px;
         border: 1px solid transparent;
 
         &.selected {
@@ -101,6 +102,7 @@
   ul {
     list-style-image: url(images/bullet.png);
     > li {
+      padding: 0 4px;
 
       @include text-sidebar-normal;
       margin-left: -1.5em;
@@ -122,12 +124,10 @@
 
   .sidebar-feed {
     li {
-      margin-bottom: $dim-common-small-margin;
       .feed-comment {
         font-weight: bold;
         color: grey;
       }
     }
   }
-
 }

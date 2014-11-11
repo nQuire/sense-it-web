@@ -10376,7 +10376,8 @@ html {
   top: 20px;
   right: 0;
   transition: width 250ms;
-  width: 0; }
+  width: 0;
+  font-size: 12px; }
   .sidebar-right .sidebar-content {
     width: 100%;
     background: white;
@@ -10421,17 +10422,15 @@ html {
         display: none; } }
   .sidebar-right .sidebar-teaser {
     font-weight: 400;
-    font-size: 12px;
     color: #aaaaaa;
     margin: 10px 0; }
   .sidebar-right .sidebar-header {
     font-weight: 700;
-    font-size: 16px;
     color: #444444; }
   .sidebar-right .sidebar-menu li {
-    padding: 2px 4px; }
+    padding: 0 4px; }
     .sidebar-right .sidebar-menu li a {
-      padding: 2px 4px;
+      padding: 0 4px;
       border: 1px solid transparent; }
       .sidebar-right .sidebar-menu li a.selected {
         border: 1px solid #aaaaaa;
@@ -10440,27 +10439,22 @@ html {
   .sidebar-right ul {
     list-style-image: url(images/bullet.png); }
     .sidebar-right ul > li {
+      padding: 0 4px;
       font-weight: 500;
-      font-size: 14px;
       color: #444444;
       margin-left: -1.5em; }
       .sidebar-right ul > li .sidebar-type-senseit {
         font-weight: 700;
-        font-size: 16px;
         color: #079ccb; }
       .sidebar-right ul > li .sidebar-type-spotit {
         font-weight: 700;
-        font-size: 16px;
         color: #9fa609; }
       .sidebar-right ul > li .sidebar-type-winit {
         font-weight: 700;
-        font-size: 16px;
         color: #c4388a; }
-  .sidebar-right .sidebar-feed li {
-    margin-bottom: 10px; }
-    .sidebar-right .sidebar-feed li .feed-comment {
-      font-weight: bold;
-      color: grey; }
+  .sidebar-right .sidebar-feed li .feed-comment {
+    font-weight: bold;
+    color: grey; }
 
 div#header {
   padding: 10px 20px 20px 10px;
@@ -10849,7 +10843,8 @@ div#header {
   top: 20px;
   right: 0;
   transition: width 250ms;
-  width: 0; }
+  width: 0;
+  font-size: 12px; }
   .sidebar-right .sidebar-content {
     width: 100%;
     background: white;
@@ -10894,17 +10889,15 @@ div#header {
         display: none; } }
   .sidebar-right .sidebar-teaser {
     font-weight: 400;
-    font-size: 12px;
     color: #aaaaaa;
     margin: 10px 0; }
   .sidebar-right .sidebar-header {
     font-weight: 700;
-    font-size: 16px;
     color: #444444; }
   .sidebar-right .sidebar-menu li {
-    padding: 2px 4px; }
+    padding: 0 4px; }
     .sidebar-right .sidebar-menu li a {
-      padding: 2px 4px;
+      padding: 0 4px;
       border: 1px solid transparent; }
       .sidebar-right .sidebar-menu li a.selected {
         border: 1px solid #aaaaaa;
@@ -10913,27 +10906,22 @@ div#header {
   .sidebar-right ul {
     list-style-image: url(images/bullet.png); }
     .sidebar-right ul > li {
+      padding: 0 4px;
       font-weight: 500;
-      font-size: 14px;
       color: #444444;
       margin-left: -1.5em; }
       .sidebar-right ul > li .sidebar-type-senseit {
         font-weight: 700;
-        font-size: 16px;
         color: #079ccb; }
       .sidebar-right ul > li .sidebar-type-spotit {
         font-weight: 700;
-        font-size: 16px;
         color: #9fa609; }
       .sidebar-right ul > li .sidebar-type-winit {
         font-weight: 700;
-        font-size: 16px;
         color: #c4388a; }
-  .sidebar-right .sidebar-feed li {
-    margin-bottom: 10px; }
-    .sidebar-right .sidebar-feed li .feed-comment {
-      font-weight: bold;
-      color: grey; }
+  .sidebar-right .sidebar-feed li .feed-comment {
+    font-weight: bold;
+    color: grey; }
 
 .project-view-challenge-sumbission {
   background: white;

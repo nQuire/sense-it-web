@@ -26,27 +26,20 @@
 
 @mixin text-sidebar-teaser {
   @include text-regular;
-  font-size: 12px;
   color: $color-light-grey;
 }
 
 @mixin text-sidebar-category {
   @include text-bold;
-
-  font-size: 16px;
   color: $color-dark-grey;
 }
 
 @mixin text-sidebar-mission-type {
   @include text-black;
-
-  font-size: 16px;
 }
 
 @mixin text-sidebar-normal {
   @include text-semibold;
-
-  font-size: 14px;
   color: $color-dark-grey;
 }
 
