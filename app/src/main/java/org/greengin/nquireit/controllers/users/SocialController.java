@@ -52,7 +52,9 @@ public class SocialController {
         if (twitter.test()) {
             try {
                 Tweet tweet = twitter.getApi().timelineOperations().updateStatus(data.getTweet());
-                response.setUrl(String.format("http://twitter.com/%s/status/%d", tweet.getUser().getScreenName(), tweet.getId()));
+                String url = String.format("http://twitter.com/%s/status/%d", tweet.getUser().getScreenName(), tweet.getId());
+                response.setUrl(url);
+                logPost(data.getPath(), "twitter", url);
             } catch (DuplicateStatusException e) {
                 response.setError("duplicate");
             }
@@ -73,7 +75,9 @@ public class SocialController {
                 FacebookLink link = new FacebookLink(data.getLink(),
                         data.getLinkName(), data.getCaption(), data.getDescription());
                 facebook.getApi().feedOperations().postLink(data.getCaption(), link);
-                response.setUrl(facebook.getProfileUrl());
+                String url = facebook.getProfileUrl();
+                response.setUrl(url);
+                logPost(data.getPath(), "facebook", url);
             } catch (InsufficientPermissionException e) {
                 response.setError("permission");
             } catch (MissingAuthorizationException e) {
@@ -89,6 +93,10 @@ public class SocialController {
             response.setError("connection");
         }
         return response;
+    }
+
+    private void logPost(String path, String type, String url) {
+        context.getLogManager().socialPost(context.getUsersManager().currentUser(), path, type, url);
     }
 
 }

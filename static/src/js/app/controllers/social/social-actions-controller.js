@@ -1,4 +1,4 @@
-angular.module('senseItWeb', null, null).controller('SocialActionsCtrl', function ($scope, $state, ModalService, OpenIdService, RestService) {
+angular.module('senseItWeb', null, null).controller('SocialActionsCtrl', function ($scope, $state, $location, ModalService, OpenIdService, RestService) {
 
   $scope.providers = {
     //'google': 'Google',
@@ -46,7 +46,8 @@ angular.module('senseItWeb', null, null).controller('SocialActionsCtrl', functio
         ok: function () {
           if ($scope.result.state == 'idle') {
             $scope.result.state = 'posting';
-            RestService.post('api/social/' + provider + '/post', posting.content).then(function (response) {
+            var content = $.extend({path: $location.path()}, posting.content);
+            RestService.post('api/social/' + provider + '/post', content).then(function (response) {
               if (response && response.url) {
                 $scope.result.state = 'completed';
                 $scope.result.url = response.url;

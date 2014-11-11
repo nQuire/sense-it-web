@@ -92,4 +92,8 @@ public class LogManagerBean {
     public void usersMerged(UserProfile user, UserProfile mergedUser) {
         logsDao.log(user, "users-merged", null, null, mergedUser, mergedUser.getUsername());
     }
+
+    public void socialPost(UserProfile user, String path, String network, String url) {
+        logsDao.log(user, String.format("social-post-%s", network), path, null, null, url);
+    }
 }
