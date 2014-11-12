@@ -10437,12 +10437,12 @@ html {
         border-radius: 10px;
         background: #f6f5f5; }
   .sidebar-right ul {
-    list-style-image: url(images/bullet.png); }
+    list-style: none; }
     .sidebar-right ul > li {
       padding: 0 4px;
       font-weight: 500;
       color: #444444;
-      margin-left: -1.5em; }
+      margin-left: -2.5em; }
       .sidebar-right ul > li .sidebar-type-senseit {
         font-weight: 700;
         color: #079ccb; }
@@ -10452,9 +10452,11 @@ html {
       .sidebar-right ul > li .sidebar-type-winit {
         font-weight: 700;
         color: #c4388a; }
-  .sidebar-right .sidebar-feed li .feed-comment {
-    font-weight: bold;
-    color: grey; }
+  .sidebar-right .sidebar-feed li {
+    margin-bottom: .25em; }
+    .sidebar-right .sidebar-feed li .feed-comment {
+      font-weight: bold;
+      color: grey; }
 
 div#header {
   padding: 10px 20px 20px 10px;
@@ -10904,12 +10906,12 @@ div#header {
         border-radius: 10px;
         background: #f6f5f5; }
   .sidebar-right ul {
-    list-style-image: url(images/bullet.png); }
+    list-style: none; }
     .sidebar-right ul > li {
       padding: 0 4px;
       font-weight: 500;
       color: #444444;
-      margin-left: -1.5em; }
+      margin-left: -2.5em; }
       .sidebar-right ul > li .sidebar-type-senseit {
         font-weight: 700;
         color: #079ccb; }
@@ -10919,9 +10921,11 @@ div#header {
       .sidebar-right ul > li .sidebar-type-winit {
         font-weight: 700;
         color: #c4388a; }
-  .sidebar-right .sidebar-feed li .feed-comment {
-    font-weight: bold;
-    color: grey; }
+  .sidebar-right .sidebar-feed li {
+    margin-bottom: .25em; }
+    .sidebar-right .sidebar-feed li .feed-comment {
+      font-weight: bold;
+      color: grey; }
 
 .project-view-challenge-sumbission {
   background: white;

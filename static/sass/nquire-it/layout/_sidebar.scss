@@ -100,12 +100,12 @@
   }
 
   ul {
-    list-style-image: url(images/bullet.png);
+    list-style: none;
     > li {
       padding: 0 4px;
 
       @include text-sidebar-normal;
-      margin-left: -1.5em;
+      margin-left: -2.5em;
 
       .sidebar-type-senseit {
         @include text-sidebar-mission-type;
@@ -124,6 +124,8 @@
 
   .sidebar-feed {
     li {
+      margin-bottom: .25em;
+
       .feed-comment {
         font-weight: bold;
         color: grey;
