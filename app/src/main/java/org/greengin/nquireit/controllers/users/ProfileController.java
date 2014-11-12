@@ -140,7 +140,12 @@ public class ProfileController {
     @ResponseView(value = Views.UserProfileData.class)
     public StatusResponse performLogout(HttpServletRequest request, HttpServletResponse response) {
         resetLoginSessionAttr(request);
-        return context.getUsersManager().logout(getConnections(), request, response);
+        UserProfile user = context.getUsersManager().currentUser();
+        if (user != null) {
+            return context.getUsersManager().logout(user, getConnections(), request, response);
+        } else {
+            return context.getUsersManager().status(getConnections(), request.getSession());
+        }
     }
 
 
@@ -174,7 +179,7 @@ public class ProfileController {
     @RequestMapping(value = "/api/profiles/feed", method = RequestMethod.GET)
     @ResponseBody
     @ResponseView(value = Views.UserName.class)
-    public LoggedInProfilesResponse getLoggedInUsersFeed(HttpServletRequest request) {
+    public LoggedInProfilesResponse getLoggedInUsersFeed() {
         return context.getUsersManager().getLoggedUsers(3);
     }
 

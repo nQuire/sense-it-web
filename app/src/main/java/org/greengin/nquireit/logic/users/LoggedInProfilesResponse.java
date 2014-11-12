@@ -6,12 +6,13 @@ import lombok.Setter;
 import org.greengin.nquireit.entities.users.UserProfile;
 
 import java.util.List;
-import java.util.Vector;
+
 
 public class LoggedInProfilesResponse {
 
+    @Setter
     @Getter
-    List<UserProfile> users = new Vector<UserProfile>();
+    List<UserProfile> users;
 
     @Getter
     @Setter

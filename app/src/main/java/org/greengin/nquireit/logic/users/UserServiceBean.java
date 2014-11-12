@@ -33,6 +33,7 @@ import java.util.Vector;
 
 public class UserServiceBean implements UserDetailsService, InitializingBean {
 
+    private static int SESSION_TIMEOUT = 5 * 60 * 1000;
 
     @Autowired
     AuthenticationManager authenticationManager;
@@ -45,10 +46,6 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
 
     @Autowired
     ContextBean context;
-
-    @Autowired
-    @Qualifier("sessionRegistry")
-    SessionRegistry sessionRegistry;
 
     SecureRandom random;
 
@@ -139,10 +136,10 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
                 auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
             }
 
+            context.getLogManager().loggedIn(user);
             SecurityContextHolder.getContext().setAuthentication(auth);
             securityContextRepository.saveContext(SecurityContextHolder.getContext(), request, response);
             rememberMeServices.loginSuccess(request, response, auth);
-            sessionRegistry.registerNewSession(request.getRequestedSessionId(), user);
             request.getSession().setAttribute("nquire-it-token", new BigInteger(260, random).toString(32));
         } catch (Exception ex) {
             auth = null;
@@ -163,7 +160,6 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
         try {
             auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(auth);
-            sessionRegistry.registerNewSession(session.getId(), user);
             session.setAttribute("nquire-it-token", sessionToken);
         } catch (Exception ex) {
             auth = null;
@@ -177,12 +173,12 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
         return user != null && initSession(user, password, true, request, response);
     }
 
-    public StatusResponse logout(HashMap<String, Connection<?>> connections, HttpServletRequest request, HttpServletResponse response) {
+    public StatusResponse logout(UserProfile user, HashMap<String, Connection<?>> connections, HttpServletRequest request, HttpServletResponse response) {
+        context.getLogManager().loggedOut(user);
         CookieClearingLogoutHandler cookieClearingLogoutHandler = new CookieClearingLogoutHandler(AbstractRememberMeServices.SPRING_SECURITY_REMEMBER_ME_COOKIE_KEY);
         SecurityContextLogoutHandler securityContextLogoutHandler = new SecurityContextLogoutHandler();
         cookieClearingLogoutHandler.logout(request, response, null);
         securityContextLogoutHandler.logout(request, response, null);
-        sessionRegistry.removeSessionInformation(request.getRequestedSessionId());
         return status(connections, request.getSession());
     }
 
@@ -323,33 +319,18 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
     }
 
     public boolean isLoggedIn(UserProfile user) {
-        return sessionRegistry.getAllPrincipals().contains(user);
+        return context.getLogManager().userRecentAction(user, SESSION_TIMEOUT);
     }
 
     public LoggedInProfilesResponse getLoggedUsers(int max) {
         LoggedInProfilesResponse response = new LoggedInProfilesResponse();
-        List<Object> principals = sessionRegistry.getAllPrincipals();
-        for (Object p : principals) {
-            if (p instanceof UserProfile && !response.getUsers().contains(p)) {
-                response.getUsers().add((UserProfile) p);
-                if (response.getUsers().size() == max) {
-                    break;
-                }
-            }
-        }
-
-        response.setCount(principals.size());
+        List<UserProfile> users = context.getLogManager().getRecentUsers(SESSION_TIMEOUT);
+        response.setUsers(users.subList(0, Math.min(max, users.size())));
+        response.setCount(users.size());
         return response;
     }
 
     public List<UserProfile> getLoggedUsers() {
-        Vector<UserProfile> list = new Vector<UserProfile>();
-        for (Object p : sessionRegistry.getAllPrincipals()) {
-            if (p instanceof UserProfile && !list.contains(p)) {
-                list.add((UserProfile) p);
-            }
-        }
-
-        return list;
+        return context.getLogManager().getRecentUsers(SESSION_TIMEOUT);
     }
 }

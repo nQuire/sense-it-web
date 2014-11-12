@@ -11,6 +11,8 @@ import org.greengin.nquireit.logic.ContextBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class LogManagerBean {
 
@@ -96,4 +98,21 @@ public class LogManagerBean {
     public void socialPost(UserProfile user, String path, String network, String url) {
         logsDao.log(user, String.format("social-post-%s", network), path, null, null, url);
     }
+
+    public void loggedIn(UserProfile user) {
+        logsDao.log(user, "logged-in", null, null, null, null);
+    }
+
+    public void loggedOut(UserProfile user) {
+        logsDao.log(user, "logged-out", null, null, null, null);
+    }
+
+    public boolean userRecentAction(UserProfile user, int sessionTimeout) {
+        return logsDao.userRecentAction(user, sessionTimeout);
+    }
+
+    public List<UserProfile> getRecentUsers(long sessionTimeout) {
+        return logsDao.getRecentUsers(sessionTimeout);
+    }
+
 }
