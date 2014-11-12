@@ -18,6 +18,9 @@ angular.module('senseItWeb', null, null).controller('ForumThreadCtrl', function 
     votingEnabled: function () {
       return $scope.status.logged;
     },
+    reportingEnabled: function() {
+      return $scope.status.logged;
+    },
     getPath: function (target) {
       return 'api/forum/' + $scope.forum.thread.id + '/comments/' + target.id + '/vote';
     }

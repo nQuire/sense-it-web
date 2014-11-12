@@ -2,6 +2,9 @@ angular.module('senseItWeb', null, null).controller('ProjectViewChallengeAnswers
 
     $scope.voteManager = {
         votingEnabled: $scope.answerData.votingEnabled,
+        reportingEnabled: function() {
+            return $scope.status.logged;
+        },
         getPath: function(target) {
             return 'api/project/' + $scope.projectData.project.id + '/challenge/answers/' + target.id + '/vote';
         }

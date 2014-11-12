@@ -99,7 +99,10 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
     }
 
     public VoteCount vote(Long answerId, VoteRequest voteData) {
-        if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION) && activity.getStage() == ChallengeActivityStage.VOTING) {
+        if ((hasAccess(PermissionType.PROJECT_MEMBER_ACTION) && activity.getStage() == ChallengeActivityStage.VOTING) ||
+                (voteData.isReport() &&
+                        (hasAccess(PermissionType.PROJECT_ADMIN) ||
+                                (loggedWithToken && activity.getStage() != ChallengeActivityStage.PROPOSAL)))) {
             ChallengeAnswer answer = context.getChallengeDao().getAnswer(activity, answerId);
             if (answer != null) {
                 return context.getVoteDao().vote(user, answer, voteData);

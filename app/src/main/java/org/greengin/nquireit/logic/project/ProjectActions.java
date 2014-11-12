@@ -325,7 +325,7 @@ public class ProjectActions extends AbstractContentManager {
     }
 
     public VoteCount voteComment(Long commentId, VoteRequest voteData) {
-        if (hasAccess(PermissionType.PROJECT_COMMENT)) {
+        if (hasAccess(PermissionType.PROJECT_COMMENT) || (loggedWithToken && voteData.isReport())) {
             Comment comment = context.getCommentsDao().getComment(project, commentId);
             if (comment != null) {
                 return context.getVoteDao().vote(user, comment, voteData);

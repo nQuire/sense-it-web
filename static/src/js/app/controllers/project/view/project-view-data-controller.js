@@ -31,6 +31,9 @@ angular.module('senseItWeb', null, null).controller('ProjectViewDataCtrl', funct
         votingEnabled: function () {
             return $scope.status.logged && $scope.projectData.access.member && $scope.projectData.project.open;
         },
+        reportingEnabled: function() {
+            return $scope.status.logged;
+        },
         getPath: function (target) {
             return 'api/project/' + $scope.projectData.project.id + '/' + $scope.projectData.project.type + '/data/vote/' + target.id;
         }

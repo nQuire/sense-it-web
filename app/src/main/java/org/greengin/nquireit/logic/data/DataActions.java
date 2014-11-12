@@ -152,7 +152,7 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
     }
 
     public VoteCount voteItem(Long itemId, VoteRequest voteData) {
-        if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION)) {
+        if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION) || (loggedWithToken && voteData.isReport())) {
             AbstractDataProjectItem item = context.getDataActivityDao().getItem(AbstractDataProjectItem.class, itemId);
             if (item != null && item.getDataStore() == activity) {
                 return context.getVoteDao().vote(user, item, voteData);
@@ -196,7 +196,7 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
     }
 
     public VoteCount voteDataComment(Long itemId, Long commentId, VoteRequest voteData) {
-        if (hasAccess(PermissionType.PROJECT_COMMENT)) {
+        if (hasAccess(PermissionType.PROJECT_COMMENT) || (loggedWithToken && voteData.isReport())) {
             E item = context.getDataActivityDao().getItem(dataType, itemId);
             if (item != null) {
                 Comment comment = context.getCommentsDao().getComment(item, commentId);
