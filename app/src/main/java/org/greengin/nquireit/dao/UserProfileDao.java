@@ -191,6 +191,9 @@ public class UserProfileDao {
 
     @Transactional
     public void deleteUser(UserProfile user) {
+        for (String providerId : new String[]{"google", "twitter", "facebook"}) {
+            deleteConnection(user, providerId);
+        }
         em.persist(user);
         em.remove(user);
     }

@@ -65,6 +65,7 @@ public class ProfileController {
                     connections.put(data.getProviderId(), c);
                 }
             } catch (Exception ignored) {
+
             }
         }
 
