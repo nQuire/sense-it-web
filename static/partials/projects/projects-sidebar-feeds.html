@@ -3,7 +3,7 @@
         <div class="sidebar-header"><a data-ui-sref="home">Recent mission comments:</a></div>
         <ul>
             <li data-ng-repeat="item in feed">
-                "<span class="feed-comment">{{item.comment}}</span>" in
+                "<span class="feed-comment">{{item.comment | plainText}}</span>" in
                 <a data-ui-sref="project.view.home({projectId: item.threadId})">{{item.threadTitle}}</a>
             </li>
         </ul>
@@ -14,7 +14,7 @@
         <div class="sidebar-header"><a data-ui-sref="forum.list">Recent forum posts:</a></div>
         <ul>
             <li data-ng-repeat="item in feed">
-                "<span class="feed-comment">{{item.comment}}</span>" in
+                "<span class="feed-comment">{{item.comment | plainText}}</span>" in
                 <a data-ui-sref="forum.thread({threadId: item.threadId})">{{item.threadTitle}}</a>
             </li>
         </ul>
