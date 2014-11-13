@@ -94,9 +94,10 @@
         <aop:scoped-proxy proxy-target-class="true"/>
     </bean>
 
-    <bean class="org.greengin.nquireit.controllers.users.CustomProviderSignInController">
+    <bean class="org.greengin.nquireit.controllers.users.CustomProviderSignInController2">
         <property name="applicationUrlBase" value="${server.appUrl}"/>
         <property name="signUpUrl" value="${server.appUrl}/social/new"/>
+        <property name="signInUrl" value="${server.appUrl}/social/signin"/>
         <property name="postSignInUrl" value="${server.appUrl}/social/welcome"/>
     </bean>
 
