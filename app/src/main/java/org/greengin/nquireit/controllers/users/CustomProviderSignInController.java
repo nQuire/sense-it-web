@@ -13,8 +13,8 @@ import javax.inject.Inject;
 /**
  * Created by evilfer on 4/10/14.
  */
-public class CustomProviderSignInController extends ProviderSignInController implements InitializingBean {
-
+public class CustomProviderSignInController /*extends ProviderSignInController implements InitializingBean */ {
+/*
     @Getter
     @Setter
     private String applicationUrlBase;
@@ -29,6 +29,6 @@ public class CustomProviderSignInController extends ProviderSignInController imp
         super.afterPropertiesSet();
         super.setApplicationUrl(applicationUrlBase);
     }
-
+*/
 
 }

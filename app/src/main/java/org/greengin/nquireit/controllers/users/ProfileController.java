@@ -264,6 +264,16 @@ public class ProfileController {
         }
     }
 
+    @RequestMapping(value = "/social/signin", method = RequestMethod.GET)
+    public String signin(@RequestParam(value = "error", required = false) String error,
+                         @RequestParam(value = "m", required = false) String message,
+                         @RequestParam(value = "p", required = false) String provider,
+                         Model model, HttpServletRequest request) {
+        model.addAttribute("error", message != null ? message : error);
+        model.addAttribute("provider_name", providerName(provider));
+        return "result_signin";
+    }
+
     private void resetLoginSessionAttr(HttpServletRequest request) {
         resetLoginSessionAttr(request.getSession());
     }
@@ -275,7 +285,7 @@ public class ProfileController {
     }
 
     private String providerName(String providerId) {
-        return WordUtils.capitalize(providerId);
+        return providerId != null ? WordUtils.capitalize(providerId) : null;
     }
 
     private String providerLoginRedirect(HttpServletRequest request, Model model) {

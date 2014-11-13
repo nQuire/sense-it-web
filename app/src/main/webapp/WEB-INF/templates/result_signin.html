@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>nQuire-it | OAuth login</title>
+    <link rel="stylesheet" href="/css/nquire-it-bootstrap.css" type='text/css'/>
+</head>
+<body>
+<div id="page-background">
+    <div id="page-background-center"></div>
+</div>
+<div id="main">
+    <div id="header">
+        <div id="header-content">
+            <div id="logo-container">
+                <a href="/#/home" target="_blank">
+                    <img src="/css/images/nquire-it-logo.jpg"/>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content-section">
+        <div class="main-content">
+            <div class="login-container">
+                <div class="login-header">OAuth sign in</div>
+                <div class="login-content">
+                    <p th:if="${provider_name}">
+                        It was not possible to sign in with
+                        <span th:text="${provider_name}"></span>
+                        at this time.
+                    </p>
+
+                    <p><span th:text="${error}"></span></p>
+
+                    <p>Please try again later.</p>
+
+                    <p><a href="/#/profile">Go back to to your profile</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>
