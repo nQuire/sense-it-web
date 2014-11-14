@@ -141,8 +141,6 @@ public class ProjectActions extends AbstractContentManager {
     }
 
 
-
-
     /**
      * any user actions *
      */
@@ -187,28 +185,35 @@ public class ProjectActions extends AbstractContentManager {
 
     @Override
     public boolean hasAccess(PermissionType permission) {
-        if (super.hasAccess(permission) || permission == PermissionType.PROJECT_BROWSE) {
+        if (super.hasAccess(permission)) {
             return true;
-        } else if (permission == PermissionType.PROJECT_VIEW_IMAGE) {
-            return project.getOpen() || accessLevel.isAdmin();
-        } else if (loggedWithToken) {
-            switch (permission) {
-                case PROJECT_JOIN:
-                    return project.getOpen();
-                case PROJECT_MEMBER_ACTION:
-                    return accessLevel.isMember() && project.getOpen();
-                case PROJECT_ADMIN:
-                    return accessLevel.isAdmin();
-                case PROJECT_EDITION:
-                    return accessLevel.isAdmin() && !project.getOpen();
-                case PROJECT_COMMENT:
-                    return hasAccess(PermissionType.PROJECT_ADMIN) || hasAccess(PermissionType.PROJECT_MEMBER_ACTION);
-                default:
-                    return false;
-            }
-        } else {
-            return false;
         }
+
+        if (project != null) {
+            if (permission == PermissionType.PROJECT_BROWSE) {
+                return true;
+            } else if (permission == PermissionType.PROJECT_VIEW_IMAGE) {
+                return project.getOpen() || accessLevel.isAdmin();
+            } else if (loggedWithToken) {
+                switch (permission) {
+                    case PROJECT_JOIN:
+                        return project.getOpen();
+                    case PROJECT_MEMBER_ACTION:
+                        return accessLevel.isMember() && project.getOpen();
+                    case PROJECT_ADMIN:
+                        return accessLevel.isAdmin();
+                    case PROJECT_EDITION:
+                        return accessLevel.isAdmin() && !project.getOpen();
+                    case PROJECT_COMMENT:
+                        return hasAccess(PermissionType.PROJECT_ADMIN) || hasAccess(PermissionType.PROJECT_MEMBER_ACTION);
+                    default:
+                        return false;
+                }
+            }
+        }
+
+        return false;
+
     }
 
     /**

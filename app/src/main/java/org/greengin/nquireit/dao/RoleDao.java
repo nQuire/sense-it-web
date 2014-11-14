@@ -1,19 +1,21 @@
-package org.greengin.nquireit.logic.users;
+package org.greengin.nquireit.dao;
 
 import org.greengin.nquireit.entities.AbstractEntity;
 import org.greengin.nquireit.entities.users.Role;
 import org.greengin.nquireit.entities.users.RoleType;
 import org.greengin.nquireit.entities.users.UserProfile;
+import org.greengin.nquireit.logic.users.UserServiceBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Vector;
 
-public class RoleManagerBean {
+public class RoleDao {
 
     private static final String ROLE_QUERY = "SELECT r FROM Role r WHERE r.context.id = :contextId AND r.user = :user";
 
@@ -26,6 +28,8 @@ public class RoleManagerBean {
     private static final String USER_QUERY_COUNT = "SELECT COUNT(u) FROM Role r INNER JOIN r.user u WHERE r.context = :context AND r.type = :type";
 
     private static final String SEARCH_ROLE_QUERY = "SELECT r FROM Role r WHERE r.context = :context AND r.user = :user AND r.type = :type";
+
+    private static final String DELETE_CONTEXT_ROLES_QUERY = "DELETE FROM Role r WHERE r.context = :context";
 
 
     @Autowired
@@ -100,6 +104,13 @@ public class RoleManagerBean {
         for (Role r : query.getResultList()) {
             em.remove(r);
         }
+    }
+
+    @Transactional
+    public void removeContextRoles(AbstractEntity context) {
+        Query query = em.createQuery(DELETE_CONTEXT_ROLES_QUERY);
+        query.setParameter("context", context);
+        query.executeUpdate();
     }
 
     @Transactional

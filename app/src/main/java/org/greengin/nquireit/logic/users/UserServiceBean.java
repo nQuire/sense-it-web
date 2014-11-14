@@ -5,12 +5,10 @@ import org.greengin.nquireit.logic.ContextBean;
 import org.greengin.nquireit.logic.files.FileMapUpload;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.RememberMeServices;
@@ -291,15 +289,13 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
             response.setUsername(profile.getUsername());
             response.setImage(profile.getImage());
 
-            if (profile.getVisibility() != null) {
-                if (profile.getVisibility().get("metadata") && profile.getMetadata() != null) {
-                    response.getMetadata().putAll(profile.getMetadata());
-                }
-
-                boolean joined = profile.getVisibility().get("projectsJoined");
-                boolean created = profile.getVisibility().get("projectsCreated");
-                response.setProjects(context.getProjectDao().getMyProjects(profile, joined, created));
+            if (profile.getVisibility().get("metadata") && profile.getMetadata() != null) {
+                response.getMetadata().putAll(profile.getMetadata());
             }
+
+            boolean joined = profile.getVisibility().get("projectsJoined");
+            boolean created = profile.getVisibility().get("projectsCreated");
+            response.setProjects(context.getProjectDao().getMyProjects(profile, joined, created));
         }
 
         return response;
@@ -310,7 +306,7 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
             context.getLogManager().usersMerged(user, mergedUser);
             context.getVotableDao().transferContent(mergedUser, user);
             context.getVoteDao().transferVotes(mergedUser, user);
-            context.getRoleManager().transferRoles(mergedUser, user);
+            context.getRoleDao().transferRoles(mergedUser, user);
             context.getUserProfileDao().deleteUser(mergedUser);
             return true;
         } else {

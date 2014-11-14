@@ -172,6 +172,7 @@ public class ProjectDao {
 
     @Transactional
     public Boolean deleteProject(Project project) {
+        context.getRoleDao().removeContextRoles(project);
         em.persist(project);
         em.remove(project);
         return true;

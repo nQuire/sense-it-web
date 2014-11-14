@@ -1,5 +1,6 @@
 package org.greengin.nquireit.logic.users;
 
+import org.greengin.nquireit.dao.RoleDao;
 import org.greengin.nquireit.entities.projects.Project;
 import org.greengin.nquireit.entities.users.RoleType;
 import org.greengin.nquireit.entities.users.UserProfile;
@@ -11,7 +12,7 @@ import java.util.List;
 public class SubscriptionManagerBean {
 
     @Autowired
-    RoleManagerBean roleManager;
+    RoleDao roleManager;
 
     @Autowired
     UserServiceBean usersManager;
