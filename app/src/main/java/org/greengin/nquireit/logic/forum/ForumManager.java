@@ -87,6 +87,18 @@ public class ForumManager extends AbstractContentManager {
         return null;
     }
 
+    public ForumThread deleteComment(Long threadId, Long commentId) {
+        if (loggedWithToken) {
+            ForumThread thread = context.getForumDao().findThread(threadId);
+            if (thread != null) {
+                context.getForumDao().deleteComment(user, thread, commentId);
+            }
+            return thread;
+        }
+        return null;
+    }
+
+
     public VoteCount voteComment(Long threadId, Long commentId, VoteRequest voteData) {
         if (loggedWithToken) {
             ForumThread thread = context.getForumDao().findThread(threadId);
@@ -108,4 +120,5 @@ public class ForumManager extends AbstractContentManager {
         }
         return list;
     }
+
 }

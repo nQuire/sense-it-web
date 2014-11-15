@@ -118,6 +118,15 @@ public class ForumDao {
     }
 
     @Transactional
+    public void deleteComment(UserProfile user, ForumThread thread, Long commentId) {
+        em.persist(thread);
+        em.persist(thread.getForum());
+        if (context.getCommentsDao().deleteComment(user, thread, commentId)) {
+            thread.updateLastPost();
+        }
+    }
+
+    @Transactional
     public void deleteForumThread(ForumThread thread) {
         em.persist(thread);
         ForumNode node = thread.getForum();

@@ -11507,11 +11507,15 @@ tr.senseit-series-even td {
         display: inline-block;
         min-width: 84px;
         margin-right: 10px; }
+        .forum-container .forum-thread-content .forum-thread-comment .forum-thread-comment-header .username a {
+          color: #ffffff; }
       .forum-container .forum-thread-content .forum-thread-comment .forum-thread-comment-header .date {
         display: inline-block; }
-      .forum-container .forum-thread-content .forum-thread-comment .forum-thread-comment-header .rate {
+      .forum-container .forum-thread-content .forum-thread-comment .forum-thread-comment-header .controls {
         float: right;
-        color: none; }
+        white-space: nowrap; }
+        .forum-container .forum-thread-content .forum-thread-comment .forum-thread-comment-header .controls button {
+          margin-top: -3px; }
     .forum-container .forum-thread-content .forum-thread-comment .forum-thread-author-image {
       position: absolute;
       float: left;

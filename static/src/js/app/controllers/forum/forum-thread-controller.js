@@ -1,4 +1,4 @@
-angular.module('senseItWeb', null, null).controller('ForumThreadCtrl', function ($scope, $state) {
+angular.module('senseItWeb', null, null).controller('ForumThreadCtrl', function ($scope, $state, ModalService) {
 
   $scope.forum.getThread($state.params.threadId);
 
@@ -14,11 +14,26 @@ angular.module('senseItWeb', null, null).controller('ForumThreadCtrl', function 
     return $scope.form.values.comment.replace(/<[^>]+>/gm, '').trim().length == 0;
   };
 
+  $scope.canDelete = function (comment) {
+    return comment && $scope.status && $scope.status.logged && ($scope.status.profile.id == comment.author.id);
+  };
+
+  $scope.deleteComment = function (comment) {
+    ModalService.open({
+      body: 'Are you sure you want to delete this post?',
+      title: 'Delete forum post',
+      ok: function () {
+        $scope.forum.deleteComment($scope.forum.thread.id, comment);
+        return true;
+      }
+    });
+  };
+
   $scope.dataVoteManager = {
     votingEnabled: function () {
       return $scope.status.logged;
     },
-    reportingEnabled: function() {
+    reportingEnabled: function () {
       return $scope.status.logged;
     },
     getPath: function (target) {

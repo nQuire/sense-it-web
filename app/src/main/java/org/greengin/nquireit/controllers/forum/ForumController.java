@@ -86,10 +86,18 @@ public class ForumController {
         return createForumManager(request).comment(threadId, data);
     }
 
+    @RequestMapping(value = "/{threadId}/comments/{commentId}", method = RequestMethod.DELETE)
+    @ResponseBody
+    @ResponseView(value = Views.ForumThread.class)
+    public ForumThread commentsDelete(@PathVariable("threadId") Long threadId, @PathVariable("commentId") Long commentId, HttpServletRequest request) {
+        return createForumManager(request).deleteComment(threadId, commentId);
+    }
+
+
     @RequestMapping(value = "/{threadId}/comments/{commentId}/vote", method = RequestMethod.POST)
     @ResponseBody
     @ResponseView(value = Views.VotableCount.class)
-    public VoteCount acommentsVote(@PathVariable("threadId") Long threadId, @PathVariable("commentId") Long commentId, @RequestBody VoteRequest voteData, HttpServletRequest request) {
+    public VoteCount commentsVote(@PathVariable("threadId") Long threadId, @PathVariable("commentId") Long commentId, @RequestBody VoteRequest voteData, HttpServletRequest request) {
         return createForumManager(request).voteComment(threadId, commentId, voteData);
     }
 
@@ -98,5 +106,7 @@ public class ForumController {
     public List<CommentFeedResponse> commentFeed(HttpServletRequest request) {
         return createForumManager(request).getForumCommentFeed();
     }
+
+
 
 }

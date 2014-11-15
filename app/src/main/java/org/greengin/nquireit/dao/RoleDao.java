@@ -128,6 +128,5 @@ public class RoleDao {
                 addRoleInTransaction(em, context, toUser, type);
             }
         }
-
     }
 }

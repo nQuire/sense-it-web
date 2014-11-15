@@ -48,15 +48,21 @@
           display: inline-block;
           min-width: $dim-profile-image-outer-diameter;
           margin-right: $dim-common-small-margin;
+          a {
+            color: #ffffff;
+          }
         }
 
         .date {
           display: inline-block;
         }
 
-        .rate {
+        .controls {
           float: right;
-          color: none;
+          white-space: nowrap;
+          button {
+            margin-top: -3px;
+          }
         }
       }
 
