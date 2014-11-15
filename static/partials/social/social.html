@@ -1,8 +1,16 @@
+<div class="sidebar-header">
+    <p>Share this</p>
+</div>
 <div class="social-posting container-fluid" data-ng-controller="SocialActionsCtrl">
     <div class="social-posting-links row">
         <div class="social-posting-link col-xs-4" data-ng-repeat="(provider, name) in providers">
             <a href data-ng-click="actions.post(provider)">
                 <img alt="{{name}}" src="" data-ng-src="media/{{provider}}.png"/>
+            </a>
+        </div>
+        <div class="social-posting-link col-xs-4">
+            <a data-ng-href="{{emailLink()}}" target="_blank">
+                <img alt="e-mail" src="media/email.png"/>
             </a>
         </div>
     </div>

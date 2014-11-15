@@ -46,7 +46,7 @@
                 </div>
             </div>
         </div>
-        <div class="comment-content">{{comment.comment}}</div>
+        <div class="comment-content" data-ng-bind-html="comment.comment | htmlLinky:'_blank'"></div>
         <div data-ng-if="canDelete(comment.id)" class="comment-controls">
             <!--<a href data-ng-click="posting.open()">Reply</a>-->
             <a href data-ng-click="posting.deleteComment(comment.id)"
