@@ -91,6 +91,7 @@ ini_set('error_reporting', E_ALL);
     <script src="js/app/filters/fuzzy-date.js"></script>
     <script src="js/app/filters/youtube-video.js"></script>
     <script src="js/app/filters/plain-text.js"></script>
+    <script src="js/app/filters/html-linky.js"></script>
 
     <script src="js/app/controllers/common/modal-controller.js"></script>
 

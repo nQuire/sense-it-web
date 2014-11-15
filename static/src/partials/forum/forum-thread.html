@@ -19,12 +19,9 @@
             </div>
         </div>
 
-        <div class="forum-thread-author-image" data-siw-user-image data-user="comment.author">
+        <div class="forum-thread-author-image" data-siw-user-image data-user="comment.author"></div>
 
-
-        </div>
-
-        <div class="forum-thread-text" data-ng-bind-html="comment.comment"></div>
+        <div class="forum-thread-text" data-ng-bind-html="comment.comment | htmlLinky:'_blank'"></div>
     </div>
 
     <div data-ng-if="!status.logged">
