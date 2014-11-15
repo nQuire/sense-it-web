@@ -6,6 +6,10 @@ angular.module('senseItWeb', null, null).controller('SocialActionsCtrl', functio
     'facebook': 'Facebook'
   };
 
+  $scope.emailLink = function () {
+    return 'mailto:?' + jQuery.param($scope.socialPosting.content('email'));
+  };
+
 
   $scope.actions = {
     post: function (provider) {

@@ -25,7 +25,7 @@ angular.module('senseItWeb', null, null).controller('ProjectCtrl', function ($sc
 
   $scope.commentVoteManager = {
     votingEnabled: $scope.commentThread.postingEnabled,
-    reportingEnabled: function() {
+    reportingEnabled: function () {
       return $scope.status.logged;
     },
     getPath: function (target) {
@@ -47,6 +47,13 @@ angular.module('senseItWeb', null, null).controller('ProjectCtrl', function ($sc
             linkName: 'nQuire-it: ' + $scope.projectData.project.title,
             caption: 'See the latest activity on this nQuire-it mission: ' + $scope.projectData.project.title,
             description: 'nQuire-it link to mission ' + $scope.projectData.project.title
+          };
+        case 'email':
+          return {
+            subject: 'nQuire: ' + $scope.projectData.project.title,
+            body: 'See our work in the nQuire-it project "' +
+            $scope.projectData.project.title + '" (' +
+            $location.absUrl() + ').'
           };
         default:
           return null;
