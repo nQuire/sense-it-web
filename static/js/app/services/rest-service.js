@@ -72,7 +72,7 @@ angular.module('senseItServices', null, null).factory('RestService', ['$http', f
 
         promise = $http[method](path + '/files', fd, {
           transformRequest: angular.identity,
-          headers: {'Content-Type': "application/x-www-form-urlencoded; charset=utf-8"}
+          headers: {'Content-Type': undefined}
         });
 
       } else {
