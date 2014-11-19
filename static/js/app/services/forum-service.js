@@ -72,7 +72,26 @@ angular.module('senseItServices', null, null).factory('ForumService', ['RestServ
 
   ForumManager.prototype.postComment = function (threadId, comment) {
     var self = this;
-    return RestService.post('api/forum/' + threadId + '/comments', {
+    return RestService.post('api/forum/thread/' + threadId + '/comments', {
+      comment: comment
+    }).then(function (data) {
+      self.thread = data;
+    });
+  };
+
+  ForumManager.prototype.updateThread = function (threadId, title, text) {
+    var self = this;
+    return RestService.put('api/forum/thread/' + threadId, {
+      title: title,
+      text: text
+    }).then(function (data) {
+      self.thread = data;
+    });
+  };
+
+  ForumManager.prototype.updateThreadComment = function (threadId, commentId, comment) {
+    var self = this;
+    return RestService.put('api/forum/thread/' + threadId + '/comments/' + commentId, {
       comment: comment
     }).then(function (data) {
       self.thread = data;
@@ -81,7 +100,7 @@ angular.module('senseItServices', null, null).factory('ForumService', ['RestServ
 
   ForumManager.prototype.deleteComment = function (threadId, comment) {
     var self = this;
-    return RestService.delete('api/forum/' + threadId + '/comments/' + comment.id).then(function (data) {
+    return RestService.delete('api/forum/thread/' + threadId + '/comments/' + comment.id).then(function (data) {
       self.thread = data;
     });
   };
