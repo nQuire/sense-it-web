@@ -136,4 +136,14 @@ public class ForumDao {
         }
         em.remove(thread);
     }
+
+    @Transactional
+    public ForumThread updateThread(UserProfile user, Long threadId, ForumRequest forumData) {
+        ForumThread thread = findThread(threadId);
+        if (user != null && thread != null && user.equals(thread.getAuthor())) {
+            forumData.update(thread);
+            context.getCommentsDao().updateComment(user, thread.getFirstComment(), forumData.getText());
+        }
+        return thread;
+    }
 }

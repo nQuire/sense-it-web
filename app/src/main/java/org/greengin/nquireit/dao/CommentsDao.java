@@ -95,9 +95,26 @@ public class CommentsDao {
         }
     }
 
+    @Transactional
+    public void updateComment(UserProfile user, Comment comment, String text) {
+        if (user != null && comment != null && user.equals(comment.getAuthor())) {
+            em.persist(comment);
+            comment.setComment(text);
+        }
+    }
+
+    @Transactional
+    public void updateComment(UserProfile user, CommentThreadEntity thread, Long commentId, CommentRequest data) {
+        updateComment(user, this.getComment(thread, commentId), data.getComment());
+    }
+
+
+
+
     public <E extends VotableEntity> List<Comment> commentsFeed(Class<E> threadClass, int commentCount) {
         TypedQuery<Comment> query = em.createQuery(String.format(COMMENT_FEED_QUERY, threadClass.getSimpleName()), Comment.class);
         query.setMaxResults(commentCount);
         return query.getResultList();
     }
+
 }

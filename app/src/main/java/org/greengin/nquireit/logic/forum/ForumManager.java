@@ -77,6 +77,15 @@ public class ForumManager extends AbstractContentManager {
         return null;
     }
 
+    public ForumThread updateThread(Long threadId, ForumRequest forumData) {
+        if (loggedWithToken) {
+            return context.getForumDao().updateThread(user, threadId, forumData);
+        } else {
+            return null;
+        }
+    }
+
+
     public ForumThread comment(Long threadId, CommentRequest data) {
         if (loggedWithToken) {
             ForumThread thread = context.getForumDao().findThread(threadId);
@@ -97,6 +106,18 @@ public class ForumManager extends AbstractContentManager {
         }
         return null;
     }
+
+    public ForumThread updateComment(Long threadId, Long commentId, CommentRequest data) {
+        if (loggedWithToken) {
+            ForumThread thread = context.getForumDao().findThread(threadId);
+            if (thread != null) {
+                context.getCommentsDao().updateComment(user, thread, commentId, data);
+            }
+            return thread;
+        }
+        return null;
+    }
+
 
 
     public VoteCount voteComment(Long threadId, Long commentId, VoteRequest voteData) {

@@ -17,8 +17,6 @@ angular.module('senseItWeb', null, null).filter('htmlLinky', function () {
     var www;
     var leadingQuote, closingA, alreadyA;
     var i, end;
-    console.log('raw:');
-    console.log(raw);
 
     while ((match = raw.match(LINKY_URL_REGEXP))) {
       // We can not end in these as they are sometimes found at the end of the sentence
@@ -30,13 +28,6 @@ angular.module('senseItWeb', null, null).filter('htmlLinky', function () {
       end = i + match[0].length;
       alreadyA = (typeof leadingQuote != 'undefined' && leadingQuote.length > 0) ||
       (typeof closingA != 'undefined' && closingA.length > 0);
-
-      console.log('0 [' + mt + ']');
-      console.log('1 [' + leadingQuote + ']');
-      console.log('6 [' + closingA + ']');
-      console.log('i [' + i + ']');
-      console.log('e [' + end + ']');
-
 
       if (alreadyA) {
         addText(raw.substr(0, end));
@@ -56,8 +47,6 @@ angular.module('senseItWeb', null, null).filter('htmlLinky', function () {
     }
 
     addText(raw);
-    console.log(html);
-    console.log(html.join(''));
     return html.join('');
 
     function addText(text) {

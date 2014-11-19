@@ -79,14 +79,28 @@ public class ForumController {
         return createForumManager(request).createThread(forumId, forumData);
     }
 
-    @RequestMapping(value = "/{threadId}/comments", method = RequestMethod.POST)
+    @RequestMapping(value = "/thread/{threadId}", method = RequestMethod.PUT)
+    @ResponseBody
+    @ResponseView(value = Views.ForumThread.class)
+    public ForumThread updateThread(@PathVariable("threadId") Long threadId, @RequestBody ForumRequest forumData, HttpServletRequest request) {
+        return createForumManager(request).updateThread(threadId, forumData);
+    }
+
+    @RequestMapping(value = "/thread/{threadId}/comments", method = RequestMethod.POST)
     @ResponseBody
     @ResponseView(value = Views.ForumThread.class)
     public ForumThread commentsPost(@PathVariable("threadId") Long threadId, @RequestBody CommentRequest data, HttpServletRequest request) {
         return createForumManager(request).comment(threadId, data);
     }
 
-    @RequestMapping(value = "/{threadId}/comments/{commentId}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/thread/{threadId}/comments/{commentId}", method = RequestMethod.PUT)
+    @ResponseBody
+    @ResponseView(value = Views.ForumThread.class)
+    public ForumThread commentsUpdate(@PathVariable("threadId") Long threadId, @PathVariable("commentId") Long commentId, @RequestBody CommentRequest data, HttpServletRequest request) {
+        return createForumManager(request).updateComment(threadId, commentId, data);
+    }
+
+    @RequestMapping(value = "/thread/{threadId}/comments/{commentId}", method = RequestMethod.DELETE)
     @ResponseBody
     @ResponseView(value = Views.ForumThread.class)
     public ForumThread commentsDelete(@PathVariable("threadId") Long threadId, @PathVariable("commentId") Long commentId, HttpServletRequest request) {

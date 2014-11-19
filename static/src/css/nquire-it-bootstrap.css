@@ -11457,7 +11457,7 @@ tr.senseit-series-even td {
   background: #e6e6e6; }
 
 .forum-container {
-  margin: 0 20px; }
+  margin: 0 20px 20px; }
   .forum-container .forum-header {
     height: 26px;
     line-height: 26px;
@@ -11494,11 +11494,10 @@ tr.senseit-series-even td {
       color: #777777; }
   .forum-container .forum-thread-content .forum-thread-comment {
     position: relative;
-    min-height: 124px;
     margin-bottom: 20px;
     background: #e0e0e0; }
     .forum-container .forum-thread-content .forum-thread-comment .forum-thread-comment-header {
-      height: 26px;
+      height: auto;
       line-height: 26px;
       padding: 0 10px;
       background: #777777;
@@ -11516,13 +11515,18 @@ tr.senseit-series-even td {
         white-space: nowrap; }
         .forum-container .forum-thread-content .forum-thread-comment .forum-thread-comment-header .controls button {
           margin-top: -3px; }
+      .forum-container .forum-thread-content .forum-thread-comment .forum-thread-comment-header .title {
+        font-weight: bold;
+        margin-left: 94px;
+        padding-bottom: 3px; }
     .forum-container .forum-thread-content .forum-thread-comment .forum-thread-author-image {
       position: absolute;
       float: left;
       padding: 10px 0 0 10px; }
     .forum-container .forum-thread-content .forum-thread-comment .forum-thread-text {
       margin-left: 104px;
-      padding: 10px 0; }
+      padding: 10px 0;
+      min-height: 124px; }
 
 .login-container {
   margin: 0 20px; }
