@@ -5,8 +5,7 @@
  */
 angular.module('senseItWeb', null, null).filter('htmlLinky', function () {
   var LINKY_URL_REGEXP =
-      /(")?(((ftp|https?):\/\/|(mailto:)|(www\.))[A-Za-z0-9._%+-]*)(<\/a>)?/,
-    MAILTO_REGEXP = /^mailto:/;
+    /(<[^>]*)?((((ftp|https?):\/\/)|(mailto:)|(www\.))[A-Za-z0-9._%+-\/]*)(\s*<\s*\/\s*a\s*>)?/;
 
   return function (text, target) {
     if (!text) return text;
@@ -15,33 +14,31 @@ angular.module('senseItWeb', null, null).filter('htmlLinky', function () {
     var html = [];
     var mt;
     var www;
-    var leadingQuote, closingA, alreadyA;
+    var href;
+    var openingTag, closingA, alreadyA;
     var i, end;
 
     while ((match = raw.match(LINKY_URL_REGEXP))) {
       // We can not end in these as they are sometimes found at the end of the sentence
       mt = match[0];
-      leadingQuote = match[1];
-      www = match[3];
-      closingA = match[7]
+      openingTag = match[1];
+      href = match[2];
+      www = match[7];
+      closingA = match[8];
       i = match.index;
       end = i + match[0].length;
-      alreadyA = (typeof leadingQuote != 'undefined' && leadingQuote.length > 0) ||
-      (typeof closingA != 'undefined' && closingA.length > 0);
+      alreadyA = (typeof openingTag != 'undefined' && openingTag.length > 0) || (typeof closingA != 'undefined' && closingA.length > 0);
 
       if (alreadyA) {
         addText(raw.substr(0, end));
         raw = raw.substr(end);
       } else {
-        // if we did not match ftp/http/mailto then assume mailto
-        if (match[3] != 'undefined') {
-          mt = 'http://' + mt;
-        } else if (match[4] == match[5]) {
-          mt = 'mailto:' + mt;
+        if (typeof www != 'undefined') {
+          mt = 'http://' + href;
         }
 
         addText(raw.substr(0, i));
-        addLink(mt, match[2].replace(MAILTO_REGEXP, ''));
+        addLink(mt, href);
         raw = raw.substring(end);
       }
     }
