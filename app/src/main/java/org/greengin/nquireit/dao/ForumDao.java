@@ -78,6 +78,15 @@ public class ForumDao {
     }
 
     @Transactional
+    public void deleteForum(Long forumId) {
+        ForumNode forum = findForum(forumId);
+        if (forum != null) {
+            em.remove(forum);
+        }
+    }
+
+
+    @Transactional
     public ForumThread createThread(UserProfile user, Long forumId, ForumRequest forumData) {
         ForumNode forum = findForum(forumId);
 
@@ -146,4 +155,5 @@ public class ForumDao {
         }
         return thread;
     }
+
 }

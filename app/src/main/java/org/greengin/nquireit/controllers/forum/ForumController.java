@@ -68,6 +68,13 @@ public class ForumController {
         return createForumManager(request).updateForum(forumId, forumData);
     }
 
+    @RequestMapping(value = "/{forumId}", method = RequestMethod.DELETE)
+    @ResponseBody
+    @ResponseView(value = Views.ForumList.class)
+    public ForumNode deleteForum(@PathVariable("forumId") Long forumId, HttpServletRequest request) {
+        return createForumManager(request).deleteForum(forumId);
+    }
+
     /** participant options **/
 
 

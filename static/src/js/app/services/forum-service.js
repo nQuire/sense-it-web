@@ -61,6 +61,13 @@ angular.module('senseItServices', null, null).factory('ForumService', ['RestServ
     });
   };
 
+  ForumManager.prototype.deleteNode = function (nodeId) {
+    var self = this;
+    RestService.delete('api/forum/' + nodeId).then(function (data) {
+      self.root = data;
+    });
+  };
+
   ForumManager.prototype.postNewThread = function (nodeId, data) {
     return RestService.post('api/forum/' + nodeId + '/threads', {
       title: data.title,

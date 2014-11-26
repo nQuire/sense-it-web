@@ -65,6 +65,16 @@ public class ForumManager extends AbstractContentManager {
         return getRoot();
     }
 
+    public ForumNode deleteForum(Long forumId) {
+        if (loggedWithToken && user.isAdmin()) {
+            context.getForumDao().deleteForum(forumId);
+        }
+
+        return getRoot();
+    }
+
+
+
 
     public Long createThread(Long forumId, ForumRequest forumData) {
         if (loggedWithToken) {
