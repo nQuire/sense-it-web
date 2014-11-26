@@ -32,11 +32,13 @@ public class LogManagerBean {
         logsDao.log(user, type, path, project, project.getAuthor(), String.valueOf(join));
     }
 
+
     public void projectCreationAction(UserProfile user, Project project, boolean create) {
         String type = create ? "project-create" : "project-delete";
         String path = project.getReportedPath(context);
         logsDao.log(user, type, path, project, null, project.getTitle());
     }
+
 
     public void comment(UserProfile user, CommentThreadEntity target, Comment comment, boolean create) {
         if (target != null) {
@@ -71,8 +73,8 @@ public class LogManagerBean {
         logsDao.log(user, type, path, target, target.getAuthor(), String.valueOf(value));
     }
 
-    public void data(UserProfile user, Project project, Long dataId, boolean create) {
-        String type = create ? "data-create" : "data-delete";
+    public void data(UserProfile user, Project project, Long dataId, String action) {
+        String type = String.format("data-%s", action);
         String path = project.getReportedPath(context);
         logsDao.log(user, type, path, project, project.getAuthor(), String.valueOf(dataId));
     }

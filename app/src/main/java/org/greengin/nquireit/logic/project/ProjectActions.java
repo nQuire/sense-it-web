@@ -232,6 +232,7 @@ public class ProjectActions extends AbstractContentManager {
     public AccessLevel join() {
         if (hasAccess(PermissionType.PROJECT_JOIN) && !accessLevel.isMember()) {
             context.getSubscriptionManager().subscribe(user, project, RoleType.MEMBER);
+            context.getProjectDao().updateActivityTimestamp(project);
             context.getLogManager().projectMembershipAction(user, project, true);
             return context.getSubscriptionManager().getAccessLevel(project, user);
         }
@@ -241,6 +242,7 @@ public class ProjectActions extends AbstractContentManager {
     public AccessLevel leave() {
         if (this.hasAccess(PermissionType.PROJECT_MEMBER_ACTION)) {
             context.getSubscriptionManager().unsubscribe(user, project, RoleType.MEMBER);
+            context.getProjectDao().updateActivityTimestamp(project);
             context.getLogManager().projectMembershipAction(user, project, false);
             return context.getSubscriptionManager().getAccessLevel(project, user);
         }
@@ -251,6 +253,7 @@ public class ProjectActions extends AbstractContentManager {
     public ProjectResponse setOpen(Boolean open) {
         if (hasAccess(PermissionType.PROJECT_ADMIN)) {
             context.getProjectDao().setOpen(project, open);
+            context.getProjectDao().updateActivityTimestamp(project);
             return projectResponse(project);
         }
 
@@ -271,7 +274,9 @@ public class ProjectActions extends AbstractContentManager {
      */
     public ProjectResponse updateMetadata(ProjectRequest data, FileMapUpload files) {
         if (hasAccess(PermissionType.PROJECT_EDITION)) {
-            return projectResponse(context.getProjectDao().updateMetadata(project, data, files));
+            context.getProjectDao().updateMetadata(project, data, files);
+            context.getProjectDao().updateActivityTimestamp(project);
+            return projectResponse(project);
         }
 
         return null;
@@ -313,6 +318,7 @@ public class ProjectActions extends AbstractContentManager {
     public List<Comment> comment(CommentRequest request) {
         if (hasAccess(PermissionType.PROJECT_COMMENT)) {
             context.getCommentsDao().comment(user, project, request);
+            context.getProjectDao().updateActivityTimestamp(project);
             return project.getComments();
         }
 
@@ -322,6 +328,7 @@ public class ProjectActions extends AbstractContentManager {
     public List<Comment> deleteComment(Long commentId) {
         if (hasAccess(PermissionType.PROJECT_COMMENT)) {
             if (context.getCommentsDao().deleteComment(user, project, commentId)) {
+                context.getProjectDao().updateActivityTimestamp(project);
                 return project.getComments();
             }
         }

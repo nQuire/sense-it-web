@@ -121,7 +121,8 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
     public NewDataItemResponse<E> createData(DataItemManipulator<T, E> manipulator) {
         NewDataItemResponse<E> response = createItem(dataType, manipulator);
         if (response != null) {
-            context.getLogManager().data(user, project, response.getNewItemId(), true);
+            context.getProjectDao().updateActivityTimestamp(project);
+            context.getLogManager().data(user, project, response.getNewItemId(), "create");
         }
         return response;
     }
@@ -129,13 +130,19 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
     public Long deleteData(Long itemId, DataItemManipulator<T, E> manipulator) {
         Long id = deleteItem(dataType, itemId, manipulator);
         if (id != null) {
-            context.getLogManager().data(user, project, id, false);
+            context.getProjectDao().updateActivityTimestamp(project);
+            context.getLogManager().data(user, project, id, "delete");
         }
         return id;
     }
 
     public E updateData(Long itemId, DataItemManipulator<T, E> manipulator) {
-        return updateItem(dataType, itemId, manipulator);
+        E item = updateItem(dataType, itemId, manipulator);
+        if (item != null) {
+            context.getProjectDao().updateActivityTimestamp(project);
+            context.getLogManager().data(user, project, item.getId(), "update");
+        }
+        return item;
     }
 
 
@@ -177,6 +184,7 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
             E item = context.getDataActivityDao().getItem(dataType, itemId);
             if (item != null) {
                 context.getCommentsDao().comment(user, item, data);
+                context.getProjectDao().updateActivityTimestamp(project);
                 return item.getComments();
             }
         }
@@ -188,6 +196,7 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
         if (hasAccess(PermissionType.PROJECT_COMMENT)) {
             E item = context.getDataActivityDao().getItem(dataType, itemId);
             if (item != null && context.getCommentsDao().deleteComment(user, item, commentId)) {
+                context.getProjectDao().updateActivityTimestamp(project);
                 return item.getComments();
             }
         }

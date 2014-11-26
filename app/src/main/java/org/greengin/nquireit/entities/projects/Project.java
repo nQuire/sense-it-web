@@ -10,6 +10,7 @@ import org.greengin.nquireit.logic.ContextBean;
 import org.greengin.nquireit.logic.admin.ReportedContent;
 
 import javax.persistence.*;
+import java.util.Date;
 
 
 @Entity
@@ -38,6 +39,11 @@ public class Project extends CommentThreadEntity {
     @Getter
     @Setter
     boolean featured = false;
+
+    @Basic
+    @Getter
+    @Setter
+    Date lastActivity = null;
 
 
     @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL)

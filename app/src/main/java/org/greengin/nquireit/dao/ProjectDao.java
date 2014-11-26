@@ -23,6 +23,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
@@ -31,15 +32,15 @@ public class ProjectDao {
 
     static final String JOINED_PROJECTS_QUERY = "SELECT DISTINCT e FROM Role r INNER JOIN r.context e WHERE r.user=:user AND r.type=:access";
 
-    static final String PROJECTS_QUERY = "SELECT p FROM Project p";
-    static final String PROJECTS_TYPE_QUERY = "SELECT p FROM Project p WHERE p.type = :type";
-    static final String PROJECTS_TYPE_FEATURED_QUERY = "SELECT p FROM Project p WHERE p.featured = TRUE AND p.type = :type";
-    static final String PROJECTS_FEATURED_QUERY = "SELECT p FROM Project p WHERE p.featured = TRUE";
+    static final String PROJECTS_QUERY = "SELECT p FROM Project p ORDER BY p.lastActivity DESC";
+    static final String PROJECTS_TYPE_QUERY = "SELECT p FROM Project p WHERE p.type = :type ORDER BY p.lastActivity DESC";
+    static final String PROJECTS_TYPE_FEATURED_QUERY = "SELECT p FROM Project p WHERE p.featured = TRUE AND p.type = :type ORDER BY p.lastActivity DESC";
+    static final String PROJECTS_FEATURED_QUERY = "SELECT p FROM Project p WHERE p.featured = TRUE ORDER BY p.lastActivity DESC";
 
-    static final String TYPED_PROJECTS_QUERY = "SELECT p FROM Project p WHERE p.type = :type";
+    static final String TYPED_PROJECTS_QUERY = "SELECT p FROM Project p WHERE p.type = :type ORDER BY p.lastActivity DESC";
     private static final String MY_PROJECTS_QUERY = "SELECT r, e FROM Role r INNER JOIN r.context e WHERE r.user = :user";
 
-    private static final String FIND_PROJECT_QUERY = "SELECT p FROM Project p WHERE p.activity = :activity";
+    private static final String FIND_PROJECT_QUERY = "SELECT p FROM Project p WHERE p.activity = :activity ORDER BY p.lastActivity DESC";
 
 
     @PersistenceContext
@@ -61,6 +62,7 @@ public class ProjectDao {
         project.setTitle("New project");
         project.setOpen(false);
         project.setAuthor(author);
+        project.setLastActivity(new Date());
         projectData.initProject(project, context);
         em.persist(project);
         subscriptionManagerBean.projectCreatedInTransaction(em, project, author);
@@ -197,6 +199,12 @@ public class ProjectDao {
     public void setFeatured(Long projectId, boolean featured) {
         Project p = em.find(Project.class, projectId);
         p.setFeatured(featured);
+    }
+
+    @Transactional
+    public void updateActivityTimestamp(Project project) {
+        em.persist(project);
+        project.setLastActivity(new Date());
     }
 
     @Transactional
