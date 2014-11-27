@@ -13,6 +13,12 @@ angular.module('senseItServices', null, null).factory('ProjectChallengeAdminServ
         });
     };
 
+    ProjectChallengeAdmin.prototype.setAnswerVisibility = function(visible) {
+        return this.projectWatcher.updateProjectAction('put', 'challenge/admin/visibility', {
+            visible: visible
+        });
+    };
+
     ProjectChallengeAdmin.prototype.getVotedAnswers = function() {
         return this.projectWatcher.projectRequest('get', 'challenge/admin/answers');
     };

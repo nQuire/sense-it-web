@@ -4,6 +4,14 @@
     <div data-ng-switch-when="proposal">
         <p>This mission is accepting ideas now!</p>
 
+        <p data-ng-if="projectData.project.activity.answersAlwaysVisible">
+            <a href data-ui-sref="project.view.challenge">
+            <span ng-pluralize count="answerData.answers.length"
+                  when="{'1': '1 idea has','other': '{{answerData.answers.length}} ideas have'}"></span>
+                been posted in this mission.
+            </a>
+        </p>
+
         <div data-ng-if="status.logged">
             <div data-ng-if="projectData.access.member">
                 <p>You have created <b><span ng-pluralize count="answerData.answers.length"
@@ -19,17 +27,19 @@
             </div>
         </div>
         <div data-ng-if="!status.logged">
-            <p>You need to <a href data-ng-click="openIdService.loginAndComeBack()">sign in</a> or register to post ideas.</p>
+            <p>You need to <a href data-ng-click="openIdService.loginAndComeBack()">sign in</a> or register to post
+                ideas.</p>
         </div>
     </div>
     <div data-ng-switch-when="voting">
         <p>This mission is now voting the submitted ideas!</p>
 
+        <p><span ng-pluralize count="answerData.answers.length"
+                 when="{'1': '1 idea has','other': '{{answerData.answers.length}} ideas have'}"></span>
+            been posted in this mission.</p>
+
         <div data-ng-if="status.logged">
             <div data-ng-if="projectData.access.member">
-                <p><span ng-pluralize count="answerData.answers.length"
-                         when="{'1': '1 idea','other': '{{answerData.answers.length}} ideas'}"></span>
-                    have been posted in this mission.</p>
 
                 <p>Click <a href data-ui-sref="project.view.challenge">here</a> to vote your favourite!</p>
             </div>
@@ -38,14 +48,16 @@
             </div>
         </div>
         <div data-ng-if="!status.logged">
-            <p>You need to <a data-ng-click="openIdService.loginAndComeBack()">sign in</a> or register to vote ideas.</p>
+            <p>You need to <a data-ng-click="openIdService.loginAndComeBack()">sign in</a> or register to vote ideas.
+            </p>
         </div>
     </div>
     <div data-ng-switch-when="outcome">
         <div data-ng-controller="ProjectViewChallengeOutcomeCtrl">
             <div data-ng-if="outcomeReady">
                 <div data-ng-if="outcome.selectedAnswer">
-                    <p>This mission has now a winner! See <a href data-ui-sref="project.view.challenge">all ideas</a>.</p>
+                    <p>This mission has now a winner! See <a href data-ui-sref="project.view.challenge">all ideas</a>.
+                    </p>
 
                     <div class="project-view-challenge-sumbission"
                          data-ng-include="'partials/project/view/challenge/project-view-challenge-answers-item-display.html'"></div>

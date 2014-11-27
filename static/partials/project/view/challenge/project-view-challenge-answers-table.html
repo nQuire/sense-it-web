@@ -17,7 +17,8 @@
 
 <div data-ng-if="answerData.answersReady">
     <table data-ng-if="sortedData.data.length > 0"
-           data-siw-sortable-table-widget data-table-data="tableData" class="table table-bordered table-striped">
+           data-siw-sortable-table-widget data-table-data="tableData"
+           class="table table-bordered table-striped">
         <thead>
         <tr>
             <th data-ng-if="answerData.showAuthor" data-ng-class="headerClass('author')"
@@ -58,16 +59,21 @@
     </table>
 
 
-    <div data-ng-if="answerData.editable">
-        <div data-ng-if="maxAnswersReached()">
-            <p>You have created the maximum number of allowed ideas:
-                {{projectData.project.activity.maxAnswers}}.</p>
-        </div>
-        <div data-ng-if="!maxAnswersReached()">
-            <p>You can create up to {{projectData.project.activity.maxAnswers}} ideas.</p>
-            <button class="btn btn-default" data-ng-click="itemView.openNew()">
-                Create new idea
-            </button>
+    <div data-ng-if="status.logged">
+        <div data-ng-if="projectData.access.member">
+
+            <div data-ng-if="answerData.editable">
+                <div data-ng-if="maxAnswersReached()">
+                    <p>You have created the maximum number of allowed ideas:
+                        {{projectData.project.activity.maxAnswers}}.</p>
+                </div>
+                <div data-ng-if="!maxAnswersReached()">
+                    <p>You can create up to {{projectData.project.activity.maxAnswers}} ideas.</p>
+                    <button class="btn btn-default" data-ng-click="itemView.openNew()">
+                        Create new idea
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
