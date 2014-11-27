@@ -36,7 +36,13 @@ public class ChallengeActivity extends AbstractActivity {
     @Basic
     @Getter
     @Setter
+    boolean answersAlwaysVisible = false;
+
+    @Basic
+    @Getter
+    @Setter
     ChallengeActivityStage stage = ChallengeActivityStage.PROPOSAL;
+
 
     @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL)
     @Getter

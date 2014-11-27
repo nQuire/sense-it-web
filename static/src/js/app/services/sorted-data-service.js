@@ -24,7 +24,7 @@ angular.module('senseItServices', null, null).factory('SortedDataService', [func
 
         this._filter = function (a) {
             for (var i = 0; i < self.filterFunctions.length; i++) {
-                if (!self.filterFunctions(a)) {
+                if (!self.filterFunctions[i](a)) {
                     return false;
                 }
             }

@@ -141,6 +141,12 @@ public class ChallengeDao extends UtilsDao {
     }
 
     @Transactional
+    public void setProposalIdeaVisibility(ChallengeActivity activity, boolean visible) {
+        em.persist(activity);
+        activity.setAnswersAlwaysVisible(visible);
+    }
+
+    @Transactional
     public void updateActivity(ChallengeActivity activity, ChallengeActivityRequest activityData) {
         em.persist(activity);
         activityData.update(activity);
@@ -212,4 +218,5 @@ public class ChallengeDao extends UtilsDao {
             answer.setPublished(published);
         }
     }
+
 }

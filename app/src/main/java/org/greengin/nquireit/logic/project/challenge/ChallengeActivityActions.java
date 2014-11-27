@@ -35,7 +35,7 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
     private List<ChallengeAnswer> getAnswers(boolean onlyMine, boolean onlyModerated) {
 
         if (hasAccess(PermissionType.PROJECT_ADMIN)
-                || (hasAccess(PermissionType.PROJECT_BROWSE) && (onlyMine || activity.getStage() != ChallengeActivityStage.PROPOSAL))) {
+                || (hasAccess(PermissionType.PROJECT_BROWSE) && (onlyMine || activity.isAnswersAlwaysVisible() || activity.getStage() != ChallengeActivityStage.PROPOSAL))) {
             return context.getChallengeDao().getAnswers(onlyMine, project.getActivity(), user);
         }
 
@@ -44,7 +44,7 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 
     public Collection<ChallengeAnswer> getAnswersForParticipant() {
         if (hasAccess(PermissionType.PROJECT_BROWSE)) {
-            return getAnswers(activity.getStage() == ChallengeActivityStage.PROPOSAL, true);
+            return getAnswers(!activity.isAnswersAlwaysVisible() && activity.getStage() == ChallengeActivityStage.PROPOSAL, true);
         }
 
         return null;
@@ -54,7 +54,6 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
         if (hasAccess(PermissionType.PROJECT_ADMIN)) {
             return getAnswers(false, false);
         }
-
         return null;
     }
 
@@ -120,9 +119,19 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
     /**
      * admin actions *
      */
-    public ProjectResponse setStage(ChallengeActivityStage stage) {
+    public ProjectResponse setStage(ChallengeStageRequest request) {
         if (hasAccess(PermissionType.PROJECT_ADMIN)) {
-            context.getChallengeDao().setActivityStage(activity, stage);
+            context.getChallengeDao().setActivityStage(activity, request.getStage());
+            context.getProjectDao().updateActivityTimestamp(project);
+            return projectResponse(project);
+        }
+
+        return null;
+    }
+
+    public ProjectResponse setVisibility(ChallengeVisibilityRequest request) {
+        if (hasAccess(PermissionType.PROJECT_ADMIN)) {
+            context.getChallengeDao().setProposalIdeaVisibility(activity, request.isVisible());
             context.getProjectDao().updateActivityTimestamp(project);
             return projectResponse(project);
         }

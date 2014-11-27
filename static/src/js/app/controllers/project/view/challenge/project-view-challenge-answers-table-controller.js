@@ -36,7 +36,6 @@ angular.module('senseItWeb', null, null).controller('ProjectViewChallengeAnswers
                 }
                 
                 return true;
-
             }, function (a) {
                 return !$scope.filter.params.search || $scope.answerTeaser(a).indexOf($scope.filter.params.search) >= 0;
             }, function (a) {
@@ -48,7 +47,13 @@ angular.module('senseItWeb', null, null).controller('ProjectViewChallengeAnswers
 
     if ($scope.answerData.editable) {
         $scope.maxAnswersReached = function () {
-            return $scope.projectData.project.activity.maxAnswers <= $scope.answerData.answers.length;
+            var count = 0;
+            for (var i = 0; i < $scope.answerData.answers.length; i++) {
+                if ($scope.answerData.answers[i].author.id == $scope.status.profile.id) {
+                    count ++;
+                }
+            }
+            return $scope.projectData.project.activity.maxAnswers <= count;
         };
     }
 
@@ -72,7 +77,6 @@ angular.module('senseItWeb', null, null).controller('ProjectViewChallengeAnswers
 
     $scope.sortedData = SortedDataService.get(function () {
         return $scope.answerData.answers;
-    }, sort, $scope.filter.filter, $scope, 'answerData.answers', 'filter.params');
-})
-;
+    }, sort, $scope.filter.filters, $scope, 'answerData.answers', 'filter.params');
+});
 

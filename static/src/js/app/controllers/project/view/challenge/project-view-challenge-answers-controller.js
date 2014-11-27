@@ -10,8 +10,6 @@ angular.module('senseItWeb', null, null).controller('ProjectViewChallengeAnswers
         }
     };
 
-
-
     $scope.itemView = {
         isOpen: false,
         answer: null,
