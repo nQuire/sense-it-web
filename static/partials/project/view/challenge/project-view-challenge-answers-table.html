@@ -18,7 +18,7 @@
 <div data-ng-if="answerData.answersReady">
     <table data-ng-if="sortedData.data.length > 0"
            data-siw-sortable-table-widget data-table-data="tableData"
-           class="table table-bordered table-striped">
+           class="table table-bordered table-striped project-challenge-table">
         <thead>
         <tr>
             <th data-ng-if="answerData.showAuthor" data-ng-class="headerClass('author')"
@@ -29,7 +29,7 @@
                 data-ng-click="headerSort('votes')">
                 Votes
             </th>
-            <th data-ng-class="headerClass('answer')" data-ng-click="headerSort('answer')">{{titleLabel}}</th>
+            <th  colspan="2" data-ng-class="headerClass('answer')" data-ng-click="headerSort('answer')">{{titleLabel}}</th>
             <th data-ng-class="headerClass('submitted')" data-ng-click="headerSort('submitted')">Submitted</th>
             <th></th>
         </tr>
@@ -42,7 +42,7 @@
             <td data-ng-if="answerData.showVoting">
                 <div data-siw-vote-widget data-vote-manager="voteManager" data-vote-target="answer"></div>
             </td>
-            <td data-ng-bind-html="answerTeaser(answer)"></td>
+            <td colspan="2" data-ng-bind-html="answerTeaser(answer)"></td>
             <td>{{answer.published ? 'Yes' : 'No'}}</td>
             <td>
                 <button class="btn btn-default"

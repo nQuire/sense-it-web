@@ -10943,6 +10943,9 @@ div#header {
     border-bottom: 1px solid #aaaaaa;
     margin-bottom: 10px; }
 
+.project-challenge-table {
+  table-layout: fixed; }
+
 .project-main-container .project-section .project-section-header {
   height: 26px;
   line-height: 26px;
