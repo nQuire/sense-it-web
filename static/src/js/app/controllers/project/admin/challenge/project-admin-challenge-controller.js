@@ -100,5 +100,6 @@ angular.module('senseItWeb', null, null).controller('ProjectAdminChallengeCtrl',
     $scope.answerData.answers = answers;
     $scope.answerData.answersReady = true;
   });
+
 });
 

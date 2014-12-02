@@ -14,11 +14,11 @@
 
         <div data-ng-if="status.logged">
             <div data-ng-if="projectData.access.member">
-                <p>You have created <b><span ng-pluralize count="answerData.answers.length"
+                <p>You have created <b><span ng-pluralize count="answerData.userIdeasCount(status.profile.id)"
                                              when="{
                                   '0': 'no ideas yet',
                                    '1': '1 idea',
-                                   'other': '{{answerData.answers.length}} ideas'}"></span></b>.</p>
+                                   'other': '{{answerData.userIdeasCount(status.profile.id)}} ideas'}"></span></b>.</p>
 
                 <p>Send <a href data-ui-sref="project.view.challenge">your ideas</a>.</p>
             </div>

@@ -32,19 +32,10 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
      * common actions *
      */
 
-    private List<ChallengeAnswer> getAnswers(boolean onlyMine, boolean onlyModerated) {
-
-        if (hasAccess(PermissionType.PROJECT_ADMIN)
-                || (hasAccess(PermissionType.PROJECT_BROWSE) && (onlyMine || activity.isAnswersAlwaysVisible() || activity.getStage() != ChallengeActivityStage.PROPOSAL))) {
-            return context.getChallengeDao().getAnswers(onlyMine, project.getActivity(), user);
-        }
-
-        return null;
-    }
 
     public Collection<ChallengeAnswer> getAnswersForParticipant() {
         if (hasAccess(PermissionType.PROJECT_BROWSE)) {
-            return getAnswers(!activity.isAnswersAlwaysVisible() && activity.getStage() == ChallengeActivityStage.PROPOSAL, true);
+            return context.getChallengeDao().getAnswers(activity, false, user);
         }
 
         return null;
@@ -52,7 +43,7 @@ public class ChallengeActivityActions extends AbstractActivityActions<ChallengeA
 
     public Collection<ChallengeAnswer> getAnswersForAdmin() {
         if (hasAccess(PermissionType.PROJECT_ADMIN)) {
-            return getAnswers(false, false);
+            return context.getChallengeDao().getAnswers(activity, true, user);
         }
         return null;
     }

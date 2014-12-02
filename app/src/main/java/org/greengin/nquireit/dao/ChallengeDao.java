@@ -18,6 +18,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -93,14 +94,16 @@ public class ChallengeDao extends UtilsDao {
     }
 
     @Transactional
-    public List<ChallengeAnswer> getAnswers(boolean onlyMine, AbstractActivity activity, UserProfile user) {
-        TypedQuery<ChallengeAnswer> query = em.createQuery(onlyMine ? MY_ANSWERS_QUERY : ALL_ANSWERS_QUERY,
+    public Collection<ChallengeAnswer> getAnswers(ChallengeActivity activity, boolean adminAccess, UserProfile user) {
+        boolean allVisible = adminAccess || activity.isAnswersAlwaysVisible() || activity.getStage() == ChallengeActivityStage.PROPOSAL;
+        TypedQuery<ChallengeAnswer> query = em.createQuery(allVisible ? ALL_ANSWERS_QUERY : MY_ANSWERS_QUERY,
                 ChallengeAnswer.class);
         query.setParameter("activity", activity);
         query.setParameter("author", user);
 
         return query.getResultList();
     }
+
 
     @Transactional
     public Long createAnswer(ChallengeActivity activity, UserProfile user, ChallengeAnswerRequest answerData) {

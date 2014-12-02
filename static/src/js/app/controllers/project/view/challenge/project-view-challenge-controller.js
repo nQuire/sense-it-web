@@ -5,6 +5,5 @@ angular.module('senseItWeb', null, null).controller('ProjectViewChallengeCtrl', 
     $scope.templates.outlineData = 'partials/project/view/challenge/challenge-view-outline.html';
 
     $scope.challengeParticipant = ProjectChallengeParticipantService.challengeParticipant($scope.projectWatcher);
-
 });
 
