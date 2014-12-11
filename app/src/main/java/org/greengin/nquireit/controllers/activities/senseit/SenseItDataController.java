@@ -53,7 +53,7 @@ public class SenseItDataController extends AbstractSenseItController {
     @RequestMapping(value = "/{dataId}", method = RequestMethod.DELETE)
     @ResponseBody
     public Long delete(@PathVariable("projectId") Long projectId, @PathVariable("dataId") Long dataId, HttpServletRequest request) {
-        return createManager(projectId, request).deleteData(dataId, new SenseItSeriesManipulator(null, null, null, null));
+        return createManager(projectId, request).deleteData(dataId);
     }
 
     @RequestMapping(value = "/{dataId}", method = RequestMethod.PUT)

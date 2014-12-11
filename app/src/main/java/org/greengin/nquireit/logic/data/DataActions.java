@@ -96,13 +96,11 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
         return null;
     }
 
-    private <K extends AbstractDataProjectItem> Long deleteItem(Class<K> type, Long itemId,
-                                                                DataItemManipulator<T, K> manipulator) {
+    private <K extends AbstractDataProjectItem> Long deleteItem(Class<K> type, Long itemId) {
         if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION)) {
             K item = context.getDataActivityDao().getItem(type, itemId);
             if (item != null && item.getDataStore() == activity && item.getAuthor().getId().equals(user.getId())) {
-                manipulator.init(project, activity);
-                context.getDataActivityDao().removeItem(item, manipulator);
+                context.getDataActivityDao().removeItem(item);
                 return itemId;
             }
         }
@@ -127,8 +125,8 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
         return response;
     }
 
-    public Long deleteData(Long itemId, DataItemManipulator<T, E> manipulator) {
-        Long id = deleteItem(dataType, itemId, manipulator);
+    public Long deleteData(Long itemId) {
+        Long id = deleteItem(dataType, itemId);
         if (id != null) {
             context.getProjectDao().updateActivityTimestamp(project);
             context.getLogManager().data(user, project, id, "delete");

@@ -1,5 +1,7 @@
 package org.greengin.nquireit.dao;
 
+import org.greengin.nquireit.entities.data.AbstractDataProjectItem;
+import org.greengin.nquireit.entities.data.DataCollectionActivity;
 import org.greengin.nquireit.entities.rating.*;
 import org.greengin.nquireit.entities.users.UserProfile;
 import org.greengin.nquireit.logic.ContextBean;
@@ -31,6 +33,9 @@ public class VotableDao {
 
     @Autowired
     LogManagerBean logManager;
+
+    @Autowired
+    DataActivityDao dataActivityDao;
 
     @PersistenceContext
     EntityManager em;
@@ -74,6 +79,8 @@ public class VotableDao {
                 logManager.reportedContentRemoved(admin, entity);
                 forumDao.deleteForumThread((ForumThread) entity);
                 return true;
+            } else if (entity instanceof AbstractDataProjectItem) {
+                dataActivityDao.removeItem((AbstractDataProjectItem) entity);
             }
         }
 

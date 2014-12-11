@@ -100,7 +100,7 @@ public class SpotItDataController {
     @RequestMapping(value = "/{dataId}", method = RequestMethod.DELETE)
     @ResponseBody
     public Long delete(@PathVariable("projectId") Long projectId, @PathVariable("dataId") Long dataId, HttpServletRequest request) {
-        return createManager(projectId, request).deleteData(dataId, new SpotItObservationManipulator(context, null, null, null));
+        return createManager(projectId, request).deleteData(dataId);
     }
 
     @RequestMapping(value = "/vote/{dataId}", method = RequestMethod.POST)

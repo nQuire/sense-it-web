@@ -19,5 +19,4 @@ public abstract class DataItemManipulator<T extends DataCollectionActivity<?, ?>
 
 	public abstract boolean onCreate(E newItem);
 	public abstract void onUpdate(E item);
-	public abstract void onDelete(E item);
 }

@@ -53,9 +53,8 @@ public class DataActivityDao {
     }
 
     @Transactional
-    public <K extends AbstractDataProjectItem> void removeItem(K item, DataItemManipulator<?, K> manipulator) {
+    public <K extends AbstractDataProjectItem> void removeItem(K item) {
         em.persist(item);
-        manipulator.onDelete(item);
         em.remove(item);
     }
 
