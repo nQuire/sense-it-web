@@ -1,18 +1,26 @@
 <!doctype html>
-<?php
-error_reporting(E_ALL);
-ini_set('error_reporting', E_ALL);
-?>
 
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <title>nQuire It</title>
 
-    <link href='https://fonts.googleapis.com/css?family=Fira+Sans:400,500,700,400italic,500italic|Cabin:400,500,600,700,400italic,500italic|Ubuntu:400,500,700,400italic,500italic|Alegreya+Sans:400,500,700,900,400italic,500italic|Merriweather+Sans:400,400italic,700,700italic,800' rel='stylesheet' type='text/css'>
+    <!--[if lte IE 8]>
+    <meta HTTP-EQUIV="REFRESH" content="0; url=http://www.nquire-it.org/ie8.htm">
+    <![endif]-->
+
+
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu:400,500,700,400italic,500italic' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="css/font-awesome.css" type='text/css'>
     <link rel="stylesheet" href="css/textAngular.min.css" type='text/css'>
+
+    <!--[if gt IE 9]><!-->
     <link rel="stylesheet" href="css/nquire-it-bootstrap.css" type='text/css'>
+    <!--<![endif]-->
+    <!--[if lt IE 10]>
+    <link rel="stylesheet" href="css/nquire-it-bootstrap-ie9.css" type='text/css'>
+    <![endif]-->
+
 
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=visualization&sensor=true"></script>
 
@@ -40,17 +48,6 @@ ini_set('error_reporting', E_ALL);
     <script src="js/helpers/maprenderer.js"></script>
 
     <script src="js/app/app.js"></script>
-
-
- <?php if(isset($_REQUEST['maps'])): ?>
-    <script src="../backend-mockup/angular-mocks.js"></script>
-    <script src="../backend-mockup/app-backend.js"></script>
-
-    <?php foreach(explode(',', $_REQUEST['maps']) as $map): ?>
-        <script src="../backend-mockup/maps/<?= $map ?>.js"></script>
-    <?php endforeach; ?>
-
- <?php endif; ?>
 
     <script src="js/app/services/services-module.js"></script>
     <script src="js/app/services/rest-service.js"></script>
@@ -175,11 +172,7 @@ ini_set('error_reporting', E_ALL);
 
 </head>
 
-<?php if(isset($_REQUEST['maps'])): ?>
-    <body data-ng-app="senseItWebDev">
-<?php else: ?>
     <body data-ng-app="senseItWeb">
-<?php endif; ?>
 <script>
     var dataLayer = [{'gaProperty': 'UA-55775559-1'}];
 </script>
