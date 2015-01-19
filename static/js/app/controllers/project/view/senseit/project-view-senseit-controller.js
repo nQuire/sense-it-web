@@ -13,7 +13,8 @@ angular.module('senseItWeb', null, null).controller('ProjectViewSenseItCtrl', fu
         tableVariables: $scope.transformations.nonSequenceVariables(),
         plotVariables: $scope.transformations.sequenceVariables(),
         tableValue: function (item, variable) {
-            return item.varValue[variable.id].v[0].toPrecision(3)
+            return item.varValue[variable.id].v.length > 0 ?
+                item.varValue[variable.id].v[0].toPrecision(3) : ''
         }
     };
 
