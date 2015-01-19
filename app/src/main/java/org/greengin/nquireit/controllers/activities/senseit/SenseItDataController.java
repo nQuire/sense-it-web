@@ -78,7 +78,9 @@ public class SenseItDataController extends AbstractSenseItController {
                 Collections.sort(values, valuesComparator);
                 for (Map.Entry<String, TimeValue> entry : values) {
                     pw.print(",");
-                    pw.print(entry.getValue().getV()[0]);
+                    if (entry.getValue().getV().length > 0) {
+                        pw.print(entry.getValue().getV()[0]);
+                    }
                 }
 
                 pw.println();
