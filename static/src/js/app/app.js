@@ -172,6 +172,16 @@ angular.module('senseItWeb', ['ngSanitize', 'ui.router', 'textAngular', 'ui.boot
         url: '/profile?goBack',
         templateUrl: 'partials/profile/profile.html',
         controller: 'ProfileCtrl'
+      })
+      .state('profile-view', {
+        url: '/profile/{uid}',
+        templateUrl: 'partials/profile/profile-view.html',
+        controller: 'ProfileViewCtrl'
+      })
+      .state('users', {
+        url: '/users',
+        templateUrl: 'partials/profile/profiles-loggedin.html',
+        controller: 'ProfileLoggedInCtrl'
       });
     $urlRouterProvider.otherwise('/home');
 

@@ -64,7 +64,7 @@ public abstract class TestsBase {
     }
     protected MockHttpServletRequestBuilder login(MockHttpServletRequestBuilder builder, UserProfile user, boolean tokenOk) {
         MockHttpSession mockSession = new MockHttpSession(wac.getServletContext(), UUID.randomUUID().toString());
-        context.getUsersManager().login(user, mockSession, "token");
+        context.getUsersManager().testLogin(user, mockSession, "token");
         return builder.session(mockSession).header("nquire-it-token", tokenOk ? "token" : "bad");
     }
 

@@ -11,7 +11,7 @@
                 </li>
             </ul>
         </div>
-        <div data-ng-repeat="projectData in projectList.projects" class="col-xs-12 col-sm-6 col-md-4">
+        <div data-ng-repeat="projectData in projectList.projects" class="col-xs-12 col-sm-6 col-lg-4">
             <div class="project-item" data-ng-class="projectClass(projectData)">
                 <div class="project-item-image-container"
                      data-ui-sref="project.view.home({projectId: projectData.project.id})">
@@ -45,7 +45,10 @@
                         </ul>
                     </div>
 
-                    <div class="project-item-author">A mission created by {{projectData.project.author.username}}.</div>
+                    <div class="project-item-author">
+                        A mission created by
+                        <span data-siw-user-link="projectData.project.author"></span>.
+                    </div>
                 </div>
                 <div class="project-item-banner">
                     <a href data-ui-sref="project.view.home({projectId: projectData.project.id})">
@@ -67,4 +70,6 @@
     </div>
 </div>
 
-<div class="sidebar-right" data-ng-include="'partials/projects/projects-sidebar.html'"></div>
+<div class="sidebar-right" data-siw-sidebar-toggle>
+    <div class="sidebar-content" data-ng-include="'partials/projects/projects-sidebar.html'"></div>
+</div>

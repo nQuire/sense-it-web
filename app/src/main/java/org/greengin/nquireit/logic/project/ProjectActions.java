@@ -4,12 +4,12 @@ import org.greengin.nquireit.entities.projects.Project;
 import org.greengin.nquireit.entities.projects.ProjectType;
 import org.greengin.nquireit.entities.rating.Comment;
 import org.greengin.nquireit.entities.users.PermissionType;
-import org.greengin.nquireit.entities.users.Role;
 import org.greengin.nquireit.entities.users.RoleType;
 import org.greengin.nquireit.entities.users.UserProfile;
 import org.greengin.nquireit.logic.AbstractContentManager;
 import org.greengin.nquireit.logic.ContextBean;
 import org.greengin.nquireit.logic.project.metadata.ProjectRequest;
+import org.greengin.nquireit.logic.rating.CommentFeedResponse;
 import org.greengin.nquireit.logic.rating.VoteCount;
 import org.greengin.nquireit.logic.rating.VoteRequest;
 import org.greengin.nquireit.logic.users.AccessLevel;
@@ -144,27 +144,12 @@ public class ProjectActions extends AbstractContentManager {
     /**
      * any user actions *
      */
-    public MyProjectListResponse getMyProjects() {
-        MyProjectListResponse response = new MyProjectListResponse();
-
+    public UserProjectListResponse getMyProjects() {
         if (loggedWithToken) {
-            List<Object[]> all = context.getProjectDao().getMyProjects(user);
-
-            for (Object[] entry : all) {
-                if (entry.length == 2 && entry[0] instanceof Role && entry[1] instanceof Project) {
-                    Role r = (Role) entry[0];
-                    Project p = (Project) entry[1];
-
-                    if (r.getType() == RoleType.ADMIN) {
-                        response.getAdmin().add(new MyProjectResponse(p));
-                    } else if (r.getType() == RoleType.MEMBER) {
-                        response.getMember().add(new MyProjectResponse(p));
-                    }
-                }
-            }
+            return context.getProjectDao().getMyProjects(user, true, true);
+        } else {
+            return null;
         }
-
-        return response;
     }
 
     public List<SimpleProjectResponse> getProjectsSimple(String type) {
@@ -200,28 +185,35 @@ public class ProjectActions extends AbstractContentManager {
 
     @Override
     public boolean hasAccess(PermissionType permission) {
-        if (super.hasAccess(permission) || permission == PermissionType.PROJECT_BROWSE) {
+        if (super.hasAccess(permission)) {
             return true;
-        } else if (permission == PermissionType.PROJECT_VIEW_IMAGE) {
-            return project.getOpen() || accessLevel.isAdmin();
-        } else if (loggedWithToken) {
-            switch (permission) {
-                case PROJECT_JOIN:
-                    return project.getOpen();
-                case PROJECT_MEMBER_ACTION:
-                    return accessLevel.isMember() && project.getOpen();
-                case PROJECT_ADMIN:
-                    return accessLevel.isAdmin();
-                case PROJECT_EDITION:
-                    return accessLevel.isAdmin() && !project.getOpen();
-                case PROJECT_COMMENT:
-                    return hasAccess(PermissionType.PROJECT_ADMIN) || hasAccess(PermissionType.PROJECT_MEMBER_ACTION);
-                default:
-                    return false;
-            }
-        } else {
-            return false;
         }
+
+        if (project != null) {
+            if (permission == PermissionType.PROJECT_BROWSE) {
+                return true;
+            } else if (permission == PermissionType.PROJECT_VIEW_IMAGE) {
+                return project.getOpen() || accessLevel.isAdmin();
+            } else if (loggedWithToken) {
+                switch (permission) {
+                    case PROJECT_JOIN:
+                        return project.getOpen();
+                    case PROJECT_MEMBER_ACTION:
+                        return accessLevel.isMember() && project.getOpen();
+                    case PROJECT_ADMIN:
+                        return accessLevel.isAdmin();
+                    case PROJECT_EDITION:
+                        return accessLevel.isAdmin() && !project.getOpen();
+                    case PROJECT_COMMENT:
+                        return hasAccess(PermissionType.PROJECT_ADMIN) || hasAccess(PermissionType.PROJECT_MEMBER_ACTION);
+                    default:
+                        return false;
+                }
+            }
+        }
+
+        return false;
+
     }
 
     /**
@@ -240,6 +232,7 @@ public class ProjectActions extends AbstractContentManager {
     public AccessLevel join() {
         if (hasAccess(PermissionType.PROJECT_JOIN) && !accessLevel.isMember()) {
             context.getSubscriptionManager().subscribe(user, project, RoleType.MEMBER);
+            context.getProjectDao().updateActivityTimestamp(project);
             context.getLogManager().projectMembershipAction(user, project, true);
             return context.getSubscriptionManager().getAccessLevel(project, user);
         }
@@ -249,6 +242,7 @@ public class ProjectActions extends AbstractContentManager {
     public AccessLevel leave() {
         if (this.hasAccess(PermissionType.PROJECT_MEMBER_ACTION)) {
             context.getSubscriptionManager().unsubscribe(user, project, RoleType.MEMBER);
+            context.getProjectDao().updateActivityTimestamp(project);
             context.getLogManager().projectMembershipAction(user, project, false);
             return context.getSubscriptionManager().getAccessLevel(project, user);
         }
@@ -259,6 +253,7 @@ public class ProjectActions extends AbstractContentManager {
     public ProjectResponse setOpen(Boolean open) {
         if (hasAccess(PermissionType.PROJECT_ADMIN)) {
             context.getProjectDao().setOpen(project, open);
+            context.getProjectDao().updateActivityTimestamp(project);
             return projectResponse(project);
         }
 
@@ -279,7 +274,9 @@ public class ProjectActions extends AbstractContentManager {
      */
     public ProjectResponse updateMetadata(ProjectRequest data, FileMapUpload files) {
         if (hasAccess(PermissionType.PROJECT_EDITION)) {
-            return projectResponse(context.getProjectDao().updateMetadata(project, data, files));
+            context.getProjectDao().updateMetadata(project, data, files);
+            context.getProjectDao().updateActivityTimestamp(project);
+            return projectResponse(project);
         }
 
         return null;
@@ -301,6 +298,14 @@ public class ProjectActions extends AbstractContentManager {
      * comment actions
      */
 
+    public List<CommentFeedResponse> getProjectCommentFeed() {
+        List<CommentFeedResponse> list = new Vector<CommentFeedResponse>();
+        for (Comment c : context.getCommentsDao().commentsFeed(Project.class, 3)) {
+            list.add(new CommentFeedResponse(c));
+        }
+        return list;
+    }
+
     public List<Comment> getComments() {
         if (hasAccess(PermissionType.PROJECT_BROWSE)) {
             return project.getComments();
@@ -313,6 +318,7 @@ public class ProjectActions extends AbstractContentManager {
     public List<Comment> comment(CommentRequest request) {
         if (hasAccess(PermissionType.PROJECT_COMMENT)) {
             context.getCommentsDao().comment(user, project, request);
+            context.getProjectDao().updateActivityTimestamp(project);
             return project.getComments();
         }
 
@@ -322,6 +328,7 @@ public class ProjectActions extends AbstractContentManager {
     public List<Comment> deleteComment(Long commentId) {
         if (hasAccess(PermissionType.PROJECT_COMMENT)) {
             if (context.getCommentsDao().deleteComment(user, project, commentId)) {
+                context.getProjectDao().updateActivityTimestamp(project);
                 return project.getComments();
             }
         }
@@ -330,7 +337,7 @@ public class ProjectActions extends AbstractContentManager {
     }
 
     public VoteCount voteComment(Long commentId, VoteRequest voteData) {
-        if (hasAccess(PermissionType.PROJECT_COMMENT)) {
+        if (hasAccess(PermissionType.PROJECT_COMMENT) || (loggedWithToken && voteData.isReport())) {
             Comment comment = context.getCommentsDao().getComment(project, commentId);
             if (comment != null) {
                 return context.getVoteDao().vote(user, comment, voteData);

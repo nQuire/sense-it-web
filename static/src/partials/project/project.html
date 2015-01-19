@@ -9,12 +9,14 @@
         <div data-ui-view></div>
     </div>
 
-    <div class="sidebar-right">
-        <div class="project-social-section">
-            <div data-ng-include="'partials/social/social.html'"></div>
-        </div>
-        <div class="project-comments-section">
-            <div data-ng-include="'partials/comments.html'"></div>
+    <div class="sidebar-right" data-siw-sidebar-toggle>
+        <div class="sidebar-content">
+            <div class="project-social-section">
+                <div data-ng-include="'partials/social/social.html'"></div>
+            </div>
+            <div class="project-comments-section">
+                <div data-ng-include="'partials/comments.html'"></div>
+            </div>
         </div>
     </div>
 

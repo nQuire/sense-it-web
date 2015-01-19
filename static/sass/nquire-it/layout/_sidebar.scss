@@ -4,14 +4,73 @@
 
 .sidebar-right {
   position: absolute;
-  width: $dim-common-right-panel-container-width;
-  min-height: 100%;
-
   top: $dim-common-margin;
-  right: 0px;
+  right: 0;
+  transition: width 250ms;
+  width: 0;
+  font-size: 12px;
 
-  padding: 0px $dim-common-small-margin $dim-common-margin $dim-common-small-margin;
-  border-left: solid $color-orange $dim-right-menu-separator-line-width;
+  .sidebar-content {
+    width: 100%;
+    background: white;
+    min-height: 100%;
+    overflow: hidden;
+
+    > div {
+      top: 0;
+      left: 0;
+      width: $dim-common-right-panel-container-width;
+      min-height: 100%;
+      padding: 0 $dim-common-small-margin $dim-common-margin $dim-common-small-margin;
+      border-left: solid $color-orange $dim-right-menu-separator-line-width;
+    }
+  }
+
+  @media (min-width: $screen-md-min) {
+    width: $dim-common-right-panel-container-width;
+    transition: width 0ms;
+  }
+
+  .sidebar-toggle {
+    $size: 3 * $dim-common-margin;
+    width: $size;
+    padding: $dim-common-small-margin 0;
+
+    color: white;
+    background: $color-medium-grey;
+    text-align: center;
+    font-size: 1.5em;
+    border-radius: 5px;
+    position: absolute;
+    left: -$size;
+    top: -6px;
+
+    .fa-angle-right {
+      display: none;
+    }
+    .fa-angle-left {
+      display: block;
+    }
+  }
+
+  &.sidebar-open {
+    width: $dim-common-right-panel-container-width;
+    .sidebar-toggle {
+      .fa-angle-right {
+        display: block;
+      }
+      .fa-angle-left {
+        display: none;
+      }
+    }
+  }
+
+  @media (min-width: $screen-md-min) {
+    right: 0;
+    .sidebar-toggle {
+      display: none;
+    }
+  }
 
   .sidebar-teaser {
     @include text-sidebar-teaser;
@@ -25,10 +84,10 @@
   .sidebar-menu {
 
     li {
-      padding: 2px 4px;
+      padding: 0 4px;
 
       a {
-        padding: 2px 4px;
+        padding: 0 4px;
         border: 1px solid transparent;
 
         &.selected {
@@ -40,23 +99,37 @@
     }
   }
 
-  ul > li {
-    @include text-sidebar-normal;
-    list-style-image: url(images/bullet.png);
-    margin-left: -1.5em;
+  ul {
+    list-style: none;
+    > li {
+      padding: 0 4px;
 
-    .sidebar-type-senseit {
-      @include text-sidebar-mission-type;
-      color: $color-mission-senseit;
-    }
-    .sidebar-type-spotit {
-      @include text-sidebar-mission-type;
-      color: $color-mission-spotit;
-    }
-    .sidebar-type-winit {
-      @include text-sidebar-mission-type;
-      color: $color-mission-winit;
+      @include text-sidebar-normal;
+      margin-left: -2.5em;
+
+      .sidebar-type-senseit {
+        @include text-sidebar-mission-type;
+        color: $color-mission-senseit;
+      }
+      .sidebar-type-spotit {
+        @include text-sidebar-mission-type;
+        color: $color-mission-spotit;
+      }
+      .sidebar-type-winit {
+        @include text-sidebar-mission-type;
+        color: $color-mission-winit;
+      }
     }
   }
 
+  .sidebar-feed {
+    li {
+      margin-bottom: .25em;
+
+      .feed-comment {
+        font-weight: bold;
+        color: grey;
+      }
+    }
+  }
 }

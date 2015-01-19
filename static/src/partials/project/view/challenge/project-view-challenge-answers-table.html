@@ -1,4 +1,3 @@
-
 <div data-ng-if="answerData.showFilter">
     <form class="form-inline">
         <div class="form-group">
@@ -18,7 +17,8 @@
 
 <div data-ng-if="answerData.answersReady">
     <table data-ng-if="sortedData.data.length > 0"
-            data-siw-sortable-table-widget data-table-data="tableData" class="table table-bordered table-striped">
+           data-siw-sortable-table-widget data-table-data="tableData"
+           class="table table-bordered table-striped project-challenge-table">
         <thead>
         <tr>
             <th data-ng-if="answerData.showAuthor" data-ng-class="headerClass('author')"
@@ -29,18 +29,20 @@
                 data-ng-click="headerSort('votes')">
                 Votes
             </th>
-            <th data-ng-class="headerClass('answer')" data-ng-click="headerSort('answer')">{{titleLabel}}</th>
+            <th  colspan="2" data-ng-class="headerClass('answer')" data-ng-click="headerSort('answer')">{{titleLabel}}</th>
             <th data-ng-class="headerClass('submitted')" data-ng-click="headerSort('submitted')">Submitted</th>
             <th></th>
         </tr>
         </thead>
         <tbody>
         <tr data-ng-repeat="answer in sortedData.data">
-            <td data-ng-if="answerData.showAuthor">{{answer.author.username}}</td>
+            <td data-ng-if="answerData.showAuthor">
+                <span siw-user-link="answer.author"></span>
+            </td>
             <td data-ng-if="answerData.showVoting">
                 <div data-siw-vote-widget data-vote-manager="voteManager" data-vote-target="answer"></div>
             </td>
-            <td data-ng-bind-html="answerTeaser(answer)"></td>
+            <td colspan="2" data-ng-bind-html="answerTeaser(answer)"></td>
             <td>{{answer.published ? 'Yes' : 'No'}}</td>
             <td>
                 <button class="btn btn-default"
@@ -57,16 +59,21 @@
     </table>
 
 
-    <div data-ng-if="answerData.editable">
-        <div data-ng-if="maxAnswersReached()">
-            <p>You have created the maximum number of allowed ideas:
-                {{projectData.project.activity.maxAnswers}}.</p>
-        </div>
-        <div data-ng-if="!maxAnswersReached()">
-            <p>You can create up to {{projectData.project.activity.maxAnswers}} ideas.</p>
-            <button class="btn btn-default" data-ng-click="itemView.openNew()">
-                Create new idea
-            </button>
+    <div data-ng-if="status.logged">
+        <div data-ng-if="projectData.access.member">
+
+            <div data-ng-if="answerData.editable">
+                <div data-ng-if="maxAnswersReached()">
+                    <p>You have created the maximum number of allowed ideas:
+                        {{projectData.project.activity.maxAnswers}}.</p>
+                </div>
+                <div data-ng-if="!maxAnswersReached()">
+                    <p>You can create up to {{projectData.project.activity.maxAnswers}} ideas.</p>
+                    <button class="btn btn-default" data-ng-click="itemView.openNew()">
+                        Create new idea
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 

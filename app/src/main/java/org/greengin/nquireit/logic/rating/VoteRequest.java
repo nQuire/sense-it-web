@@ -11,6 +11,10 @@ public class VoteRequest {
     Long value;
 
     public void update(Vote vote) {
-        vote.setValue(Math.min(1, Math.max(-2, value)));
+        vote.setValue(value == 2 ? 0 : Math.min(1, Math.max(-2, value)));
+    }
+
+    public boolean isReport() {
+        return value == -2 || value == 2;
     }
 }

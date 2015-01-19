@@ -27,8 +27,4 @@ public class BaseAnalysisManipulator extends DataItemManipulator<SenseItActivity
 		}
 	}
 
-	@Override
-	public void onDelete(BaseAnalysis item) {
-	}
-
 }

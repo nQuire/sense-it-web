@@ -4,8 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.greengin.nquireit.dao.*;
 import org.greengin.nquireit.logic.data.FileManagerBean;
-import org.greengin.nquireit.logic.log.LogManager;
 import org.greengin.nquireit.logic.log.LogManagerBean;
+import org.greengin.nquireit.dao.RoleDao;
 import org.greengin.nquireit.logic.users.SubscriptionManagerBean;
 import org.greengin.nquireit.logic.users.UserServiceBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -84,6 +84,11 @@ public class ContextBean implements InitializingBean {
     @Autowired
     @Getter
     TextDao textDao;
+
+    @Autowired
+    @Getter
+    RoleDao roleDao;
+
 
     @Override
     public void afterPropertiesSet() throws Exception {

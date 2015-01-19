@@ -9,6 +9,7 @@ import org.greengin.nquireit.entities.activities.challenge.ChallengeAnswer;
 import org.greengin.nquireit.json.Views;
 import org.greengin.nquireit.logic.project.ProjectResponse;
 import org.greengin.nquireit.logic.project.challenge.ChallengeStageRequest;
+import org.greengin.nquireit.logic.project.challenge.ChallengeVisibilityRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +20,14 @@ public class ChallengeAdminController extends AbstractChallengeController {
 
     @RequestMapping(value = "/stage", method = RequestMethod.PUT)
     @ResponseBody
-	public ProjectResponse setStage(@PathVariable("projectId") Long projectId, @RequestBody ChallengeStageRequest stage, HttpServletRequest request) {
-        return createManager(projectId, request).setStage(stage.getStage());
+	public ProjectResponse setStage(@PathVariable("projectId") Long projectId, @RequestBody ChallengeStageRequest data, HttpServletRequest request) {
+        return createManager(projectId, request).setStage(data);
+	}
+
+    @RequestMapping(value = "/visibility", method = RequestMethod.PUT)
+    @ResponseBody
+	public ProjectResponse setStage(@PathVariable("projectId") Long projectId, @RequestBody ChallengeVisibilityRequest data, HttpServletRequest request) {
+        return createManager(projectId, request).setVisibility(data);
 	}
 
     @RequestMapping(value = "/answers", method = RequestMethod.GET)

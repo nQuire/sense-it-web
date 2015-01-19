@@ -10,6 +10,10 @@ public class FacebookPostRequest {
 
     @Getter
     @Setter
+    String path;
+
+    @Getter
+    @Setter
     String link;
 
     @Getter

@@ -30,6 +30,24 @@
             </button>
         </div>
 
+        <p class="project-section-content-header">Ideas visibility</p>
+        <p>Select whether ideas are visible during the proposal stage.</p>
+        <p>(Ideas are always visible during voting and outcome.)</p>
+
+        <div class="btn-group">
+            <button class="btn"
+                    data-ng-class="visibilityClass(false)"
+                    data-ng-click="setVisibility(false)">
+                No
+            </button>
+            <button class="btn"
+                    data-ng-class="visibilityClass(true)"
+                    data-ng-click="setVisibility(true)">
+                Yes
+            </button>
+        </div>
+
+
         <div data-ng-include="'partials/project/view/challenge/project-view-challenge-outcome.html'"></div>
 
     </div>

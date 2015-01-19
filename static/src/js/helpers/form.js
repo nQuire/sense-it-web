@@ -44,8 +44,8 @@ SiwFormManager.prototype._copyValues = function (from, to) {
  */
 SiwFormManager.prototype.open = function (mode) {
     this.files = {};
-    this._copyValues(this.getObject(), this.values);
-    this._isOpen = mode || true;
+    this._isOpen = typeof mode !== 'undefined' ? mode : true;
+    this._copyValues(this.getObject(true), this.values);
 };
 
 /**
@@ -54,11 +54,11 @@ SiwFormManager.prototype.open = function (mode) {
  * @returns {boolean}
  */
 SiwFormManager.prototype.isOpen = function (mode) {
-    return mode ? this._isOpen == mode : this._isOpen;
+    return typeof mode != 'undefined' ? this._isOpen === mode : this._isOpen !== false;
 };
 
 SiwFormManager.prototype.getMode = function () {
-    return this.mode;
+    return this._isOpen;
 };
 
 SiwFormManager.prototype._close = function () {

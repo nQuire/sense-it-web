@@ -2,9 +2,14 @@
     <div data-ng-if="!form.isOpen()">
         <span class="arrow">▸</span>
         <a href data-ui-sref="forum.node.list({forumId: forumNode.id})"><b>{{forumNode.title}}</b></a>
-        <button data-ng-if="adminAccess()" class="btn btn-default btn-xs" data-ng-click="form.open()">
-            {{isNew ? 'New forum' : 'Edit'}}
-        </button>
+        <span class="btn-group">
+            <button data-ng-if="adminAccess()" class="btn btn-default btn-xs" data-ng-click="form.open()">
+                {{isNew ? 'New forum' : 'Edit'}}
+            </button>
+            <button data-ng-if="adminAccess() && !isNew" class="btn btn-default btn-xs"
+                    data-ng-click="deleteForum(forumNode)">Delete
+            </button>
+        </span>
     </div>
 
     <div data-ng-if="form.isOpen()">
@@ -28,7 +33,8 @@
 <td>
     <div data-ng-if="forumNode.lastPost">
         <a href data-ui-sref="forum.thread({threadId: forumNode.lastPost.id})">{{forumNode.lastPost.title}}</a><br/>
-        {{forumNode.lastPost.lastComment.date | fuzzyDate}} by {{forumNode.lastPost.lastComment.user.username}}
+        {{forumNode.lastPost.lastComment.date | fuzzyDate}} by
+        <span siw-user-link="forumNode.lastPost.lastComment.author"></span>
     </div>
 </td>
 <td>{{forumNode.threadCount}}</td>

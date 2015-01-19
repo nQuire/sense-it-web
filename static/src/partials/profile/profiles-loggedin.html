@@ -1,0 +1,18 @@
+<div class="content-sidebar">
+    <div class="users-container">
+        <div class="users-header">
+            About
+        </div>
+        <div class="users-content">
+            <div class="row">
+                <div class="col-md-3 col-sm-6 col-xs-12" data-ng-repeat="user in users">
+                    <span data-siw-user-image data-user="user" data-show-username="true"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="sidebar-right" data-siw-sidebar-toggle>
+    <div class="sidebar-content" data-ng-include="'partials/projects/projects-sidebar.html'"></div>
+</div>

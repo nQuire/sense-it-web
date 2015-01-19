@@ -7,6 +7,7 @@ import org.greengin.nquireit.json.Views;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 
 public abstract class UserProfileMixIn {
@@ -15,10 +16,14 @@ public abstract class UserProfileMixIn {
     @JsonView(Views.UserName.class) abstract String getUsername();
     @JsonView(Views.UserProfileData.class) abstract boolean isPasswordSet();
     @JsonView(Views.UserProfileData.class) abstract HashMap<String, String> getMetadata();
+    @JsonView(Views.UserProfileData.class) abstract HashMap<String, Boolean> getVisibility();
 
 
     @JsonView(Views.UserProfileData.class) abstract String getEmail();
     @JsonIgnore boolean emailConfirmed;
+
+    @JsonIgnore Date date;
+    @JsonIgnore String status;
 
     @JsonIgnore String password;
     @JsonIgnore abstract boolean isAccountNonExpired();

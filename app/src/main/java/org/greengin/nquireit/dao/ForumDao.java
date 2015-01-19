@@ -78,6 +78,15 @@ public class ForumDao {
     }
 
     @Transactional
+    public void deleteForum(Long forumId) {
+        ForumNode forum = findForum(forumId);
+        if (forum != null) {
+            em.remove(forum);
+        }
+    }
+
+
+    @Transactional
     public ForumThread createThread(UserProfile user, Long forumId, ForumRequest forumData) {
         ForumNode forum = findForum(forumId);
 
@@ -118,6 +127,15 @@ public class ForumDao {
     }
 
     @Transactional
+    public void deleteComment(UserProfile user, ForumThread thread, Long commentId) {
+        em.persist(thread);
+        em.persist(thread.getForum());
+        if (context.getCommentsDao().deleteComment(user, thread, commentId)) {
+            thread.updateLastPost();
+        }
+    }
+
+    @Transactional
     public void deleteForumThread(ForumThread thread) {
         em.persist(thread);
         ForumNode node = thread.getForum();
@@ -127,4 +145,15 @@ public class ForumDao {
         }
         em.remove(thread);
     }
+
+    @Transactional
+    public ForumThread updateThread(UserProfile user, Long threadId, ForumRequest forumData) {
+        ForumThread thread = findThread(threadId);
+        if (user != null && thread != null && user.equals(thread.getAuthor())) {
+            forumData.update(thread);
+            context.getCommentsDao().updateComment(user, thread.getFirstComment(), forumData.getText());
+        }
+        return thread;
+    }
+
 }

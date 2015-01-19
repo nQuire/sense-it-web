@@ -2,6 +2,7 @@ package org.greengin.nquireit.entities.projects;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -32,11 +33,11 @@ public class ProjectMetadata {
     List<ProjectMetadataBlock> blocks;
 
     public boolean containsKeyword(String keyword) {
-        if (outline != null && outline.contains(keyword)) {
+        if (outline != null && StringUtils.containsIgnoreCase(outline, keyword)) {
             return true;
-        }
-
-        if (blocks != null) {
+        } else if (teaser != null && StringUtils.containsIgnoreCase(teaser, keyword)) {
+            return true;
+        } else if (blocks != null) {
             for (ProjectMetadataBlock b : blocks) {
                 if (b.containsKeyword(keyword)) {
                     return true;

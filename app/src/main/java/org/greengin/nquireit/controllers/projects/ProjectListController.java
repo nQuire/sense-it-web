@@ -5,13 +5,13 @@ import javax.servlet.http.HttpServletRequest;
 import com.mangofactory.jsonview.ResponseView;
 import org.greengin.nquireit.json.Views;
 import org.greengin.nquireit.logic.ContextBean;
-import org.greengin.nquireit.logic.project.MyProjectListResponse;
-import org.greengin.nquireit.logic.project.ProjectActions;
-import org.greengin.nquireit.logic.project.ProjectListResponse;
-import org.greengin.nquireit.logic.project.ProjectCreationRequest;
+import org.greengin.nquireit.logic.project.*;
+import org.greengin.nquireit.logic.rating.CommentFeedResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/api/projects")
@@ -36,7 +36,7 @@ public class ProjectListController {
     @RequestMapping(value = "/mine", method = RequestMethod.GET)
     @ResponseBody
     @ResponseView(Views.UserName.class)
-    public MyProjectListResponse myProjectList(HttpServletRequest request) {
+    public UserProjectListResponse myProjectList(HttpServletRequest request) {
         return createProjectManager(request).getMyProjects();
     }
 
@@ -45,6 +45,12 @@ public class ProjectListController {
     @ResponseBody
     public Long create(@RequestBody ProjectCreationRequest projectData, HttpServletRequest request) {
         return createProjectManager(request).createProject(projectData);
+    }
+
+    @RequestMapping(value = "/feed", method = RequestMethod.GET)
+    @ResponseBody
+    public List<CommentFeedResponse> commentFeed(HttpServletRequest request) {
+        return createProjectManager(request).getProjectCommentFeed();
     }
 
 }

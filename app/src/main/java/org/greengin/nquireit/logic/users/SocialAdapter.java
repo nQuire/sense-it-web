@@ -10,6 +10,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class SocialAdapter implements SignInAdapter, ConnectionSignUp {
 
@@ -20,11 +21,20 @@ public class SocialAdapter implements SignInAdapter, ConnectionSignUp {
         HttpServletRequest servletRequest = (HttpServletRequest) request.getNativeRequest();
         HttpServletResponse servletResponse = (HttpServletResponse) request.getNativeResponse();
 
-        org.springframework.social.connect.UserProfile profile = connection.fetchUserProfile();
+        HttpSession session = servletRequest.getSession();
+        String action = (String) session.getAttribute("oauth-action");
+        UserProfile currentUser = userServiceBean.currentUser();
+        org.springframework.social.connect.UserProfile oauthProfile = connection.fetchUserProfile();
         ConnectionData data = connection.createData();
-        UserProfile user = userServiceBean.providerSignIn(profile.getUsername(), data.getProviderId(), data.getProviderUserId());
+        UserProfile user = userServiceBean.providerSignIn(oauthProfile.getUsername(), data.getProviderId(), data.getProviderUserId());
+
         if (user != null) {
-            userServiceBean.login(user, servletRequest, servletResponse);
+            if (currentUser == null || "login".equals(action) || user.equals(currentUser)) {
+                session.removeAttribute("oauth-merge");
+                userServiceBean.login(user, servletRequest, servletResponse);
+            } else {
+                session.setAttribute("oauth-merge", new Long[]{currentUser.getId(), user.getId()});
+            }
         }
 
         return null;

@@ -36,7 +36,13 @@ public class ChallengeActivity extends AbstractActivity {
     @Basic
     @Getter
     @Setter
+    boolean answersAlwaysVisible = false;
+
+    @Basic
+    @Getter
+    @Setter
     ChallengeActivityStage stage = ChallengeActivityStage.PROPOSAL;
+
 
     @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL)
     @Getter
@@ -51,7 +57,7 @@ public class ChallengeActivity extends AbstractActivity {
 
     @Override
     public void loadProjectData(ContextBean context, Project project, UserProfile user, HashMap<String, Long> data) {
-        data.put("data", (long)answers.size());
+        data.put("data", (long)context.getChallengeDao().getAnswers(this, false, user).size());
     }
 
 }

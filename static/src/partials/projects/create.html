@@ -147,7 +147,8 @@
         </div>
         <div data-ng-if="!status.logged">
             <p>
-                You need to <a href data-ng-click="openIdService.loginAndComeBack()">sign in or register</a> in order to create your own projects!
+                You need to <a href data-ng-click="openIdService.loginAndComeBack()">sign in or register</a> in order to
+                create your own projects!
             </p>
 
             <p>
@@ -157,4 +158,6 @@
     </div>
 </div>
 
-<div class="sidebar-right" data-ng-include="'partials/projects/projects-sidebar.html'"></div>
+<div class="sidebar-right" data-siw-sidebar-toggle>
+    <div class="sidebar-content" data-ng-include="'partials/projects/projects-sidebar.html'"></div>
+</div>

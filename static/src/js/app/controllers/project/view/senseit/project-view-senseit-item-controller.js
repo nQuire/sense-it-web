@@ -14,6 +14,9 @@ angular.module('senseItWeb', null, null).controller('ProjectViewSenseItItemCtrl'
 
     $scope.commentVoteManager = $scope.item ? {
         votingEnabled: $scope.commentThread.postingEnabled,
+        reportingEnabled: function() {
+            return $scope.status.logged;
+        },
         getPath: function (target) {
             return $scope.commentThread + '/comments/' + target.id + '/vote';
         }

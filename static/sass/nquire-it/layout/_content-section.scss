@@ -1,14 +1,17 @@
 @import "../variables/dimensions";
 @import "../variables/colors";
 
-
 .content-no-sidebar {
-  margin: 0px;
+  margin: 0;
 }
 
 .content-sidebar {
   @extend .container-fluid;
 
-  margin: 0px $dim-common-right-panel-container-width 0px 0px;
-  padding: 0px $dim-common-small-margin $dim-common-margin $dim-common-margin;
+  margin: 0;
+
+  @media (min-width: $screen-md-min) {
+    margin: 0 $dim-common-right-panel-container-width 0 0;
+    padding: 0 $dim-common-small-margin $dim-common-margin $dim-common-margin;
+  }
 }

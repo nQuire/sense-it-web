@@ -16,4 +16,8 @@ public class ProfileRequest {
     @Setter
     HashMap<String, String> metadata;
 
+    @Getter
+    @Setter
+    HashMap<String, Boolean> visibility;
+
 }

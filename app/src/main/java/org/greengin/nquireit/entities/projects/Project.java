@@ -10,6 +10,7 @@ import org.greengin.nquireit.logic.ContextBean;
 import org.greengin.nquireit.logic.admin.ReportedContent;
 
 import javax.persistence.*;
+import java.util.Date;
 
 
 @Entity
@@ -18,16 +19,6 @@ public class Project extends CommentThreadEntity {
     public Project() {
         this.activity = null;
     }
-
-    @Basic
-    @Getter
-    @Setter
-    String title;
-
-    @ManyToOne
-    @Getter
-    @Setter
-    UserProfile author;
 
     @Getter
     @Setter
@@ -49,6 +40,11 @@ public class Project extends CommentThreadEntity {
     @Setter
     boolean featured = false;
 
+    @Basic
+    @Getter
+    @Setter
+    Date lastActivity = null;
+
 
     @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL)
     @Getter
@@ -63,11 +59,6 @@ public class Project extends CommentThreadEntity {
     @Override
     public String getReportedPath(ContextBean context) {
         return String.format("/project/%d", getId());
-    }
-
-    @Override
-    public UserProfile getOwner(ContextBean context) {
-        return author;
     }
 
     @Override

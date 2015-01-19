@@ -7,16 +7,51 @@
 
     <div class="forum-thread-comment" data-ng-repeat="comment in forum.thread.comments">
         <div class="forum-thread-comment-header">
-            <div class="username">{{comment.user.username}}</div>
+            <div class="username"><span siw-user-link="comment.author"></span></div>
             <div class="date">{{comment.date | fuzzyDate }}</div>
-            <div class="rate">
-                <div data-siw-vote-widget data-vote-manager="dataVoteManager" data-vote-target="comment"></div>
+            <div class="controls">
+                <span data-ng-if="!form.isOpen()">
+                <button class="btn btn-xs btn-default"
+                        data-ng-if="canEdit(comment)"
+                        ng-click="form.open($index)">
+                    Edit
+                </button>
+                <button class="btn btn-xs btn-default"
+                        data-ng-if="!$first && canEdit(comment)"
+                        ng-click="deleteComment(comment)">
+                    Delete
+                </button>
+                </span>
+                <span data-ng-if="form.isOpen($index)">
+                    <button class="btn btn-xs btn-default"
+                            ng-click="form.save()">
+                        Save
+                    </button>
+                    <button class="btn btn-xs btn-default"
+                            ng-click="form.cancel()">
+                        Cancel
+                    </button>
+                </span>
+                <span data-siw-vote-widget data-vote-manager="dataVoteManager" data-vote-target="comment"></span>
+            </div>
+            <div class="title" data-ng-if="$first">
+                <span data-ng-if="!form.isOpen($index)">{{forum.thread.title}}</span>
+                <input type="text" class="form-control" data-ng-if="form.isOpen($index)"
+                       data-ng-model="form.values.title"/>
             </div>
         </div>
 
-        <div class="forum-thread-author-image" data-siw-user-image data-user="comment.user"></div>
+        <div class="forum-thread-author-image" data-siw-user-image data-user="comment.author"></div>
 
-        <div class="forum-thread-text" data-ng-bind-html="comment.comment"></div>
+        <div class="forum-thread-text">
+            <div data-ng-if="!form.isOpen($index)" data-ng-bind-html="comment.comment | htmlLinky:'_blank'"></div>
+            <text-angular data-ng-if="form.isOpen($index)"
+                          id="comment"
+                          name="comment"
+                          data-ng-model="form.values.comment"
+                          placeholder="Comment">
+            </text-angular>
+        </div>
     </div>
 
     <div data-ng-if="!status.logged">
@@ -25,9 +60,9 @@
 
     <div data-ng-if="status.logged">
         <div data-ng-if="!form.isOpen()">
-            <button class="btn btn-default" data-ng-click="form.open()">Post comment</button>
+            <button class="btn btn-default" data-ng-click="form.open('new')">Post comment</button>
         </div>
-        <div data-ng-if="form.isOpen()">
+        <div data-ng-if="form.isOpen('new')">
 
             <form role="form">
                 <div class="form-group">

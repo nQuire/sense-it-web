@@ -10,5 +10,9 @@ public class TweeterPostRequest {
 
     @Getter
     @Setter
+    String path;
+
+    @Getter
+    @Setter
     String tweet;
 }

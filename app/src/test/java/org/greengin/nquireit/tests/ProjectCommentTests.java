@@ -60,7 +60,7 @@ public class ProjectCommentTests extends TestsBase {
     private void testIs(int index, UserProfile commenter, String comment) {
         assertTrue(helper.getProject(threadId).getComments().size() > index);
         Comment c = helper.getProject(threadId).getComments().get(index);
-        assertEquals(commenter, c.getUser());
+        assertEquals(commenter, c.getAuthor());
         assertEquals(comment, c.getComment());
     }
 

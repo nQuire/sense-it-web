@@ -1,7 +1,7 @@
 package org.greengin.nquireit.logic.users;
 
-import org.greengin.nquireit.dao.UserProfileDao;
 import org.greengin.nquireit.entities.users.UserProfile;
+import org.greengin.nquireit.logic.ContextBean;
 import org.greengin.nquireit.logic.files.FileMapUpload;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +24,14 @@ import javax.servlet.http.HttpSession;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
 
 public class UserServiceBean implements UserDetailsService, InitializingBean {
 
+    private static int SESSION_TIMEOUT = 5 * 60 * 1000;
 
     @Autowired
     AuthenticationManager authenticationManager;
@@ -40,9 +42,8 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
     @Autowired
     RememberMeServices rememberMeServices;
 
-
     @Autowired
-    UserProfileDao userProfileDao;
+    ContextBean context;
 
     SecureRandom random;
 
@@ -66,7 +67,7 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
 
     @Override
     public UserProfile loadUserByUsername(String s) throws UsernameNotFoundException {
-        return userProfileDao.loadUserByUsername(s);
+        return context.getUserProfileDao().loadUserByUsername(s);
     }
 
     private StatusResponse createResponse(Authentication auth, HashMap<String, Connection<?>> connections, HttpSession session) {
@@ -112,7 +113,7 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
     public UserProfile currentUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return auth != null && auth.getPrincipal() != null && auth.getPrincipal() instanceof UserProfile ?
-                userProfileDao.user(((UserProfile) auth.getPrincipal())) : null;
+                context.getUserProfileDao().user(((UserProfile) auth.getPrincipal())) : null;
     }
 
     public boolean checkToken(HttpServletRequest request) {
@@ -121,29 +122,19 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
         return attr != null && attr.toString().equals(request.getHeader("nquire-it-token"));
     }
 
-    public Authentication login(UserProfile user, HttpSession session, String token) {
-        Authentication auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(auth);
-        session.setAttribute("nquire-it-token", token);
-        return auth;
-    }
+    private boolean initSession(UserProfile user, String password, boolean requirePassword, HttpServletRequest request, HttpServletResponse response) {
 
-    public Authentication login(UserProfile user, HttpSession session) {
-        return login(user, session, new BigInteger(260, random).toString(32));
-    }
-
-    public Authentication login(UserProfile user, HttpServletRequest request, HttpServletResponse response) {
-        Authentication auth = login(user, request.getSession());
-        securityContextRepository.saveContext(SecurityContextHolder.getContext(), request, response);
-        rememberMeServices.loginSuccess(request, response, auth);
-        return auth;
-    }
-
-    public Boolean login(String username, String password, HttpServletRequest request, HttpServletResponse response) {
         Authentication auth;
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
+
         try {
-            auth = authenticationManager.authenticate(token);
+            if (requirePassword) {
+                UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getUsername(), password);
+                auth = authenticationManager.authenticate(token);
+            } else {
+                auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+            }
+
+            context.getLogManager().loggedIn(user);
             SecurityContextHolder.getContext().setAuthentication(auth);
             securityContextRepository.saveContext(SecurityContextHolder.getContext(), request, response);
             rememberMeServices.loginSuccess(request, response, auth);
@@ -152,21 +143,45 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
             auth = null;
         }
 
+        return auth != null && auth.getPrincipal() != null && auth.getPrincipal() instanceof UserProfile;
+    }
+
+
+    public Boolean login(UserProfile user, HttpServletRequest request, HttpServletResponse response) {
+        return initSession(user, null, false, request, response);
+    }
+
+    public Boolean testLogin(UserProfile user, HttpSession session, String sessionToken) {
+
+        Authentication auth;
+
+        try {
+            auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(auth);
+            session.setAttribute("nquire-it-token", sessionToken);
+        } catch (Exception ex) {
+            auth = null;
+        }
 
         return auth != null && auth.getPrincipal() != null && auth.getPrincipal() instanceof UserProfile;
     }
 
-    public StatusResponse logout(HashMap<String, Connection<?>> connections, HttpServletRequest request, HttpServletResponse response) {
+    public Boolean login(String username, String password, HttpServletRequest request, HttpServletResponse response) {
+        UserProfile user = context.getUserProfileDao().loadUserByUsername(username);
+        return user != null && initSession(user, password, true, request, response);
+    }
+
+    public StatusResponse logout(UserProfile user, HashMap<String, Connection<?>> connections, HttpServletRequest request, HttpServletResponse response) {
+        context.getLogManager().loggedOut(user);
         CookieClearingLogoutHandler cookieClearingLogoutHandler = new CookieClearingLogoutHandler(AbstractRememberMeServices.SPRING_SECURITY_REMEMBER_ME_COOKIE_KEY);
         SecurityContextLogoutHandler securityContextLogoutHandler = new SecurityContextLogoutHandler();
         cookieClearingLogoutHandler.logout(request, response, null);
         securityContextLogoutHandler.logout(request, response, null);
-
         return status(connections, request.getSession());
     }
 
     public UserProfile providerSignIn(String username, String providerId, String providerUserId) {
-        UserProfile existingUser = userProfileDao.loadUserByProviderUserId(providerId, providerUserId);
+        UserProfile existingUser = context.getUserProfileDao().loadUserByProviderUserId(providerId, providerUserId);
         if (existingUser != null) {
             return existingUser;
         } else {
@@ -183,7 +198,7 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
                 initialUsername = String.format("%s_%d", username, i);
             }
 
-            UserProfile user = userProfileDao.createUser(initialUsername, null, email, email != null);
+            UserProfile user = context.getUserProfileDao().createUser(initialUsername, null, email, email != null);
             newUser(user.getUsername());
             return user;
         }
@@ -197,15 +212,15 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
 
 
     public boolean matchPassword(UserProfile user, String password) {
-        return userProfileDao.matchPassword(user, password);
+        return context.getUserProfileDao().matchPassword(user, password);
     }
 
     public void setPassword(UserProfile user, String password) {
-        userProfileDao.setPassword(user, password);
+        context.getUserProfileDao().setPassword(user, password);
     }
 
     public boolean updateProfileImage(StatusResponse currentStatus, FileMapUpload files) {
-        return userProfileDao.updateProfileImage(currentStatus.getProfile(), files);
+        return context.getUserProfileDao().updateProfileImage(currentStatus.getProfile(), files);
     }
 
 
@@ -218,21 +233,20 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
                 } else if (!usernameIsAvailable(data.getUsername())) {
                     currentStatus.getResponses().put("username", "username_not_available");
                 } else {
-                    userProfileDao.updateUsername(currentStatus.getProfile(), data.getUsername());
+                    context.getUserProfileDao().updateUsername(currentStatus.getProfile(), data.getUsername());
                 }
             }
         }
 
-        if (data.getMetadata() != null) {
-            userProfileDao.updateUserMetadata(currentStatus.getProfile(), data.getMetadata());
-        }
+        context.getUserProfileDao().updateUserInformation(currentStatus.getProfile(), data.getMetadata(), data.getVisibility());
 
-        //update(currentStatus);
         return true;
     }
 
     public boolean deleteConnection(StatusResponse currentStatus, String providerId) {
-        if (((currentStatus.getProfile().getPassword() != null && currentStatus.getProfile().getPassword().length() > 0) || currentStatus.getConnections().size() > 1) && userProfileDao.deleteConnection(currentStatus.getProfile(), providerId)) {
+        if (((currentStatus.getProfile().getPassword() != null && currentStatus.getProfile().getPassword().length() > 0) ||
+                currentStatus.getConnections().size() > 1) &&
+                context.getUserProfileDao().deleteConnection(currentStatus.getProfile(), providerId)) {
             currentStatus.getConnections().remove(providerId);
             return true;
         }
@@ -241,7 +255,7 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
     }
 
 
-    public StatusResponse registerUser(RegisterRequest data, HashMap<String, Connection<?>> connections, HttpServletRequest request) {
+    public StatusResponse registerUser(RegisterRequest data, HashMap<String, Connection<?>> connections, HttpServletRequest request, HttpServletResponse response) {
         try {
             loadUserByUsername(data.getUsername());
             StatusResponse result = new StatusResponse();
@@ -252,19 +266,67 @@ public class UserServiceBean implements UserDetailsService, InitializingBean {
         } catch (UsernameNotFoundException e) {
 
             try {
-                userProfileDao.loadUserByUsername(data.getEmail());
+                context.getUserProfileDao().loadUserByUsername(data.getEmail());
                 StatusResponse result = new StatusResponse();
                 result.setLogged(false);
                 result.setProfile(null);
                 result.getResponses().put("registration", "email_exists");
                 return result;
             } catch (UsernameNotFoundException e2) {
-                UserProfile user = userProfileDao.createUser(data.getUsername(), data.getPassword(), data.getEmail(), false);
-                login(user, request.getSession());
-
+                UserProfile user = context.getUserProfileDao().createUser(data.getUsername(), data.getPassword(), data.getEmail(), false);
+                login(user, request, response);
                 return status(connections, request.getSession());
             }
         }
     }
 
+    public PublicProfileResponse getPublicProfile(Long userId) {
+        PublicProfileResponse response = new PublicProfileResponse();
+        UserProfile profile = context.getUserProfileDao().loadUserById(userId);
+
+        if (profile != null) {
+            response.setId(profile.getId());
+            response.setUsername(profile.getUsername());
+            response.setImage(profile.getImage());
+
+            if (profile.getVisibility().get("metadata") && profile.getMetadata() != null) {
+                response.getMetadata().putAll(profile.getMetadata());
+            }
+
+            boolean joined = profile.getVisibility().get("projectsJoined");
+            boolean created = profile.getVisibility().get("projectsCreated");
+            response.setProjects(context.getProjectDao().getMyProjects(profile, joined, created));
+        }
+
+        return response;
+    }
+
+    public boolean mergeAccount(UserProfile user, UserProfile mergedUser, String provider) {
+        if (context.getUserProfileDao().deleteConnection(mergedUser, provider)) {
+            context.getLogManager().usersMerged(user, mergedUser);
+            context.getVotableDao().transferContent(mergedUser, user);
+            context.getVoteDao().transferVotes(mergedUser, user);
+            context.getRoleDao().transferRoles(mergedUser, user);
+            context.getUserProfileDao().deleteUser(mergedUser);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isLoggedIn(UserProfile user) {
+        return context.getLogManager().userRecentAction(user, SESSION_TIMEOUT);
+    }
+
+    public LoggedInProfilesResponse getLoggedUsers(int max) {
+        LoggedInProfilesResponse response = new LoggedInProfilesResponse();
+        List<UserProfile> users = context.getLogManager().getRecentUsers(SESSION_TIMEOUT);
+        response.setUsers(users.subList(0, Math.min(max, users.size())));
+        response.setCount(users.size());
+        return response;
+    }
+
+    public List<UserProfile> getLoggedUsers() {
+        return context.getLogManager().getRecentUsers(SESSION_TIMEOUT);
+    }
 }

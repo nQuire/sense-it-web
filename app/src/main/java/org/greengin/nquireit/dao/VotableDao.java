@@ -1,8 +1,12 @@
 package org.greengin.nquireit.dao;
 
+import org.greengin.nquireit.entities.data.AbstractDataProjectItem;
+import org.greengin.nquireit.entities.data.DataCollectionActivity;
 import org.greengin.nquireit.entities.rating.*;
+import org.greengin.nquireit.entities.users.UserProfile;
 import org.greengin.nquireit.logic.ContextBean;
 import org.greengin.nquireit.logic.admin.ReportedContent;
+import org.greengin.nquireit.logic.log.LogManagerBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,12 +23,19 @@ import java.util.Vector;
 public class VotableDao {
     private static final String REPORTED_CONTENT_QUERY = "SELECT t, COUNT(v.id) as N FROM VotableEntity t INNER JOIN t.votes v WHERE v.value = -2 GROUP BY t.id";
     private static final String REPORTING_VOTE_QUERY = "SELECT v FROM Vote v WHERE v.target = :target AND v.value = -2";
+    private static final String USERS_QUERY = "SELECT e FROM VotableEntity e WHERE e.author = :author";
 
     @Autowired
     ForumDao forumDao;
 
     @Autowired
     CommentsDao commentsDao;
+
+    @Autowired
+    LogManagerBean logManager;
+
+    @Autowired
+    DataActivityDao dataActivityDao;
 
     @PersistenceContext
     EntityManager em;
@@ -55,17 +66,21 @@ public class VotableDao {
         return categories;
     }
 
-    public boolean deleteReportedEntity(Long id) {
+    public boolean deleteReportedEntity(UserProfile admin, Long id) {
         VotableEntity entity = em.find(VotableEntity.class, id);
 
         if (entity != null) {
             if (entity instanceof Comment) {
                 Comment comment = (Comment) entity;
+                logManager.reportedContentRemoved(admin, comment);
                 commentsDao.deleteComment(comment);
                 return true;
             } else if (entity instanceof ForumThread) {
+                logManager.reportedContentRemoved(admin, entity);
                 forumDao.deleteForumThread((ForumThread) entity);
                 return true;
+            } else if (entity instanceof AbstractDataProjectItem) {
+                dataActivityDao.removeItem((AbstractDataProjectItem) entity);
             }
         }
 
@@ -73,18 +88,35 @@ public class VotableDao {
     }
 
     @Transactional
-    public boolean approveReportedEntity(Long id) {
+    public boolean approveReportedEntity(UserProfile admin, Long id) {
         VotableEntity entity = em.find(VotableEntity.class, id);
         if (entity != null) {
             TypedQuery<Vote> query = em.createQuery(REPORTING_VOTE_QUERY, Vote.class);
             query.setParameter("target", entity);
+            boolean wasReported = false;
             for (Vote v : query.getResultList()) {
                 v.setValue(0l);
+                wasReported = true;
+            }
+
+            if (wasReported) {
+                logManager.reportedContentApproved(admin, entity);
             }
 
             return true;
         } else {
             return false;
+        }
+    }
+
+    @Transactional
+    public void transferContent(UserProfile fromUser, UserProfile toUser) {
+        TypedQuery<VotableEntity> query = em.createQuery(USERS_QUERY, VotableEntity.class);
+        query.setParameter("author", fromUser);
+
+        for (VotableEntity entity : query.getResultList()) {
+            entity.setAuthor(toUser);
+            em.persist(entity);
         }
     }
 }

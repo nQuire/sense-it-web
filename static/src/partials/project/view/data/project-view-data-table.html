@@ -3,7 +3,12 @@
 <div class="project-section-content">
     <div class="project-section-content-fill">
         <p class="project-section-content-header">Data list</p>
+
         <div data-ng-include="templates.dataTable"></div>
+        <p>
+            <a ng-href="/api/project/{{projectData.project.id}}/senseit/data/csv"
+               target="_blank">Download CSV</a>
+        </p>
     </div>
 </div>
 

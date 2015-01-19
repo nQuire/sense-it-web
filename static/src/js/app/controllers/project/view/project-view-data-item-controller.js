@@ -42,6 +42,9 @@ angular.module('senseItWeb', null, null).controller('ProjectViewDataItemCtrl', f
 
                 $scope.commentVoteManager = {
                     votingEnabled: $scope.commentThread.postingEnabled,
+                    reportingEnabled: function() {
+                        return $scope.status.logged;
+                    },
                     getPath: function (target) {
                         return 'api/project/' + $scope.projectData.project.id + '/' + $scope.projectData.project.type +
                             '/data/' + $scope.item.id + '/comments/' + target.id + '/vote';

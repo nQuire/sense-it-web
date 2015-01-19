@@ -38,6 +38,9 @@ public class UserProfileDao {
     FileManagerBean fileManager;
 
 
+    public UserProfile loadUserById(Long id) {
+        return em.find(UserProfile.class, id);
+    }
 
     public UserProfile loadUserByUsernameOrEmail(String username, String email) throws UsernameNotFoundException {
         try {
@@ -157,17 +160,21 @@ public class UserProfileDao {
     }
 
     @Transactional
-    public void updateUserMetadata(UserProfile user, HashMap<String, String> metadata) {
+    public void updateUserInformation(UserProfile user, HashMap<String, String> metadata, HashMap<String, Boolean> visibility) {
         em.persist(user);
 
-        HashMap<String, String> current = user.getMetadata();
-        if (current == null) {
-            current = new HashMap<String, String>();
+        if (metadata != null) {
+            HashMap<String, String> current = user.getMetadata();
+            if (current == null) {
+                current = new HashMap<String, String>();
+            }
+            current.putAll(metadata);
+            user.setMetadata(current);
         }
 
-        current.putAll(metadata);
-
-        user.setMetadata(metadata);
+        if (visibility != null) {
+            user.setVisibility(visibility);
+        }
     }
 
     public List<UserProfile> listUsers() {
@@ -180,5 +187,14 @@ public class UserProfileDao {
         if (user != null) {
             user.setAdmin(isAdmin);
         }
+    }
+
+    @Transactional
+    public void deleteUser(UserProfile user) {
+        for (String providerId : new String[]{"google", "twitter", "facebook"}) {
+            deleteConnection(user, providerId);
+        }
+        em.persist(user);
+        em.remove(user);
     }
 }

@@ -13,17 +13,6 @@ import java.util.Vector;
 
 @Entity
 public class ForumThread extends CommentThreadEntity {
-
-    @Basic
-    @Getter
-    @Setter
-    String title;
-
-    @ManyToOne
-    @Getter
-    @Setter
-    UserProfile author;
-
     @ManyToOne
     @Getter
     @Setter
@@ -58,11 +47,6 @@ public class ForumThread extends CommentThreadEntity {
     @Override
     public String getReportedPath(ContextBean context) {
         return String.format("/forum/thread/%d", getId());
-    }
-
-    @Override
-    public UserProfile getOwner(ContextBean context) {
-        return author;
     }
 
     @Override

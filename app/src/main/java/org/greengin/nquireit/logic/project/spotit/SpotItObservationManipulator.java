@@ -67,8 +67,4 @@ public class SpotItObservationManipulator extends DataItemManipulator<SpotItActi
         }
     }
 
-    @Override
-    public void onDelete(SpotItObservation item) {
-    }
-
 }

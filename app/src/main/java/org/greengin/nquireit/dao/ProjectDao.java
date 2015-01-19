@@ -4,12 +4,15 @@ package org.greengin.nquireit.dao;
 import org.greengin.nquireit.entities.AbstractEntity;
 import org.greengin.nquireit.entities.activities.base.AbstractActivity;
 import org.greengin.nquireit.entities.projects.*;
+import org.greengin.nquireit.entities.users.Role;
 import org.greengin.nquireit.entities.users.RoleType;
 import org.greengin.nquireit.entities.users.UserProfile;
 import org.greengin.nquireit.logic.ContextBean;
 import org.greengin.nquireit.logic.data.FileManagerBean;
 import org.greengin.nquireit.logic.files.FileMapUpload;
+import org.greengin.nquireit.logic.project.MyProjectResponse;
 import org.greengin.nquireit.logic.project.ProjectCreationRequest;
+import org.greengin.nquireit.logic.project.UserProjectListResponse;
 import org.greengin.nquireit.logic.project.metadata.ProjectRequest;
 import org.greengin.nquireit.logic.users.SubscriptionManagerBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
@@ -28,15 +32,15 @@ public class ProjectDao {
 
     static final String JOINED_PROJECTS_QUERY = "SELECT DISTINCT e FROM Role r INNER JOIN r.context e WHERE r.user=:user AND r.type=:access";
 
-    static final String PROJECTS_QUERY = "SELECT p FROM Project p";
-    static final String PROJECTS_TYPE_QUERY = "SELECT p FROM Project p WHERE p.type = :type";
-    static final String PROJECTS_TYPE_FEATURED_QUERY = "SELECT p FROM Project p WHERE p.featured = TRUE AND p.type = :type";
-    static final String PROJECTS_FEATURED_QUERY = "SELECT p FROM Project p WHERE p.featured = TRUE";
+    static final String PROJECTS_QUERY = "SELECT p FROM Project p ORDER BY p.lastActivity DESC";
+    static final String PROJECTS_TYPE_QUERY = "SELECT p FROM Project p WHERE p.type = :type ORDER BY p.lastActivity DESC";
+    static final String PROJECTS_TYPE_FEATURED_QUERY = "SELECT p FROM Project p WHERE p.featured = TRUE AND p.type = :type ORDER BY p.lastActivity DESC";
+    static final String PROJECTS_FEATURED_QUERY = "SELECT p FROM Project p WHERE p.featured = TRUE ORDER BY p.lastActivity DESC";
 
-    static final String TYPED_PROJECTS_QUERY = "SELECT p FROM Project p WHERE p.type = :type";
+    static final String TYPED_PROJECTS_QUERY = "SELECT p FROM Project p WHERE p.type = :type ORDER BY p.lastActivity DESC";
     private static final String MY_PROJECTS_QUERY = "SELECT r, e FROM Role r INNER JOIN r.context e WHERE r.user = :user";
 
-    private static final String FIND_PROJECT_QUERY = "SELECT p FROM Project p WHERE p.activity = :activity";
+    private static final String FIND_PROJECT_QUERY = "SELECT p FROM Project p WHERE p.activity = :activity ORDER BY p.lastActivity DESC";
 
 
     @PersistenceContext
@@ -58,6 +62,7 @@ public class ProjectDao {
         project.setTitle("New project");
         project.setOpen(false);
         project.setAuthor(author);
+        project.setLastActivity(new Date());
         projectData.initProject(project, context);
         em.persist(project);
         subscriptionManagerBean.projectCreatedInTransaction(em, project, author);
@@ -139,6 +144,27 @@ public class ProjectDao {
         return query.getResultList();
     }
 
+
+    public UserProjectListResponse getMyProjects(UserProfile user, boolean joined, boolean created) {
+        UserProjectListResponse response = new UserProjectListResponse(joined, created);
+        List<Object[]> all = context.getProjectDao().getMyProjects(user);
+
+        for (Object[] entry : all) {
+            if (entry.length == 2 && entry[0] instanceof Role && entry[1] instanceof Project) {
+                Role r = (Role) entry[0];
+                Project p = (Project) entry[1];
+
+                if (created && r.getType() == RoleType.ADMIN) {
+                    response.getAdmin().add(new MyProjectResponse(p));
+                } else if (joined && r.getType() == RoleType.MEMBER) {
+                    response.getMember().add(new MyProjectResponse(p));
+                }
+            }
+        }
+
+        return response;
+    }
+
     public List<Project> getProjectsSimple(String type) {
         TypedQuery<Project> query = em.createQuery(TYPED_PROJECTS_QUERY, Project.class);
         query.setParameter("type", ProjectType.create(type));
@@ -148,6 +174,7 @@ public class ProjectDao {
 
     @Transactional
     public Boolean deleteProject(Project project) {
+        context.getRoleDao().removeContextRoles(project);
         em.persist(project);
         em.remove(project);
         return true;
@@ -172,6 +199,12 @@ public class ProjectDao {
     public void setFeatured(Long projectId, boolean featured) {
         Project p = em.find(Project.class, projectId);
         p.setFeatured(featured);
+    }
+
+    @Transactional
+    public void updateActivityTimestamp(Project project) {
+        em.persist(project);
+        project.setLastActivity(new Date());
     }
 
     @Transactional

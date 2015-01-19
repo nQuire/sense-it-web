@@ -1,9 +1,13 @@
-angular.module('senseItWeb', null, null).controller('SocialActionsCtrl', function ($scope, $state, ModalService, OpenIdService, RestService) {
+angular.module('senseItWeb', null, null).controller('SocialActionsCtrl', function ($scope, $state, $location, ModalService, OpenIdService, RestService) {
 
   $scope.providers = {
     //'google': 'Google',
     'twitter': 'Twitter',
     'facebook': 'Facebook'
+  };
+
+  $scope.emailLink = function () {
+    return 'mailto:?' + jQuery.param($scope.socialPosting.content('email'));
   };
 
 
@@ -32,8 +36,11 @@ angular.module('senseItWeb', null, null).controller('SocialActionsCtrl', functio
           login: function () {
             OpenIdService.loginAndComeBack();
           },
+          oauthLogin: function () {
+            OpenIdService.providerLogin(provider, 'login');
+          },
           link: function () {
-            OpenIdService.providerLogin(provider);
+            OpenIdService.providerLogin(provider, 'link');
           }
         },
         posting: posting,
@@ -43,7 +50,8 @@ angular.module('senseItWeb', null, null).controller('SocialActionsCtrl', functio
         ok: function () {
           if ($scope.result.state == 'idle') {
             $scope.result.state = 'posting';
-            RestService.post('api/social/' + provider + '/post', posting.content).then(function (response) {
+            var content = $.extend({path: $location.path()}, posting.content);
+            RestService.post('api/social/' + provider + '/post', content).then(function (response) {
               if (response && response.url) {
                 $scope.result.state = 'completed';
                 $scope.result.url = response.url;

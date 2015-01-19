@@ -2,14 +2,13 @@ package org.greengin.nquireit.controllers.forum;
 
 
 import com.mangofactory.jsonview.ResponseView;
-import org.greengin.nquireit.entities.rating.Comment;
 import org.greengin.nquireit.entities.rating.ForumNode;
 import org.greengin.nquireit.entities.rating.ForumThread;
 import org.greengin.nquireit.json.Views;
 import org.greengin.nquireit.logic.ContextBean;
 import org.greengin.nquireit.logic.forum.ForumManager;
 import org.greengin.nquireit.logic.forum.ForumRequest;
-import org.greengin.nquireit.logic.project.metadata.ProjectRequest;
+import org.greengin.nquireit.logic.rating.CommentFeedResponse;
 import org.greengin.nquireit.logic.rating.CommentRequest;
 import org.greengin.nquireit.logic.rating.VoteCount;
 import org.greengin.nquireit.logic.rating.VoteRequest;
@@ -69,6 +68,13 @@ public class ForumController {
         return createForumManager(request).updateForum(forumId, forumData);
     }
 
+    @RequestMapping(value = "/{forumId}", method = RequestMethod.DELETE)
+    @ResponseBody
+    @ResponseView(value = Views.ForumList.class)
+    public ForumNode deleteForum(@PathVariable("forumId") Long forumId, HttpServletRequest request) {
+        return createForumManager(request).deleteForum(forumId);
+    }
+
     /** participant options **/
 
 
@@ -80,21 +86,47 @@ public class ForumController {
         return createForumManager(request).createThread(forumId, forumData);
     }
 
-    @RequestMapping(value = "/{threadId}/comments", method = RequestMethod.POST)
+    @RequestMapping(value = "/thread/{threadId}", method = RequestMethod.PUT)
+    @ResponseBody
+    @ResponseView(value = Views.ForumThread.class)
+    public ForumThread updateThread(@PathVariable("threadId") Long threadId, @RequestBody ForumRequest forumData, HttpServletRequest request) {
+        return createForumManager(request).updateThread(threadId, forumData);
+    }
+
+    @RequestMapping(value = "/thread/{threadId}/comments", method = RequestMethod.POST)
     @ResponseBody
     @ResponseView(value = Views.ForumThread.class)
     public ForumThread commentsPost(@PathVariable("threadId") Long threadId, @RequestBody CommentRequest data, HttpServletRequest request) {
         return createForumManager(request).comment(threadId, data);
     }
 
-    @RequestMapping(value = "/{threadId}/comments/{commentId}/vote", method = RequestMethod.POST)
+    @RequestMapping(value = "/thread/{threadId}/comments/{commentId}", method = RequestMethod.PUT)
     @ResponseBody
-    @ResponseView(value = Views.VotableCount.class)
-    public VoteCount acommentsVote(@PathVariable("threadId") Long threadId, @PathVariable("commentId") Long commentId, @RequestBody VoteRequest voteData, HttpServletRequest request) {
-        return createForumManager(request).voteComment(threadId, commentId, voteData);
+    @ResponseView(value = Views.ForumThread.class)
+    public ForumThread commentsUpdate(@PathVariable("threadId") Long threadId, @PathVariable("commentId") Long commentId, @RequestBody CommentRequest data, HttpServletRequest request) {
+        return createForumManager(request).updateComment(threadId, commentId, data);
+    }
+
+    @RequestMapping(value = "/thread/{threadId}/comments/{commentId}", method = RequestMethod.DELETE)
+    @ResponseBody
+    @ResponseView(value = Views.ForumThread.class)
+    public ForumThread commentsDelete(@PathVariable("threadId") Long threadId, @PathVariable("commentId") Long commentId, HttpServletRequest request) {
+        return createForumManager(request).deleteComment(threadId, commentId);
     }
 
 
+    @RequestMapping(value = "/{threadId}/comments/{commentId}/vote", method = RequestMethod.POST)
+    @ResponseBody
+    @ResponseView(value = Views.VotableCount.class)
+    public VoteCount commentsVote(@PathVariable("threadId") Long threadId, @PathVariable("commentId") Long commentId, @RequestBody VoteRequest voteData, HttpServletRequest request) {
+        return createForumManager(request).voteComment(threadId, commentId, voteData);
+    }
+
+    @RequestMapping(value = "/feed", method = RequestMethod.GET)
+    @ResponseBody
+    public List<CommentFeedResponse> commentFeed(HttpServletRequest request) {
+        return createForumManager(request).getForumCommentFeed();
+    }
 
 
 

@@ -5,6 +5,7 @@
                 <b>{{category.title}}</b>
                 <span data-ng-if="adminAccess()" class="btn-group">
                     <button class="btn btn-default btn-xs" data-ng-click="form.open()">Edit</button>
+                    <button class="btn btn-default btn-xs" data-ng-click="deleteForumCategory(category)">Delete</button>
                 </span>
                 <br/>
                 {{category.description}}
@@ -40,8 +41,8 @@
     </td>
 </tr>
 
-<tr data-ng-if="!isNew && adminAccess()" class="forum-list-forum" data-ng-include="'partials/forum/forum-list-forum.html'"
-    data-ng-controller="ForumListForumCtrl"></tr>
-
 <tr data-ng-if="!isNew" class="forum-list-forum" data-ng-repeat="forumNode in category.children"
     data-ng-include="'partials/forum/forum-list-forum.html'" data-ng-controller="ForumListForumCtrl"></tr>
+
+<tr data-ng-if="!isNew && adminAccess()" class="forum-list-forum" data-ng-include="'partials/forum/forum-list-forum.html'"
+    data-ng-controller="ForumListForumCtrl"></tr>

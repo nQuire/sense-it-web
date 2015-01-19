@@ -23,7 +23,9 @@
         </thead>
         <tbody>
         <tr data-ng-repeat="user in sortedItems()" data-ng-class="rowClass(user)">
-            <td class="selectable" data-ng-click="select(user)">{{user.username}}</td>
+            <td class="selectable" data-ng-click="select(user)">
+                <span siw-user-link="user.username"></span>
+            </td>
             <td data-ng-repeat="column in activityUsersManagement.columns"
                 data-ng-class="{'clickable': column.callback}" data-ng-click="column.callback(user)">
                 {{column.data(user)}}

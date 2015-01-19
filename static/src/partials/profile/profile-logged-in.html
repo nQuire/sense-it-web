@@ -1,4 +1,6 @@
-<div class="profile-header">Your profile page</div>
+<div class="profile-header">Your profile page
+    <button class="btn btn-default btn-xs" data-ng-click="logout()">Logout</button>
+</div>
 <div class="profile-page">
 
 
@@ -18,8 +20,10 @@
         <form role="form">
             <div class="form-group">
                 <div><label for="file-select-input-image">Profile image:</label></div>
-                <img data-ng-if="filelistener.previewFile" width="50%" data-ng-src="{{filelistener.previewFile}}" src=""/>
-                <img data-ng-if="!filelistener.previewFile" width="50%" data-ng-src="{{status.profile.image | uploadedImage}}" src=""/>
+                <img data-ng-if="filelistener.previewFile" width="50%" data-ng-src="{{filelistener.previewFile}}"
+                     src=""/>
+                <img data-ng-if="!filelistener.previewFile" width="50%"
+                     data-ng-src="{{status.profile.image | uploadedImage}}" src=""/>
 
                 <div id="file-select-input-image" data-siw-file-select-widget data-ng-attr-filekey="image"
                      data-ng-attr-original="{{status.profile.image}}">
@@ -39,10 +43,10 @@
 
 <div class="profile-logged-in-right-section">
     <div class="profile-logged-in-right-section-header">
-        Your profile...
-        <button class="btn btn-default" data-ng-click="logout()">Logout</button>
+        Login information
     </div>
 
+    <!-- username -->
     <div data-ng-if="!form.isOpen('username')" class="profile-logged-in-right-section-data">
         <span class="profile-logged-in-right-section-data-label">Username:</span>
         <span class="profile-logged-in-right-section-data-value">{{status.profile.username}}
@@ -72,75 +76,7 @@
         </form>
     </div>
 
-
-    <div data-ng-if="!form.isOpen('name')" class="profile-logged-in-right-section-data">
-        <span class="profile-logged-in-right-section-data-label">Name:</span>
-        <span class="profile-logged-in-right-section-data-value">{{status.profile.metadata.name}}
-            <button data-ng-if="!form.isOpen()"
-                    class="btn btn-default"
-                    data-ng-click="form.open('name')">Edit
-            </button>
-        </span>
-    </div>
-    <div data-ng-if="form.isOpen('name')" class="profile-logged-in-right-section-data">
-        <form class="form-inline" role="form">
-            <div class="form-group">
-                <label for="name">Name:</label>
-                <input id="name" class="form-control" type="text" placeholder="Name"
-                       data-ng-model="form.values.metadata.name"/>
-            </div>
-            <div class="btn-group">
-                <button class="btn btn-default" data-ng-click="form.save()">Save</button>
-                <button class="btn btn-default" data-ng-click="form.cancel()">Cancel</button>
-            </div>
-        </form>
-    </div>
-
-    <div data-ng-if="!form.isOpen('dob')" class="profile-logged-in-right-section-data">
-        <span class="profile-logged-in-right-section-data-label">Date of birth:</span>
-        <span class="profile-logged-in-right-section-data-value">{{status.profile.metadata.dob}}
-        <button data-ng-if="!form.isOpen()"
-                class="btn btn-default"
-                data-ng-click="form.open('dob')">Edit
-        </button></span>
-    </div>
-    <div data-ng-if="form.isOpen('dob')" class="profile-logged-in-right-section-data">
-        <form class="form-inline" role="form">
-            <div class="form-group">
-                <label for="dob">Date of birth:</label>
-                <input id="dob" class="form-control" type="date"
-                       data-ng-model="form.values.metadata.dob"/>
-            </div>
-            <div class="btn-group">
-                <button class="btn btn-default" data-ng-click="form.save()">Save</button>
-                <button class="btn btn-default" data-ng-click="form.cancel()">Cancel</button>
-            </div>
-        </form>
-    </div>
-
-    <div data-ng-if="!form.isOpen('location')" class="profile-logged-in-right-section-data">
-        <span class="profile-logged-in-right-section-data-label">Location:</span>
-        <span class="profile-logged-in-right-section-data-value">{{status.profile.metadata.location}}
-        <button data-ng-if="!form.isOpen()"
-                class="btn btn-default"
-                data-ng-click="form.open('location')">Edit
-        </button></span>
-    </div>
-    <div data-ng-if="form.isOpen('location')" class="profile-logged-in-right-section-data">
-        <form class="form-inline" role="form">
-            <div class="form-group">
-                <label for="location">Location:</label>
-                <input id="location" class="form-control" type="text"
-                       data-ng-model="form.values.metadata.location"/>
-            </div>
-            <div class="btn-group">
-                <button class="btn btn-default" data-ng-click="form.save()">Save</button>
-                <button class="btn btn-default" data-ng-click="form.cancel()">Cancel</button>
-            </div>
-        </form>
-    </div>
-
-
+    <!-- password -->
     <div data-ng-if="!password.editing" class="profile-logged-in-right-section-data">
         <p>
             <span class="profile-logged-in-right-section-data-label">Password set:</span>
@@ -192,8 +128,111 @@
         </form>
     </div>
 
+    <div class="profile-logged-in-right-section-header">
+        Profile information
+        <button class="btn btn-default" data-ng-if="!form.isOpen()"
+                data-ng-click="form.open('metadata')">
+            Edit
+        </button>
+    </div>
+
+    <div data-ng-if="!form.isOpen('metadata')">
+        <div class="profile-logged-in-right-section-data">
+            <span class="profile-logged-in-right-section-data-label">Name:</span>
+            <span class="profile-logged-in-right-section-data-value">{{status.profile.metadata.name}}</span>
+        </div>
+        <div class="profile-logged-in-right-section-data">
+            <span class="profile-logged-in-right-section-data-label">Location:</span>
+            <span class="profile-logged-in-right-section-data-value">{{status.profile.metadata.location}}</span>
+        </div>
+        <div class="profile-logged-in-right-section-data">
+            <span class="profile-logged-in-right-section-data-label">Description:</span>
+            <span class="profile-logged-in-right-section-data-value">{{status.profile.metadata.description}}</span>
+        </div>
+        <div class="profile-logged-in-right-section-data">
+            <span class="profile-logged-in-right-section-data-label">Interests:</span>
+            <span class="profile-logged-in-right-section-data-value">{{status.profile.metadata.interests}}</span>
+        </div>
+    </div>
+
+
+    <div data-ng-if="form.isOpen('metadata')" class="profile-logged-in-right-section-data">
+        <form role="form">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input id="name" class="form-control" type="text" placeholder="Name"
+                       data-ng-model="form.values.metadata.name"/>
+            </div>
+            <div class="form-group">
+                <label for="location">Location:</label>
+                <input id="location" class="form-control" type="text"
+                       data-ng-model="form.values.metadata.location"/>
+            </div>
+            <div class="form-group">
+                <label for="description">Description of myself:</label>
+                <input id="description" class="form-control" type="text"
+                       data-ng-model="form.values.metadata.description"/>
+            </div>
+            <div class="form-group">
+                <label for="interests">My interests:</label>
+                <input id="interests" class="form-control" type="text"
+                       data-ng-model="form.values.metadata.interests"/>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-default" data-ng-click="form.save()">Save</button>
+                <button class="btn btn-default" data-ng-click="form.cancel()">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="profile-logged-in-right-section-header">
+        Profile visibility
+        <button class="btn btn-default" data-ng-if="!form.isOpen()"
+                data-ng-click="form.open('visibility')">
+            Edit
+        </button>
+    </div>
+    <div data-ng-if="!form.isOpen('visibility')">
+        <p>Other users can see about me: <span data-ng-bind-html="visibilityDisplay()"></span></p>
+
+        <p>My <a data-ui-sref="profile-view({uid: status.profile.id})">public profile</a>.</p>
+    </div>
+    <div data-ng-if="form.isOpen('visibility')">
+        <p>Select what information other users can see about you:</p>
+
+        <form role="form">
+            <div class="form-group">
+                <label for="visibility-profile-info">Profile information:</label>
+                <input id="visibility-profile-info" type="checkbox"
+                       placeholder="Profile information"
+                       data-ng-model="form.values.visibility.metadata"/>
+            </div>
+            <div class="form-group">
+                <label for="visibility-projects-joined">Joined projects:</label>
+                <input id="visibility-projects-joined" type="checkbox"
+                       placeholder="Profile information"
+                       data-ng-model="form.values.visibility.projectsJoined"/>
+            </div>
+            <div class="form-group">
+                <label for="visibility-projects-created">Projects created by me:</label>
+                <input id="visibility-projects-created" type="checkbox"
+                       placeholder="Profile information"
+                       data-ng-model="form.values.visibility.projectsCreated"/>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-default" data-ng-click="form.save()">Save</button>
+                <button class="btn btn-default" data-ng-click="form.cancel()">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="profile-logged-in-right-section-header">
+        Linked accounts
+    </div>
+
     <div class="profile-logged-in-right-section-linked-accounts">
-        <p>Linked accounts:</p>
         <ul>
             <li data-siw-profile-provider-item
                 data-ng-attr-provider="google"></li>
@@ -203,9 +242,5 @@
                 data-ng-attr-provider="twitter"></li>
         </ul>
     </div>
-
-
 </div>
-
-
 </div>

@@ -3,7 +3,7 @@
 @import "../layout/basic-header";
 
 .forum-container {
-  margin: 0 $dim-common-margin;
+  margin: 0 $dim-common-margin $dim-common-margin;
 
   .forum-header {
     @include basic-header;
@@ -32,13 +32,12 @@
 
     .forum-thread-comment {
       position: relative;
-      min-height: $dim-common-margin + 2*$dim-common-small-margin + $dim-profile-image-outer-diameter;
 
       margin-bottom: $dim-common-margin;
       background: $color-forum-thread-comment;
 
       .forum-thread-comment-header {
-        height: $dim-common-banner;
+        height: auto;
         line-height: $dim-common-banner;
         padding: 0 $dim-common-small-margin;
         background: $color-medium-grey;
@@ -48,15 +47,27 @@
           display: inline-block;
           min-width: $dim-profile-image-outer-diameter;
           margin-right: $dim-common-small-margin;
+          a {
+            color: #ffffff;
+          }
         }
 
         .date {
           display: inline-block;
         }
 
-        .rate {
+        .controls {
           float: right;
-          color: none;
+          white-space: nowrap;
+          button {
+            margin-top: -3px;
+          }
+        }
+
+        .title {
+          font-weight: bold;
+          margin-left: $dim-common-small-margin + $dim-profile-image-outer-diameter;
+          padding-bottom: 3px;
         }
       }
 
@@ -69,6 +80,7 @@
       .forum-thread-text {
         margin-left: 2*$dim-common-small-margin + $dim-profile-image-outer-diameter;
         padding: $dim-common-small-margin 0;
+        min-height: $dim-common-margin + 2*$dim-common-small-margin + $dim-profile-image-outer-diameter;
       }
     }
 

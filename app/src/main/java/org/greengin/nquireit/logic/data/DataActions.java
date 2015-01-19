@@ -96,13 +96,11 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
         return null;
     }
 
-    private <K extends AbstractDataProjectItem> Long deleteItem(Class<K> type, Long itemId,
-                                                                DataItemManipulator<T, K> manipulator) {
+    private <K extends AbstractDataProjectItem> Long deleteItem(Class<K> type, Long itemId) {
         if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION)) {
             K item = context.getDataActivityDao().getItem(type, itemId);
             if (item != null && item.getDataStore() == activity && item.getAuthor().getId().equals(user.getId())) {
-                manipulator.init(project, activity);
-                context.getDataActivityDao().removeItem(item, manipulator);
+                context.getDataActivityDao().removeItem(item);
                 return itemId;
             }
         }
@@ -121,21 +119,28 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
     public NewDataItemResponse<E> createData(DataItemManipulator<T, E> manipulator) {
         NewDataItemResponse<E> response = createItem(dataType, manipulator);
         if (response != null) {
-            context.getLogManager().data(user, project, response.getNewItemId(), true);
+            context.getProjectDao().updateActivityTimestamp(project);
+            context.getLogManager().data(user, project, response.getNewItemId(), "create");
         }
         return response;
     }
 
-    public Long deleteData(Long itemId, DataItemManipulator<T, E> manipulator) {
-        Long id = deleteItem(dataType, itemId, manipulator);
+    public Long deleteData(Long itemId) {
+        Long id = deleteItem(dataType, itemId);
         if (id != null) {
-            context.getLogManager().data(user, project, id, false);
+            context.getProjectDao().updateActivityTimestamp(project);
+            context.getLogManager().data(user, project, id, "delete");
         }
         return id;
     }
 
     public E updateData(Long itemId, DataItemManipulator<T, E> manipulator) {
-        return updateItem(dataType, itemId, manipulator);
+        E item = updateItem(dataType, itemId, manipulator);
+        if (item != null) {
+            context.getProjectDao().updateActivityTimestamp(project);
+            context.getLogManager().data(user, project, item.getId(), "update");
+        }
+        return item;
     }
 
 
@@ -152,7 +157,7 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
     }
 
     public VoteCount voteItem(Long itemId, VoteRequest voteData) {
-        if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION)) {
+        if (hasAccess(PermissionType.PROJECT_MEMBER_ACTION) || (loggedWithToken && voteData.isReport())) {
             AbstractDataProjectItem item = context.getDataActivityDao().getItem(AbstractDataProjectItem.class, itemId);
             if (item != null && item.getDataStore() == activity) {
                 return context.getVoteDao().vote(user, item, voteData);
@@ -177,6 +182,7 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
             E item = context.getDataActivityDao().getItem(dataType, itemId);
             if (item != null) {
                 context.getCommentsDao().comment(user, item, data);
+                context.getProjectDao().updateActivityTimestamp(project);
                 return item.getComments();
             }
         }
@@ -188,6 +194,7 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
         if (hasAccess(PermissionType.PROJECT_COMMENT)) {
             E item = context.getDataActivityDao().getItem(dataType, itemId);
             if (item != null && context.getCommentsDao().deleteComment(user, item, commentId)) {
+                context.getProjectDao().updateActivityTimestamp(project);
                 return item.getComments();
             }
         }
@@ -196,7 +203,7 @@ public abstract class DataActions<E extends AbstractDataProjectItem, F extends A
     }
 
     public VoteCount voteDataComment(Long itemId, Long commentId, VoteRequest voteData) {
-        if (hasAccess(PermissionType.PROJECT_COMMENT)) {
+        if (hasAccess(PermissionType.PROJECT_COMMENT) || (loggedWithToken && voteData.isReport())) {
             E item = context.getDataActivityDao().getItem(dataType, itemId);
             if (item != null) {
                 Comment comment = context.getCommentsDao().getComment(item, commentId);

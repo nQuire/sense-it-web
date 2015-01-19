@@ -34,8 +34,8 @@
     </bean>
 
 
-    <bean id="roleManager"
-          class="org.greengin.nquireit.logic.users.RoleManagerBean">
+    <bean id="roleDao"
+          class="org.greengin.nquireit.dao.RoleDao">
     </bean>
 
     <bean id="subscriptionManager"

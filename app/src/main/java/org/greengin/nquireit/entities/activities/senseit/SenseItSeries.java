@@ -24,11 +24,6 @@ import org.springframework.beans.factory.annotation.Configurable;
 @Configurable
 @Entity
 public class SenseItSeries extends AbstractDataProjectItem {
-	
-	@Basic
-    @Getter
-    @Setter
-    String title;
 
 	@Basic
     @Getter

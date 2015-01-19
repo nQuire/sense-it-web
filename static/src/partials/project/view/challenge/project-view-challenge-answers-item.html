@@ -39,24 +39,26 @@
         <div data-ng-include="'partials/project/view/challenge/project-view-challenge-answers-item-display.html'"></div>
 
         <p>
-        <span class="btn-group">
-            <button data-ng-if="answerData.editable" class="btn btn-default"
-                    data-ng-click="form.open()">
-                Edit
-            </button>
-            <button data-ng-if="answerData.editable" class="btn btn-default"
-                    data-ng-click="submitAnswer()">
-                {{itemView.answer.published ? 'Withdraw' : 'Submit'}}
-            </button>
-            <button data-ng-if="answerData.editable" class="btn btn-default"
-                    data-ng-click="deleteAnswer()">
-                Delete
-            </button>
-        </span>
-            <button data-ng-if="answerData.selectable" class="btn"
-                    data-ng-class="itemView.answer.id == answerData.selectedAnswer ? 'btn-success' : 'btn-default'"
-                    data-ng-click="answerData.selectCallback(itemView.answer)">Select
-            </button>
+            <span data-ng-if="itemView.answer.author.id == status.profile.id">
+                <span class="btn-group">
+                    <button data-ng-if="answerData.editable" class="btn btn-default"
+                            data-ng-click="form.open()">
+                        Edit
+                    </button>
+                    <button data-ng-if="answerData.editable" class="btn btn-default"
+                            data-ng-click="submitAnswer()">
+                        {{itemView.answer.published ? 'Withdraw' : 'Submit'}}
+                    </button>
+                    <button data-ng-if="answerData.editable" class="btn btn-default"
+                            data-ng-click="deleteAnswer()">
+                        Delete
+                    </button>
+                </span>
+                <button data-ng-if="answerData.selectable" class="btn"
+                        data-ng-class="itemView.answer.id == answerData.selectedAnswer ? 'btn-success' : 'btn-default'"
+                        data-ng-click="answerData.selectCallback(itemView.answer)">Select
+                </button>
+            </span>
             <a href data-ng-click="itemView.close()">Go back to list</a>
         </p>
     </div>

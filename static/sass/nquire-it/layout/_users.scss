@@ -1,0 +1,16 @@
+@import "../variables/dimensions";
+@import "../variables/colors";
+@import "../layout/basic-header";
+
+.users-container {
+  margin: 0;
+
+  .users-header {
+    @include basic-header;
+  }
+
+  .users-content {
+    padding: $dim-common-margin;
+    background: $color-light-background;
+  }
+}

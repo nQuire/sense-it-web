@@ -14,6 +14,7 @@ import org.greengin.nquireit.logic.admin.ReportedContent;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import java.util.Date;
 
@@ -26,15 +27,10 @@ public class Comment extends VotableEntity {
     @Setter
     Date date;
 
-	@Basic
+	@Lob
     @Getter
     @Setter
 	String comment;
-
-	@ManyToOne
-    @Getter
-    @Setter
-    UserProfile user;
 
 	@ManyToOne
     @Getter
@@ -53,13 +49,8 @@ public class Comment extends VotableEntity {
     }
 
     @Override
-    public UserProfile getOwner(ContextBean context) {
-        return user;
-    }
-
-    @Override
     public void createReportedInfo(ReportedContent info, ContextBean context) {
-        info.setAuthor(user);
+        info.setAuthor(author);
         info.addInfo("Comment", comment);
         info.setPath(target.getReportedPath(context));
     }

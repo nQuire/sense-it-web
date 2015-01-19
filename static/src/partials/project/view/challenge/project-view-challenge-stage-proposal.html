@@ -1,13 +1,14 @@
-<p class="project-section-content-header">My ideas</p>
+<p class="project-section-content-header">
+    <span data-ng-if="projectData.project.activity.answersAlwaysVisible">Ideas</span>
+    <span data-ng-if="!projectData.project.activity.answersAlwaysVisible">My ideas</span>
+</p>
 
 <p>See and edit your ideas for this mission here.</p>
 
-<div data-ng-if="status.logged">
-    <div data-ng-if="projectData.access.member">
-        <div data-ng-include="'partials/project/view/challenge/project-view-challenge-answers.html'"
-             data-ng-controller="ProjectViewChallengeAnswersCtrl"></div>
+<div data-ng-include="'partials/project/view/challenge/project-view-challenge-answers.html'"
+     data-ng-controller="ProjectViewChallengeAnswersCtrl"></div>
 
-    </div>
+<div data-ng-if="status.logged">
     <div data-ng-if="!projectData.access.member">
         <p>You need to join this project to post ideas.</p>
     </div>

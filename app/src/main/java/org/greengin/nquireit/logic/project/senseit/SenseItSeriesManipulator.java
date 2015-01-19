@@ -123,8 +123,4 @@ public class SenseItSeriesManipulator extends DataItemManipulator<SenseItActivit
         }
     }
 
-    @Override
-    public void onDelete(SenseItSeries item) {
-    }
-
 }
